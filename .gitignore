@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+vcpkg/
+build/
+
+r-type_client
+r-type_server
