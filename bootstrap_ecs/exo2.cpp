@@ -8,6 +8,7 @@
 #include <iostream>
 #include <typeindex>
 #include <unordered_map>
+#include <map>
 #include <any>
 #include <string>
 
@@ -45,6 +46,29 @@ class C {
 
 class ComponentManager {
     public:
+        entity_t spawn_entity()
+        {
+            entity_t new_entity = -1;
+
+            for (auto &entity : _entity_status) {
+                if (entity.second == EntityStatus::DEAD) {
+                    new_entity = entity.first;
+                    entity.second = EntityStatus::USED;
+                    break;
+                }
+            }
+            if (new_entity == -1)
+                new_entity = (--_entity_status.end())->first + 1;
+            _entity_status[new_entity] = EntityStatus::ALIVE;
+            return new_entity;
+        }
+
+        void kill_entity(const entity_t &entity)
+        {
+            for (auto &components : _components_array)
+            _entity_status[entity] = EntityStatus::DEAD;
+        }
+
         template <class Component>
         void register_component(ComponentMap<Component> new_component)
         {
@@ -65,7 +89,14 @@ class ComponentManager {
         }
 
     private:
-        std::unordered_map<std::type_index, std::any> _components_arrays;
+        enum class EntityStatus {
+            ALIVE,
+            DEAD,
+            USED
+        };
+
+        std::map<entity_t, EntityStatus> _entity_status;
+        std::unordered_map<std::type_index, std::any> _components;
 };
 
 int main(void)
@@ -100,5 +131,9 @@ int main(void)
     b_map.display();
     ComponentMap<B> test = manager.get_components<B>();
     test.display();
+    B bbbb = test.get(0);
+    bbbb.display();
+
+
     return (0);
 }
