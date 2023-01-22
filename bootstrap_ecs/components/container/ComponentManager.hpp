@@ -65,7 +65,7 @@
         template <class Component>
         std::shared_ptr<ComponentMap<Component>> get_components()
         {
-            return (std::static_pointer_cast<ComponentMap<Component>>(_components[std::type_index(typeid(Component))]));
+            return std::static_pointer_cast<ComponentMap<Component>>(_components[std::type_index(typeid(Component))]);
         }
 
         template <class Component>

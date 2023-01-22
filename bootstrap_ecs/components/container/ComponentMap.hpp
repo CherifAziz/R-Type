@@ -8,7 +8,7 @@
 #ifndef ComponentMap
     #define ComponentMapClass
 
-    #include <vector>
+    #include <unordered_map>
     #include <algorithm>
     #include <iostream>
 
@@ -28,56 +28,35 @@
 
             void delete_entity_components(const entity_t &entity)
             {
-                auto it = std::find_if(_data.begin(), _data.end(),
-                [&entity](const std::pair<Component, entity_t> &value)
-                { return value.second == entity; });
-
-                while (it != _data.end()) {
-                    _data.erase(it);
-                    it = std::find_if(_data.begin(), _data.end(),
-                    [&entity](const std::pair<Component, entity_t> &value)
-                    { return value.second == entity; });
-                }
+                if (_data.count(entity) == 0)
+                    return;
+                _data.erase(entity);
             }
 
-            void put(Component &component, entity_t entity)
+            void put(Component &component, const entity_t &entity)
             {
-                _data.push_back(std::make_pair(component, entity));
+                _data[entity] = component;
             }
 
-            Component &pop(const size_t index)
+            Component &pop(const entity_t &entity)
             {
-                Component &value = _data.at(index).first;
+                Component &value = _data[entity];
 
-                _data.erase(std::find(_data.begin(), _data.end(), _data.at(index)));
+                _data.erase(entity);
                 return value;
             }
 
-            const Component &get(const size_t index)
+            Component &get(const entity_t &entity)
             {
-                return _data.at(index).first;
+                return _data[entity];
             }
 
-            const std::vector<Component> &get_from_entity(const entity_t &entity)
+            const entity_t &get_entity_id(Component &component) const
             {
-                std::vector<Component> components;
-
-                for (auto &component : _data) {
-                    if (component.second == entity)
-                        components.push_back(component);
+                for (auto &values : _data) {
+                    if (component == values.second)
+                        return values.first;
                 }
-                return components;
-            }
-
-            size_t get_index(Component &component) const
-            {
-                auto it = std::find_if(_data.begin(), _data.end(),
-                [&component](const std::pair<Component, entity_t> &value)
-                { return value.first == component; });
-
-                if (it != _data.end())
-                    return (it - _data.begin());
-                return (-1);
             }
 
             size_t get_size() const
@@ -96,7 +75,8 @@
             ComponentMap<Component> &operator+=(ComponentMap<Component> const &other)
             {
                 for (auto value : other._data) {
-                    _data.push_back(std::make_pair(value.first, value.second));
+                    if (_data.count(value.first) == 0)
+                        _data[value.first] = value.second;
                 }
                 return *this;
             }
@@ -108,7 +88,7 @@
             }
 
         private:
-            std::vector<std::pair<Component, entity_t>> _data;
+            std::unordered_map<entity_t, Component> _data;
     };
 
 #endif /* !ComponentMap */
