@@ -27,16 +27,19 @@
 
         entity_t spawn_entity()
         {
-            entity_t new_entity = -1;
+            entity_t new_entity;
 
             for (auto &entity : _entity_status) {
                 if (entity.second == EntityStatus::DEAD) {
                     new_entity = entity.first;
                     entity.second = EntityStatus::USED;
-                    break;
+                    _entity_status[new_entity] = EntityStatus::ALIVE;
+                    return new_entity;
                 }
             }
-            if (new_entity == -1)
+            if (_entity_status.size() == 0)
+                new_entity = 0;
+            else
                 new_entity = (--_entity_status.end())->first + 1;
             _entity_status[new_entity] = EntityStatus::ALIVE;
             return new_entity;
