@@ -9,7 +9,7 @@
 #include <typeindex>
 #include <unordered_map>
 #include <map>
-#include <any>
+#include <memory>
 #include <string>
 
 #include "ComponentMap.h"
@@ -65,27 +65,31 @@ class ComponentManager {
 
         void kill_entity(const entity_t &entity)
         {
-            for (auto &components : _components_array)
+            for (auto &components : _components)
+                components.second->delete_entity_components(entity);
             _entity_status[entity] = EntityStatus::DEAD;
         }
 
         template <class Component>
         void register_component(ComponentMap<Component> new_component)
         {
-            if (_components_arrays.count(std::type_index(typeid(Component))) != 0) {
-                ComponentMap<Component> map = std::any_cast<ComponentMap<Component>>(_components_arrays[std::type_index(typeid(Component))]);
-
-                map += new_component;
+            if (_components.count(std::type_index(typeid(Component))) == 0) {
+                _components[std::type_index(typeid(Component))] = std::make_shared<ComponentMap<Component>>(new_component);
             } else {
-                _components_arrays[std::type_index(typeid(Component))] = new_component;
+                std::cerr << "component map has already been registered" << std::endl;
             }
-
         }
 
         template <class Component>
         ComponentMap<Component> &get_components()
         {
-            return (std::any_cast<ComponentMap<Component>&>(_components_arrays[std::type_index(typeid(Component))]));
+            return (std::static_pointer_cast<ComponentMap<Component>&>(_components[std::type_index(typeid(Component))]));
+        }
+
+        template <class Component>
+        void remove_components(const entity_t &entity)
+        {
+            _components[std::type_index(typeid(Component))]->delete_entity_components(entity);
         }
 
     private:
@@ -96,7 +100,7 @@ class ComponentManager {
         };
 
         std::map<entity_t, EntityStatus> _entity_status;
-        std::unordered_map<std::type_index, std::any> _components;
+        std::unordered_map<std::type_index, std::shared_ptr<IComponentMap>> _components;
 };
 
 int main(void)
