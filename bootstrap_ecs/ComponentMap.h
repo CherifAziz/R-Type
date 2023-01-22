@@ -11,31 +11,70 @@
     #include <vector>
     #include <algorithm>
 
+    typedef unsigned long entity_t;
+
+    class IComponentMap
+    {
+        public:
+            virtual ~IComponentMap() = default;
+            virtual void delete_entity_components(const entity_t &) = 0;
+    };
+
     template <typename Component>
-    class ComponentMap
+    class ComponentMap : public IComponentMap
     {
         public:
             ComponentMap(){};
+
             ~ComponentMap(){};
-            void put(Component &component) {
-                _data.push_back(component);
+
+            void delete_entity_components(const entity_t &entity)
+            {
+                auto it = std::find_if(_data.begin(), _data.end(),
+                [&entity](const std::pair<Component, entity_t> &value) {return value.second == entity});
+
+                while (it != _data.end()) {
+                    _data.erase(it);
+                    it = std::find_if(_data.begin(), _data.end(),
+                    [&entity](const std::pair<Component, entity_t> &value) {return value.second == entity});
+                }
             }
+
+            void put(Component &component, entity_t entity) {
+                _data.push_back(std::make_pair(component, entity));
+            }
+
             Component &pop(const size_t index) {
-                Component &value = _data.at(index);
+                Component &value = _data.at(index).first;
 
                 _data.erase(std::find(_data.begin(), _data.end(), _data.at(index)));
                 return value;
             }
-            Component &get(const size_t index) {
-                return _data.at(index);
+
+            const Component &get(const size_t index) {
+                return _data.at(index).first;
             }
+
+            const std::vector<Component> &get_from_entity(const entity_t &entity) {
+                std::vector<Component> components;
+
+                for (auto &component : _data) {
+                    if (component.second == entity) {
+                        components.push_back(component)
+                    }
+                }
+                return components;
+            }
+
             size_t get_index(Component &component) const {
-                auto it = std::find(_data.begin(), _data.end(), component);
+                auto it = std::find_if(_data.begin(), _data.end(),
+                [&component](const std::pair<Component, entity_t> &value) {return value.first == component});
 
                 if (it != _data.end())
                     return (it - _data.begin());
                 return (-1);
             }
+
             void display() {
                 std::cout << "size: " << _data.size() << std::endl;
                 for (int it = 0; it < _data.size(); it++)
@@ -46,7 +85,7 @@
             ComponentMap<Component> &operator+=(ComponentMap<Component> const &other)
             {
                 for (auto value : other._data) {
-                    _data.push_back(value);
+                    _data.push_back(std::make_pair(value.first, value.second));
                 }
                 return *this;
             }
@@ -57,7 +96,8 @@
                 return *this;
             }
         private:
-            std::vector<Component> _data;
+
+            std::vector<std::pair<Component, entity_t>> _data;
     };
 
 #endif /* !ComponentMap */
