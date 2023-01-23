@@ -21,6 +21,7 @@ int main()
         return EXIT_FAILURE;
     // Play the music
     music.play();
+    music.setVolume(10);
     // Start the game loop
     while (window.isOpen())
     {

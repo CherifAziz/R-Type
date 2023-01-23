@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # supprime les binaires
-rm -rf r-type_client r-type_server build/r-type_client build/r-type_server
+rm -rf r-type_client r-type_server build/
 
 # supprime les packets de vcpkg
 if command -v vcpkg > /dev/null; then

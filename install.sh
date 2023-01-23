@@ -37,6 +37,8 @@ cd $PWD/vcpkg
 git pull
 ./bootstrap-vcpkg.sh -disableMetrics
 cd ..
+$PWD/vcpkg/vcpkg install openal-soft
+$PWD/vcpkg/vcpkg install flac
 $PWD/vcpkg/vcpkg install sfml
 $PWD/vcpkg/vcpkg install boost-asio
 $PWD/vcpkg/vcpkg upgrade
