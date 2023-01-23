@@ -10,20 +10,6 @@ if ! ping -q -c 1 -W 1 google.com > /dev/null; then
   exit 1
 fi
 
-if ! command -v git > /dev/null; then
-  echo "git n'est pas installé, installation en cours..."
-  curl -LJO https://github.com/git/git/releases/download/v2.30.0/git-2.30.0.tar.gz
-  tar -xzf git-2.30.0.tar.gz
-  cd git-2.30.0
-  make configure
-  ./configure --prefix=/usr/local
-  make install
-  cd ..
-  rm -rf git-2.30.0 git-2.30.0.tar.gz
-else
-  echo "git déjà installé."
-fi
-
 if ! command -v vcpkg > /dev/null; then
   echo "vcpkg n'est pas installé, installation en cours..."
   git clone https://github.com/Microsoft/vcpkg.git
@@ -33,6 +19,8 @@ if ! command -v vcpkg > /dev/null; then
 else 
   echo "vcpkg déjà installé."
 fi
+
+#installer make)
 
 if ! command -v cmake > /dev/null; then
   echo "cmake n'est pas installé, installation en cours..."
