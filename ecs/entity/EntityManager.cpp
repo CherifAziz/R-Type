@@ -26,6 +26,7 @@ std::shared_ptr<Entity> EntityManager::spawn_entity(const std::string &family = 
         if (entity->get_status() == Entity::EntityStatus::DEAD) {
             new_entity->set_id(entity->get_id());
             entity->set_status(Entity::EntityStatus::USED);
+            _entities.push_back(new_entity);
             return new_entity;
         }
     }
@@ -33,6 +34,7 @@ std::shared_ptr<Entity> EntityManager::spawn_entity(const std::string &family = 
         new_entity->set_id(0);
     else
         new_entity->set_id(_entities.back()->get_id() + 1);
+    _entities.push_back(new_entity);
     return new_entity;
 }
 
