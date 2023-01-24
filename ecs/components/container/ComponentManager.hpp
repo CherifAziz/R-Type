@@ -26,7 +26,7 @@
         {
         }
 
-        void kill_entity(std::shared_ptr<Entity> entity)
+        void kill_entity(unsigned long entity)
         {
             for (auto &components : _components)
                 (components.second)->delete_entity_components(entity);
@@ -49,7 +49,7 @@
         }
 
         template <class Component>
-        void remove_components(std::shared_ptr<Entity> entity)
+        void remove_components(unsigned long entity)
         {
             (_components[std::type_index(typeid(Component))])->delete_entity_components(entity);
         }

@@ -26,19 +26,19 @@
             {
             }
 
-            void delete_entity_components(std::shared_ptr<Entity> entity)
+            void delete_entity_components(unsigned long entity)
             {
                 if (_data.count(entity) == 0)
                     return;
                 _data.erase(entity);
             }
 
-            void put(Component &component, std::shared_ptr<Entity> entity)
+            void put(Component &component, unsigned long entity)
             {
                 _data[entity] = component;
             }
 
-            Component &pop(std::shared_ptr<Entity> entity)
+            Component &pop(unsigned long entity)
             {
                 Component &value = _data[entity];
 
@@ -46,12 +46,26 @@
                 return value;
             }
 
-            Component &get(std::shared_ptr<Entity> entity)
+            bool contains(unsigned long entity)
+            {
+                return _data.count(entity) == 1;
+            }
+
+            bool contains(Component &component)
+            {
+                for (auto &values : _data) {
+                    if (component == values.second)
+                        return true;
+                }
+                return false;
+            }
+
+            Component &get(unsigned long entity)
             {
                 return _data[entity];
             }
 
-            std::shared_ptr<Entity> get_entity_id(Component &component) const
+            unsigned long get_entity_id(Component &component) const
             {
                 for (auto &values : _data) {
                     if (component == values.second)
@@ -88,7 +102,7 @@
             }
 
         private:
-            std::unordered_map<std::shared_ptr<Entity>, Component> _data;
+            std::unordered_map<unsigned long, Component> _data;
     };
 
 #endif /* !ComponentMap */
