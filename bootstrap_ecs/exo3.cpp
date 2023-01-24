@@ -22,7 +22,6 @@ void render_game(sf::RenderWindow &window, const std::shared_ptr<ComponentMap<Re
 
         texture.loadFromFile(element.get_filename());
         sprite.setTexture(texture);
-        // std::cout << "GET " << element.get_x() << " " << element.get_y() << std::endl;
         sprite.setPosition(element.get_x(), element.get_y());
         window.draw(sprite);
     }
