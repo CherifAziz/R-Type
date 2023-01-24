@@ -18,9 +18,6 @@
             virtual ~IRenderSystem() = default;
 
             virtual const std::string &getLibraryName() const = 0;
-
-            virtual void init_rendering_components(const ComponentMap<Render> &render) = 0;
-            virtual void display_content(const ComponentMap<Render> &render) = 0;
             virtual void destroy_rendering_components() = 0;
     };
 
