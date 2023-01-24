@@ -24,9 +24,9 @@
             const ssize_t &getRectHeight() const { return _rectHeight; }
 
             void setX(const ssize_t &x) { _x = x; }
-            const ssize_t &getx() const { return _x; }
+            const ssize_t &getX() const { return _x; }
             void setY(const ssize_t &y) { _y = y; }
-            const ssize_t &gety() const { return _y; }
+            const ssize_t &getY() const { return _y; }
 
             void setHorizontalPictureNb(const size_t &horizontalPictureNb) { _horizontalPictureNb = horizontalPictureNb; }
             const size_t &getHorizontalPictureNb() const { return _horizontalPictureNb; }
