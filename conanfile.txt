@@ -1,0 +1,10 @@
+[requires]
+sfml/2.5.1@#7971039289b1207a61814784bd619d01
+boost/1.81.0@#0aca3d1f3a8d8b2f46886c7c26da599d
+
+[options]
+sfml:shared=True
+boost:shared=True
+
+[generators]
+cmake_find_package
