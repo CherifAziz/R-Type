@@ -13,7 +13,6 @@ set(BIN_NAME_CLIENT r-type_client)
 # set(VCPKG_ROOT $(CMAKE_CURRENT_SOURCE_DIR)/vcpkg)
 # include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
-# vcpkg_install(openssl)
 # find_package(OpenSSL REQUIRED)
 # target_link_libraries(${BIN_NAME} PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 # add_subdirectory(client/src)
@@ -28,8 +27,8 @@ target_link_libraries(${BIN_NAME_CLIENT} PRIVATE sfml-system sfml-network sfml-g
 # target_link_libraries(main PRIVATE sfml-main)
 
 # OpenAL
-find_package(OpenAL CONFIG REQUIRED)
-target_link_libraries(${BIN_NAME_CLIENT} PRIVATE OpenAL::OpenAL)
+# find_package(OpenAL CONFIG REQUIRED)
+# target_link_libraries(${BIN_NAME_CLIENT} PRIVATE OpenAL::OpenAL)
 
 # Boost Asio
 # find_package(Boost REQUIRED [COMPONENTS <libs>...])
