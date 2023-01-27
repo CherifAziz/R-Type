@@ -27,14 +27,22 @@
             RenderSystem();
             ~RenderSystem();
 
-            void init_rendering_components(const std::shared_ptr<ComponentMap<Sprite>> &sprite,  const std::shared_ptr<ComponentMap<Animation>> &animation, const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound);
-            void display_content(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation, const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound);
-            void destroy_rendering_components();
+            void initRenderingComponents(const std::shared_ptr<ComponentMap<Sprite>> &sprite,  const std::shared_ptr<ComponentMap<Animation>> &animation, const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound);
+            void displayContent(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation, const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound);
+            void destroyRenderingComponents();
 
         private:
-            void set_sprite_components(const Sprite &sprite, const unsigned long &entity, const std::shared_ptr<ComponentMap<Animation>> &animation);
-            void set_text_components(const Text &text, const unsigned long &entity);
-            void set_sound_components(const Sound &sound);
+            void setSpriteComponents(const Sprite &sprite, const unsigned long &entity, const std::shared_ptr<ComponentMap<Animation>> &animation);
+            void setTextComponents(const Text &text, const unsigned long &entity);
+            void setSoundComponents(const Sound &sound);
+
+            void updateComponents(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation, const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound);
+
+            void drawSprite(const std::shared_ptr<ComponentMap<Sprite>> &sprite);
+            void drawText(const std::shared_ptr<ComponentMap<Text>> &text);
+            void playMusic(const std::shared_ptr<ComponentMap<Sound>> &sound);
+
+            sf::RenderWindow _window;
 
             std::unordered_map<std::string, sf::Texture *> _textureCache;
             std::unordered_map<unsigned long, sf::Sprite *> _spriteCache;
@@ -42,7 +50,7 @@
             std::unordered_map<std::string, sf::Font *> _fontCache;
             std::unordered_map<unsigned long, sf::Text *> _textCache;
 
-            std::unordered_map<std::string, sf::Music *> _musicCache;
+            std::unordered_map<std::string, std::pair<sf::Music *, Sound::SoundStatus>> _musicCache;
     };
 
 #endif /* !_RenderSystem_ */
