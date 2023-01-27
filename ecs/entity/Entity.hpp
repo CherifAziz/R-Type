@@ -21,7 +21,7 @@
             Entity(const unsigned long &id = 0, const std::string &family = "") : _id(id), _family(family) {}
             ~Entity();
 
-            const int &getId() const { return _id; }
+            const unsigned long &getId() const { return _id; }
             void setId(const int &id) { _id = id; }
             const std::string &getFamily() const { return _family; }
             void setFamily(const std::string &family) { _family = family; }
