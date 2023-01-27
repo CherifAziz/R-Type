@@ -12,21 +12,21 @@
 
     class Animation {
         public:
-            Animation(const ssize_t &rectWidth = 30, const ssize_t &rectHeight = 30, const ssize_t &x = 0, const ssize_t &y = 0, const size_t &horizontalPictureNb = 3,
+            Animation(const size_t &rectWidth = 30, const size_t &rectHeight = 30, const size_t &x = 0, const size_t &y = 0, const size_t &horizontalPictureNb = 3,
             const size_t &verticalPictureNb = 1, const size_t &horizontalSeparator = 0, const size_t &verticalSeparator = 0, const size_t &delay = 1) :
             _rectWidth(rectWidth), _rectHeight(rectHeight), _x(x), _y(y), _horizontalPictureNb(horizontalPictureNb), _verticalPictureNb(verticalPictureNb),
             _horizontalSeparator(horizontalSeparator), _verticalSeparator(verticalSeparator), _delay(delay) {}
             ~Animation();
 
-            void setRectWidth(const ssize_t &rectWidth) { _rectWidth = rectWidth; }
-            const ssize_t &getRectWidth() const { return _rectWidth; }
-            void setRectHeight(const ssize_t &rectHeight) { _rectHeight = rectHeight; }
-            const ssize_t &getRectHeight() const { return _rectHeight; }
+            void setRectWidth(const size_t &rectWidth) { _rectWidth = rectWidth; }
+            const size_t &getRectWidth() const { return _rectWidth; }
+            void setRectHeight(const size_t &rectHeight) { _rectHeight = rectHeight; }
+            const size_t &getRectHeight() const { return _rectHeight; }
 
-            void setX(const ssize_t &x) { _x = x; }
-            const ssize_t &getX() const { return _x; }
-            void setY(const ssize_t &y) { _y = y; }
-            const ssize_t &getY() const { return _y; }
+            void setX(const size_t &x) { _x = x; }
+            const size_t &getX() const { return _x; }
+            void setY(const size_t &y) { _y = y; }
+            const size_t &getY() const { return _y; }
 
             void setHorizontalPictureNb(const size_t &horizontalPictureNb) { _horizontalPictureNb = horizontalPictureNb; }
             const size_t &getHorizontalPictureNb() const { return _horizontalPictureNb; }
@@ -39,7 +39,7 @@
             const size_t &getVerticalSeparator() { return _verticalSeparator; }
 
             void setDelay(const ssize_t &delay) { _delay = delay; }
-            const ssize_t &getDelay() const { return _delay; }
+            const size_t &getDelay() const { return _delay; }
 
             void animate()
             {
@@ -57,10 +57,10 @@
             }
 
         private:
-            ssize_t _rectWidth;
-            ssize_t _rectHeight;
-            ssize_t _x;
-            ssize_t _y;
+            size_t _rectWidth;
+            size_t _rectHeight;
+            size_t _x;
+            size_t _y;
             size_t _horizontalPictureNb;
             size_t _verticalPictureNb;
             size_t _horizontalSeparator;

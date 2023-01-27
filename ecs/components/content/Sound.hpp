@@ -18,7 +18,7 @@
                 STOP
             };
 
-            Sound(const std::string &file, const bool &isLooping = false, const SoundStatus &status = SoundStatus::STOP) :
+            Sound(const std::string &file, const bool &isLooping = false, const SoundStatus &status = SoundStatus::PLAY) :
             _file(file), _isLooping(isLooping), _status(status) {}
             ~Sound();
 
