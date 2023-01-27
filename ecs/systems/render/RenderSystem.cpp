@@ -17,8 +17,7 @@ RenderSystem::~RenderSystem()
 
 }
 
-void RenderSystem::initRenderingComponents(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation,
-const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
+void RenderSystem::init()
 {
     destroyRenderingComponents();
     _window.create({1920, 1080}, "R-Type");
@@ -61,6 +60,11 @@ void RenderSystem::destroyRenderingComponents()
     _musicCache.clear();
     if (_window.isOpen())
         _window.close();
+}
+
+const bool &RenderSystem::isOpen() const
+{
+    return _window.isOpen();
 }
 
 void RenderSystem::setSpriteComponents(const Sprite &sprite, const unsigned long &entity, const std::shared_ptr<ComponentMap<Animation>> &animation)

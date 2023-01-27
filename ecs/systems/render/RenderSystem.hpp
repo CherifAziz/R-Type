@@ -27,9 +27,10 @@
             RenderSystem();
             ~RenderSystem();
 
-            void initRenderingComponents(const std::shared_ptr<ComponentMap<Sprite>> &sprite,  const std::shared_ptr<ComponentMap<Animation>> &animation, const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound);
+            void init();
             void displayContent(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation, const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound);
             void destroyRenderingComponents();
+            const bool &isOpen() const;
 
         private:
             void setSpriteComponents(const Sprite &sprite, const unsigned long &entity, const std::shared_ptr<ComponentMap<Animation>> &animation);
