@@ -14,7 +14,7 @@
         public:
             ARenderSystem(const std::string &libraryName) : _libraryName(libraryName) {}
 
-            const std::string &getName() const
+            const std::string &getLibraryName() const
             {
                 return _libraryName;
             }
