@@ -13,7 +13,6 @@
     #include <unordered_map>
     #include <map>
 
-    #include "Entity.hpp"
     #include "ComponentMap.hpp"
 
     class ComponentManager {

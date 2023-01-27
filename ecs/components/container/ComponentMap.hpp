@@ -26,7 +26,7 @@
             {
             }
 
-            void delete_entity_components(unsigned long entity)
+            void deleteEntityComponents(unsigned long entity)
             {
                 if (_data.count(entity) == 0)
                     return;
@@ -35,12 +35,12 @@
 
             void put(Component &component, unsigned long entity)
             {
-                _data[entity] = component;
+                _data[entity] = std::make_pair(component, true);
             }
 
             Component &pop(unsigned long entity)
             {
-                Component &value = _data[entity];
+                Component &value = _data[entity].first;
 
                 _data.erase(entity);
                 return value;
@@ -54,26 +54,36 @@
             bool contains(Component &component)
             {
                 for (auto &values : _data) {
-                    if (component == values.second)
+                    if (component == values.second.first)
                         return true;
                 }
                 return false;
             }
 
+            const bool &isComponentActive(unsigned long entity)
+            {
+                return _data[entity].second;
+            }
+
+            void setComponentState(unsigned long entity, bool isActive)
+            {
+                _data[entity].second = isActive;
+            }
+
             Component &get(unsigned long entity)
             {
-                return _data[entity];
+                return _data[entity].first;
             }
 
             unsigned long getEntityId(Component &component) const
             {
                 for (auto &values : _data) {
-                    if (component == values.second)
+                    if (component == values.second.first)
                         return values.first;
                 }
             }
 
-            size_t getSize() const
+            uint32_t getSize() const
             {
                 return _data.size();
             }
@@ -84,12 +94,6 @@
                     if (_data.count(value.first) == 0)
                         _data[value.first] = value.second;
                 }
-                return *this;
-            }
-
-            ComponentMap<Component> &operator=(ComponentMap<Component> const &other)
-            {
-                _data = other._data;
                 return *this;
             }
 

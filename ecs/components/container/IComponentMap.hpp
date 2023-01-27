@@ -8,13 +8,11 @@
 #ifndef IComponentMap
     #define _IComponentMap_
 
-    #include "Entity.hpp"
-
     class IComponentMap
     {
         public:
             virtual ~IComponentMap() = default;
-            virtual void delete_entity_components(unsigned long) = 0;
+            virtual void deleteEntityComponents(unsigned long) = 0;
     };
 
 #endif /* !IComponentMap */
