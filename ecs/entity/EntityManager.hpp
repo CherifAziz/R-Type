@@ -18,7 +18,7 @@
             EntityManager();
             ~EntityManager();
 
-            std::shared_ptr<Entity> spawn_entity(const std::string &family);
+            std::shared_ptr<Entity> spawnEntity(const std::string &family);
             const std::vector<std::shared_ptr<Entity>> &getEntities() const;
             std::vector<std::shared_ptr<Entity>> getEntitiesFromFamily(const std::string &family) const;
         private:

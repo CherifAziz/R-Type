@@ -17,23 +17,23 @@ EntityManager::~EntityManager()
 
 }
 
-std::shared_ptr<Entity> EntityManager::spawn_entity(const std::string &family = "")
+std::shared_ptr<Entity> EntityManager::spawnEntity(const std::string &family = "")
 {
     std::shared_ptr<Entity> new_entity(new Entity());
 
-    new_entity->set_family(family);
+    new_entity->setFamily(family);
     for (auto &entity : _entities) {
-        if (entity->get_status() == Entity::EntityStatus::DEAD) {
-            new_entity->set_id(entity->get_id());
-            entity->set_status(Entity::EntityStatus::USED);
+        if (entity->getStatus() == Entity::EntityStatus::DEAD) {
+            new_entity->setId(entity->getId());
+            entity->setStatus(Entity::EntityStatus::USED);
             _entities.push_back(new_entity);
             return new_entity;
         }
     }
     if (_entities.size() == 0)
-        new_entity->set_id(0);
+        new_entity->setId(0);
     else
-        new_entity->set_id(_entities.back()->get_id() + 1);
+        new_entity->setId(_entities.back()->getId() + 1);
     _entities.push_back(new_entity);
     return new_entity;
 }
@@ -48,7 +48,7 @@ std::vector<std::shared_ptr<Entity>> EntityManager::getEntitiesFromFamily(const 
     std::vector<std::shared_ptr<Entity>> family_entities;
 
     for (auto &entity : _entities) {
-        if (family == entity->get_family())
+        if (family == entity->getFamily())
             family_entities.push_back(entity);
     }
     return family_entities;

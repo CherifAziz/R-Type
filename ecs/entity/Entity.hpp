@@ -21,12 +21,12 @@
             Entity(const unsigned long &id = 0, const std::string &family = "") : _id(id), _family(family) {}
             ~Entity();
 
-            const int &get_id() const { return _id; }
-            void set_id(const int &id) { _id = id; }
-            const std::string &get_family() const { return _family; }
-            void set_family(const std::string &family) { _family = family; }
-            const EntityStatus &get_status() const { return _status; }
-            void set_status(const EntityStatus &status) { _status = status; }
+            const int &getId() const { return _id; }
+            void setId(const int &id) { _id = id; }
+            const std::string &getFamily() const { return _family; }
+            void setFamily(const std::string &family) { _family = family; }
+            const EntityStatus &getStatus() const { return _status; }
+            void setStatus(const EntityStatus &status) { _status = status; }
 
         private:
             unsigned long _id;
