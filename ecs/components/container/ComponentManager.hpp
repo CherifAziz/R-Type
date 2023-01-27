@@ -26,14 +26,14 @@
         {
         }
 
-        void kill_entity(unsigned long entity)
+        void killEntity(unsigned long entity)
         {
             for (auto &components : _components)
-                (components.second)->delete_entity_components(entity);
+                (components.second)->deleteEntityComponents(entity);
         }
 
         template <class Component>
-        void register_component(ComponentMap<Component> new_component)
+        void registerComponent(ComponentMap<Component> new_component)
         {
             if (_components.count(std::type_index(typeid(Component))) == 0) {
                 _components[std::type_index(typeid(Component))] = std::make_shared<ComponentMap<Component>>(new_component);
@@ -43,15 +43,15 @@
         }
 
         template <class Component>
-        std::shared_ptr<ComponentMap<Component>> get_components()
+        std::shared_ptr<ComponentMap<Component>> getComponents()
         {
             return std::static_pointer_cast<ComponentMap<Component>>(_components[std::type_index(typeid(Component))]);
         }
 
         template <class Component>
-        void remove_components(unsigned long entity)
+        void removeComponents(unsigned long entity)
         {
-            (_components[std::type_index(typeid(Component))])->delete_entity_components(entity);
+            (_components[std::type_index(typeid(Component))])->deleteEntityComponents(entity);
         }
 
         private:

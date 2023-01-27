@@ -13,9 +13,9 @@
             Movement(const int &xDirection = 0, const int &yDirection = 0) : _xDirection(xDirection), _yDirection(yDirection) {};
             ~Movement(){};
 
-            const int &get_xDirection() const { return _xDirection; };
-            const int &get_yDirection() const { return _yDirection; };
-            void set_direction(const int &xDirection, const int &yDirection)
+            const int &getXDirection() const { return _xDirection; };
+            const int &getYDirection() const { return _yDirection; };
+            void setDirection(const int &xDirection, const int &yDirection)
             {
                 _xDirection = xDirection;
                 _yDirection = yDirection;

@@ -65,7 +65,7 @@
                 return _data[entity];
             }
 
-            unsigned long get_entity_id(Component &component) const
+            unsigned long getEntityId(Component &component) const
             {
                 for (auto &values : _data) {
                     if (component == values.second)
@@ -73,17 +73,9 @@
                 }
             }
 
-            size_t get_size() const
+            size_t getSize() const
             {
                 return _data.size();
-            }
-
-            void display()
-            {
-                std::cout << "size: " << _data.size() << std::endl;
-                for (int it = 0; it < _data.size(); it++)
-                    std::cout << it << std::endl;
-                std::cout << std::endl;
             }
 
             ComponentMap<Component> &operator+=(ComponentMap<Component> const &other)
@@ -102,7 +94,7 @@
             }
 
         private:
-            std::unordered_map<unsigned long, Component> _data;
+            std::unordered_map<unsigned long, std::pair<Component, bool>> _data;
     };
 
 #endif /* !ComponentMap */
