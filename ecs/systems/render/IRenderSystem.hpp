@@ -10,9 +10,6 @@
 
     #include <string.h>
 
-    #include "ComponentMap.hpp"
-    #include "Render.hpp"
-
     class IRenderSystem {
         public:
             virtual ~IRenderSystem() = default;
