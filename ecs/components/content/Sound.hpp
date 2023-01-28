@@ -28,6 +28,11 @@
             bool isLooping() const { return _isLooping; }
             void setStatus(SoundStatus status) { _status = status; }
             const SoundStatus& getStatus() const { return _status; }
+
+            bool operator==(const Sound& other) const
+            {
+                return _file == other._file && _isLooping == other._isLooping && _status == other._status;
+            }
         private:
             std::string _file;
             bool _isLooping;

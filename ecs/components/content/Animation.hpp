@@ -56,6 +56,13 @@
                 _x += _rectWidth + _horizontalSeparator;
             }
 
+            bool operator==(const Animation &other) const
+            {
+                return _rectWidth == other._rectWidth && _rectHeight == other._rectHeight && _x == other._x && _y == other._y
+                && _horizontalPictureNb == other._horizontalPictureNb && _verticalPictureNb == other._verticalPictureNb
+                && _horizontalSeparator == other._horizontalSeparator && _verticalSeparator == other._verticalSeparator && _delay == other._delay;
+            }
+
         private:
             size_t _rectWidth;
             size_t _rectHeight;

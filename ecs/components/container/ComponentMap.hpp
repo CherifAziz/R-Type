@@ -62,7 +62,7 @@
                 return false;
             }
 
-            Component &get_from_index(uint32_t index)
+            const Component &getFromIndex(uint32_t index) const
             {
                 uint32_t it = 0;
 
@@ -71,7 +71,7 @@
                         return values.second;
                     it++;
                 }
-                throw std::runtime_error("Invalid index in get_from_index");
+                throw std::invalid_argument("Invalid index in getFromIndex");
             }
 
             Component &get(unsigned long entity)
@@ -79,12 +79,13 @@
                 return _data[entity];
             }
 
-            unsigned long getEntityId(Component &component) const
+            const unsigned long &getEntityId(const Component &component) const
             {
                 for (auto &values : _data) {
                     if (component == values.second)
                         return values.first;
                 }
+                throw std::invalid_argument("Invalid index in getEntityId");
             }
 
             uint32_t getSize() const

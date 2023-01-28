@@ -20,6 +20,8 @@
             const std::vector<std::string> &getFamilies() const { return _families; }
             void setFamilies(const std::vector<std::string> &families) { _families = families; }
             bool isColliding(const std::string &family) { return std::find(_families.begin(), _families.end(), family) != _families.end(); }
+
+            bool operator==(const Collision &other) const { return _families == other._families; }
         private:
             std::vector<std::string> _families;
     };

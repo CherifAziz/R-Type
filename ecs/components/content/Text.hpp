@@ -14,10 +14,13 @@
     class Text {
         public:
             typedef struct rgb_s {
+                rgb_s(uint16_t r, uint16_t g, uint16_t b) : r(r), g(g), b(b) {}
                 rgb_s() : r(255), g(255), b(255) {}
                 uint16_t r;
                 uint16_t g;
                 uint16_t b;
+
+                bool operator==(const rgb_s& other) const { return r == other.r && g == other.g && b == other.b; }
             } rgb_t;
 
             Text(const std::string &text = "", const std::string &font = "", const size_t &x = 0, const size_t &y = 0, const size_t &characterSize = 30,
@@ -44,6 +47,11 @@
             void setCharacterSize(const size_t &characterSize) { _characterSize = characterSize; }
             const size_t &getScale() const { return _scale; }
             void setScale(const size_t &scale) { _scale = scale; }
+
+            bool operator==(const Text &other) const
+            {
+                return _text == other._text && _font == other._font && _x == other._x && _y == other._y && _characterSize == other._characterSize && _scale == other._scale && _color == other._color;
+            }
 
         private:
             std::string _text;

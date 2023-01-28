@@ -21,6 +21,11 @@
                 _yDirection = yDirection;
             }
 
+            bool operator==(const Movement &other) const
+            {
+                return _xDirection == other._xDirection && _yDirection == other._yDirection;
+            }
+
         private:
             int _xDirection;
             int _yDirection;

@@ -29,6 +29,11 @@
             const size_t &getScale() const { return _scale; }
             void setScale(const size_t &scale) { _scale = scale; }
 
+            bool operator==(const Sprite &other) const
+            {
+                return _filename == other._filename && _x == other._x && _y == other._y && _scale == other._scale;
+            }
+
         private:
             std::string _filename;
             ssize_t _x;
