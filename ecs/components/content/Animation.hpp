@@ -16,7 +16,7 @@
             const size_t &verticalPictureNb = 1, const size_t &horizontalSeparator = 0, const size_t &verticalSeparator = 0, const size_t &delay = 1) :
             _rectWidth(rectWidth), _rectHeight(rectHeight), _x(x), _y(y), _horizontalPictureNb(horizontalPictureNb), _verticalPictureNb(verticalPictureNb),
             _horizontalSeparator(horizontalSeparator), _verticalSeparator(verticalSeparator), _delay(delay) {}
-            ~Animation();
+            ~Animation() = default;
 
             void setRectWidth(const size_t &rectWidth) { _rectWidth = rectWidth; }
             const size_t &getRectWidth() const { return _rectWidth; }

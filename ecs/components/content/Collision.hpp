@@ -15,7 +15,7 @@
     class Collision {
         public:
             Collision(const std::vector<std::string> &families = {}) : _families(families) {}
-            ~Collision();
+            ~Collision() = default;
 
             const std::vector<std::string> &getFamilies() const { return _families; }
             void setFamilies(const std::vector<std::string> &families) { _families = families; }

@@ -13,7 +13,7 @@
     class Sprite {
         public:
             Sprite(const std::string &filename = "", const ssize_t &x = 0, const ssize_t &y = 0, const size_t &scale = 1) : _filename(filename), _x(x), _y(y), _scale(scale) {};
-            ~Sprite(){};
+            ~Sprite() = default;
 
             const std::string &getFilename() const { return _filename; }
             void setFilename(const std::string &filename) { _filename = filename;}

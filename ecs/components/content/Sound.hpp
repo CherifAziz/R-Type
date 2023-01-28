@@ -18,9 +18,9 @@
                 STOP
             };
 
-            Sound(const std::string &file, const bool &isLooping = false, const SoundStatus &status = SoundStatus::PLAY) :
+            Sound(const std::string &file = "", const bool &isLooping = false, const SoundStatus &status = SoundStatus::PLAY) :
             _file(file), _isLooping(isLooping), _status(status) {}
-            ~Sound();
+            ~Sound() = default;
 
             void setFile(const std::string &file) { _file = file; }
             const std::string &getFile() const { return _file; }

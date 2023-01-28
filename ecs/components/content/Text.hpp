@@ -20,10 +20,10 @@
                 uint16_t b;
             } rgb_t;
 
-            Text(const std::string &text, const std::string &font, const size_t &x = 0, const size_t &y = 0, const size_t &characterSize = 30,
+            Text(const std::string &text = "", const std::string &font = "", const size_t &x = 0, const size_t &y = 0, const size_t &characterSize = 30,
             const size_t &scale = 1, const rgb_t &color = rgb_s()) : _text(text), _font(font), _x(x), _y(y), _characterSize(characterSize),
             _scale(scale), _color(color) {}
-            ~Text();
+            ~Text() = default;
 
             const std::string &getText() const { return _text; }
             void setText(const std::string &text) { _text = text; }

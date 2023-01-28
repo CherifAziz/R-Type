@@ -11,7 +11,7 @@
     class Movement {
         public:
             Movement(const int &xDirection = 0, const int &yDirection = 0) : _xDirection(xDirection), _yDirection(yDirection) {};
-            ~Movement(){};
+            ~Movement() = default;
 
             const int &getXDirection() const { return _xDirection; };
             const int &getYDirection() const { return _yDirection; };
