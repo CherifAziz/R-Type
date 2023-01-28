@@ -8,8 +8,24 @@
 #ifndef _Movement_
     #define _Movement_
 
+    #include <unordered_map>
+
     class Movement {
         public:
+            enum class KeyType {
+                Z,
+                S,
+                Q,
+                D
+            };
+
+            enum class KeyState {
+                UP,
+                PRESSED,
+                DOWN,
+                RELEASED
+            };
+
             Movement(const int &xDirection = 0, const int &yDirection = 0) : _xDirection(xDirection), _yDirection(yDirection) {};
             ~Movement() = default;
 
@@ -21,6 +37,13 @@
                 _yDirection = yDirection;
             }
 
+            void setState(const KeyType &key, const KeyState &state)
+            {
+                _keys[key] = state;
+            }
+
+            const KeyState &getKeyState(const KeyType &key) const { return _keys.at(key); }
+
             bool operator==(const Movement &other) const
             {
                 return _xDirection == other._xDirection && _yDirection == other._yDirection;
@@ -29,6 +52,12 @@
         private:
             int _xDirection;
             int _yDirection;
+            std::unordered_map<KeyType, KeyState> _keys = {
+                {KeyType::Z, KeyState::UP},
+                {KeyType::S, KeyState::UP},
+                {KeyType::Q, KeyState::UP},
+                {KeyType::D, KeyState::UP}
+            };
     };
 
 #endif /* !_Movement_ */
