@@ -62,7 +62,7 @@
                 return false;
             }
 
-            const Component &getFromIndex(uint32_t index) const
+            Component &getFromIndex(uint32_t index)
             {
                 uint32_t it = 0;
 
