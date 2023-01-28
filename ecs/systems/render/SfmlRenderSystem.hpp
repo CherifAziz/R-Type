@@ -21,10 +21,10 @@
     #include "Text.hpp"
     #include "Animation.hpp"
 
-    class RenderSystem : public ARenderSystem {
+    class SfmlRenderSystem : public ARenderSystem {
         public:
-            RenderSystem() : ARenderSystem("SFML") {}
-            ~RenderSystem() = default;
+            SfmlRenderSystem() : ARenderSystem("SFML") {}
+            ~SfmlRenderSystem() = default;
 
             void init()
             {
@@ -76,6 +76,11 @@
                 return _window.isOpen();
             }
 
+            const sf::RenderWindow &getRenderWindow() const
+            {
+                return _window;
+            }
+
         private:
             void setSpriteComponents(const Sprite &sprite, const unsigned long &entity, const std::shared_ptr<ComponentMap<Animation>> &animation)
             {
@@ -90,17 +95,17 @@
                         throw std::runtime_error("Sprite picture file not found !");
                 }
 
-                if (animation && animation->contains(entity) == true) {
-                    Animation anim = animation->get(entity);
-
-                    spr->setTextureRect((sf::IntRect){(int)anim.getX(), (int)anim.getY(), (int)anim.getRectWidth(), (int)anim.getRectHeight()});
-                }
-
                 if (_spriteCache.count(entity) > 0)
                     spr = _spriteCache[entity];
                 else {
                     spr = new sf::Sprite();
                     spr->setTexture(*texture);
+                }
+
+                if (animation && animation->contains(entity) == true) {
+                    Animation anim = animation->get(entity);
+
+                    spr->setTextureRect({(int)anim.getX(), (int)anim.getY(), (int)anim.getRectWidth(), (int)anim.getRectHeight()});
                 }
 
                 spr->setPosition(sprite.getX(), sprite.getY());
