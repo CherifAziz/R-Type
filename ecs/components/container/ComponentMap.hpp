@@ -35,12 +35,12 @@
 
             void put(Component &component, unsigned long entity)
             {
-                _data[entity] = std::make_pair(component, true);
+                _data[entity] = component;
             }
 
             Component &pop(unsigned long entity)
             {
-                Component &value = _data[entity].first;
+                Component &value = _data[entity];
 
                 _data.erase(entity);
                 return value;
@@ -54,31 +54,21 @@
             bool contains(Component &component)
             {
                 for (auto &values : _data) {
-                    if (component == values.second.first)
+                    if (component == values.second)
                         return true;
                 }
                 return false;
             }
 
-            const bool &isComponentActive(unsigned long entity)
-            {
-                return _data[entity].second;
-            }
-
-            void setComponentState(unsigned long entity, bool isActive)
-            {
-                _data[entity].second = isActive;
-            }
-
             Component &get(unsigned long entity)
             {
-                return _data[entity].first;
+                return _data[entity];
             }
 
             unsigned long getEntityId(Component &component) const
             {
                 for (auto &values : _data) {
-                    if (component == values.second.first)
+                    if (component == values.second)
                         return values.first;
                 }
             }
@@ -98,7 +88,7 @@
             }
 
         private:
-            std::unordered_map<unsigned long, std::pair<Component, bool>> _data;
+            std::unordered_map<unsigned long, Component> _data;
     };
 
 #endif /* !ComponentMap */
