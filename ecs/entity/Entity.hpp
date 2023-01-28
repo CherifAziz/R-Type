@@ -19,7 +19,7 @@
             };
 
             Entity(const unsigned long &id = 0, const std::string &family = "") : _id(id), _family(family) {}
-            ~Entity();
+            ~Entity() = default;
 
             const unsigned long &getId() const { return _id; }
             void setId(const int &id) { _id = id; }
