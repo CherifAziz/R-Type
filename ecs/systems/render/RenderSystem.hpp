@@ -90,7 +90,7 @@
                         throw std::runtime_error("Sprite picture file not found !");
                 }
 
-                if (animation->contains(entity) == true) {
+                if (animation && animation->contains(entity) == true) {
                     Animation anim = animation->get(entity);
 
                     spr->setTextureRect((sf::IntRect){(int)anim.getX(), (int)anim.getY(), (int)anim.getRectWidth(), (int)anim.getRectHeight()});
@@ -166,18 +166,12 @@
             void updateComponents(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation,
             const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
             {
-                for (uint32_t it = 0; it < sprite->getSize(); it++) {
-                    if (sprite->contains(it))
-                        setSpriteComponents(sprite->get(it), it, animation);
-                }
-                for (uint32_t it = 0; it < text->getSize(); it++) {
-                    if (text->contains(it))
-                        setTextComponents(text->get(it), it);
-                }
-                for (uint32_t it = 0; it < sound->getSize(); it++) {
-                    if (sound->contains(it))
-                        setSoundComponents(sound->get(it), it);
-                }
+                for (uint32_t it = 0; it < sprite->getSize(); it++)
+                    setSpriteComponents(sprite->get_from_index(it), it, animation);
+                for (uint32_t it = 0; it < text->getSize(); it++)
+                    setTextComponents(text->get_from_index(it), it);
+                for (uint32_t it = 0; it < sound->getSize(); it++)
+                    setSoundComponents(sound->get_from_index(it), it);
             }
 
             void drawSprite(const std::shared_ptr<ComponentMap<Sprite>> &sprite)
