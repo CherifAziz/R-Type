@@ -28,10 +28,15 @@
             const EntityStatus &getStatus() const { return _status; }
             void setStatus(const EntityStatus &status) { _status = status; }
 
+            const bool &isShown() const { return _isShown; }
+            void hide() { _isShown = false; }
+            void show() { _isShown = true; }
+
         private:
             unsigned long _id;
             std::string _family;
             EntityStatus _status = EntityStatus::ALIVE;
+            bool _isShown = true;
     };
 
 #endif /* !_Entity_ */
