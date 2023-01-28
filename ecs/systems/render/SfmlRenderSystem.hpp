@@ -76,7 +76,7 @@
                 return _window.isOpen();
             }
 
-            const sf::RenderWindow &getRenderWindow() const
+            sf::RenderWindow &getRenderWindow()
             {
                 return _window;
             }
