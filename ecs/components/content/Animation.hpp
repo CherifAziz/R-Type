@@ -43,17 +43,15 @@
 
             void animate()
             {
+                _x += _rectWidth + _horizontalSeparator;
                 if (_x > (_horizontalPictureNb - 1) * (_rectWidth + _horizontalSeparator)) {
+                    _x = 0;
+                    _y += _rectHeight + _verticalSeparator;
                     if (_y > (_verticalPictureNb - 1) * (_rectHeight + _verticalSeparator)) {
                         _x = 0;
                         _y = 0;
-                        return;
                     }
-                    _x = 0;
-                    _y += _rectHeight + _verticalSeparator;
-                    return;
                 }
-                _x += _rectWidth + _horizontalSeparator;
             }
 
             bool operator==(const Animation &other) const
@@ -72,6 +70,7 @@
             size_t _verticalPictureNb;
             size_t _horizontalSeparator;
             size_t _verticalSeparator;
+            // delay is in milliseconds
             size_t _delay;
     };
 
