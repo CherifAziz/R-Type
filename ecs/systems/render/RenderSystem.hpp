@@ -167,11 +167,11 @@
             const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
             {
                 for (uint32_t it = 0; it < sprite->getSize(); it++)
-                    setSpriteComponents(sprite->get_from_index(it), it, animation);
+                    setSpriteComponents(sprite->getFromIndex(it), sprite->getEntityId(sprite->getFromIndex(it)), animation);
                 for (uint32_t it = 0; it < text->getSize(); it++)
-                    setTextComponents(text->get_from_index(it), it);
+                    setTextComponents(text->getFromIndex(it), text->getEntityId(text->getFromIndex(it)));
                 for (uint32_t it = 0; it < sound->getSize(); it++)
-                    setSoundComponents(sound->get_from_index(it), it);
+                    setSoundComponents(sound->getFromIndex(it), sound->getEntityId(sound->getFromIndex(it)));
             }
 
             void drawSprite(const std::shared_ptr<ComponentMap<Sprite>> &sprite)
