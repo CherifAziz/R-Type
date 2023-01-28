@@ -48,6 +48,8 @@
 
             bool contains(unsigned long entity)
             {
+                if (_data.empty())
+                    return false;
                 return _data.count(entity) == 1;
             }
 
@@ -58,6 +60,18 @@
                         return true;
                 }
                 return false;
+            }
+
+            Component &get_from_index(uint32_t index)
+            {
+                uint32_t it = 0;
+
+                for (auto &values : _data) {
+                    if (it == index)
+                        return values.second;
+                    it++;
+                }
+                throw std::runtime_error("Invalid index in get_from_index");
             }
 
             Component &get(unsigned long entity)
