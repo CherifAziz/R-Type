@@ -55,7 +55,7 @@
                 return family_entities;
             }
 
-        private:
+        protected:
             std::vector<std::shared_ptr<Entity>> _entities;
     };
 

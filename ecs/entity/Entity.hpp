@@ -32,7 +32,7 @@
             void hide() { _isShown = false; }
             void show() { _isShown = true; }
 
-        private:
+        protected:
             unsigned long _id;
             std::string _family;
             EntityStatus _status = EntityStatus::ALIVE;
