@@ -31,21 +31,21 @@
                 }
             }
 
-        protected:
-            sf::Event _event;
-
+        private:
             void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Movement &movement)
             {
                 if (_keyTranslator.count(key) == 0)
                     return;
 
                 if (event == sf::Event::KeyPressed)
-                    movement.setState(_keyTranslator[key], Movement::KeyState::PRESSED);
+                    movement.setState(_keyTranslator.at(key), Movement::KeyState::PRESSED);
                 else if (event == sf::Event::KeyReleased)
-                    movement.setState(_keyTranslator[key], Movement::KeyState::RELEASED);
+                    movement.setState(_keyTranslator.at(key), Movement::KeyState::RELEASED);
             }
 
-            std::unordered_map<sf::Keyboard::Key, Movement::KeyType> _keyTranslator = {
+            sf::Event _event;
+
+            const std::unordered_map<sf::Keyboard::Key, Movement::KeyType> _keyTranslator = {
                 {sf::Keyboard::Z, Movement::KeyType::Z},
                 {sf::Keyboard::S, Movement::KeyType::S},
                 {sf::Keyboard::Q, Movement::KeyType::Q},
