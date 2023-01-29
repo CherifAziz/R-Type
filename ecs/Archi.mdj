@@ -2433,7 +2433,7 @@
 											"top": 1125,
 											"width": 126,
 											"height": 13,
-											"text": "#_x: size_t",
+											"text": "#_x: ssize_t",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2450,7 +2450,7 @@
 											"top": 1140,
 											"width": 126,
 											"height": 13,
-											"text": "#_y: size_t",
+											"text": "#_y: ssize_t",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11594,7 +11594,7 @@
 							},
 							"name": "_x",
 							"visibility": "protected",
-							"type": "size_t"
+							"type": "ssize_t"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -11604,7 +11604,7 @@
 							},
 							"name": "_y",
 							"visibility": "protected",
-							"type": "size_t"
+							"type": "ssize_t"
 						},
 						{
 							"_type": "UMLAttribute",
