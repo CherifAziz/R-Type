@@ -14,6 +14,7 @@
 
     #include "AInputSystem.hpp"
 
+    #include "Entity.hpp"
     #include "Movement.hpp"
 
     class SfmlInputSystem : public AInputSystem {
@@ -21,13 +22,13 @@
             SfmlInputSystem() : AInputSystem("Sfml") {}
             ~SfmlInputSystem() = default;
 
-            void update(sf::RenderWindow &window, std::shared_ptr<ComponentMap<Movement>> movement)
+            void update(sf::RenderWindow &window, std::shared_ptr<ComponentMap<Movement>> movement, entity_t entity)
             {
                 while (window.pollEvent(_event)) {
                     if (_event.type == sf::Event::Closed)
                         window.close();
                     else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
-                        handleKey(_event.type, _event.key.code, movement->getFromIndex(0));
+                        handleKey(_event.type, _event.key.code, movement->get(entity));
                 }
             }
 
