@@ -15,42 +15,43 @@
     #include "AInputSystem.hpp"
 
     #include "Entity.hpp"
-    #include "Movement.hpp"
+    #include "Action.hpp"
 
     class SfmlInputSystem : public AInputSystem {
         public:
             SfmlInputSystem() : AInputSystem("Sfml") {}
             ~SfmlInputSystem() = default;
 
-            void update(sf::RenderWindow &window, std::shared_ptr<ComponentMap<Movement>> movement, entity_t entity)
+            void update(sf::RenderWindow &window, std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
             {
                 while (window.pollEvent(_event)) {
                     if (_event.type == sf::Event::Closed)
                         window.close();
                     else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
-                        handleKey(_event.type, _event.key.code, movement->get(entity));
+                        handleKey(_event.type, _event.key.code, action->get(entity));
                 }
             }
 
         private:
-            void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Movement &movement)
+            void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action)
             {
                 if (_keyTranslator.count(key) == 0)
                     return;
 
                 if (event == sf::Event::KeyPressed)
-                    movement.setState(_keyTranslator.at(key), Movement::KeyState::PRESSED);
+                    action.setState(_keyTranslator.at(key), Action::KeyState::PRESSED);
                 else if (event == sf::Event::KeyReleased)
-                    movement.setState(_keyTranslator.at(key), Movement::KeyState::RELEASED);
+                    action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
             }
 
             sf::Event _event;
 
-            const std::unordered_map<sf::Keyboard::Key, Movement::KeyType> _keyTranslator = {
-                {sf::Keyboard::Z, Movement::KeyType::Z},
-                {sf::Keyboard::S, Movement::KeyType::S},
-                {sf::Keyboard::Q, Movement::KeyType::Q},
-                {sf::Keyboard::D, Movement::KeyType::D}
+            const std::unordered_map<sf::Keyboard::Key, Action::KeyType> _keyTranslator = {
+                {sf::Keyboard::Z, Action::KeyType::Z},
+                {sf::Keyboard::S, Action::KeyType::S},
+                {sf::Keyboard::Q, Action::KeyType::Q},
+                {sf::Keyboard::D, Action::KeyType::D},
+                {sf::Keyboard::Space, Action::KeyType::SPACE}
             };
     };
 
