@@ -14,6 +14,7 @@
         public:
             enum class SoundStatus {
                 PLAY,
+                PLAYING,
                 PAUSE,
                 STOP
             };
@@ -26,7 +27,7 @@
             const std::string &getFile() const { return _file; }
             void setLoopState(bool isLooping) { _isLooping = isLooping; }
             bool isLooping() const { return _isLooping; }
-            void setStatus(SoundStatus status) { _status = status; }
+            void setStatus(const SoundStatus &status) { _status = status; }
             const SoundStatus& getStatus() const { return _status; }
 
             bool operator==(const Sound& other) const
