@@ -203,11 +203,15 @@
                     if (music.second.second == Sound::SoundStatus::PLAY) {
                         if (music.second.first->getStatus() != sf::SoundSource::Playing)
                             music.second.first->play();
-                        music.second.second = Sound::SoundStatus::PAUSE;
+                        sound->get(music.first).setStatus(Sound::SoundStatus::PLAYING);
                     } else if (music.second.second == Sound::SoundStatus::PAUSE)
                         music.second.first->pause();
-                    else
+                    else if (music.second.second == Sound::SoundStatus::STOP)
                         music.second.first->stop();
+                    else if (music.second.first->getStatus() != sf::SoundSource::Playing && music.second.first->getLoop() == false) {
+                        music.second.first->stop();
+                        sound->get(music.first).setStatus(Sound::SoundStatus::STOP);
+                    }
                 }
             }
 
