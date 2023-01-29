@@ -102,7 +102,7 @@
                 return *this;
             }
 
-        private:
+        protected:
             std::unordered_map<unsigned long, Component> _data;
     };
 

@@ -53,13 +53,7 @@
             (_components[std::type_index(typeid(Component))])->deleteEntityComponents(entity);
         }
 
-        private:
-        enum class EntityStatus {
-            ALIVE,
-            DEAD,
-            USED
-        };
-
+        protected:
         std::unordered_map<std::type_index, std::shared_ptr<IComponentMap>> _components;
 };
 

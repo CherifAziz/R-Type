@@ -61,7 +61,7 @@
                 && _horizontalSeparator == other._horizontalSeparator && _verticalSeparator == other._verticalSeparator && _delay == other._delay;
             }
 
-        private:
+        protected:
             size_t _rectWidth;
             size_t _rectHeight;
             size_t _x;
@@ -70,6 +70,7 @@
             size_t _verticalPictureNb;
             size_t _horizontalSeparator;
             size_t _verticalSeparator;
+
             // delay is in milliseconds
             size_t _delay;
     };

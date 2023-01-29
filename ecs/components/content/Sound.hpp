@@ -33,7 +33,8 @@
             {
                 return _file == other._file && _isLooping == other._isLooping && _status == other._status;
             }
-        private:
+
+        protected:
             std::string _file;
             bool _isLooping;
             SoundStatus _status;

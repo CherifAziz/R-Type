@@ -22,7 +22,7 @@
             bool isColliding(const std::string &family) { return std::find(_families.begin(), _families.end(), family) != _families.end(); }
 
             bool operator==(const Collision &other) const { return _families == other._families; }
-        private:
+        protected:
             std::vector<std::string> _families;
     };
 

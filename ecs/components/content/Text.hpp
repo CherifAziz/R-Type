@@ -53,7 +53,7 @@
                 return _text == other._text && _font == other._font && _x == other._x && _y == other._y && _characterSize == other._characterSize && _scale == other._scale && _color == other._color;
             }
 
-        private:
+        protected:
             std::string _text;
             std::string _font;
             size_t _x;

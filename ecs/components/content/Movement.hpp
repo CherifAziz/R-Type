@@ -49,7 +49,7 @@
                 return _xDirection == other._xDirection && _yDirection == other._yDirection;
             }
 
-        private:
+        protected:
             int _xDirection;
             int _yDirection;
             std::unordered_map<KeyType, KeyState> _keys = {
