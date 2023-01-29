@@ -10,6 +10,8 @@
 
     #include <string>
 
+    #define entity_t    unsigned long
+
     class Entity {
         public:
             enum class EntityStatus {
@@ -33,7 +35,7 @@
             void show() { _isShown = true; }
 
         protected:
-            unsigned long _id;
+            entity_t _id;
             std::string _family;
             EntityStatus _status = EntityStatus::ALIVE;
             bool _isShown = true;
