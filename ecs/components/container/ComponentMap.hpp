@@ -12,6 +12,8 @@
     #include <algorithm>
     #include <iostream>
 
+    #include "Entity.hpp"
+
     #include "IComponentMap.hpp"
 
     template <typename Component>
@@ -26,19 +28,19 @@
             {
             }
 
-            void deleteEntityComponents(unsigned long entity)
+            void deleteEntityComponents(entity_t entity)
             {
                 if (_data.count(entity) == 0)
                     return;
                 _data.erase(entity);
             }
 
-            void put(Component &component, unsigned long entity)
+            void put(Component component, entity_t entity)
             {
                 _data[entity] = component;
             }
 
-            Component &pop(unsigned long entity)
+            Component &pop(entity_t entity)
             {
                 Component &value = _data[entity];
 
@@ -46,7 +48,7 @@
                 return value;
             }
 
-            bool contains(unsigned long entity)
+            bool contains(entity_t entity)
             {
                 if (_data.empty())
                     return false;
@@ -74,12 +76,12 @@
                 throw std::invalid_argument("Invalid index in getFromIndex");
             }
 
-            Component &get(unsigned long entity)
+            Component &get(entity_t entity)
             {
                 return _data[entity];
             }
 
-            const unsigned long &getEntityId(const Component &component) const
+            const entity_t &getEntityId(const Component &component) const
             {
                 for (auto &values : _data) {
                     if (component == values.second)
@@ -103,7 +105,7 @@
             }
 
         protected:
-            std::unordered_map<unsigned long, Component> _data;
+            std::unordered_map<entity_t, Component> _data;
     };
 
 #endif /* !ComponentMap */
