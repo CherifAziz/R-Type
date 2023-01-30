@@ -22,11 +22,16 @@
             SfmlInputSystem() : AInputSystem("Sfml") {}
             ~SfmlInputSystem() = default;
 
-            void update(sf::RenderWindow &window, std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
+            void init()
             {
-                while (window.pollEvent(_event)) {
+                _storage = Storage::getStorage();
+            }
+
+            void update(std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
+            {
+                while (_storage->getRenderWindow().pollEvent(_event)) {
                     if (_event.type == sf::Event::Closed)
-                        window.close();
+                        _storage->getRenderWindow().close();
                     else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
                         handleKey(_event.type, _event.key.code, action->get(entity));
                 }
@@ -43,6 +48,8 @@
                 else if (event == sf::Event::KeyReleased)
                     action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
             }
+
+            std::shared_ptr<Storage> _storage;
 
             sf::Event _event;
 

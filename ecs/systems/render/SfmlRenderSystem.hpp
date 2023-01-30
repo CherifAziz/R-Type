@@ -16,6 +16,8 @@
 
     #include "ARenderSystem.hpp"
 
+    #include "Storage.hpp"
+
     #include "Sprite.hpp"
     #include "Sound.hpp"
     #include "Text.hpp"
@@ -28,21 +30,22 @@
 
             void init()
             {
+                _storage = Storage::getStorage();
                 destroyRenderingComponents();
-                _window.create({1920, 1080}, "R-Type");
+                _storage->getRenderWindow().create({1920, 1080}, "R-Type");
             }
 
             void displayContent(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation,
             const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
             {
-                _window.clear();
-                if (_window.isOpen()) {
+                _storage->getRenderWindow().clear();
+                if (_storage->getRenderWindow().isOpen()) {
                     updateComponents(sprite, animation, text, sound);
                     drawSprite(sprite);
                     drawText(text);
                     playMusic(sound);
                 }
-                _window.display();
+                _storage->getRenderWindow().display();
             }
 
             void destroyRenderingComponents()
@@ -67,18 +70,13 @@
                 _fontCache.clear();
                 _textCache.clear();
                 _musicCache.clear();
-                if (_window.isOpen())
-                    _window.close();
+                if (_storage->getRenderWindow().isOpen())
+                    _storage->getRenderWindow().close();
             }
 
             bool isOpen() const
             {
-                return _window.isOpen();
-            }
-
-            sf::RenderWindow &getRenderWindow()
-            {
-                return _window;
+                return _storage->getRenderWindow().isOpen();
             }
 
         private:
@@ -183,7 +181,7 @@
             {
                 for (auto &spr : _spriteCache) {
                     if (sprite->contains(spr.first))
-                        _window.draw(*spr.second);
+                        _storage->getRenderWindow().draw(*spr.second);
                 }
             }
 
@@ -191,7 +189,7 @@
             {
                 for (auto &txt : _textCache) {
                     if (text->contains(txt.first))
-                        _window.draw(*txt.second);
+                        _storage->getRenderWindow().draw(*txt.second);
                 }
             }
 
@@ -215,7 +213,7 @@
                 }
             }
 
-            sf::RenderWindow _window;
+            std::shared_ptr<Storage> _storage;
 
             std::unordered_map<std::string, sf::Texture *> _textureCache;
             std::unordered_map<unsigned long, sf::Sprite *> _spriteCache;
