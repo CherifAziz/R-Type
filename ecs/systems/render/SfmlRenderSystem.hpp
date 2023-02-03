@@ -24,11 +24,29 @@
     #include "Animation.hpp"
 
     namespace rtype {
+        /**
+         * @brief The Render System for SFML library
+         * 
+         */
         class SfmlRenderSystem : public ARenderSystem {
             public:
+                /**
+                 * @brief Construct a new Sfml Render System object with the "SFML" library name
+                 * 
+                 */
                 SfmlRenderSystem() : ARenderSystem("SFML") {}
+
+                /**
+                 * @brief Destroy the Sfml Render System object
+                 * 
+                 */
                 ~SfmlRenderSystem() = default;
 
+                /**
+                 * @brief init the SFML Render System object
+                 * 
+                 * @details get the singleton storage, destroy all existing rendering components than create the window
+                 */
                 void init()
                 {
                     _storage = Storage::getStorage();
@@ -36,6 +54,14 @@
                     _storage->getRenderWindow().create({1920, 1080}, "R-Type");
                 }
 
+                /**
+                 * @brief display and play all components that can be rendered or played
+                 * 
+                 * @param sprite the Sprite ComponentMap
+                 * @param animation the Animation ComponentMap
+                 * @param text the Text ComponentMap
+                 * @param sound the Sound ComponentMap
+                 */
                 void displayContent(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation,
                 const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
                 {
@@ -49,6 +75,10 @@
                     _storage->getRenderWindow().display();
                 }
 
+                /**
+                 * @brief Destroy all Rendering Components
+                 * 
+                 */
                 void destroyRenderingComponents()
                 {
                     for (auto &texture : _textureCache)
@@ -75,12 +105,24 @@
                         _storage->getRenderWindow().close();
                 }
 
+                /**
+                 * @brief Check if the window is still open
+                 * 
+                 * @return true if the window is still open, false otherwise
+                 */
                 bool isOpen() const
                 {
                     return _storage->getRenderWindow().isOpen();
                 }
 
             private:
+                /**
+                 * @brief Add or update the sprite in the texture and sprite cache for rendering it after
+                 * 
+                 * @param sprite the sprite that will be added or updated
+                 * @param entity the entity id needed by the cache (a map) as a key
+                 * @param animation the Animation ComponentMap used if the sprite as an animation
+                 */
                 void setSpriteComponents(const Sprite &sprite, const unsigned long &entity, const std::shared_ptr<ComponentMap<Animation>> &animation)
                 {
                     sf::Texture *texture = NULL;
@@ -116,6 +158,12 @@
                         _spriteCache[entity] = spr;
                 }
 
+                /**
+                 * @brief Add or update the text in the text and font cache for rendering it after
+                 * 
+                 * @param text the text that will be added or updated
+                 * @param entity the entity id needed by the cache (a map) as a key
+                 */
                 void setTextComponents(const Text &text, const unsigned long &entity)
                 {
                     Text::rgb_t color = text.getColor();
@@ -149,6 +197,12 @@
                         _textCache[entity] = txt;
                 }
 
+                /**
+                 * @brief Add or update the sound in the music cache for playing it after
+                 * 
+                 * @param sound the sound that will be added or updated
+                 * @param entity the entity id needed by the cache (a map) as a key
+                 */
                 void setSoundComponents(const Sound &sound, const unsigned long &entity)
                 {
                     sf::Music *music = NULL;
@@ -167,6 +221,14 @@
                         _musicCache[entity].second = sound.getStatus();
                 }
 
+                /**
+                 * @brief this method call all the set methods
+                 * 
+                 * @param sprite the Sprite ComponentMap
+                 * @param animation the Animation ComponentMap
+                 * @param text the Text ComponentMap
+                 * @param sound the Sound ComponentMap
+                 */
                 void updateComponents(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation,
                 const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
                 {
@@ -178,6 +240,11 @@
                         setSoundComponents(sound->getFromIndex(it), sound->getEntityId(sound->getFromIndex(it)));
                 }
 
+                /**
+                 * @brief draw all sprites that must be drawn in the window
+                 * 
+                 * @param sprite the Sprite ComponentMap
+                 */
                 void drawSprite(const std::shared_ptr<ComponentMap<Sprite>> &sprite)
                 {
                     for (auto &spr : _spriteCache) {
@@ -186,6 +253,11 @@
                     }
                 }
 
+                /**
+                 * @brief draw all texts that must be drawn in the window
+                 * 
+                 * @param text the Text ComponentMap
+                 */
                 void drawText(const std::shared_ptr<ComponentMap<Text>> &text)
                 {
                     for (auto &txt : _textCache) {
@@ -194,6 +266,11 @@
                     }
                 }
 
+                /**
+                 * @brief play all the musics that must be played
+                 * 
+                 * @param sound the Sound ComponentMap
+                 */
                 void playMusic(const std::shared_ptr<ComponentMap<Sound>> &sound)
                 {
                     for (auto &music : _musicCache) {
@@ -214,14 +291,40 @@
                     }
                 }
 
+                /**
+                 * @brief the singleton storage
+                 * 
+                 */
                 std::shared_ptr<Storage> _storage;
 
+                /**
+                 * @brief the texture cache that will keep every sf::Texture with the image file path as a key
+                 * 
+                 */
                 std::unordered_map<std::string, sf::Texture *> _textureCache;
+
+                /**
+                 * @brief the sprite cache that will keep every sf::Sprite with the entity id as a key 
+                 * 
+                 */
                 std::unordered_map<unsigned long, sf::Sprite *> _spriteCache;
 
+                /**
+                 * @brief the font cache that will keep every sf::Font with the font file path as a key
+                 * 
+                 */
                 std::unordered_map<std::string, sf::Font *> _fontCache;
+
+                /**
+                 * @brief the text cache that will keep every sf::Text with the entity id as a key
+                 * 
+                 */
                 std::unordered_map<unsigned long, sf::Text *> _textCache;
 
+                /**
+                 * @brief the music cache that will keep every sf::Music and Sound status with the entity id as a key
+                 * 
+                 */
                 std::unordered_map<unsigned long, std::pair<sf::Music *, Sound::SoundStatus>> _musicCache;
         };
     }

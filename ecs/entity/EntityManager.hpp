@@ -14,11 +14,31 @@
     #include "Entity.hpp"
 
     namespace rtype {
+        /**
+         * @brief this class Manage every entities of the RType
+         * 
+         */
         class EntityManager {
             public:
+                /**
+                 * @brief Construct a new Entity Manager object
+                 * 
+                 */
                 EntityManager() = default;
+
+                /**
+                 * @brief Destroy the Entity Manager object
+                 * 
+                 */
                 ~EntityManager() = default;
 
+                /**
+                 * @brief generate a new entity
+                 * 
+                 * @details create a new entity, it's id and give him his family. If their are available id, the new entity will take them. If not, a new id will be generated
+                 * @param family the family of the new entity. It help the Game System knowing how to handle the entity
+                 * @return the new entity as a std::shared_ptr<Entity> 
+                 */
                 std::shared_ptr<Entity> spawnEntity(const std::string &family)
                 {
                     std::shared_ptr<Entity> new_entity(new Entity());
@@ -40,11 +60,22 @@
                     return new_entity;
                 }
 
+                /**
+                 * @brief Get all the Entities object
+                 * 
+                 * @return a vector of all entities as a const std::vector<std::shared_ptr<Entity>>& 
+                 */
                 const std::vector<std::shared_ptr<Entity>> &getEntities() const
                 {
                     return _entities;
                 }
 
+                /**
+                 * @brief Get all the Entities object of a given family
+                 * 
+                 * @param family the family you want to get the entities from
+                 * @return a vector of all entities coming from the given family as a std::vector<std::shared_ptr<Entity>> 
+                 */
                 std::vector<std::shared_ptr<Entity>> getEntitiesFromFamily(const std::string &family) const
                 {
                     std::vector<std::shared_ptr<Entity>> family_entities;
@@ -57,6 +88,10 @@
                 }
 
             protected:
+                /**
+                 * @brief the entities
+                 * 
+                 */
                 std::vector<std::shared_ptr<Entity>> _entities;
         };
     }

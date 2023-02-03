@@ -18,16 +18,40 @@
     #include "Action.hpp"
 
     namespace rtype {
+        /**
+         * @brief The Input System for SFML library
+         * 
+         */
         class SfmlInputSystem : public AInputSystem {
             public:
+                /**
+                 * @brief Construct a new Sfml Input System object with the "SFML" library name
+                 * 
+                 */
                 SfmlInputSystem() : AInputSystem("Sfml") {}
+
+                /**
+                 * @brief Destroy the Sfml Input System object
+                 * 
+                 */
                 ~SfmlInputSystem() = default;
 
+                /**
+                 * @brief init the Sfml Input System object
+                 * 
+                 * @details get the singleton storage
+                 */
                 void init()
                 {
                     _storage = Storage::getStorage();
                 }
 
+                /**
+                 * @brief update the system by checking if new event were triggered
+                 * 
+                 * @param action the Action ComponentMap
+                 * @param entity the player entity id
+                 */
                 void update(std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
                 {
                     while (_storage->getRenderWindow().pollEvent(_event)) {
@@ -39,6 +63,14 @@
                 }
 
             private:
+
+                /**
+                 * @brief handle the event by setting the key state in the Action component
+                 * 
+                 * @param event the key state (pressed or released)
+                 * @param key the key type (keyboard key)
+                 * @param action the player's Action component
+                 */
                 void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action)
                 {
                     if (_keyTranslator.count(key) == 0)
@@ -50,10 +82,22 @@
                         action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
                 }
 
+                /**
+                 * @brief the singleton storage
+                 * 
+                 */
                 std::shared_ptr<Storage> _storage;
 
+                /**
+                 * @brief the window's event polled
+                 * 
+                 */
                 sf::Event _event;
 
+                /**
+                 * @brief the key translation between the SFML library and Action Component KeyType enum
+                 * 
+                 */
                 const std::unordered_map<sf::Keyboard::Key, Action::KeyType> _keyTranslator = {
                     {sf::Keyboard::Z, Action::KeyType::Z},
                     {sf::Keyboard::S, Action::KeyType::S},
