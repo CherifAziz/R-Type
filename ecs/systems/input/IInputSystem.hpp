@@ -10,11 +10,13 @@
 
     #include <string>
 
-    class IInputSystem {
-        public:
-            virtual ~IInputSystem() = default;
+    namespace rtype {
+        class IInputSystem {
+            public:
+                virtual ~IInputSystem() = default;
 
-            virtual const std::string &getLibraryName() const = 0;
-    };
+                virtual const std::string &getLibraryName() const = 0;
+        };
+    }
 
 #endif /* !_IInputSystem_ */

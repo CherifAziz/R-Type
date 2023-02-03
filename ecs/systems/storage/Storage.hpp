@@ -12,26 +12,28 @@
 
     #include <memory>
 
-    class Storage {
-        public:
-            Storage(Storage &other) = delete;
-            ~Storage() = default;
-    
-            void operator=(const Storage &other) = delete;
+    namespace rtype {
+        class Storage {
+            public:
+                Storage(Storage &other) = delete;
+                ~Storage() = default;
 
-            static std::shared_ptr<Storage> getStorage()
-            {
-                static std::shared_ptr<Storage> _storage(new Storage());
+                void operator=(const Storage &other) = delete;
 
-                return _storage;
-            }
+                static std::shared_ptr<Storage> getStorage()
+                {
+                    static std::shared_ptr<Storage> _storage(new Storage());
 
-            sf::RenderWindow &getRenderWindow() { return _window; }
+                    return _storage;
+                }
 
-        protected:
-            Storage() = default;
+                sf::RenderWindow &getRenderWindow() { return _window; }
 
-            sf::RenderWindow _window;
-    };
+            protected:
+                Storage() = default;
+
+                sf::RenderWindow _window;
+        };
+    }
 
 #endif /* !_Storage_ */

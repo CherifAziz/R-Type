@@ -10,17 +10,19 @@
 
     #include "IInputSystem.hpp"
 
-    class AInputSystem : public IInputSystem {
-        public:
-            AInputSystem(const std::string &libraryName) : _libraryName(libraryName) {}
+    namespace rtype {
+        class AInputSystem : public IInputSystem {
+            public:
+                AInputSystem(const std::string &libraryName) : _libraryName(libraryName) {}
 
-            const std::string &getLibraryName() const
-            {
-                return _libraryName;
-            }
+                const std::string &getLibraryName() const
+                {
+                    return _libraryName;
+                }
 
-        protected:
-            std::string _libraryName;
-    };
+            protected:
+                std::string _libraryName;
+        };
+    }
 
 #endif /* !_AInputSystem_ */
