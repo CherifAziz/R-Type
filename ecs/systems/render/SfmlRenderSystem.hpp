@@ -309,7 +309,7 @@
                  * @brief the sprite cache that will keep every sf::Sprite with the entity id as a key 
                  * 
                  */
-                std::unordered_map<unsigned long, sf::Sprite *> _spriteCache;
+                std::map<unsigned long, sf::Sprite *> _spriteCache;
 
                 /**
                  * @brief the font cache that will keep every sf::Font with the font file path as a key
@@ -321,7 +321,7 @@
                  * @brief the text cache that will keep every sf::Text with the entity id as a key
                  * 
                  */
-                std::unordered_map<unsigned long, sf::Text *> _textCache;
+                std::map<unsigned long, sf::Text *> _textCache;
 
                 /**
                  * @brief the music cache that will keep every sf::Music and Sound status with the entity id as a key
