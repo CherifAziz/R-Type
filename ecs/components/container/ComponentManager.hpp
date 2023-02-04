@@ -5,8 +5,8 @@
 ** ComponentManager
 */
 
-#ifndef ComponentManager
-    #define _ComponentManager_
+#ifndef ComponentManagerDef
+    #define ComponentManagerDef
 
     #include <typeindex>
     #include <memory>

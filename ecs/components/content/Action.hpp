@@ -5,8 +5,8 @@
 ** Action
 */
 
-#ifndef _Action_
-    #define _Action_
+#ifndef ActionDef
+    #define ActionDef
 
     #include <unordered_map>
 
@@ -86,4 +86,4 @@
         };
     }
 
-#endif /* !_Action_ */
+#endif /* !ActionDef */

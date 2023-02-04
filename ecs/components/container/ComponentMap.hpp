@@ -5,8 +5,8 @@
 ** ComponentMap
 */
 
-#ifndef ComponentMap
-    #define ComponentMapClass
+#ifndef ComponentMapDef
+    #define ComponentMapDef
 
     #include <unordered_map>
     #include <algorithm>
@@ -181,4 +181,4 @@
         };
     }
 
-#endif /* !ComponentMap */
+#endif /* !ComponentMapDef */
