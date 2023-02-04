@@ -27,9 +27,9 @@
                  * 
                  * @details this method give the ability to delete all components from every ComponentMap for an entity without having to cast beforehand
                  * 
-                 * @param long the entity id to delete all the components from
+                 * @param id entity id to delete all the components from
                  */
-                virtual void deleteEntityComponents(unsigned long) = 0;
+                virtual void deleteEntityComponents(entity_t id) = 0;
         };
     }
 
