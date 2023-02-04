@@ -5,8 +5,8 @@
 ** EntityManager
 */
 
-#ifndef EntityManager
-    #define _EntityManager_
+#ifndef EntityManagerDef
+    #define EntityManagerDef
 
     #include <vector>
     #include <memory>
@@ -87,13 +87,23 @@
                     return family_entities;
                 }
 
+                void setGamePlayingStatus(const bool &gamePlaying) { _gamePlaying = gamePlaying; }
+
+                const bool &isGamePlaying() const { return _gamePlaying; }
+
             protected:
                 /**
                  * @brief the entities
                  * 
                  */
                 std::vector<std::shared_ptr<Entity>> _entities;
+
+                /**
+                 * @brief boolean to check if the game is still playing
+                 * 
+                 */
+                bool _gamePlaying = true;
         };
     }
 
-#endif /* !EntityManager */
+#endif /* !EntityManagerDef */
