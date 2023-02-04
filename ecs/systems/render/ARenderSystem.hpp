@@ -8,14 +8,14 @@
 #ifndef _ARenderSystem_
     #define _ARenderSystem_
 
-    #include "IRenderSystem.hpp"
+    #include "ISystem.hpp"
 
     namespace rtype {
         /**
          * @brief Abstract for all Render System
          * 
          */
-        class ARenderSystem : public IRenderSystem {
+        class ARenderSystem : public ISystem {
             public:
                 /**
                  * @brief Construct a new ARenderSystem (used by the children class)

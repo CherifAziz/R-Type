@@ -17,6 +17,8 @@
     #include "Entity.hpp"
     #include "Action.hpp"
 
+    #include "Storage.hpp"
+
     namespace rtype {
         /**
          * @brief The Input System for SFML library
@@ -47,22 +49,50 @@
                 }
 
                 /**
+                 * @brief update the input sytem
+                 * 
+                 * @param componentManager the component manager
+                 * @param entityManager the entity manager
+                 */
+                void update(ComponentManager &componentManager, EntityManager &entityManager)
+                {
+                    std::shared_ptr<ComponentMap<Action>> actionMap = componentManager.getComponents<Action>();
+                    std::vector<std::shared_ptr<Entity>> players = entityManager.getEntitiesFromFamily("player");
+
+                    for (const auto &player : players) {
+                        if (checkEvent(actionMap, player->getId()) == true) {
+                            entityManager.setGamePlayingStatus(false);
+                            return;
+                        }
+                    }
+                }
+
+                void destroy()
+                {
+
+                }
+
+            private:
+                /**
                  * @brief update the system by checking if new event were triggered
                  * 
                  * @param action the Action ComponentMap
                  * @param entity the player entity id
+                 * 
+                 * @return true if the window has been closed, false otherwise
                  */
-                void update(std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
+                bool checkEvent(std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
                 {
                     while (_storage->getRenderWindow().pollEvent(_event)) {
-                        if (_event.type == sf::Event::Closed)
+                        if (_event.type == sf::Event::Closed) {
                             _storage->getRenderWindow().close();
+                            return true;
+                        }
                         else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
                             handleKey(_event.type, _event.key.code, action->get(entity));
                     }
+                    return false;
                 }
-
-            private:
 
                 /**
                  * @brief handle the event by setting the key state in the Action component

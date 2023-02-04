@@ -8,14 +8,14 @@
 #ifndef _AInputSystem_
     #define _AInputSystem_
 
-    #include "IInputSystem.hpp"
+    #include "ISystem.hpp"
 
     namespace rtype {
         /**
          * @brief Abstract for all InputSystem
          * 
          */
-        class AInputSystem : public IInputSystem {
+        class AInputSystem : public ISystem {
             public:
                 /**
                  * @brief Construct a new AInputSystem (used by the children class)

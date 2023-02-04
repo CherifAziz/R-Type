@@ -50,21 +50,23 @@
                 void init()
                 {
                     _storage = Storage::getStorage();
-                    destroyRenderingComponents();
+                    destroy();
                     _storage->getRenderWindow().create({1920, 1080}, "R-Type");
                 }
 
                 /**
                  * @brief display and play all components that can be rendered or played
                  * 
-                 * @param sprite the Sprite ComponentMap
-                 * @param animation the Animation ComponentMap
-                 * @param text the Text ComponentMap
-                 * @param sound the Sound ComponentMap
+                 * @param componentManager the component manager
+                 * @param entityManager the entity manager
                  */
-                void displayContent(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation,
-                const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
+                void update(ComponentManager &componentManager, EntityManager &/*entityManager*/)
                 {
+                    std::shared_ptr<ComponentMap<Sprite>> sprite = componentManager.getComponents<Sprite>();
+                    std::shared_ptr<ComponentMap<Animation>> animation = componentManager.getComponents<Animation>();
+                    std::shared_ptr<ComponentMap<Text>> text = componentManager.getComponents<Text>();
+                    std::shared_ptr<ComponentMap<Sound>> sound = componentManager.getComponents<Sound>();
+
                     _storage->getRenderWindow().clear();
                     if (_storage->getRenderWindow().isOpen()) {
                         updateComponents(sprite, animation, text, sound);
@@ -79,7 +81,7 @@
                  * @brief Destroy all Rendering Components
                  * 
                  */
-                void destroyRenderingComponents()
+                void destroy()
                 {
                     for (auto &texture : _textureCache)
                         if (texture.second != nullptr)
