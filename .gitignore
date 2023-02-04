@@ -56,3 +56,6 @@ build/
 
 r-type_client
 r-type_server
+tcpclient
+tcpserver
+udpserver
