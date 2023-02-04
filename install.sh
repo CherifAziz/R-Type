@@ -20,7 +20,11 @@ else
   echo "vcpkg déjà installé."
 fi
 
-#installer make)
+if ! command -v make > /dev/null; then
+  echo "make n'est pas installé, installation en cours..."
+else
+  echo "make déjà installé."
+fi
 
 if ! command -v cmake > /dev/null; then
   echo "cmake n'est pas installé, installation en cours..."
@@ -37,10 +41,9 @@ cd $PWD/vcpkg
 git pull
 ./bootstrap-vcpkg.sh -disableMetrics
 cd ..
-$PWD/vcpkg/vcpkg install openal-soft
-$PWD/vcpkg/vcpkg install flac
 $PWD/vcpkg/vcpkg install sfml
-$PWD/vcpkg/vcpkg install boost-asio
+$PWD/vcpkg/vcpkg install boost-system
+$PWD/vcpkg/vcpkg install boost-serialization
 $PWD/vcpkg/vcpkg upgrade
 if ! [ -e "/root/.vcpkg" ]; then
   mkdir /root/.vcpkg
@@ -50,8 +53,7 @@ if ! [ -e "/root/.vcpkg/vcpkg.path.txt" ]; then
 fi
 
 $PWD/vcpkg/vcpkg integrate install
-rm -rf r-type_client r-type_server build/r-type_client build/r-type_server
+rm -rf build
 cmake -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
-cmake --build build --config Release
-mv build/r-type_client r-type_client
-mv build/r-type_server r-type_server
+cmake --build ./build --config Release
+mv build/bin/* $PWD/
