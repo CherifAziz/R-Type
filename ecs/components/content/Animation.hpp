@@ -174,6 +174,8 @@
                  */
                 void animate()
                 {
+                    if (_horizontalPictureNb == 1 && _verticalPictureNb == 1)
+                        return;
                     _x += _rectWidth + _horizontalSeparator;
                     if (_x > (_horizontalPictureNb - 1) * (_rectWidth + _horizontalSeparator)) {
                         _x = 0;

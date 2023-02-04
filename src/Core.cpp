@@ -41,16 +41,26 @@ namespace rtype
         auto starting_time = std::chrono::high_resolution_clock::now();
         std::chrono::high_resolution_clock::time_point current;
         int64_t elapsed_time = 0;
+        std::pair<size_t, size_t> window_size;
 
         while (_scenes[_currentScene]->isGameStillPlaying()) {
             current = std::chrono::high_resolution_clock::now();
             elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - starting_time).count();
-            _scenes[_currentScene]->update(elapsed_time);
+            window_size = getWindowSize();
+            _scenes[_currentScene]->update(elapsed_time, window_size.first, window_size.second);
             if (elapsed_time >= 50)
                 starting_time = current;
             for (auto &system : _systems)
                 system->update(_scenes[_currentScene]->getComponentManager(), _scenes[_currentScene]->getEntityManager());
         }
         return 0;
+    }
+
+    std::pair<size_t, size_t> Core::getWindowSize() const
+    {
+        for (auto &system : _systems)
+            if (system->getWindowWSize().first != 0)
+                return system->getWindowWSize();
+        throw std::runtime_error("No system with a valid window present in the scene !");
     }
 }
