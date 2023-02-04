@@ -34,10 +34,19 @@
                  * 
                  */
                 enum class KeyState {
-                    UP,
                     PRESSED,
                     DOWN,
-                    RELEASED
+                    DOWN2,
+                    DOWN3,
+                    DOWN4,
+                    DOWN5,
+                    DOWN6,
+                    DOWN7,
+                    DOWN8,
+                    DOWN9,
+                    DOWN10,
+                    RELEASED,
+                    UP
                 };
 
                 /**
