@@ -47,8 +47,9 @@
                 /**
                  * @brief update the scene components and entities (must be override)
                  * 
+                 * @param time the current time that has been elapsed
                  */
-                virtual void update() = 0;
+                virtual void update(const int64_t &time) = 0;
 
                 /**
                  * @brief destroy the scene (must be override)

@@ -31,13 +31,18 @@ namespace rtype
         initText();
     }
 
-    void GameScene::update()
+    void GameScene::update(const int64_t &time)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
 
-        handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
-        handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Sound>()->get(player_id),
-        _componentManager.getComponents<Movement>()->get(player_id), _componentManager.getComponents<Action>()->get(player_id));
+        if (time % 2 == 0) {
+            std::cout << time << std::endl;
+            handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
+            handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Sound>()->get(player_id),
+            _componentManager.getComponents<Movement>()->get(player_id), _componentManager.getComponents<Action>()->get(player_id));
+        }
+        if (time % 10 == 0)
+            playAnimation(_componentManager.getComponents<Animation>());
     }
 
     void GameScene::destroy()
@@ -99,7 +104,7 @@ namespace rtype
     void GameScene::initMovement()
     {
         ComponentMap<Movement> movement;
-        Movement player_move(1, 1);
+        Movement player_move(0, 0);
         Movement first_background_movement(1, 1);
         Movement second_background_movement(1, 1);
 
@@ -135,35 +140,51 @@ namespace rtype
             second_sprite.setPosition(1920, 0);
     }
 
-    void GameScene::handlePlayerMovement(Sprite &player_sprite, const Movement &player_movement, Action &player_action)
+    void GameScene::handlePlayerMovement(Sprite &player_sprite, Movement &player_movement, Action &player_action)
     {
         static const Action::KeyType keys[4] = {Action::KeyType::Z, Action::KeyType::S, Action::KeyType::Q, Action::KeyType::D};
         static const ssize_t x_move[4] = {0, 0, -1, 1};
         static const ssize_t y_move[4] = {-1, 1, 0, 0};
-        
+        static const int max_boost = 10;
+
         for (uint16_t it = 0; it < 4; it++) {
             Action::KeyState state = player_action.getKeyState(keys[it]);
-            ssize_t x_movement = x_move[it] * player_movement.getXDirection() * (int)state;
-            ssize_t y_movement = y_move[it] * player_movement.getYDirection() * (int)state;
+            int x_direction = player_movement.getXDirection();
+            int y_direction = player_movement.getYDirection();
 
-            if (it == 3)
-                std::cout << (int)state << std::endl;
-            x_movement -= x_movement * (1 - (float)state / 10);
-            y_movement -= y_movement * (1 - (float)state / 10);
             if (state != Action::KeyState::UP && state != Action::KeyState::RELEASED) {
-                player_sprite.setPosition(player_sprite.getX() + x_movement, player_sprite.getY() + y_movement);
-                if (state != Action::KeyState::DOWN10)
-                    player_action.setState(keys[it], (Action::KeyState)((int)state + 1));
+                x_direction += 5 * x_move[it];
+                if (x_direction <= -max_boost)
+                    x_direction = -max_boost;
+                else if (x_direction >= max_boost)
+                    x_direction = max_boost;
+
+                y_direction += 5 * y_move[it];
+                if (y_direction <= -max_boost)
+                    y_direction = -max_boost;
+                else if (y_direction >= max_boost)
+                    y_direction = max_boost;
             }
+            player_movement.setDirection(x_direction * 0.9, y_direction * 0.9);
+            player_sprite.setPosition(player_sprite.getX() + player_movement.getXDirection(), player_sprite.getY() + player_movement.getYDirection());
         }
     }
 
-    void GameScene::handlePlayerAction(Sprite &player_sprite, Sound &player_sound, const Movement &player_movement, Action &player_action)
+    void GameScene::handlePlayerAction(Sprite &player_sprite, Sound &player_sound, Movement &player_movement, Action &player_action)
     {
         Action::KeyState space_state = player_action.getKeyState(Action::KeyType::SPACE);
 
         if (space_state == Action::KeyState::PRESSED && player_sound.getStatus() != Sound::SoundStatus::PLAY && player_sound.getStatus() != Sound::SoundStatus::PLAYING)
             player_sound.setStatus(Sound::SoundStatus::PLAY);
         handlePlayerMovement(player_sprite, player_movement, player_action);
+    }
+
+    void GameScene::playAnimation(std::shared_ptr<ComponentMap<Animation>> animationMap)
+    {
+        for (uint16_t it = 0; it < animationMap->getSize(); it++) {
+            Animation &animation = animationMap->getFromIndex(it);
+
+            animation.animate();
+        }
     }
 }

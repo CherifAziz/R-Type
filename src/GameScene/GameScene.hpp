@@ -44,8 +44,9 @@
                 /**
                  * @brief Update the Game
                  * 
+                 * @param time the current time that has been elapsed
                  */
-                void update();
+                void update(const int64_t &time);
 
                 /**
                  * @brief Destroy the Game Scene components and entities
@@ -124,7 +125,7 @@
                  * @param player_movement the player movement component
                  * @param player_action the player action component
                  */
-                void handlePlayerMovement(Sprite &player_sprite, const Movement &player_movement, Action &player_action);
+                void handlePlayerMovement(Sprite &player_sprite, Movement &player_movement, Action &player_action);
 
                 /**
                  * @brief make player action
@@ -134,7 +135,14 @@
                  * @param player_movement the player movement component
                  * @param player_action the player action component
                  */
-                void handlePlayerAction(Sprite &player_sprite, Sound &player_sound, const Movement &player_movement, Action &player_action);
+                void handlePlayerAction(Sprite &player_sprite, Sound &player_sound, Movement &player_movement, Action &player_action);
+
+                /**
+                 * @brief play all scene components animation
+                 * 
+                 * @param animationMap the animation map
+                 */
+                void playAnimation(std::shared_ptr<ComponentMap<Animation>> animationMap);
         };
     }
 

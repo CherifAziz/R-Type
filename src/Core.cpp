@@ -39,14 +39,15 @@ namespace rtype
     int Core::loopGame()
     {
         auto starting_time = std::chrono::high_resolution_clock::now();
-        std::chrono::_V2::system_clock::time_point current;
+        std::chrono::high_resolution_clock::time_point current;
+        int64_t elapsed_time = 0;
 
         while (_scenes[_currentScene]->isGameStillPlaying()) {
             current = std::chrono::high_resolution_clock::now();
-            if (std::chrono::duration_cast<std::chrono::microseconds>(current - starting_time).count() >= 100) {
-                _scenes[_currentScene]->update();
+            elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - starting_time).count();
+            _scenes[_currentScene]->update(elapsed_time);
+            if (elapsed_time >= 50)
                 starting_time = current;
-            }
             for (auto &system : _systems)
                 system->update(_scenes[_currentScene]->getComponentManager(), _scenes[_currentScene]->getEntityManager());
         }

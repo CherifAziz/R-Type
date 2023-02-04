@@ -52,6 +52,7 @@
                     _storage = Storage::getStorage();
                     destroy();
                     _storage->getRenderWindow().create({1920, 1080}, "R-Type");
+                    _storage->getRenderWindow().setFramerateLimit(60);
                 }
 
                 /**
