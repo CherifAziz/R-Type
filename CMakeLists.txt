@@ -11,6 +11,8 @@ find_package(SFML 2.5
 
 add_executable(rtype
     src/GameScene/GameScene.cpp
+    src/GameScene/PlayerBullet.cpp
+    src/GameScene/BasicEnemy.cpp
     src/Core.cpp
     src/main.cpp
 )

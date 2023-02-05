@@ -174,15 +174,18 @@
                  */
                 void animate()
                 {
+                    static const size_t default_x = _x;
+                    static const size_t default_y = _y;
+
                     if (_horizontalPictureNb == 1 && _verticalPictureNb == 1)
                         return;
                     _x += _rectWidth + _horizontalSeparator;
                     if (_x > (_horizontalPictureNb - 1) * (_rectWidth + _horizontalSeparator)) {
-                        _x = 0;
+                        _x = default_x;
                         _y += _rectHeight + _verticalSeparator;
                         if (_y > (_verticalPictureNb - 1) * (_rectHeight + _verticalSeparator)) {
-                            _x = 0;
-                            _y = 0;
+                            _x = default_x;
+                            _y = default_y;
                         }
                     }
                 }

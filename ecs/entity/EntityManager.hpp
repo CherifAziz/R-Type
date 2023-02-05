@@ -61,6 +61,21 @@
                 }
 
                 /**
+                 * @brief Kill entity by setting is status to dead
+                 * 
+                 * @param entity_id the entity to kill
+                 */
+                void killEntity(entity_t entity_id)
+                {
+                    for (auto &entity : _entities) {
+                        if (entity->getId() == entity_id && entity->getStatus() == Entity::EntityStatus::ALIVE) {
+                            entity->setStatus(Entity::EntityStatus::DEAD);
+                            return;
+                        }
+                    }
+                }
+
+                /**
                  * @brief Get all the Entities object
                  * 
                  * @return a vector of all entities as a const std::vector<std::shared_ptr<Entity>>& 
@@ -68,6 +83,24 @@
                 const std::vector<std::shared_ptr<Entity>> &getEntities() const
                 {
                     return _entities;
+                }
+
+                /**
+                 * @brief Get all the Entities object of a given substring family
+                 * 
+                 * @param family the substring family you want to get the entities from
+                 * @return a vector of all entities coming from the given substring family as a std::vector<std::shared_ptr<Entity>> 
+                 */
+                std::vector<std::shared_ptr<Entity>> getEntitiesFromSubFamily(const std::string &family) const
+                {
+                    std::vector<std::shared_ptr<Entity>> family_entities;
+
+                    for (auto &entity : _entities) {
+                        if (entity->getFamily().find(family) != std::string::npos && entity->getStatus() == Entity::EntityStatus::ALIVE) {
+                            family_entities.push_back(entity);
+                        }
+                    }
+                    return family_entities;
                 }
 
                 /**
@@ -81,7 +114,7 @@
                     std::vector<std::shared_ptr<Entity>> family_entities;
 
                     for (auto &entity : _entities) {
-                        if (family == entity->getFamily())
+                        if (family == entity->getFamily() && entity->getStatus() == Entity::EntityStatus::ALIVE)
                             family_entities.push_back(entity);
                     }
                     return family_entities;

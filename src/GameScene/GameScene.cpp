@@ -9,6 +9,7 @@
 
 #include "Collision.hpp"
 #include "Text.hpp"
+#include "GameValues.hpp"
 
 namespace rtype
 {
@@ -31,15 +32,57 @@ namespace rtype
         initText();
     }
 
+    bool GameScene::isColliding(size_t x1, size_t y1, size_t width1, size_t height1, size_t x2, size_t y2, size_t width2, size_t height2)
+    {
+        if (x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && height1 + y1 > y2)
+            return true;
+        return false;
+    }
+
+    int GameScene::handleElementCollision(entity_t id)
+    {
+        Collision collision = _componentManager.get<Collision>(id);
+        std::vector<std::string> families = collision.getFamilies();
+        std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
+        std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
+        Sprite &sprite = spriteMap->get(id);
+        Animation &animation = animationMap->get(id);
+
+        for (auto &family : families) {
+            std::vector<std::shared_ptr<Entity>> entities = _entityManager.getEntitiesFromFamily(family);
+
+            for (auto &entity : entities) {
+                if (spriteMap->contains(entity->getId()) && animationMap->contains(entity->getId())) {
+                    Sprite &enemy_sprite = spriteMap->get(entity->getId());
+                    Animation &enemy_animation = animationMap->get(entity->getId());
+
+                    if (isColliding(sprite.getX(), sprite.getY(), animation.getRectWidth(), animation.getRectHeight(),
+                                    enemy_sprite.getX(), enemy_sprite.getY(), enemy_animation.getRectWidth(), enemy_animation.getRectHeight())) {
+                        return entity->getId();
+                    }
+                }
+            }
+        }
+        return -1;    
+    }
+
     void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
 
         if (time % 2 == 0) {
+            int value = handleElementCollision(player_id);
+            if (value != -1)
+                _player_hp -= 1;
+            if (_player_hp == 0) {
+                std::cout << "THE END" << std::endl;
+                exit(0);
+            }
             handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
-            handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Sound>()->get(player_id),
-            _componentManager.getComponents<Movement>()->get(player_id), _componentManager.getComponents<Action>()->get(player_id),
-            _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
+            handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
+            _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
+            handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
+            handleBasicEnemy(time);
         }
         if (time % 10 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
@@ -70,7 +113,7 @@ namespace rtype
     void GameScene::initAnimation()
     {
         ComponentMap<Animation> animation;
-        Animation spaceship_animation(33, 18, 133, 0, 1, 1, 1, 1, 500);
+        Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
 
         animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
@@ -80,10 +123,8 @@ namespace rtype
     {
         ComponentMap<Sound> sound;
         Sound music("assets/music.ogg", true, Sound::SoundStatus::PLAY);
-        Sound pow("assets/pow.ogg", false, Sound::SoundStatus::STOP);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
-        sound.put(pow, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Sound>(sound);
     }
 
@@ -98,7 +139,11 @@ namespace rtype
 
     void GameScene::initCollision()
     {
+        ComponentMap<Collision> collisionMap;
+        Collision collision(std::vector<std::string>{"basicEnemy"}); // NEED TO BE CHANGED TO THE ENEMY VECTOR
 
+        collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        _componentManager.registerComponent<Collision>(collisionMap);
     }
 
     void GameScene::initMovement()
@@ -167,31 +212,25 @@ namespace rtype
                     y_direction = max_boost;
             }
             player_movement.setDirection(x_direction * 0.9, y_direction * 0.9);
-            std::cout << windowWidth << " " << windowHeight << std::endl;
-            std::cout << "PL " << player_sprite.getX() << " " << player_movement.getXDirection() << std::endl;
             if (player_sprite.getX() + player_movement.getXDirection() > 0 && player_sprite.getX() + (int)player_animation.getRectWidth() + player_movement.getXDirection() < (int)windowWidth
             && player_sprite.getY() + player_movement.getYDirection() > 0 && player_sprite.getY() + (int)player_animation.getRectHeight() + player_movement.getYDirection() < (int)windowHeight)
                 player_sprite.setPosition(player_sprite.getX() + player_movement.getXDirection(), player_sprite.getY() + player_movement.getYDirection());
         }
     }
 
-    void GameScene::handlePlayerAction(Sprite &player_sprite, Sound &player_sound, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight)
+    void GameScene::handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight)
     {
-        Action::KeyState space_state = player_action.getKeyState(Action::KeyType::SPACE);
-
-        if (space_state == Action::KeyState::PRESSED && player_sound.getStatus() != Sound::SoundStatus::PLAY && player_sound.getStatus() != Sound::SoundStatus::PLAYING)
-            player_sound.setStatus(Sound::SoundStatus::PLAY);
         handlePlayerMovement(player_sprite, player_movement, player_action, player_animation, windowWidth, windowHeight);
         if (player_action.getKeyState(Action::KeyType::Z) == Action::KeyState::PRESSED)
-            player_animation.setX(167);
+            player_animation.setX(PLAYER_X_UP_SPRITE);
         else if (player_action.getKeyState(Action::KeyType::Z) == Action::KeyState::DOWN)
-            player_animation.setX(201);
+            player_animation.setX(PLAYER_X_UP_PRESSED_SPRITE);
         else if (player_action.getKeyState(Action::KeyType::S) == Action::KeyState::PRESSED)
-            player_animation.setX(99);
+            player_animation.setX(PLAYER_X_DOWN_SPRITE);
         else if (player_action.getKeyState(Action::KeyType::S) == Action::KeyState::DOWN)
-            player_animation.setX(65);
+            player_animation.setX(PLAYER_X_DOWN_PRESSED_SPRITE);
         else
-            player_animation.setX(133);
+            player_animation.setX(PLAYER_X_DEFAULT_SPRITE);
     }
 
     void GameScene::playAnimation(std::shared_ptr<ComponentMap<Animation>> animationMap)
