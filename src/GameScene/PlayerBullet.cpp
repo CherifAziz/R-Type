@@ -127,7 +127,7 @@ namespace rtype {
 
     void GameScene::moveBullet(Sprite &bullet, const Movement &bullet_velocity)
     {
-        bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY() + bullet_velocity.getYDirection());
+        bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY());
     }
 
     void GameScene::handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth)

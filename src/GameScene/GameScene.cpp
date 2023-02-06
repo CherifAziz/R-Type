@@ -56,8 +56,8 @@ namespace rtype
                     Sprite &enemy_sprite = spriteMap->get(entity->getId());
                     Animation &enemy_animation = animationMap->get(entity->getId());
 
-                    if (isColliding(sprite.getX(), sprite.getY(), animation.getRectWidth(), animation.getRectHeight(),
-                                    enemy_sprite.getX(), enemy_sprite.getY(), enemy_animation.getRectWidth(), enemy_animation.getRectHeight())) {
+                    if (isColliding(sprite.getX(), sprite.getY(), animation.getRectWidth() * sprite.getScale(), animation.getRectHeight() * sprite.getScale(),
+                                    enemy_sprite.getX(), enemy_sprite.getY(), enemy_animation.getRectWidth() * enemy_sprite.getScale(), enemy_animation.getRectHeight() * enemy_sprite.getScale())) {
                         return entity->getId();
                     }
                 }
