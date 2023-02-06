@@ -7,7 +7,7 @@ if not "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
 
 git --version || (winget install -e --id Git.Git)
 
-cmake --version || (winget install -e --id Kitware.CMake)
+cmake --version || (curl https://github.com/Kitware/CMake/releases/download/v3.26.0-rc1/cmake-3.26.0-rc1.zip)
 
 if not exist "%CD%\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
