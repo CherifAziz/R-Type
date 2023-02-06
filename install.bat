@@ -12,7 +12,7 @@ cmake --version || (winget install -e --id Kitware.CMake)
 if not exist "%CD%\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
   cd vcpkg
-  .\bootstrap-vcpkg.bat
+  call .\bootstrap-vcpkg.bat
 ) else (
   cd vcpkgc
   git pull
