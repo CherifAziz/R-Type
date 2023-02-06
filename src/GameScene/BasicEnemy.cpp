@@ -57,7 +57,7 @@ namespace rtype {
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
             // TEMPORARY UNTIL ENEMY DEATH ARE FIX
-            sprite.setPosition(2000, sprite.getY());
+            sprite.setPosition(2000, rand() % 900);
             // _componentManager.killEntity(enemy_id);
             // _entityManager.killEntity(enemy_id);
             return true;
