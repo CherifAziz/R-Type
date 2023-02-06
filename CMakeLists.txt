@@ -1,20 +1,21 @@
-cmake_minimum_required(VERSION 3.17)
-set(CMAKE_CXX_STANDARD 20)
-project(rtype)
+# # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+# # set(VCPKG_ROOT $(CMAKE_CURRENT_SOURCE_DIR)/vcpkg)
+# # include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
-include_directories(ecs/ ecs/components/container ecs/components/content ecs/entity ecs/scene ecs/systems ecs/systems/render ecs/systems/input ecs/systems/storage)
-add_definitions(-Wall -Werror -Wextra -std=c++20)
+# # list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-find_package(SFML 2.5
-    COMPONENTS
-        system window graphics audio REQUIRED)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.19)
 
-add_executable(rtype
-    src/GameScene/GameScene.cpp
-    src/GameScene/PlayerBullet.cpp
-    src/GameScene/BasicEnemy.cpp
-    src/Core.cpp
-    src/main.cpp
-)
+project(rtype LANGUAGES CXX)
 
-target_link_libraries(rtype sfml-system sfml-window sfml-graphics sfml-audio)
+set(UDP ${CMAKE_CURRENT_SOURCE_DIR}/src/UdpServer)
+set(TCP ${CMAKE_CURRENT_SOURCE_DIR}/src/TcpServer)
+set(CLIENT_TCP ${CMAKE_CURRENT_SOURCE_DIR}/src/TcpClient)
+set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/src/client)
+set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/src/server)
+
+add_subdirectory(${UDP})
+add_subdirectory(${TCP})
+add_subdirectory(${CLIENT_TCP})
+add_subdirectory(${CLIENT})
+add_subdirectory(${SERVER})
