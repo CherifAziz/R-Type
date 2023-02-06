@@ -10,7 +10,7 @@ if ! ping -q -c 1 -W 1 google.com > /dev/null; then
   exit 1
 fi
 
-if [ -d "$PWD/vcpkg"]; then
+if ! [ -d "$PWD/vcpkg"]; then
   echo "vcpkg n'est pas installé, installation en cours..."
   git clone https://github.com/Microsoft/vcpkg.git
   $PWD/vcpkg/bootstrap-vcpkg.sh -disableMetrics
