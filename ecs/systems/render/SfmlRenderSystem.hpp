@@ -50,8 +50,16 @@
                 void init()
                 {
                     _storage = Storage::getStorage();
-                    destroy();
-                    _storage->getRenderWindow().create({1920, 1080}, "R-Type");
+                    for (auto &sprite : _spriteCache)
+                        if (sprite.second != nullptr)
+                            delete sprite.second;
+                    _spriteCache.clear();
+                    for (auto &text : _textCache)
+                        if (text.second != nullptr)
+                            delete text.second;
+                    _textCache.clear();
+                    if (!_storage->getRenderWindow().isOpen())
+                        _storage->getRenderWindow().create({1920, 1080}, "R-Type");
                     _storage->getRenderWindow().setFramerateLimit(60);
                 }
 

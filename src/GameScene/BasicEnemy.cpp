@@ -54,9 +54,12 @@ namespace rtype {
 
     bool GameScene::destroyBasicEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id)
     {
+        (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
-            _componentManager.killEntity(enemy_id);
-            _entityManager.killEntity(enemy_id);
+            // TEMPORARY UNTIL ENEMY DEATH ARE FIX
+            sprite.setPosition(2000, sprite.getY());
+            // _componentManager.killEntity(enemy_id);
+            // _entityManager.killEntity(enemy_id);
             return true;
         }
         return false;

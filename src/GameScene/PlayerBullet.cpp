@@ -48,8 +48,11 @@ namespace rtype {
         int value = handleElementCollision(entity);
 
         if (value != -1) {
-            _componentManager.killEntity(value);
-            _entityManager.killEntity(value);
+            // TEMPORARY, UNTIL ENTITIES DEATH ARE FIX
+            Sprite &sprite = _componentManager.get<Sprite>(value);
+            sprite.setPosition(2000, sprite.getY());
+            //_componentManager.killEntity(value);
+            //_entityManager.killEntity(value);
         }
         if (bullet.getX() >= (int)windowWidth || value != -1) {
             _bullet_sent.erase(entity);
