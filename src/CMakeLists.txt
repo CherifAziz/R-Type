@@ -1,20 +1,20 @@
 cmake_minimum_required(VERSION 3.17)
-set(CMAKE_CXX_STANDARD 20)
-project(rtype)
-
-include_directories(ecs/ ecs/components/container ecs/components/content ecs/entity ecs/scene ecs/systems ecs/systems/render ecs/systems/input ecs/systems/storage)
+project(rtype LANGUAGES CXX)
+set(BIN_NAME rtype)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+include_directories($ENV{ROOT_DIR}/ecs/ $ENV{ROOT_DIR}/ecs/components/container/ $ENV{ROOT_DIR}/ecs/components/content/ $ENV{ROOT_DIR}/ecs/entity $ENV{ROOT_DIR}/ecs/scene/ $ENV{ROOT_DIR}/ecs/systems/ $ENV{ROOT_DIR}/ecs/systems/render/ $ENV{ROOT_DIR}/ecs/systems/input/ $ENV{ROOT_DIR}/ecs/systems/storage/)
 add_definitions(-Wall -Werror -Wextra -std=c++20)
 
-find_package(SFML 2.5
-    COMPONENTS
-        system window graphics audio REQUIRED)
+find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
 
-add_executable(rtype
-    GameScene/GameScene.cpp
-    GameScene/PlayerBullet.cpp
-    GameScene/BasicEnemy.cpp
-    Core.cpp
-    main.cpp
+add_executable(${BIN_NAME}
+GameScene/GameScene.cpp
+GameScene/PlayerBullet.cpp
+GameScene/BasicEnemy.cpp
+Core.cpp
+main.cpp
 )
 
-target_link_libraries(rtype sfml-system sfml-window sfml-graphics sfml-audio)
+target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio)
+set_property(TARGET ${BIN_NAME} PROPERTY CXX_STANDARD 17)

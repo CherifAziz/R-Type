@@ -4,18 +4,11 @@
 
 # # list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.19)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
 
 project(rtype LANGUAGES CXX)
 
-set(UDP ${CMAKE_CURRENT_SOURCE_DIR}/src/UdpServer)
-set(TCP ${CMAKE_CURRENT_SOURCE_DIR}/src/TcpServer)
-set(CLIENT_TCP ${CMAKE_CURRENT_SOURCE_DIR}/src/TcpClient)
-set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/src/client)
-set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/src/server)
+set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+set(CORE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-add_subdirectory(${UDP})
-add_subdirectory(${TCP})
-add_subdirectory(${CLIENT_TCP})
-add_subdirectory(${CLIENT})
-add_subdirectory(${SERVER})
+add_subdirectory(${CORE}/)
