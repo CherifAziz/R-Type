@@ -1,1 +1,0 @@
-/usr/lib64/ccache/c++ CMakeFiles/tcpclient.dir/main.cpp.o CMakeFiles/tcpclient.dir/Client/Client.cpp.o -o tcpclient   -L/opt/homebrew/opt/boost/lib  -Wl,-rpath,/opt/homebrew/opt/boost/lib -lboost_system -lboost_serialization -pthread 

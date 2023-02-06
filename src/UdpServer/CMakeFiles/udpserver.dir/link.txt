@@ -1,1 +1,0 @@
-/usr/lib64/ccache/c++ CMakeFiles/udpserver.dir/main.cpp.o CMakeFiles/udpserver.dir/UdpServer.cpp.o -o udpserver   -L/opt/homebrew/opt/boost/lib  -Wl,-rpath,/opt/homebrew/opt/boost/lib -lboost_system 
