@@ -7,13 +7,9 @@ if not "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
 
 git --version || (winget install -e --id Git.Git)
 
-set CMAKE_INSTALLER_URL=github.com/Kitware/CMake/releases/download/v3.25.0-rc1/cmake-3.25.0-rc1-windows-x86_64.msi
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%27))
 
-curl -o cmake_install.msi %CMAKE_INSTALLER_URL%
-
-msiexec /q /i cmake_install.msi
-
-setx /M PATH "%PATH%;C:\Program Files\CMake\bin"
+cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
 
 if not exist ".\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
@@ -28,9 +24,9 @@ if not exist ".\vcpkg" (
 
 .\vcpkg\vcpkg.exe install boost-serialization
 .\vcpkg\vcpkg.exe install boost-system
-.\vcpkg\vcpkg.exe install sfml
+.\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
-cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=".\vcpkg\scripts\buildsystems\vcpkg.cmake" -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=$PWD\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .\build\ --config Release
 move assets build\Release\assets
 mklink /H ".\rtype.lnk" ".\build\Release\rtype.exe"
