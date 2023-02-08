@@ -52,10 +52,8 @@
                             return new_entity;
                         }
                     }
-                    if (_entities.size() == 0)
-                        new_entity->setId(0);
-                    else
-                        new_entity->setId(_entities.back()->getId() + 1);
+                    new_entity->setId(_biggestId);
+                    _biggestId += 1;
                     _entities.push_back(new_entity);
                     return new_entity;
                 }
@@ -73,6 +71,7 @@
                             return;
                         }
                     }
+                    throw std::invalid_argument("Entity not found in killEntity method !");
                 }
 
                 /**
@@ -136,6 +135,12 @@
                  * 
                  */
                 bool _gamePlaying = true;
+
+                /**
+                 * @brief the biggest Id given until now
+                 * 
+                 */
+                size_t _biggestId = 0;
         };
     }
 
