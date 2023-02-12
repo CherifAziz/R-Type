@@ -48,6 +48,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.vscode/
 
 vcpkg/
 build/
@@ -57,3 +58,4 @@ r-type_server
 tcpclient
 tcpserver
 udpserver
+

@@ -13,14 +13,17 @@
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
+#include "ClientSystem.hpp"
 
 namespace rtype
 {
     Core::Core(size_t defaultScene) : _currentScene(defaultScene)
     {
+        boost::asio::io_context ioc;
         _scenes.push_back(std::make_shared<GameScene>());
         _systems.push_back(std::make_shared<SfmlInputSystem>());
         _systems.push_back(std::make_shared<SfmlRenderSystem>());
+        this->_systems.push_back(std::make_shared<ClientSystem>(ioc, "127.0.0.1", 3333));
 
         for (auto &scene : _scenes)
             scene->init();
