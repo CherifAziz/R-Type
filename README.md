@@ -6,8 +6,15 @@ We choosed to use an [ECS architecture](https://en.wikipedia.org/wiki/Entity%E2%
 
 Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - Remy NOULIN - Mohamed Aziz CHERIFF - Yoann EL ASMAR
 
+# Mandatories tasks
+
+- [X] Package manager: VCPKG
+- [X] Graphical library: SFML
+- [X] Building tool: CMake
+- [X] Cross Platform: Windows & Linux
+
 # Installation
-> For the installation we've made two different installer script.
+> For the installation we've made two different installer script that you can find below.
 
 **Linux :**
 ```
@@ -17,6 +24,7 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 ```
 
 # Launching
+>Due to the multiplayer possibility you must open two terminal to play on our version of the R-Type 
 
 **In a Terminal :**
 ```
@@ -40,4 +48,18 @@ Space           | Shoot
 Space (Holding) | Charged Shoot
 
 # Project's Documentation
+>To give the opportunity to everyone to understand how our project is working we've write as much precise documentation as we can so that an junior developper can understand our code and how the project is working.
 
+**Game Engine's UML :**
+
+**Server's Protocol :**
+
+# Organisation
+>To achieve our goal on this project the organisation was the key of success here so we've try used different tools to stay organize to fullfill our goal.
+
+## Git Hub's repository
+
+## Jira
+>scrum master method used.
+
+## Discord's server
