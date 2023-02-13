@@ -30,7 +30,19 @@ call RefreshEnv.cmd
 .\vcpkg\vcpkg.exe install boost-system
 .\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
-cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=%PATH%\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
+if exist ".\build" (
+  rmdir /s /q .\build
+  echo "Suppression du dossier build"
+)
+cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=$PWD\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .\build\ --config Release
-move assets build\Release\assets
-mklink /H ".\rtype.lnk" ".\build\Release\rtype.exe"
+@REM cd build
+@REM make
+@REM make package
+@REM make package_source
+@REM cd ..
+@REM cpack -B build -G ./build --config CPackConfig.cmake
+@REM cpack -B build -G ./build --config CPackSourceConfig.cmake
+if not exist ".\build\bin\Release\assets\" (
+  mklink /j .\build\bin\Release\assets\ .\assets\
+)

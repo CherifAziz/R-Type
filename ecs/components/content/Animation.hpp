@@ -158,7 +158,7 @@
                  * 
                  * @param delay the delay that will be assigned (in milliseconds)
                  */
-                void setDelay(const ssize_t &delay) { _delay = delay; }
+                void setDelay(const std::size_t &delay) { _delay = delay; }
 
                 /**
                  * @brief Get the Delay object
