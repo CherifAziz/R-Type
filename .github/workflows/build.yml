@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,5 +15,16 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
         with:
-          name: build-linux
+          name: rtype-linux
+          path: rtype
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build on windows
+        run: ./install.bat
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: rtype-windows
           path: rtype
