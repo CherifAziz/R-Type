@@ -26,7 +26,7 @@ if not exist ".\vcpkg" (
 .\vcpkg\vcpkg.exe install boost-system
 .\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
-cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=$PWD\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=%PATH%\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .\build\ --config Release
 move assets build\Release\assets
 mklink /H ".\rtype.lnk" ".\build\Release\rtype.exe"
