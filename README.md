@@ -18,9 +18,11 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 
 **Linux :**
 ```
+sudo ./install.sh
 ```
 **Windows :**
 ```
+./install.bat
 ```
 
 # Launching
@@ -51,6 +53,8 @@ Space (Holding) | Charged Shoot
 >To give the opportunity to everyone to understand how our project is working we've write as much precise documentation as we can so that an junior developper can understand our code and how the project is working.
 
 **Game Engine's UML :**
+
+![UML](http://image.noelshack.com/fichiers/2023/07/1/1676296070-uml.png)
 
 **Server's Protocol :**
 
