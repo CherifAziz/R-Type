@@ -10,6 +10,7 @@
 #include "Core.hpp"
 
 #include "GameScene/GameScene.hpp"
+#include "GameScene/HomeMenuScene.hpp"
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
@@ -18,7 +19,7 @@ namespace rtype
 {
     Core::Core(size_t defaultScene) : _currentScene(defaultScene)
     {
-        _scenes.push_back(std::make_shared<GameScene>());
+        _scenes.push_back(std::make_shared<HomeMenuScene>());
         _systems.push_back(std::make_shared<SfmlInputSystem>());
         _systems.push_back(std::make_shared<SfmlRenderSystem>());
 

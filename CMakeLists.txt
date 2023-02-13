@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 20)
 project(rtype)
 
 include_directories(ecs/ ecs/components/container ecs/components/content ecs/entity ecs/scene ecs/systems ecs/systems/render ecs/systems/input ecs/systems/storage)
-add_definitions(-Wall -Werror -Wextra -std=c++20)
+add_definitions(-Wall -Werror -Wextra -std=c++2a)
 
 find_package(SFML 2.5
     COMPONENTS
@@ -11,6 +11,7 @@ find_package(SFML 2.5
 
 add_executable(rtype
     src/GameScene/GameScene.cpp
+    src/GameScene/HomeMenuScene.cpp
     src/Core.cpp
     src/main.cpp
 )
