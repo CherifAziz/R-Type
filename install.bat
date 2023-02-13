@@ -9,6 +9,8 @@ git --version || (winget install -e --id Git.Git)
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%27))
 
+call RefreshEnv.cmd
+
 cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
 
 if not exist ".\vcpkg" (
@@ -21,6 +23,8 @@ if not exist ".\vcpkg" (
   call .\bootstrap-vcpkg.bat -disableMetrics
   cd ..
 )
+
+call RefreshEnv.cmd
 
 .\vcpkg\vcpkg.exe install boost-serialization
 .\vcpkg\vcpkg.exe install boost-system
