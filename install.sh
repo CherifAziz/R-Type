@@ -5,9 +5,30 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+if ! command -v ping > /dev/null; then
+  echo "ping n'est pas installé, installation en cours..."
+  yum update -y
+  yum install -y iputils
+else
+  echo "ping déjà installé."
+fi
+
 if ! ping -q -c 1 -W 1 google.com > /dev/null; then
   echo "Aucune connexion internet détectée. Vérifiez votre connexion et réessayez."
   exit 1
+fi
+
+if ! command -v g++ > /dev/null; then
+  echo "g++ n'est pas installé, installation en cours..."
+  curl -L https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.gz -o gcc.tar.gz
+  tar -xzf gcc.tar.gz
+  cd gcc-12.2.0
+  ./configure
+  make
+  make install
+  cd ..
+else
+  echo "g++ déjà installé."
 fi
 
 if ! [ -d "$PWD/vcpkg" ]; then
@@ -56,4 +77,11 @@ $PWD/vcpkg/vcpkg integrate install
 rm -rf build
 cmake -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build ./build --config Release
+# cd build
+# make
+# make package
+# make package_source
+# cd ..
+# cpack -B build -G ./build --config CPackConfig.cmake
+# cpack -B build -G ./build --config CPackSourceConfig.cmake
 mv build/bin/* $PWD/

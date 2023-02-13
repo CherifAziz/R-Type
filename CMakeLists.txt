@@ -12,3 +12,5 @@ set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 set(CORE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_subdirectory(${CORE}/)
+
+# include(CPack)
