@@ -173,8 +173,6 @@
                     spr->setPosition(sprite.getX(), sprite.getY());
                     spr->setScale(sprite.getScale(), sprite.getScale());
 
-                    std::cout << spr->getPosition().x << " - " << spr->getPosition().y << std::endl;
-
                     if (_textureCache.count(sprite.getFilename()) == 0)
                         _textureCache[sprite.getFilename()] = texture;
                     if (_spriteCache.count(entity) == 0)

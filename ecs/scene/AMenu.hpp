@@ -76,27 +76,28 @@
                  * 
                  * @param player_action the player action component
                  */
-                void handleButtons(std::shared_ptr<ComponentMap<Animation>> animationMap, std::shared_ptr<ComponentMap<Sprite>> spriteMap, Action &player_action) {
+                void handleButtons(std::shared_ptr<ComponentMap<Animation>> animationMap,
+                        std::shared_ptr<ComponentMap<Sprite>> spriteMap, Action &player_action,
+                        const size_t &windowWidth, const size_t &windowHeight) {
                     static const Action::MouseType keys[1] = { Action::MouseType::Left };
                     Action::KeyState state = player_action.getMouseKeyState(keys[0]);
                     std::vector<std::shared_ptr<Entity>> button_entities = _entityManager.getEntitiesFromFamily("button");
+                    float windowWidthSizeRatio = 1920 / windowWidth;
+                    float windowHeightSizeRatio = 1080 / windowHeight;
 
                     for (const auto &button : button_entities) {
                         Animation &button_animation = animationMap->get(button->getId());
                         Sprite &button_sprite = spriteMap->get(button->getId());
 
-                        //std   ::cout << button_animation.getRectWidth() << std::endl;
-                        std::cout << player_action.getMousePosition().X << " - " << player_action.getMousePosition().Y << std::endl;
-                        //std::cout << button_sprite.getX() * button_sprite.getScale() << " - " << button_sprite.getY() * button_sprite.getScale() << std::endl;
-                        //std::cout << button_sprite.getX() + button_animation.getRectWidth() << " - " << button_sprite.getY() + button_animation.getRectHeight() << std::endl;
-                        if (player_action.getMousePosition().X >= (button_sprite.getX()) &&
-                            player_action.getMousePosition().X <= (button_sprite.getX() + (button_animation.getRectWidth() * button_sprite.getScale())) &&
-                            player_action.getMousePosition().Y >= (button_sprite.getY()) &&
-                            player_action.getMousePosition().Y <= (button_sprite.getY() + (button_animation.getRectHeight()) * button_sprite.getScale() ))
-                            std::cout << "Hover Button" << std::endl;
-                    }
-                    if (state != Action::KeyState::UP && state != Action::KeyState::RELEASED) {
-                        std::cout << "Mouse Pressed" << std::endl;
+                        if (player_action.getMousePosition().X * windowWidthSizeRatio >= button_sprite.getX() &&
+                                    player_action.getMousePosition().X * windowWidthSizeRatio <= (button_sprite.getX() + (button_animation.getRectWidth() * button_sprite.getScale())) &&
+                                    player_action.getMousePosition().Y * windowHeightSizeRatio >= button_sprite.getY() &&
+                                    player_action.getMousePosition().Y * windowHeightSizeRatio <= (button_sprite.getY() + (button_animation.getRectHeight()) * button_sprite.getScale())) {
+                                std::cout << "Hover" << std::endl;
+                                if (state != Action::KeyState::UP && state != Action::KeyState::RELEASED) {
+                                    std::cout << "Clicked" << std::endl;
+                                }
+                        }
                     }
                 };
 
