@@ -11,7 +11,7 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 - [X] Package manager: VCPKG
 - [X] Graphical library: SFML
 - [X] Building tool: CMake
-- [X] Cross Platform: Windows & Linux
+- [ ] Cross Platform: Windows & Linux
 
 # Installation
 > For the installation we've made two different installer script that you can find below.
