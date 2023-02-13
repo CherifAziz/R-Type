@@ -52,12 +52,26 @@
                             return new_entity;
                         }
                     }
-                    if (_entities.size() == 0)
-                        new_entity->setId(0);
-                    else
-                        new_entity->setId(_entities.back()->getId() + 1);
+                    new_entity->setId(_biggestId);
+                    _biggestId += 1;
                     _entities.push_back(new_entity);
                     return new_entity;
+                }
+
+                /**
+                 * @brief Kill entity by setting is status to dead
+                 * 
+                 * @param entity_id the entity to kill
+                 */
+                void killEntity(entity_t entity_id)
+                {
+                    for (auto &entity : _entities) {
+                        if (entity->getId() == entity_id && entity->getStatus() == Entity::EntityStatus::ALIVE) {
+                            entity->setStatus(Entity::EntityStatus::DEAD);
+                            return;
+                        }
+                    }
+                    throw std::invalid_argument("Entity not found in killEntity method !");
                 }
 
                 /**
@@ -71,6 +85,24 @@
                 }
 
                 /**
+                 * @brief Get all the Entities object of a given substring family
+                 * 
+                 * @param family the substring family you want to get the entities from
+                 * @return a vector of all entities coming from the given substring family as a std::vector<std::shared_ptr<Entity>> 
+                 */
+                std::vector<std::shared_ptr<Entity>> getEntitiesFromSubFamily(const std::string &family) const
+                {
+                    std::vector<std::shared_ptr<Entity>> family_entities;
+
+                    for (auto &entity : _entities) {
+                        if (entity->getFamily().find(family) != std::string::npos && entity->getStatus() == Entity::EntityStatus::ALIVE) {
+                            family_entities.push_back(entity);
+                        }
+                    }
+                    return family_entities;
+                }
+
+                /**
                  * @brief Get all the Entities object of a given family
                  * 
                  * @param family the family you want to get the entities from
@@ -81,7 +113,7 @@
                     std::vector<std::shared_ptr<Entity>> family_entities;
 
                     for (auto &entity : _entities) {
-                        if (family == entity->getFamily())
+                        if (family == entity->getFamily() && entity->getStatus() == Entity::EntityStatus::ALIVE)
                             family_entities.push_back(entity);
                     }
                     return family_entities;
@@ -103,6 +135,12 @@
                  * 
                  */
                 bool _gamePlaying = true;
+
+                /**
+                 * @brief the biggest Id given until now
+                 * 
+                 */
+                size_t _biggestId = 0;
         };
     }
 

@@ -23,7 +23,7 @@
 
                 ~HomeMenuScene();
 
-                void update(const int64_t &time);
+                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
 
                 void destroy();
 

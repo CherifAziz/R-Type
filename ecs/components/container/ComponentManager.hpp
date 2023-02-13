@@ -37,7 +37,7 @@
             /**
              * @brief kill the entity given by the entity id and delete all of his components
              * 
-             * @param entity 
+             * @param entity the entity to kill all components from
              */
             void killEntity(unsigned long entity)
             {
@@ -57,8 +57,42 @@
                 if (_components.count(std::type_index(typeid(Component))) == 0) {
                     _components[std::type_index(typeid(Component))] = std::make_shared<ComponentMap<Component>>(new_component);
                 } else {
-                    std::cerr << "component map has already been registered" << std::endl;
+                    throw std::runtime_error("component map has already been registered");
                 }
+            }
+
+            /**
+             * @brief add a new component in the ComponentMap of the templated type
+             * 
+             * @tparam Component the template of the ComponentMap to add the new component into
+             * @param newComponent the new component to add
+             */
+            template <class Component>
+            void put(Component &newComponent, entity_t &entity)
+            {
+                if (_components.count(std::type_index(typeid(Component))) == 0) {
+                    ComponentMap<Component> map;
+                    map.put(newComponent, entity);
+                    registerComponent<Component>(map);
+                } else {
+                    std::shared_ptr<ComponentMap<Component>> map = getComponents<Component>();
+                    map->put(newComponent, entity);
+                }
+            }
+
+            /**
+             * @brief Get templated component type of entity
+             * 
+             * @tparam Component the type of component
+             * @param entity the entity id of the entity belonging to the component
+             * @return Component& the component of the entity
+             */
+            template <class Component>
+            Component &get(const entity_t &entity)
+            {
+                std::shared_ptr<ComponentMap<Component>> map = getComponents<Component>();
+
+                return map->get(entity);
             }
 
             /**

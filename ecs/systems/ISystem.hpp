@@ -52,6 +52,13 @@
                  * @return The library name as a const std::string& 
                  */
                 virtual const std::string &getLibraryName() const = 0;
+
+                /**
+                 * @brief Get the Window Size object
+                 * 
+                 * @return the window size as an const std::pair<size_t, size_t>& 
+                 */
+                virtual std::pair<size_t, size_t> getWindowWSize() const = 0;
         };
     }
 

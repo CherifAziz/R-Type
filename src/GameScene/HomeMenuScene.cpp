@@ -13,7 +13,7 @@ namespace rtype {
 
     HomeMenuScene::~HomeMenuScene() {}
 
-    void HomeMenuScene::update(const int64_t &time)
+    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
 
