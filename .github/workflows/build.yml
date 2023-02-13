@@ -2,7 +2,7 @@ name: cd
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "cd-artifacts" ]
   workflow_dispatch:
 
 jobs:
