@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ -d "$PWD/build" ]; then
+  rm -rf $PWD/build
+fi
+
 if [ "$EUID" -ne 0 ]; then
   echo "Veuillez lancer ce script en tant que root."
   exit 1
@@ -74,14 +78,12 @@ if ! [ -e "/root/.vcpkg/vcpkg.path.txt" ]; then
 fi
 
 $PWD/vcpkg/vcpkg integrate install
-rm -rf build
-cmake -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
+cmake -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH=$PWD/build/
 cmake --build ./build --config Release
-# cd build
-# make
-# make package
-# make package_source
-# cd ..
-# cpack -B build -G ./build --config CPackConfig.cmake
-# cpack -B build -G ./build --config CPackSourceConfig.cmake
 mv build/bin/* $PWD/
+# cd build
+# cpack --config CPackConfig.cmake -G TGZ
+# cpack --config CPackConfig.cmake -G ZIP
+# cpack --config CPackSourceConfig.cmake -G TGZ
+# cpack --config CPackSourceConfig.cmake -G ZIP
+# cd ..
