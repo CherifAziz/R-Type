@@ -18,3 +18,10 @@ main.cpp
 
 target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio)
 set_property(TARGET ${BIN_NAME} PROPERTY CXX_STANDARD 17)
+
+set(CPACK_PACKAGE_NAME "rtype")
+set(CPACK_PACKAGE_VERSION "1.0")
+set(CPACK_PACKAGE_FILE_NAME "rtype-${CPACK_PACKAGE_VERSION}")
+set(CPACK_PACKAGE_SOURCE_FILE_NAME "rtype-source-${CPACK_PACKAGE_VERSION}")
+install(TARGETS ${BIN_NAME} RUNTIME DESTINATION bin)
+include(CPack)

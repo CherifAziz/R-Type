@@ -10,8 +10,5 @@ project(rtype LANGUAGES CXX)
 
 set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 set(CORE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(CPACK_PACKAGE_NAME "rtype")
 
 add_subdirectory(${CORE}/)
-
-include(CPack)
