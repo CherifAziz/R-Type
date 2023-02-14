@@ -12,9 +12,8 @@
     #include <vector>
     #include <memory>
 
-    #include "ICore.hpp"
+    #include "ACore.hpp"
     #include "ISystem.hpp"
-    #include "IScene.hpp"
 
     #include "Storage.hpp"
 
@@ -23,15 +22,14 @@
          * @brief the Core class
          * 
          */
-        class Core : public ICore
+        class Core : public ACore
         {
             public:
                 /**
                  * @brief Construct a new Core object
                  * 
-                 * @param defaultScene the default scene index
                  */
-                Core(size_t defaultScene = 0);
+                Core();
 
                 /**
                  * @brief Destroy the Core object
@@ -48,23 +46,25 @@
 
             private:
                 /**
-                 * @brief Get the Window Size object
+                 * @brief check if the game is still running
                  * 
-                 * @return the window size as a const std::pair<size_t, size_t>& 
+                 * @return true if the game is still running, false otherwise
                  */
-                std::pair<size_t, size_t> getWindowSize() const;
+                const bool &isGameRunning() const;
 
                 /**
-                 * @brief the scenes
+                 * @brief Get the Component Manager object
                  * 
+                 * @return the component manager as a ComponentManager& 
                  */
-                std::vector<std::shared_ptr<IScene>> _scenes;
+                ComponentManager &getComponentManager() const;
 
                 /**
-                 * @brief the current scene in the vector
+                 * @brief Get the Entity Manager object
                  * 
+                 * @return the entity manager as a EntityManager& 
                  */
-                size_t _currentScene;
+                EntityManager &getEntityManager() const;
 
                 /**
                  * @brief the systems
