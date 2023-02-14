@@ -53,6 +53,7 @@
                  * 
                  * @param componentManager the component manager
                  * @param entityManager the entity manager
+                 * @param windowSize the width and height of the window
                  */
                 void update(ComponentManager &componentManager, EntityManager &entityManager)
                 {
@@ -67,19 +68,23 @@
                     }
                 }
 
+                /**
+                 * @brief Destroy the Sfml Input System properties
+                 * 
+                 */
                 void destroy()
                 {
 
                 }
 
                 /**
-                 * @brief Get the Window Size object
+                 * @brief check if the game is still playing
                  * 
-                 * @return the window size as an const std::pair<size_t, size_t>& 
+                 * @return true if the game is still playing, false otherwise
                  */
-                std::pair<size_t, size_t> getWindowWSize() const
+                const bool &isGameStillPlaying() const
                 {
-                    return std::make_pair(_storage->getRenderWindow().getSize().x, _storage->getRenderWindow().getSize().y);
+                    return _storage->getRenderWindow().isOpen();
                 }
 
             private:

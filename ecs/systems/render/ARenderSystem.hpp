@@ -25,11 +25,11 @@
                 ARenderSystem(const std::string &libraryName) : _libraryName(libraryName) {}
 
                 /**
-                 * @brief Get the Library Name object
+                 * @brief Get the Library name or the Game name of the object
                  * 
-                 * @return the library name as a const std::string& 
+                 * @return the name as a const std::string& 
                  */
-                const std::string &getLibraryName() const
+                const std::string &getName() const
                 {
                     return _libraryName;
                 }

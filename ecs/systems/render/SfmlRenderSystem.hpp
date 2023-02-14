@@ -68,6 +68,7 @@
                  * 
                  * @param componentManager the component manager
                  * @param entityManager the entity manager
+                 * @param windowSize the width and height of the window
                  */
                 void update(ComponentManager &componentManager, EntityManager &/*entityManager*/)
                 {
@@ -117,23 +118,13 @@
                 }
 
                 /**
-                 * @brief Check if the window is still open
+                 * @brief check if the game is still playing
                  * 
-                 * @return true if the window is still open, false otherwise
+                 * @return true if the game is still playing, false otherwise
                  */
-                bool isOpen() const
+                const bool &isGameStillPlaying() const
                 {
                     return _storage->getRenderWindow().isOpen();
-                }
-
-                /**
-                 * @brief Get the Window Size object
-                 * 
-                 * @return the window size as an const std::pair<size_t, size_t>& 
-                 */
-                std::pair<size_t, size_t> getWindowWSize() const
-                {
-                    return std::make_pair(_storage->getRenderWindow().getSize().x, _storage->getRenderWindow().getSize().y);
                 }
 
             private:

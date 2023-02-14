@@ -54,11 +54,11 @@
                 virtual const std::string &getLibraryName() const = 0;
 
                 /**
-                 * @brief Get the Window Size object
+                 * @brief check if the game is still playing
                  * 
-                 * @return the window size as an const std::pair<size_t, size_t>& 
+                 * @return true if the game is still playing, false otherwise
                  */
-                virtual std::pair<size_t, size_t> getWindowWSize() const = 0;
+                virtual const bool &isGameStillPlaying() const = 0;
         };
     }
 
