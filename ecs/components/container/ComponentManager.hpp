@@ -17,7 +17,7 @@
 
     namespace rtype {
         /**
-         * @brief the ComponentManager to manager every component maps
+         * @brief the ComponentManager to manage every component maps
          * 
          */
         class ComponentManager {

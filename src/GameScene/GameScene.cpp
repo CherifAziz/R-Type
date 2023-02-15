@@ -85,11 +85,6 @@ namespace rtype
             playAnimation(_componentManager.getComponents<Animation>());
     }
 
-    const bool &GameScene::isGameStillPlaying() const
-    {
-        return _entityManager.isGamePlaying();
-    }
-
     void GameScene::initSprite()
     {
         ComponentMap<Sprite> sprite;

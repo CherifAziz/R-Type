@@ -51,12 +51,6 @@
                  */
                 void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
 
-                /**
-                 * @brief check if the game is still playing
-                 * 
-                 * @return true if the game is still playing, false otherwise
-                 */
-                const bool &isGameStillPlaying() const;
             protected:
                 /**
                  * @brief init the sprite map

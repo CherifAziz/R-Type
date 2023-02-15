@@ -11,8 +11,9 @@
     #include <chrono>
 
     #include "AGameSystem.hpp"
+    #include "IScene.hpp"
 
-    #include "GameScene/GameScene.hpp"
+    #include "GameScene.hpp"
 
     namespace rtype {
         /**
@@ -24,9 +25,12 @@
                 /**
                  * @brief Construct a new Game System object
                  * 
+                 * @param scenes the vector of scenes to initialize all scenes
+                 * 
                  */
-                RTypeGameSystem(const size_t &defaultScene) : AGameSystem("RType", defaultScene)
+                RTypeGameSystem(std::vector<std::shared_ptr<IScene>> &scenes) : AGameSystem("RType")
                 {
+                    scenes.push_back(std::make_shared<GameScene>());
                 }
 
                 /**
@@ -45,8 +49,6 @@
                  */
                 void init()
                 {
-                    _scenes.push_back(std::make_shared<GameScene>());
-
                     _startingTime = std::chrono::high_resolution_clock::now();
                     _storage = Storage::getStorage();
                 }
@@ -54,17 +56,16 @@
                 /**
                  * @brief update the game system by calling each scenes and changing time for animation
                  * 
-                 * @param componentManager the component manager
-                 * @param entityManager the entity manager
+                 * @param scene the current game scene
                  */
-                void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/)
+                void update(std::shared_ptr<IScene> &scene)
                 {
                     auto current = std::chrono::high_resolution_clock::now();
                     int64_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - _startingTime).count();
 
-                    if (_scenes[_currentScene]->isGameStillPlaying() == false)
+                    if (_storage->getRenderWindow().isOpen() == false)
                         return;
-                    _scenes[_currentScene]->update(elapsed_time, _storage->getWindowWidth(), _storage->getWindowHeight());
+                    scene->update(elapsed_time, _storage->getWindowWidth(), _storage->getWindowHeight());
                     if (elapsed_time >= 100)
                         _startingTime = current;
                 }
@@ -83,29 +84,19 @@
                  * 
                  * @return true if the game is still playing, false otherwise
                  */
-                const bool &isGameStillPlaying() const
+                bool isGameStillPlaying()
                 {
-                    return _scenes[_currentScene]->isGameStillPlaying();
+                    return _storage->getRenderWindow().isOpen();
                 }
 
                 /**
-                 * @brief Get the Component Manager object
+                 * @brief Get the Current Scene object
                  * 
-                 * @return the component manager as a ComponentManager& 
+                 * @return the current scene as a const size_t&
                  */
-                ComponentManager &getComponentManager() const
+                const size_t &getCurrentScene() const
                 {
-                    return _scenes[_currentScene]->getComponentManager();
-                }
-
-                /**
-                 * @brief Get the Entity Manager object
-                 * 
-                 * @return the entity manager as a EntityManager& 
-                 */
-                EntityManager &getEntityManager() const
-                {
-                    return _scenes[_currentScene]->getEntityManager();
+                    return _storage->getCurrentScene();
                 }
 
             protected:

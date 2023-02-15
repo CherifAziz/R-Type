@@ -10,7 +10,6 @@
     #define _AGameSystem_
 
     #include "ISystem.hpp"
-    #include "IScene.hpp"
 
     namespace rtype {
         /**
@@ -23,10 +22,9 @@
                  * @brief Construct a new AGameSystem object (used by the children class)
                  * 
                  * @param name the input game name
-                 * @param defaultScene the default scene index
                  *
                  */
-                AGameSystem(const std::string &name, const size_t &defaultScene = 0) : _name(name), _currentScene(defaultScene) {}
+                AGameSystem(const std::string &name) : _name(name) {}
 
                 /**
                  * @brief Get the Library name or the Game name of the object
@@ -44,18 +42,6 @@
                  * 
                  */
                 std::string _name;
-
-                /**
-                 * @brief the scenes
-                 * 
-                 */
-                std::vector<std::shared_ptr<IScene>> _scenes;
-
-                /**
-                 * @brief the current scene in the vector
-                 * 
-                 */
-                size_t _currentScene;
         };
     }
 

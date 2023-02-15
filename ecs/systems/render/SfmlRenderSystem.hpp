@@ -15,6 +15,7 @@
     #include <memory>
 
     #include "ARenderSystem.hpp"
+    #include "IScene.hpp"
 
     #include "Storage.hpp"
 
@@ -66,16 +67,14 @@
                 /**
                  * @brief display and play all components that can be rendered or played
                  * 
-                 * @param componentManager the component manager
-                 * @param entityManager the entity manager
-                 * @param windowSize the width and height of the window
+                 * @param scene the current scene
                  */
-                void update(ComponentManager &componentManager, EntityManager &/*entityManager*/)
+                void update(std::shared_ptr<IScene> &scene)
                 {
-                    std::shared_ptr<ComponentMap<Sprite>> sprite = componentManager.getComponents<Sprite>();
-                    std::shared_ptr<ComponentMap<Animation>> animation = componentManager.getComponents<Animation>();
-                    std::shared_ptr<ComponentMap<Text>> text = componentManager.getComponents<Text>();
-                    std::shared_ptr<ComponentMap<Sound>> sound = componentManager.getComponents<Sound>();
+                    std::shared_ptr<ComponentMap<Sprite>> sprite = scene->getComponentManager().getComponents<Sprite>();
+                    std::shared_ptr<ComponentMap<Animation>> animation = scene->getComponentManager().getComponents<Animation>();
+                    std::shared_ptr<ComponentMap<Text>> text = scene->getComponentManager().getComponents<Text>();
+                    std::shared_ptr<ComponentMap<Sound>> sound = scene->getComponentManager().getComponents<Sound>();
 
                     _storage->getRenderWindow().clear();
                     if (_storage->getRenderWindow().isOpen()) {
@@ -122,9 +121,19 @@
                  * 
                  * @return true if the game is still playing, false otherwise
                  */
-                const bool &isGameStillPlaying() const
+                bool isGameStillPlaying()
                 {
                     return _storage->getRenderWindow().isOpen();
+                }
+
+                /**
+                 * @brief Get the Current Scene object
+                 * 
+                 * @return the current scene as a const size_t&
+                 */
+                const size_t &getCurrentScene() const
+                {
+                    return _storage->getCurrentScene();
                 }
 
             private:

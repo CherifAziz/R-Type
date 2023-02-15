@@ -45,13 +45,6 @@
                  */
                 virtual void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight) = 0;
 
-                /**
-                 * @brief check if the game is still playing
-                 * 
-                 * @return true if the game is still playing, false otherwise
-                 */
-                virtual const bool &isGameStillPlaying() const = 0;
-
             protected:
         };
     }

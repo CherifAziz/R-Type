@@ -61,16 +61,16 @@
                 /**
                  * @brief Get the Window Width object
                  * 
-                 * @return the window width as a const size_t& 
+                 * @return the window width as a size_t
                  */
-                const size_t &getWindowWidth() { return _window.getSize().x; }
+                size_t getWindowWidth() { return _window.getSize().x; }
 
                 /**
                  * @brief Get the Window Height object
                  * 
-                 * @return the window height as a const size_t& 
+                 * @return the window height as a size_t
                  */
-                const size_t &getWindowHeight() { return _window.getSize().y; }
+                size_t getWindowHeight() { return _window.getSize().y; }
 
                 /**
                  * @brief Check if the game is still playing
@@ -78,6 +78,20 @@
                  * @return true if the game is still playing, false otherwise
                  */
                 const bool &isStillPlaying() { return _stillPlaying; }
+
+                /**
+                 * @brief Set the Current Scene object
+                 * 
+                 * @param newScene the new current scene
+                 */
+                void setCurrentScene(const size_t &newScene) { _currentScene = newScene; }
+
+                /**
+                 * @brief Get the Current Scene object
+                 * 
+                 * @return the current scene as a const size_t&
+                 */
+                const size_t &getCurrentScene() const { return _currentScene; }
 
                 /**
                  * @brief End the game by setting the playing value to false
@@ -103,6 +117,12 @@
                  * 
                  */
                 bool _stillPlaying = true;
+
+                /**
+                 * @brief the game current scene
+                 * 
+                 */
+                size_t _currentScene = 0;
         };
     }
 

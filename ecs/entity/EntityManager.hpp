@@ -119,10 +119,6 @@
                     return family_entities;
                 }
 
-                void setGamePlayingStatus(const bool &gamePlaying) { _gamePlaying = gamePlaying; }
-
-                const bool &isGamePlaying() const { return _gamePlaying; }
-
             protected:
                 /**
                  * @brief the entities

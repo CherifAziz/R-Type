@@ -12,8 +12,8 @@
     #include <vector>
     #include <memory>
 
-    #include "ACore.hpp"
     #include "ISystem.hpp"
+    #include "ACore.hpp"
 
     #include "Storage.hpp"
 
@@ -50,27 +50,7 @@
                  * 
                  * @return true if the game is still running, false otherwise
                  */
-                const bool &isGameRunning() const;
-
-                /**
-                 * @brief Get the Component Manager object
-                 * 
-                 * @return the component manager as a ComponentManager& 
-                 */
-                ComponentManager &getComponentManager() const;
-
-                /**
-                 * @brief Get the Entity Manager object
-                 * 
-                 * @return the entity manager as a EntityManager& 
-                 */
-                EntityManager &getEntityManager() const;
-
-                /**
-                 * @brief the systems
-                 * 
-                 */
-                std::vector<std::shared_ptr<ISystem>> _systems;
+                bool isGameRunning();
         };
     }
 

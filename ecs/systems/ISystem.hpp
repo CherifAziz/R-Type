@@ -10,8 +10,7 @@
 
     #include <string.h>
 
-    #include "ComponentManager.hpp"
-    #include "EntityManager.hpp"
+    #include "IScene.hpp"
 
     namespace rtype {
         /**
@@ -35,10 +34,9 @@
                 /**
                  * @brief update the System (must be override)
                  * 
-                 * @param componentManager 
-                 * @param entityManager 
+                 * @param scene the current scene
                  */
-                virtual void update(ComponentManager &componentManager, EntityManager &entityManager) = 0;
+                virtual void update(std::shared_ptr<IScene> &scene) = 0;
 
                 /**
                  * @brief Destroy the system (must be override)
@@ -47,18 +45,25 @@
                 virtual void destroy() = 0;
 
                 /**
-                 * @brief Get the Library Name object (must be override)
+                 * @brief Get the Name object (must be override)
                  * 
-                 * @return The library name as a const std::string& 
+                 * @return The name as a const std::string& 
                  */
-                virtual const std::string &getLibraryName() const = 0;
+                virtual const std::string &getName() const = 0;
 
                 /**
                  * @brief check if the game is still playing
                  * 
                  * @return true if the game is still playing, false otherwise
                  */
-                virtual const bool &isGameStillPlaying() const = 0;
+                virtual bool isGameStillPlaying() = 0;
+
+                /**
+                 * @brief Get the Current Scene object
+                 * 
+                 * @return the current scene as a const size_t&
+                 */
+                virtual const size_t &getCurrentScene() const = 0;
         };
     }
 
