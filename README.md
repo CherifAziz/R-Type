@@ -13,17 +13,17 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 - [**R-Type**](#rtype)
 - [**Mandatories tasks**](#mandatories-tasks)
 - [**Installation**](#installation)
-  - [**Linux**](#linux)
-  - [**Windows**](#windows)
+    - [**Linux**](#linux)
+    - [**Windows**](#windows)
 - [**Launching**](#launching)
 - [**Game Usage**](#game-usage)
 - [**Projects Documentation**](#projects-documentation)
-    - [**Game Engine's UML**](#game-engine-uml)
-    - [**Server Protocol**](#server-protocol)
+    - [**Game Engines UML**](#game-engines-uml)
+    - [**Servers Protocol**](#servers-protocol)
 - [**Organisation**](#organisation)
-    - [**Git Hub repository**](#git-hub-repository)
+    - [**Git Hubs repository**](#git-hubs-repository)
     - [**Jira**](#jira)
-    - [**Discord server**](#discord-server)
+    - [**Discords server**](#discords-server)
 
 # Mandatories tasks
 
