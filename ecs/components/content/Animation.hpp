@@ -158,7 +158,7 @@
                  * 
                  * @param delay the delay that will be assigned (in milliseconds)
                  */
-                void setDelay(const size_t &delay) { _delay = delay; }
+                void setDelay(const ptrdiff_t &delay) { _delay = delay; }
 
                 /**
                  * @brief Get the Delay object
