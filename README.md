@@ -17,7 +17,7 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
   - [**Windows**](#windows)
 - [**Launching**](#launching)
 - [**Game Usage**](#game-usage)
-- [**Project's Documentation**](#project-documentation)
+- [**Projects Documentation**](#projects-documentation)
     - [**Game Engine's UML**](#game-engine-uml)
     - [**Server's Protocol**](#server-protocol)
 - [**Organisation**](#organisation)
