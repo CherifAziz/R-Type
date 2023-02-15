@@ -20,7 +20,7 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 - [**Project's Documentation**](#project-documentation)
     - [**Game Engine's UML**](#game-engine-uml)
     - [**Server's Protocol**](#server-protocol)
-- [**Project's Documentation**](#project-documentation)
+- [**Organisation**](#organisation)
     - [**Git Hub's repository**](#git-hub-repository)
     - [**Jira**](#jira)
     - [**Discord's server**](#discord-server)
