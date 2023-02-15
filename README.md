@@ -32,6 +32,8 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 - [X] Building tool: CMake
 - [ ] Cross Platform: Windows & Linux
 
+###### [**Return at the table of contents**](#table-of-contents)
+
 # Installation
 > For the installation we've made two different installer script that you can find below.
 
@@ -43,7 +45,7 @@ sudo ./install.sh
 ```
 ./install.bat
 ```
-
+###### [**Return at the table of contents**](#table-of-contents)
 # Launching
 >Due to the multiplayer possibility you must open two terminal to play on our version of the R-Type 
 
@@ -56,7 +58,7 @@ sudo ./install.sh
 ```
 ./r-type_client
 ```
-
+###### [**Return at the table of contents**](#table-of-contents)
 # Game Usage
 
 Input           | Direction    
@@ -67,7 +69,7 @@ Arrow Left      | Left
 Arrow Right     | Right        
 Space           | Shoot        
 Space (Holding) | Charged Shoot
-
+###### [**Return at the table of contents**](#table-of-contents)
 # Project's Documentation
 >To give the opportunity to everyone to understand how our project is working we've write as much precise documentation as we can so that an junior developper can understand our code and how the project is working.
 
@@ -76,7 +78,7 @@ Space (Holding) | Charged Shoot
 ![UML](http://image.noelshack.com/fichiers/2023/07/1/1676296070-uml.png)
 
 #### **Server's Protocol :**
-
+###### [**Return at the table of contents**](#table-of-contents)
 # Organisation
 >To achieve our goal on this project the organisation was the key of success here so we've try used different tools to stay organize to fullfill our goal.
 
@@ -86,3 +88,4 @@ Space (Holding) | Charged Shoot
 >scrum master method used.
 
 #### **Discord's server**
+###### [**Return at the table of contents**](#table-of-contents)
