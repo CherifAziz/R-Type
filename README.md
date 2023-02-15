@@ -6,6 +6,25 @@ We choosed to use an [ECS architecture](https://en.wikipedia.org/wiki/Entity%E2%
 
 Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - Remy NOULIN - Mohamed Aziz CHERIFF - Yoann EL ASMAR
 
+***
+
+# Table of Contents
+
+- [**R-Type**](#rtype)
+- [**Mandatories tasks**](#mandatories-tasks)
+- [**Installation**](#installation)
+  - [**Linux**](#Linux)
+  - [**Windows**](#windows)
+- [**Launching**](#launching)
+- [**Game Usage**](#game-usage)
+- [**Project's Documentation**](#project-documentation)
+    - [**Game Engine's UML**](#game-engine-uml)
+    - [**Server's Protocol**](#server-protocol)
+- [**Project's Documentation**](#project-documentation)
+    - [**Git Hub's repository**](#git-hub-repository)
+    - [**Jira**](#jira)
+    - [**Discord's server**](#discord-server)
+
 # Mandatories tasks
 
 - [X] Package manager: VCPKG
