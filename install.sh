@@ -1,21 +1,5 @@
 #!/bin/sh
 
-if [ -d "$PWD/build" ]; then
-  rm -rf $PWD/build
-fi
-
-if [ -e "$PWD/rtype" ]; then
-  rm -rf $PWD/rtype
-fi
-
-if [ -e "$PWD/rtype-1.0.zip" ]; then
-  rm -rf $PWD/rtype-1.0.zip
-fi
-
-if [ -e "$PWD/rtype-1.0-Source.zip" ]; then
-  rm -rf $PWD/rtype-1.0-Source.zip
-fi
-
 if ! command -v ping > /dev/null; then
   echo "ping n'est pas installé, installation en cours..."
   sudo yum update -y
@@ -91,10 +75,3 @@ else
 fi
 
 sudo $PWD/vcpkg/vcpkg integrate install
-cmake -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH=$PWD/build/
-cmake --build ./build --config Release
-cd build
-cpack --config CPackConfig.cmake -G ZIP
-cpack --config CPackSourceConfig.cmake -G ZIP
-cd ..
-mv build/*.zip $PWD
