@@ -1,22 +1,14 @@
-cmake_minimum_required(VERSION 3.17)
-set(CMAKE_CXX_STANDARD 20)
-project(rtype)
+# # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+# # set(VCPKG_ROOT $(CMAKE_CURRENT_SOURCE_DIR)/vcpkg)
+# # include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
-include_directories(ecs/ ecs/components/container ecs/components/content ecs/entity ecs/scene ecs/systems ecs/systems/render ecs/systems/input ecs/systems/storage ecs/system/client)
-add_definitions(-Wall -Werror -Wextra -std=c++20)
+# # list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-find_package(SFML 2.5
-    COMPONENTS
-        system window graphics audio REQUIRED)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
 
-find_package(Boost 1.81.0 COMPONENTS system serialization REQUIRED)
+project(rtype LANGUAGES CXX)
 
-add_executable(rtype
-    src/GameScene/GameScene.cpp
-    src/Core.cpp
-    src/main.cpp
-)
+set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+set(CORE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(rtype sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization)
-
-set_property(TARGET rtype PROPERTY CXX_STANDARD 20)
+add_subdirectory(${CORE}/)

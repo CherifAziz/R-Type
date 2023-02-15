@@ -8,6 +8,10 @@
 #include <string>
 
 #include "Core.hpp"
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <iostream>
 
 static bool check_parameter_is_helper(std::string param)
 {
@@ -37,11 +41,32 @@ static int start_rtype()
     return 0;
 }
 
+void print(const boost::system::error_code&, boost::asio::deadline_timer* t,int* count)
+{
+    if (*count < 5)
+    {
+        std::cout << *count << std::endl;
+        ++(*count);
+        t->expires_from_now(boost::posix_time::seconds(1));
+        t->async_wait(boost::bind(print, boost::asio::placeholders::error, t, count));
+    }
+}
+
 int main(int ac, char **av)
 {
-    if (ac == 2 && check_parameter_is_helper((std::string)av[1]))
-        display_help();
-    else
-        return start_rtype();
+    boost::asio::io_service io;
+    int count = 0;
+    boost::asio::deadline_timer t(io, boost::posix_time::seconds(1));
+
+    t.async_wait(boost::bind(print, boost::asio::placeholders::error, &t, &count));
+
+    io.run();
+    std::cout << "Final count is " << count << std::endl;
+
+    return 0;
+    // if (ac == 2 && check_parameter_is_helper((std::string)av[1]))
+    //     display_help();
+    // else
+    //     return start_rtype();
     return 0;
 }

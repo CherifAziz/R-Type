@@ -72,6 +72,16 @@
 
                 }
 
+                /**
+                 * @brief Get the Window Size object
+                 * 
+                 * @return the window size as an const std::pair<size_t, size_t>& 
+                 */
+                std::pair<size_t, size_t> getWindowWSize() const
+                {
+                    return std::make_pair(_storage->getRenderWindow().getSize().x, _storage->getRenderWindow().getSize().y);
+                }
+
             private:
                 /**
                  * @brief update the system by checking if new event were triggered

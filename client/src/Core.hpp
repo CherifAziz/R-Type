@@ -16,6 +16,8 @@
     #include "ISystem.hpp"
     #include "IScene.hpp"
 
+    #include "Storage.hpp"
+
     namespace rtype {
         /**
          * @brief the Core class
@@ -45,6 +47,13 @@
                 int loopGame();
 
             private:
+                /**
+                 * @brief Get the Window Size object
+                 * 
+                 * @return the window size as a const std::pair<size_t, size_t>& 
+                 */
+                std::pair<size_t, size_t> getWindowSize() const;
+
                 /**
                  * @brief the scenes
                  * 

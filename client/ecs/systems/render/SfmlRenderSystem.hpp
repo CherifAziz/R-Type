@@ -50,8 +50,17 @@
                 void init()
                 {
                     _storage = Storage::getStorage();
-                    destroy();
-                    _storage->getRenderWindow().create({1920, 1080}, "R-Type");
+                    for (auto &sprite : _spriteCache)
+                        if (sprite.second != nullptr)
+                            delete sprite.second;
+                    _spriteCache.clear();
+                    for (auto &text : _textCache)
+                        if (text.second != nullptr)
+                            delete text.second;
+                    _textCache.clear();
+                    if (!_storage->getRenderWindow().isOpen())
+                        _storage->getRenderWindow().create({1920, 1080}, "R-Type");
+                    _storage->getRenderWindow().setFramerateLimit(60);
                 }
 
                 /**
@@ -115,6 +124,16 @@
                 bool isOpen() const
                 {
                     return _storage->getRenderWindow().isOpen();
+                }
+
+                /**
+                 * @brief Get the Window Size object
+                 * 
+                 * @return the window size as an const std::pair<size_t, size_t>& 
+                 */
+                std::pair<size_t, size_t> getWindowWSize() const
+                {
+                    return std::make_pair(_storage->getRenderWindow().getSize().x, _storage->getRenderWindow().getSize().y);
                 }
 
             private:
@@ -234,12 +253,13 @@
                 void updateComponents(const std::shared_ptr<ComponentMap<Sprite>> &sprite, const std::shared_ptr<ComponentMap<Animation>> &animation,
                 const std::shared_ptr<ComponentMap<Text>> &text, const std::shared_ptr<ComponentMap<Sound>> &sound)
                 {
-                    for (uint32_t it = 0; it < sprite->getSize(); it++)
+                    for (uint32_t it = 0; it < sprite->getSize(); it++) {
                         setSpriteComponents(sprite->getFromIndex(it), sprite->getEntityId(sprite->getFromIndex(it)), animation);
-                    for (uint32_t it = 0; it < text->getSize(); it++)
+                    } for (uint32_t it = 0; it < text->getSize(); it++) {
                         setTextComponents(text->getFromIndex(it), text->getEntityId(text->getFromIndex(it)));
-                    for (uint32_t it = 0; it < sound->getSize(); it++)
+                    } for (uint32_t it = 0; it < sound->getSize(); it++) {
                         setSoundComponents(sound->getFromIndex(it), sound->getEntityId(sound->getFromIndex(it)));
+                    }
                 }
 
                 /**
@@ -309,7 +329,7 @@
                  * @brief the sprite cache that will keep every sf::Sprite with the entity id as a key 
                  * 
                  */
-                std::unordered_map<unsigned long, sf::Sprite *> _spriteCache;
+                std::map<unsigned long, sf::Sprite *> _spriteCache;
 
                 /**
                  * @brief the font cache that will keep every sf::Font with the font file path as a key
@@ -321,7 +341,7 @@
                  * @brief the text cache that will keep every sf::Text with the entity id as a key
                  * 
                  */
-                std::unordered_map<unsigned long, sf::Text *> _textCache;
+                std::map<unsigned long, sf::Text *> _textCache;
 
                 /**
                  * @brief the music cache that will keep every sf::Music and Sound status with the entity id as a key

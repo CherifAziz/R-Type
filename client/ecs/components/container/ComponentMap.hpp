@@ -129,6 +129,8 @@
                  */
                 Component &get(entity_t entity)
                 {
+                    if (_data.count(entity) == 0)
+                        throw std::invalid_argument("entity doesn't exist in componentMap !");
                     return _data[entity];
                 }
 

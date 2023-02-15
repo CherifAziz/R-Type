@@ -56,18 +56,26 @@
             tcp::socket _socket;
             std::string _message;
             std::array<char, 1024> data_;
+            std::unique_ptr<std::thread> _thread;
+            std::shared_ptr<Storage> _storage;
 
             void onReceive(const boost::system::error_code& err, std::size_t size) {
-                 std::cout << "On Received" << std::endl;
+                std::cerr << "On Received" << std::endl;
                 if (err && err != boost::asio::error::eof) {
                     std::cerr << err.message() << std::endl;
                     return;
                 }
-                if (err == boost::asio::error::eof)
-                    return;
-                Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->data_.data(), size), size);
-                std::cout << "Received data: " << received_data.size << received_data._data << std::endl;
-                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1) , boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                if (err != boost::asio::error::eof) {
+                    Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->data_.data(), size), size);
+                    std::cout << "Received data: " << received_data.size << " | " << received_data._data << std::endl;
+                    this->data_.fill(0);
+                }
+                std::cout << "Waiting for data" << std::endl;
+                try {
+                    boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1) , boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                } catch (std::exception &e) {
+                    std::cerr << e.what() << std::endl;
+                }
             };
 
             void onSent(const boost::system::error_code& err) {
@@ -82,26 +90,45 @@
                 if (!err) {
                     std::cout << "Connected to server" << std::endl;
                     this->start_receive();
+                } else {
+                    std::cerr << err.message() << std::endl;
                 }
             };
 
         public:
-            ClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer = 3333) : _socket(ioc), AClientSystem("Network") {
+            ClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer = 3333) : AClientSystem("Network"), _socket(ioc) {
+                std::cout << "ClientSystem" << std::endl;
                 tcp::endpoint endpoint(boost::asio::ip::address::from_string(IpServer), portServer);
                 _socket.async_connect(endpoint, boost::bind(&ClientSystem::onConnect, this, boost::asio::placeholders::error));
+                this->_thread = std::make_unique<std::thread>([&ioc](){ ioc.run();});
             };
-            ~ClientSystem();
+
+            ~ClientSystem() {
+                this->_thread->join();
+                this->_socket.close();
+            };
 
             void start_receive() {
                 std::cout << "start receive" << std::endl;
                 boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1) , boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             };
 
-            void sendDataToServer(std::string data) {
-                Serialize::Data info = { 43, data };
+            void sendDataToServer(std::string text) {
+                Serialize::Data info = { 43, text };
                 std::string data = Serialize::serialize<Serialize::Data>(info);
                 boost::asio::async_write(this->_socket, boost::asio::buffer(data), boost::bind(&ClientSystem::onSent, this, boost::asio::placeholders::error));
             };
+
+            void init() {
+                this->_storage = Storage::getStorage();
+            };
+
+            void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/) {};
+            void destroy() {};
+
+            std::pair<size_t, size_t> getWindowWSize() const {
+                return std::make_pair(_storage->getRenderWindow().getSize().x, _storage->getRenderWindow().getSize().y);
+            }
         };
     }
 

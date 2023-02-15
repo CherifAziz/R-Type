@@ -8,12 +8,14 @@
 #ifndef _AClientSystem_
     #define _AClientSystem_
 
+    #include "ISystem.hpp"
+
     namespace rtype {
         /**
          * @brief Abstract for all ClientSystem
          *
          */
-        class AClientSystem {
+        class AClientSystem : public ISystem {
             public:
                 /**
                  * @brief Construct a new AClientSystem (used by the children class)

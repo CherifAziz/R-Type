@@ -13,14 +13,18 @@
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
+#include "ClientSystem.hpp"
 
 namespace rtype
 {
     Core::Core(size_t defaultScene) : _currentScene(defaultScene)
     {
+        boost::asio::io_context ioc;
         _scenes.push_back(std::make_shared<GameScene>());
-        _systems.push_back(std::make_shared<SfmlInputSystem>());
-        _systems.push_back(std::make_shared<SfmlRenderSystem>());
+        // _systems.push_back(std::make_shared<SfmlInputSystem>());
+        // _systems.push_back(std::make_shared<SfmlRenderSystem>());
+        _systems.push_back(std::make_shared<ClientSystem>(ioc, "10.15.175.91", 3333));
+
 
         for (auto &scene : _scenes)
             scene->init();
@@ -40,16 +44,28 @@ namespace rtype
     {
         auto starting_time = std::chrono::high_resolution_clock::now();
         std::chrono::high_resolution_clock::time_point current;
+        int64_t elapsed_time = 0;
+        std::pair<size_t, size_t> window_size;
 
+        srand(time(NULL));
         while (_scenes[_currentScene]->isGameStillPlaying()) {
             current = std::chrono::high_resolution_clock::now();
-            if (std::chrono::duration_cast<std::chrono::microseconds>(current - starting_time).count() >= 2000) {
-                _scenes[_currentScene]->update();
+            elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - starting_time).count();
+            window_size = getWindowSize();
+            _scenes[_currentScene]->update(elapsed_time, window_size.first, window_size.second);
+            if (elapsed_time >= 100)
                 starting_time = current;
-            }
             for (auto &system : _systems)
                 system->update(_scenes[_currentScene]->getComponentManager(), _scenes[_currentScene]->getEntityManager());
         }
         return 0;
+    }
+
+    std::pair<size_t, size_t> Core::getWindowSize() const
+    {
+        for (auto &system : _systems)
+            if (system->getWindowWSize().first != 0)
+                return system->getWindowWSize();
+        throw std::runtime_error("No system with a valid window present in the scene !");
     }
 }
