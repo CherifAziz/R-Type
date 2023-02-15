@@ -13,17 +13,17 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 - [**R-Type**](#rtype)
 - [**Mandatories tasks**](#mandatories-tasks)
 - [**Installation**](#installation)
-  - [**Linux**](#Linux)
+  - [**Linux**](#linux)
   - [**Windows**](#windows)
 - [**Launching**](#launching)
 - [**Game Usage**](#game-usage)
 - [**Projects Documentation**](#projects-documentation)
     - [**Game Engine's UML**](#game-engine-uml)
-    - [**Server's Protocol**](#server-protocol)
+    - [**Server Protocol**](#server-protocol)
 - [**Organisation**](#organisation)
-    - [**Git Hub's repository**](#git-hub-repository)
+    - [**Git Hub repository**](#git-hub-repository)
     - [**Jira**](#jira)
-    - [**Discord's server**](#discord-server)
+    - [**Discord server**](#discord-server)
 
 # Mandatories tasks
 
@@ -35,11 +35,11 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 # Installation
 > For the installation we've made two different installer script that you can find below.
 
-**Linux :**
+#### **Linux :**
 ```
 sudo ./install.sh
 ```
-**Windows :**
+#### **Windows :**
 ```
 ./install.bat
 ```
@@ -71,18 +71,18 @@ Space (Holding) | Charged Shoot
 # Project's Documentation
 >To give the opportunity to everyone to understand how our project is working we've write as much precise documentation as we can so that an junior developper can understand our code and how the project is working.
 
-**Game Engine's UML :**
+#### **Game Engine's UML :**
 
 ![UML](http://image.noelshack.com/fichiers/2023/07/1/1676296070-uml.png)
 
-**Server's Protocol :**
+#### **Server's Protocol :**
 
 # Organisation
 >To achieve our goal on this project the organisation was the key of success here so we've try used different tools to stay organize to fullfill our goal.
 
-## Git Hub's repository
+#### **Git Hub's repository**
 
-## Jira
+#### **Jira**
 >scrum master method used.
 
-## Discord's server
+#### **Discord's server**
