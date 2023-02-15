@@ -5,10 +5,10 @@
 ** ClientSystem
 */
 
-#ifndef _ClientSystem_
-    #define _ClientSystem_
+#ifndef _UdpClientSystem_
+    #define _UdpClientSystem_
 
-    #include "AClientSystem.hpp"
+    #include "ATcpClientSystem.hpp"
     #include <iostream>
     #include <string>
     #include <memory>
@@ -52,7 +52,7 @@
     }
 
     namespace rtype {
-        class ClientSystem : public AClientSystem
+        class TcpClientSystem : public ATcpClientSystem
         {
         private:
             tcp::socket _socket;
@@ -70,7 +70,7 @@
                 Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->data_.data(), size), size);
                 std::cout << "Received data: " << received_data.size << " -> " << received_data._data << std::endl;
                 this->data_.fill(0);
-                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&TcpClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             };
 
             void onSent(const boost::system::error_code& err) {
@@ -92,23 +92,23 @@
             };
 
         public:
-            ClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer = 3333) : _socket(ioc), AClientSystem("ClientSystem") {
+            TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer = 3333) : _socket(ioc), ATcpClientSystem("ClientSystem") {
                 std::cout << "Client started" << std::endl;
                 tcp::endpoint endpoint(boost::asio::ip::address::from_string(IpServer), portServer);
-                _socket.async_connect(endpoint, boost::bind(&ClientSystem::onConnect, this, boost::asio::placeholders::error));
+                _socket.async_connect(endpoint, boost::bind(&TcpClientSystem::onConnect, this, boost::asio::placeholders::error));
             };
 
-            ~ClientSystem() {};
+            ~TcpClientSystem() {};
 
             void start_receive() {
                 std::cout << "start receive" << std::endl;
-                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&TcpClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             };
 
             void sendDataToServer(std::string data) {
                 Serialize::Data info = { 43, data };
                 std::string data_seria = Serialize::serialize<Serialize::Data>(info);
-                boost::asio::async_write(this->_socket, boost::asio::buffer(data_seria), boost::bind(&ClientSystem::onSent, this, boost::asio::placeholders::error));
+                boost::asio::async_write(this->_socket, boost::asio::buffer(data_seria), boost::bind(&TcpClientSystem::onSent, this, boost::asio::placeholders::error));
             };
 
             void init() {};
@@ -123,4 +123,4 @@
         };
     }
 
-#endif /* !_ClientSystem_ */
+#endif /* !_UdpClientSystem_ */

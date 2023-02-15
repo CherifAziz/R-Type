@@ -13,7 +13,7 @@
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
-#include "ClientSystem.hpp"
+#include "TcpClientSystem.hpp"
 
 namespace rtype
 {
@@ -22,7 +22,7 @@ namespace rtype
         _scenes.push_back(std::make_shared<GameScene>());
         _systems.push_back(std::make_shared<SfmlInputSystem>());
         _systems.push_back(std::make_shared<SfmlRenderSystem>());
-        this->_systems.push_back(std::make_shared<ClientSystem>(ioc, "127.0.0.1", 3333));
+        this->_systems.push_back(std::make_shared<TcpClientSystem>(ioc, "127.0.0.1", 3333));
 
         for (auto &scene : _scenes)
             scene->init();
@@ -46,19 +46,18 @@ namespace rtype
 
         elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - this->_starting_time).count();
         if (this->_scenes[this->_currentScene]->isGameStillPlaying()) {
+            this->_timer.expires_after(std::chrono::milliseconds(1000 / 60));
+            this->_timer.async_wait(boost::bind(&Core::loopGame, this));
             window_size = getWindowSize();
             _scenes[_currentScene]->update(elapsed_time, window_size.first, window_size.second);
-            if (elapsed_time >= 300)
+            if (elapsed_time >= 100)
                 this->_starting_time = current;
             for (auto &system : _systems)
                 system->update(_scenes[_currentScene]->getComponentManager(), _scenes[_currentScene]->getEntityManager());
-
-            this->_timer.expires_after(std::chrono::milliseconds(1000 / 60));
-            this->_timer.async_wait(boost::bind(&Core::loopGame, this));
         } else {
-            for (auto &scene : _scenes)
+            for (auto &scene :this->_scenes)
                 scene->destroy();
-            for (auto &system : _systems)
+            for (auto &system : this->_systems)
                 system->destroy();
         }
         return 0;

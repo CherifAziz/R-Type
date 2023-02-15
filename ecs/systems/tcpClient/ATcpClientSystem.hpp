@@ -5,8 +5,8 @@
 ** AClientSystem
 */
 
-#ifndef _AClientSystem_
-    #define _AClientSystem_
+#ifndef _ATcpClientSystem_
+    #define _ATcpClientSystem_
     #include <string>
     #include "ISystem.hpp"
 
@@ -15,14 +15,14 @@
          * @brief Abstract for all ClientSystem
          *
          */
-        class AClientSystem : public ISystem {
+        class ATcpClientSystem : public ISystem {
             public:
                 /**
                  * @brief Construct a new AClientSystem (used by the children class)
                  *
                  * @param libraryName the client library name
                  */
-                AClientSystem(const std::string &libraryName) : _libraryName(libraryName) {}
+                ATcpClientSystem(const std::string &libraryName) : _libraryName(libraryName) {}
 
                 /**
                  * @brief Get the Library Name object
@@ -43,4 +43,4 @@
         };
     }
 
-#endif /* _AClientSystem_ */
+#endif /* _ATcpClientSystem_ */
