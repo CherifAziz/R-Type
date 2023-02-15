@@ -115,6 +115,7 @@ namespace rtype {
             _bulletLoad = BulletLoadState::LITTLE;
             _bulletTime = BulletTimeState::NONE;
             player_action.setState(Action::KeyType::SPACE, Action::KeyState::UP);
+            std::cout << "BULLET SENT" << std::endl;
             // entity_t entity = _entityManager.getEntitiesFromFamily("loading")[0]->getId();
             // _componentManager.killEntity(entity);
             // _entityManager.killEntity(entity);
@@ -148,18 +149,18 @@ namespace rtype {
                     return (handleBullet(time, player_action, windowWidth));
             }
         }
-        std::cout << "START " << bullets.size() << std::endl;
-        for (size_t it = 0; it < bullets.size(); it++)
-            std::cout << bullets[it]->getId() << std::endl;
-        std::cout << "AFTER" << std::endl;
+        // std::cout << "START " << bullets.size() << std::endl;
+        // for (size_t it = 0; it < bullets.size(); it++)
+        //     std::cout << bullets[it]->getId() << std::endl;
+        // std::cout << "AFTER" << std::endl;
         for (auto &bullet : bullets) {
             if (animationMap->contains(bullet->getId()))
                 handleBulletSpriteSheet(animationMap->get(bullet->getId()));
-            std::cout << "ID " << bullet->getId() << " ";
+            // std::cout << "ID " << bullet->getId() << " ";
             if (movementMap->contains(bullet->getId()))
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
-        std::cout << "END" << std::endl;
+        // std::cout << "END" << std::endl;
         if (space_state != Action::KeyState::UP && time % 10 == 0) {
             spawnBullet(player_action, space_state);
             // if (_loadState == LoadState::OFF)

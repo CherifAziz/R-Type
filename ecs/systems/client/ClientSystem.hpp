@@ -58,8 +58,6 @@
             tcp::socket _socket;
             std::string _message;
             std::array<char, 1024> data_;
-            std::unique_ptr<boost::thread> _thread;
-            boost::asio::io_context _ioc;
 
             void onReceive(const boost::system::error_code& err, std::size_t size) {
                 std::cout << "On Received" << std::endl;
@@ -72,7 +70,7 @@
                 Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->data_.data(), size), size);
                 std::cout << "Received data: " << received_data.size << " -> " << received_data._data << std::endl;
                 this->data_.fill(0);
-                // boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(sizeof(Serialize::Data)), boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             };
 
             void onSent(const boost::system::error_code& err) {
@@ -98,16 +96,13 @@
                 std::cout << "Client started" << std::endl;
                 tcp::endpoint endpoint(boost::asio::ip::address::from_string(IpServer), portServer);
                 _socket.async_connect(endpoint, boost::bind(&ClientSystem::onConnect, this, boost::asio::placeholders::error));
-                this->_thread = std::make_unique<boost::thread>([&ioc]() {ioc.run();});
             };
 
-            ~ClientSystem() {
-                this->_socket.close();
-            };
+            ~ClientSystem() {};
 
             void start_receive() {
                 std::cout << "start receive" << std::endl;
-                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(sizeof(Serialize::Data)), boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&ClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             };
 
             void sendDataToServer(std::string data) {
@@ -119,9 +114,7 @@
             void init() {};
             void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/) {};
             void destroy() {
-                std::cout << "jknk,jkhbnj," << std::endl;
-                this->_thread->join();
-                std::cout << "putekljknk," << std::endl;
+                this->_socket.close();
             };
 
             std::pair<size_t, size_t> getWindowWSize() const {

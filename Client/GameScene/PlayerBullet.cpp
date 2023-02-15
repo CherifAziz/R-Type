@@ -161,6 +161,7 @@ namespace rtype {
         }
         // std::cout << "END" << std::endl;
         if (space_state != Action::KeyState::UP && time % 10 == 0) {
+            std::cout << "BULLET SENT" << std::endl;
             spawnBullet(player_action, space_state);
             // if (_loadState == LoadState::OFF)
                 // updateBulletLoading();

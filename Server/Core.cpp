@@ -13,15 +13,14 @@
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
-#include "ServerSystem.hpp"
+#include "TcpServerSystem.hpp"
 
 namespace rtype
 {
-    Core::Core(size_t defaultScene) : _currentScene(defaultScene)
+    Core::Core(size_t defaultScene, boost::asio::io_context &ioc) : _currentScene(defaultScene), _starting_time(std::chrono::high_resolution_clock::now()), _timer(ioc)
     {
-        boost::asio::io_context ioc;
-        _scenes.push_back(std::make_shared<GameScene>());
-        this->_systems.push_back(std::make_shared<ServerSystem>(ioc, 3333));
+        this->_scenes.push_back(std::make_shared<GameScene>());
+        this->_systems.push_back(std::make_shared<TcpServerSystem>(ioc, 3333));
 
         for (auto &scene : _scenes)
             scene->init();
@@ -39,21 +38,20 @@ namespace rtype
 
     int Core::loopGame()
     {
-        auto starting_time = std::chrono::high_resolution_clock::now();
-        std::chrono::high_resolution_clock::time_point current;
         int64_t elapsed_time = 0;
+        std::chrono::high_resolution_clock::time_point current = std::chrono::high_resolution_clock::now();
         std::pair<size_t, size_t> window_size;
 
-        srand(time(NULL));
-        while (_scenes[_currentScene]->isGameStillPlaying()) {
-            current = std::chrono::high_resolution_clock::now();
-            elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - starting_time).count();
-            window_size = getWindowSize();
-            _scenes[_currentScene]->update(elapsed_time, window_size.first, window_size.second);
-            if (elapsed_time >= 100)
-                starting_time = current;
+        elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - this->_starting_time).count();
+        if (this->_scenes[this->_currentScene]->isGameStillPlaying()) {
+            _scenes[_currentScene]->update(elapsed_time, 0, 0);
+            if (elapsed_time >= 300)
+                this->_starting_time = current;
             for (auto &system : _systems)
                 system->update(_scenes[_currentScene]->getComponentManager(), _scenes[_currentScene]->getEntityManager());
+
+            this->_timer.expires_after(std::chrono::milliseconds(1000 / 60));
+            this->_timer.async_wait(boost::bind(&Core::loopGame, this));
         }
         return 0;
     }

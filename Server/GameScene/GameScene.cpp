@@ -63,7 +63,7 @@ namespace rtype
                 }
             }
         }
-        return -1;    
+        return -1;
     }
 
     void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
@@ -72,12 +72,12 @@ namespace rtype
 
         if (time % 2 == 0) {
             int value = handleElementCollision(player_id);
-            if (value != -1)
-                _player_hp -= 1;
-            if (_player_hp == 0) {
-                std::cout << "THE END" << std::endl;
-                exit(0);
-            }
+            // if (value != -1)
+            //     _player_hp -= 1;
+            // if (_player_hp == 0) {
+            //     std::cout << "THE END" << std::endl;
+            //     exit(0);
+            // }
             handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
             handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
             _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
@@ -122,7 +122,7 @@ namespace rtype
     void GameScene::initSound()
     {
         ComponentMap<Sound> sound;
-        Sound music("assets/music.ogg", true, Sound::SoundStatus::PLAY);
+        Sound music("assets/music.ogg", true, Sound::SoundStatus::PAUSE);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);

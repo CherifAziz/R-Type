@@ -9,6 +9,11 @@
 
 #include "Core.hpp"
 
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <iostream>
+
 static bool check_parameter_is_helper(std::string param)
 {
     if (param == "-h" || param == "--help" || param == "-help")
@@ -27,9 +32,11 @@ static void display_help()
 static int start_rtype()
 {
     try {
-        rtype::Core core;
+        boost::asio::io_context ioc;
+        rtype::Core core(0, ioc);
 
         core.loopGame();
+        ioc.run();
     } catch (const std::exception& e) {
         std::cout << "ERROR: " << e.what() << std::endl;
         return 84;

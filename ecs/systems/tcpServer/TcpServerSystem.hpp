@@ -5,10 +5,10 @@
 ** ServerSystem
 */
 
-#ifndef _ServerSystem_
-    #define _ServerSystem_
+#ifndef _TcpServerSystem_
+    #define _TcpServerSystem_
 
-    #include "AServerSystem.hpp"
+    #include "ATcpServerSystem.hpp"
     #include <iostream>
     #include <string>
     #include <memory>
@@ -57,7 +57,6 @@
         class ClientServer : public std::enable_shared_from_this<ClientServer> {
             public:
                 ClientServer(boost::asio::io_context& io_context): _socket(io_context) {
-                    this->_thread = std::make_unique<std::thread>([&io_context]() {io_context.run();});
                 };
                 tcp::socket &getSocket() { return this->_socket; };
 
@@ -104,19 +103,19 @@
                 std::unique_ptr<std::thread> _thread;
         };
 
-        class ServerSystem : public AServerSystem {
+        class TcpServerSystem : public ATcpServerSystem {
             public:
-                ServerSystem(boost::asio::io_context& ioc, int port) : AServerSystem("ServerSystem"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc) {
+                TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("ServerSystem"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc) {
                     std::cout << "ServerSystem created" << std::endl;
                     this->start_accept();
-                    this->_io_context.run();
                 };
+                ~TcpServerSystem() {};
 
                 void start_accept() {
                     std::cout << "start accept" << std::endl;
                     this->_clients.push_back(std::make_shared<ClientServer>(this->_io_context));
                     this->_acceptor.async_accept(this->_clients[this->_clients.size() - 1]->getSocket(),
-                        boost::bind(&ServerSystem::handle_accept, this, this->_clients[this->_clients.size() - 1], boost::asio::placeholders::error));
+                        boost::bind(&TcpServerSystem::handle_accept, this, this->_clients[this->_clients.size() - 1], boost::asio::placeholders::error));
                 };
 
                 void handle_accept(std::shared_ptr<ClientServer> client, const boost::system::error_code& err) {
@@ -125,7 +124,7 @@
                         client->start();
                         this->_clients.push_back(std::make_shared<ClientServer>(this->_io_context));
                         this->_acceptor.async_accept(this->_clients[this->_clients.size() - 1]->getSocket(),
-                                boost::bind(&ServerSystem::handle_accept, this, this->_clients[this->_clients.size() - 1], boost::asio::placeholders::error));
+                                boost::bind(&TcpServerSystem::handle_accept, this, this->_clients[this->_clients.size() - 1], boost::asio::placeholders::error));
                     } else {
                         std::cerr << "err: " << err.message() << std::endl;
                         client.reset();
@@ -133,7 +132,6 @@
                     }
                 };
 
-                ~ServerSystem() {};
 
                 void init() {};
                 void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/) {};
@@ -150,4 +148,4 @@
         };
     }
 
-#endif /* !_ServerSystem_ */
+#endif /* !_TcpServerSystem_ */

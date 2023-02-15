@@ -5,21 +5,21 @@
 ** AServerSystem
 */
 
-#ifndef _AServerSystem_
-    #define _AServerSystem_
+#ifndef _ATcpServerSystem_
+    #define _ATcpServerSystem_
 
     #include <string>
     #include "ISystem.hpp"
 
     namespace rtype {
-        class AServerSystem : public ISystem {
+        class ATcpServerSystem : public ISystem {
             public:
             /**
              * @brief Construct a new ARenderSystem (used by the children class)
              *
              * @param libraryName the rendering library name
              */
-            AServerSystem(const std::string &libraryName) : _libraryName(libraryName) {}
+            ATcpServerSystem(const std::string &libraryName) : _libraryName(libraryName) {}
 
             /**
              * @brief Get the Library Name object
@@ -40,4 +40,4 @@
         };
     }
 
-#endif /* !_AServerSystem_ */
+#endif /* !_ATcpServerSystem_ */
