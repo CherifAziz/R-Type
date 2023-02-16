@@ -75,3 +75,6 @@ else
 fi
 
 sudo $PWD/vcpkg/vcpkg integrate install
+
+echo "executing build.sh"
+source ./build.sh

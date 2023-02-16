@@ -1,8 +1,5 @@
 #!/bin/sh
 
-echo "executing install.sh"
-source ./install.sh
-
 if [ -d "$PWD/build" ]; then
   rm -rf $PWD/build
 fi
@@ -19,6 +16,5 @@ cmake -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/vcpkg/scripts/buildsystems/vcpkg.cmak
 cmake --build ./build --config Release
 cd build
 cpack --config CPackConfig.cmake -G ZIP
-cpack --config CPackSourceConfig.cmake -G ZIP
 cd ..
 mv build/*.zip $PWD

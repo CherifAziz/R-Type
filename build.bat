@@ -1,8 +1,5 @@
 @echo off
 
-echo "executing install.bat"
-call ".\install.bat"
-
 if exist ".\build" (
   rmdir /s /q .\build
   echo "Suppression du dossier build"

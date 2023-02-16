@@ -30,3 +30,6 @@ call RefreshEnv.cmd
 .\vcpkg\vcpkg.exe install boost-system
 .\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
+
+echo "executing build.bat"
+call ".\build.bat"
