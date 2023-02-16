@@ -13,7 +13,7 @@
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
-#include "TcpClientSystem.hpp"
+#include "UdpClientSystem.hpp"
 
 namespace rtype
 {
@@ -22,7 +22,7 @@ namespace rtype
         _scenes.push_back(std::make_shared<GameScene>());
         _systems.push_back(std::make_shared<SfmlInputSystem>());
         _systems.push_back(std::make_shared<SfmlRenderSystem>());
-        this->_systems.push_back(std::make_shared<TcpClientSystem>(ioc, "127.0.0.1", 3333));
+        this->_systems.push_back(std::make_shared<UdpClientSystem>(ioc, "127.0.0.1", "3333"));
 
         for (auto &scene : _scenes)
             scene->init();

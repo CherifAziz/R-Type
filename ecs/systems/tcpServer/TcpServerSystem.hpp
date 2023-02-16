@@ -56,8 +56,7 @@
     namespace rtype {
         class ClientServer : public std::enable_shared_from_this<ClientServer> {
             public:
-                ClientServer(boost::asio::io_context& io_context): _socket(io_context) {
-                };
+                ClientServer(boost::asio::io_context& io_context): _socket(io_context) {};
                 tcp::socket &getSocket() { return this->_socket; };
 
                 void start() {
@@ -75,7 +74,6 @@
                 };
 
                 ~ClientServer() {
-                    this->_thread->join();
                     this->_socket.close();
                 };
 
@@ -100,7 +98,6 @@
 
                 tcp::socket _socket;
                 std::array<char, 1024> data_;
-                std::unique_ptr<std::thread> _thread;
         };
 
         class TcpServerSystem : public ATcpServerSystem {
