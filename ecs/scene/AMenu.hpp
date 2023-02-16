@@ -10,9 +10,7 @@
 
     #include "AScene.hpp"
 
-    #include "Action.hpp"
-    #include "Sprite.hpp"
-    #include "Animation.hpp"
+    #include "Button.hpp"
 
     namespace rtype {
             /**
@@ -32,6 +30,7 @@
                     initMovement();
                     initAction();
                     initAnimation();
+                    initButtons();
                 };
 
             protected:
@@ -72,32 +71,39 @@
                 virtual void initAnimation() = 0;
 
                 /**
-                 * @brief Check every interactions with buttons
+                 * @brief Init all Buttons of the Home Game Menu object
                  * 
-                 * @param player_action the player action component
+                 */
+                virtual void initButtons() = 0;
+
+                /**
+                 * @brief 
+                 * 
+                 * @param animationMap 
+                 * @param spriteMap 
+                 * @param buttonMap 
+                 * @param player_action 
+                 * @param windowWidth 
+                 * @param windowHeight 
                  */
                 void handleButtons(std::shared_ptr<ComponentMap<Animation>> animationMap,
-                        std::shared_ptr<ComponentMap<Sprite>> spriteMap, Action &player_action,
-                        const size_t &windowWidth, const size_t &windowHeight) {
+                        std::shared_ptr<ComponentMap<Sprite>> spriteMap, std::shared_ptr<ComponentMap<Button>> buttonMap,
+                        Action &player_action, const size_t &windowWidth, const size_t &windowHeight) {
+
                     static const Action::MouseType keys[1] = { Action::MouseType::Left };
-                    Action::KeyState state = player_action.getMouseKeyState(keys[0]);
+
+                    Action::KeyState mouse_state = player_action.getMouseKeyState(keys[0]);
                     std::vector<std::shared_ptr<Entity>> button_entities = _entityManager.getEntitiesFromFamily("button");
-                    float windowWidthSizeRatio = 1920 / windowWidth;
-                    float windowHeightSizeRatio = 1080 / windowHeight;
 
                     for (const auto &button : button_entities) {
                         Animation &button_animation = animationMap->get(button->getId());
                         Sprite &button_sprite = spriteMap->get(button->getId());
+                        Button &button_component = buttonMap->get(button->getId());
 
-                        if (player_action.getMousePosition().X * windowWidthSizeRatio >= button_sprite.getX() &&
-                                    player_action.getMousePosition().X * windowWidthSizeRatio <= (button_sprite.getX() + (button_animation.getRectWidth() * button_sprite.getScale())) &&
-                                    player_action.getMousePosition().Y * windowHeightSizeRatio >= button_sprite.getY() &&
-                                    player_action.getMousePosition().Y * windowHeightSizeRatio <= (button_sprite.getY() + (button_animation.getRectHeight()) * button_sprite.getScale())) {
-                                std::cout << "Hover" << std::endl;
-                                if (state != Action::KeyState::UP && state != Action::KeyState::RELEASED) {
-                                    std::cout << "Clicked" << std::endl;
-                                }
-                        }
+                        if (button_component.getButtonStatus() == Button::ButtonStatus::HOVER && mouse_state == Action::KeyState::PRESSED) {
+                            button_component.setButtonStatus(Button::ButtonStatus::PRESSED);
+                        } else
+                            button_component.handleInteractions(button_animation, button_sprite, player_action, mouse_state, windowWidth, windowHeight);
                     }
                 };
 

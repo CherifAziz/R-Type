@@ -43,6 +43,8 @@
 
                 void initAnimation();
 
+                void initButtons();
+
             private:
         };
 

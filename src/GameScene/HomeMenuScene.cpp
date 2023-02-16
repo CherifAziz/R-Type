@@ -19,7 +19,8 @@ namespace rtype {
 
         if (time % 2 == 0) {
             handleButtons(_componentManager.getComponents<Animation>(), _componentManager.getComponents<Sprite>(),
-                _componentManager.getComponents<Action>()->get(player_id), windowWidth, windowHeight);
+                _componentManager.getComponents<Button>(), _componentManager.getComponents<Action>()->get(player_id),
+                windowWidth, windowHeight);
         }
     }
 
@@ -78,9 +79,18 @@ namespace rtype {
     void HomeMenuScene::initAnimation()
     {
         ComponentMap<Animation> animation;
-        Animation start_button_animation(420, 65, 0, 0, 1, 2, 0, 0, 100);
+        Animation start_button_animation(420, 65, 0, 0, 1, 3, 0, 0, 100);
 
         animation.put(start_button_animation, _entityManager.getEntitiesFromFamily("button")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
+    }
+
+    void HomeMenuScene::initButtons()
+    {
+        ComponentMap<Button> button;
+        Button start_button(1);
+
+        button.put(start_button, _entityManager.getEntitiesFromFamily("button")[0]->getId());
+        _componentManager.registerComponent<Button>(button);
     }
 }
