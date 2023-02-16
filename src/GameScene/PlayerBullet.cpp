@@ -48,11 +48,8 @@ namespace rtype {
         int value = handleElementCollision(entity);
 
         if (value != -1) {
-            // TEMPORARY, UNTIL ENTITIES DEATH ARE FIX
-            Sprite &sprite = _componentManager.get<Sprite>(value);
-            sprite.setPosition(2000, rand() % 900);
-            //_componentManager.killEntity(value);
-            //_entityManager.killEntity(value);
+            _componentManager.killEntity(value);
+            _entityManager.killEntity(value);
         }
         if (bullet.getX() >= (int)windowWidth || value != -1) {
             _componentManager.killEntity(entity);
@@ -130,7 +127,6 @@ namespace rtype {
 
     void GameScene::moveBullet(Sprite &bullet, const Movement &bullet_velocity)
     {
-        std::cout << "X " << bullet.getX() << std::endl;
         bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY());
     }
 
@@ -148,18 +144,12 @@ namespace rtype {
                     return (handleBullet(time, player_action, windowWidth));
             }
         }
-        std::cout << "START " << bullets.size() << std::endl;
-        for (size_t it = 0; it < bullets.size(); it++)
-            std::cout << bullets[it]->getId() << std::endl;
-        std::cout << "AFTER" << std::endl;
         for (auto &bullet : bullets) {
             if (animationMap->contains(bullet->getId()))
                 handleBulletSpriteSheet(animationMap->get(bullet->getId()));
-            std::cout << "ID " << bullet->getId() << " ";
             if (movementMap->contains(bullet->getId()))
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
-        std::cout << "END" << std::endl;
         if (space_state != Action::KeyState::UP && time % 10 == 0) {
             spawnBullet(player_action, space_state);
             // if (_loadState == LoadState::OFF)

@@ -43,7 +43,7 @@ namespace rtype
     {
         for (auto &system : _systems)
             if (system->isGameStillPlaying() == false)
-                return true;
-        return false;
+                return false;
+        return true;
     }
 }
