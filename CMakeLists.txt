@@ -1,14 +1,23 @@
-# # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-# # set(VCPKG_ROOT $(CMAKE_CURRENT_SOURCE_DIR)/vcpkg)
-# # include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
-
-# # list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-
 CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
 
 project(rtype LANGUAGES CXX)
 
 set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 set(CORE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(INSTALL_SH ${CMAKE_SOURCE_DIR}/install.sh)
+set(INSTALL_BAT ${CMAKE_SOURCE_DIR}/install.bat)
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(BIN_FOLDER ${CMAKE_SOURCE_DIR}/build/Release)
+    install(DIRECTORY ${BIN_FOLDER} DESTINATION .)
+endif ()
+set(CPACK_PACKAGE_NAME "rtype")
+set(CPACK_PACKAGE_VERSION "1.0")
 
 add_subdirectory(${CORE}/)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    install(TARGETS rtype DESTINATION Release)
+endif ()
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION Release)
+install(FILES ${INSTALL_SH} DESTINATION .)
+install(FILES ${INSTALL_BAT} DESTINATION .)
+include(CPack)
