@@ -16,41 +16,11 @@
     #include <boost/shared_ptr.hpp>
     #include <boost/asio.hpp>
     #include <boost/unordered_map.hpp>
-    #include <boost/archive/binary_oarchive.hpp>
-    #include <boost/archive/binary_iarchive.hpp>
-    #include <boost/serialization/serialization.hpp>
     #include "AUdpClientSystem.hpp"
+    #include "Serialize.hpp"
 
     using namespace boost::asio;
     using namespace boost::asio::ip;
-
-    namespace Serialize {
-        struct Data {
-            int size;
-            std::string _data;
-            template<typename Ar> void serialize(Ar& ar, unsigned) {
-                ar & size & _data;
-            }
-        };
-
-        template<typename T>
-        std::string serialize(T &data) {
-            std::ostringstream os;
-            boost::archive::binary_oarchive archive(os);
-            archive << data;
-            return os.str();
-        }
-
-        template<typename T>
-        T deserialize(std::string data, size_t size) {
-            T received_data;
-            std::stringstream archive_stream;
-            archive_stream.write(data.data(), size);
-            boost::archive::binary_iarchive archive(archive_stream);
-            archive >> received_data;
-            return received_data;
-        }
-    };
 
     namespace rtype {
         class UdpClientSystem : public AUdpClientSystem {
@@ -62,7 +32,9 @@
                 }
                 void init() {};
                 void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/) {};
-                void destroy() {};
+                void destroy() {
+                    this->_socket.close();
+                };
                 std::pair<size_t, size_t> getWindowWSize() const {
                     return std::make_pair(0, 0);
                 };

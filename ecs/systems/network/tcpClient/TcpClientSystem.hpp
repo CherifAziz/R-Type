@@ -9,6 +9,7 @@
     #define _UdpClientSystem_
 
     #include "ATcpClientSystem.hpp"
+    #include "Serialize.hpp"
     #include <iostream>
     #include <string>
     #include <memory>
@@ -16,40 +17,9 @@
     #include <boost/asio.hpp>
     #include <boost/array.hpp>
     #include <boost/bind/bind.hpp>
-    #include <boost/archive/binary_oarchive.hpp>
-    #include <boost/archive/binary_iarchive.hpp>
-    #include <boost/serialization/serialization.hpp>
 
     using boost::asio::ip::tcp;
     using namespace boost::placeholders;
-
-    namespace Serialize {
-        struct Data {
-            int size;
-            std::string _data;
-            template<typename Ar> void serialize(Ar& ar, unsigned) {
-                ar & size & _data;
-            }
-        };
-
-        template<typename T>
-        std::string serialize(T &data) {
-            std::ostringstream os;
-            boost::archive::binary_oarchive archive(os);
-            archive << data;
-            return os.str();
-        }
-
-        template<typename T>
-        T deserialize(std::string data, size_t size) {
-            T received_data;
-            std::stringstream archive_stream;
-            archive_stream.write(data.data(), size);
-            boost::archive::binary_iarchive archive(archive_stream);
-            archive >> received_data;
-            return received_data;
-        }
-    }
 
     namespace rtype {
         class TcpClientSystem : public ATcpClientSystem
@@ -92,7 +62,7 @@
             };
 
         public:
-            TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer = 3333) : _socket(ioc), ATcpClientSystem("ClientSystem") {
+            TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer) : _socket(ioc), ATcpClientSystem("ClientSystem") {
                 std::cout << "Client started" << std::endl;
                 tcp::endpoint endpoint(boost::asio::ip::address::from_string(IpServer), portServer);
                 _socket.async_connect(endpoint, boost::bind(&TcpClientSystem::onConnect, this, boost::asio::placeholders::error));
@@ -116,11 +86,10 @@
             void destroy() {
                 this->_socket.close();
             };
-
             std::pair<size_t, size_t> getWindowWSize() const {
                 return std::make_pair(0, 0);
             }
         };
     }
 
-#endif /* !_UdpClientSystem_ */
+#endif /* !_TcpClientSystem_ */

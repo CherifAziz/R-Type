@@ -8,7 +8,7 @@
 #ifndef CoreGuard
     #define CoreGuard
 
-    #include <SFML/Graphics.hpp>
+    #include <cstdlib>
     #include <vector>
     #include <memory>
     #include <boost/asio.hpp>
@@ -35,7 +35,7 @@
                  *
                  * @param defaultScene the default scene index
                  */
-                Core(size_t defaultScene, boost::asio::io_context &ioc);
+                Core(size_t defaultScene, boost::asio::io_context &ioc, std::string ip, std::string port);
 
                 /**
                  * @brief Destroy the Core object

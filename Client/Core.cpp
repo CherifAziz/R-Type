@@ -14,15 +14,17 @@
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
 #include "UdpClientSystem.hpp"
+#include "TcpClientSystem.hpp"
 
 namespace rtype
 {
-    Core::Core(size_t defaultScene, boost::asio::io_context &ioc) : _currentScene(defaultScene), _starting_time(std::chrono::high_resolution_clock::now()), _timer(ioc)
+    Core::Core(size_t defaultScene, boost::asio::io_context &ioc, std::string ip, std::string port) : _currentScene(defaultScene), _starting_time(std::chrono::high_resolution_clock::now()), _timer(ioc)
     {
         _scenes.push_back(std::make_shared<GameScene>());
         _systems.push_back(std::make_shared<SfmlInputSystem>());
         _systems.push_back(std::make_shared<SfmlRenderSystem>());
-        this->_systems.push_back(std::make_shared<UdpClientSystem>(ioc, "127.0.0.1", "3333"));
+        this->_systems.push_back(std::make_shared<UdpClientSystem>(ioc, ip, port));
+        this->_systems.push_back(std::make_shared<TcpClientSystem>(ioc, ip, std::atoi(port.c_str())));
 
         for (auto &scene : _scenes)
             scene->init();
