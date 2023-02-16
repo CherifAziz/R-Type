@@ -1,9 +1,9 @@
 @echo off
 
-if exist ".\build" (
-  rmdir /s /q .\build
-  echo "Suppression du dossier build"
-)
+@REM if exist ".\build" (
+@REM   rmdir /s /q .\build
+@REM   echo "Suppression du dossier build"
+@REM )
 
 if exist ".\rtype-1.0-win32.zip" (
   del .\rtype-1.0-win32.zip
