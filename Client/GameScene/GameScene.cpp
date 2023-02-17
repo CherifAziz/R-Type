@@ -104,6 +104,7 @@ namespace rtype
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(spaceship_sprite, _entityManager.spawnEntity("player")->getId());
+        sprite.put(spaceship_sprite, _entityManager.spawnEntity("player2")->getId());
         _componentManager.registerComponent<Sprite>(sprite);
     }
 
@@ -113,6 +114,7 @@ namespace rtype
         Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
 
         animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player2")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
     }
 

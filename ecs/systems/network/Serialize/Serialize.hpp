@@ -7,7 +7,10 @@
 
 #ifndef SERIALIZE_HPP_
     #define SERIALIZE_HPP_
+
+    // #include "Services.hpp"
     #include <iostream>
+    #include <string>
     #include <boost/array.hpp>
     #include <boost/bind/bind.hpp>
     #include <boost/shared_ptr.hpp>
@@ -17,14 +20,32 @@
     #include <boost/archive/binary_iarchive.hpp>
     #include <boost/serialization/serialization.hpp>
 
+    namespace Services {
+        enum Type: int;
+    }
+
     namespace Serialize {
         struct Data {
-            int size;
+            int type;
+            size_t c_id;
+            int s_id;
             std::string _data;
+            void printData() {
+                std::cout << "type: " << type << std::endl;
+                std::cout << "c_id: " << c_id << std::endl;
+                std::cout << "s_id: " << s_id << std::endl;
+                std::cout << "_data: " << _data << std::endl;
+            };
             template<typename Ar> void serialize(Ar& ar, unsigned) {
-                ar & size & _data;
+                ar & type & c_id & s_id & _data;
             }
         };
+
+        template<typename T>
+        T createData(int type, size_t c_id, int s_id, std::string data) {
+            T info = {type, c_id, s_id, data };
+            return info;
+        }
 
         template<typename T>
         std::string serialize(T &data) {

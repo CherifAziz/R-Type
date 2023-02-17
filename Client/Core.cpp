@@ -14,7 +14,7 @@
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
 #include "UdpClientSystem.hpp"
-#include "TcpClientSystem.hpp"
+// #include "TcpClientSystem.hpp"
 
 namespace rtype
 {
@@ -24,7 +24,7 @@ namespace rtype
         _systems.push_back(std::make_shared<SfmlInputSystem>());
         _systems.push_back(std::make_shared<SfmlRenderSystem>());
         this->_systems.push_back(std::make_shared<UdpClientSystem>(ioc, ip, port));
-        this->_systems.push_back(std::make_shared<TcpClientSystem>(ioc, ip, std::atoi(port.c_str())));
+        // this->_systems.push_back(std::make_shared<TcpClientSystem>(ioc, ip, std::atoi(port.c_str())));
 
         for (auto &scene : _scenes)
             scene->init();

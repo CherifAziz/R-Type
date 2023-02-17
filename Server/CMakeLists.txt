@@ -21,4 +21,4 @@ main.cpp
 )
 
 target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization Boost::thread)
-set_property(TARGET ${BIN_NAME} PROPERTY CXX_STANDARD 17)
+set_property(TARGET ${BIN_NAME} PROPERTY CXX_STANDARD 20)
