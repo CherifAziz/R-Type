@@ -27,10 +27,12 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIENS - 
 
 # Mandatories tasks
 
-- [X] Package manager: VCPKG
-- [X] Graphical library: SFML
-- [X] Building tool: CMake
-- [ ] Cross Platform: Windows & Linux
+- [X] You must have a package manager: VCPKG
+- [X] You must use an graphical library: SFML
+- [X] You must setup an building toolchain: CMake
+- [ ] Your project must be cross platform: Windows & Linux
+- [x] You must use an network library: Boost
+- [X] You must document your game engine and your server's protocol
 
 ###### [**Return at the table of contents**](#table-of-contents)
 
