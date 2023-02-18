@@ -28,6 +28,7 @@
         class UdpClientSystem : public AUdpClientSystem {
             public:
                 UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port) : AUdpClientSystem("UdpClient"), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _id(0) {
+                    std::cout << "UDP CLIENT SYSTEM" << std::endl;
                     this->_socket.open(udp::v4());
                     this->send_data(Services::Type::COMMAND, Services::Command::CONNECTED, "");
                     this->start_receive();
@@ -49,9 +50,12 @@
                                         boost::asio::placeholders::error,
                                         boost::asio::placeholders::bytes_transferred));
                 };
+                 const std::string &getName() const { return (""); };
+                bool isGameStillPlaying() { return true; };
+                const size_t &getCurrentScene() const { return 0; };
 
                 void init() {};
-                void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/) {};
+                void update(std::shared_ptr<IScene> &/*scene*/) {};
                 void destroy() {
                     this->_socket.close();
                 };

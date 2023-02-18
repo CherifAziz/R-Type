@@ -53,6 +53,21 @@ dkms.conf
 vcpkg/
 build/
 
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+build/
+
 r-type_client
 r-type_server
 .DS_Store
+tcpclient
+tcpserver
+udpserver
+*.zip
+*.tar.gz
+.vscode
+*.sln

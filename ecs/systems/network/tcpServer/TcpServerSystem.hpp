@@ -100,8 +100,11 @@
                 };
 
 
+                 const std::string &getName() const { return (""); };
+                bool isGameStillPlaying() { return true; };
+                const size_t &getCurrentScene() const { return 0; };
                 void init() {};
-                void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/) {};
+                void update(std::shared_ptr<IScene> &/*scene*/) {};
                 void destroy() {};
 
                 std::pair<size_t, size_t> getWindowWSize() const {

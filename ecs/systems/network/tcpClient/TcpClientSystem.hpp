@@ -70,6 +70,11 @@
 
             ~TcpClientSystem() {};
 
+
+            const std::string &getName() const { return (""); };
+            bool isGameStillPlaying() { return true; };
+            const size_t &getCurrentScene() const { return 0; };
+
             void start_receive() {
                 std::cout << "start receive" << std::endl;
                 boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&TcpClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
@@ -82,7 +87,7 @@
             };
 
             void init() {};
-            void update(ComponentManager &/*componentManager*/, EntityManager &/*entityManager*/) {};
+            void update(std::shared_ptr<IScene> &/*scene*/) {};
             void destroy() {
                 this->_socket.close();
             };

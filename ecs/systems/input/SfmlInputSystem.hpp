@@ -13,6 +13,7 @@
     #include <memory>
 
     #include "AInputSystem.hpp"
+    #include "IScene.hpp"
 
     #include "Entity.hpp"
     #include "Action.hpp"
@@ -51,35 +52,48 @@
                 /**
                  * @brief update the input sytem
                  * 
-                 * @param componentManager the component manager
-                 * @param entityManager the entity manager
+                 * @param scene the current game scene
                  */
-                void update(ComponentManager &componentManager, EntityManager &entityManager)
+                void update(std::shared_ptr<IScene> &scene)
                 {
-                    std::shared_ptr<ComponentMap<Action>> actionMap = componentManager.getComponents<Action>();
-                    std::vector<std::shared_ptr<Entity>> players = entityManager.getEntitiesFromFamily("player");
+                    std::shared_ptr<ComponentMap<Action>> actionMap = scene->getComponentManager().getComponents<Action>();
+                    std::vector<std::shared_ptr<Entity>> players = scene->getEntityManager().getEntitiesFromFamily("player");
 
                     for (const auto &player : players) {
                         if (checkEvent(actionMap, player->getId()) == true) {
-                            entityManager.setGamePlayingStatus(false);
+                            _storage->getRenderWindow().close();
                             return;
                         }
                     }
                 }
 
+                /**
+                 * @brief Destroy the Sfml Input System properties
+                 * 
+                 */
                 void destroy()
                 {
 
                 }
 
                 /**
-                 * @brief Get the Window Size object
+                 * @brief check if the game is still playing
                  * 
-                 * @return the window size as an const std::pair<size_t, size_t>& 
+                 * @return true if the game is still playing, false otherwise
                  */
-                std::pair<size_t, size_t> getWindowWSize() const
+                bool isGameStillPlaying()
                 {
-                    return std::make_pair(_storage->getRenderWindow().getSize().x, _storage->getRenderWindow().getSize().y);
+                    return _storage->getRenderWindow().isOpen();
+                }
+
+                /**
+                 * @brief Get the Current Scene object
+                 * 
+                 * @return the current scene as a const size_t&
+                 */
+                const size_t &getCurrentScene() const
+                {
+                    return _storage->getCurrentScene();
                 }
 
             private:

@@ -108,12 +108,15 @@
                 };
 
                 void init() {};
+                const std::string &getName() const { return (""); };
+                bool isGameStillPlaying() { return true; };
+                const size_t &getCurrentScene() const { return 0; };
 
-                void update(ComponentManager &Component, EntityManager &Entity) {
+                void update(std::shared_ptr<IScene> &scene) {
                     for (auto &client : this->_clients) {
                         std::optional<Serialize::Data> data = client.second->getCommand();
                         if (data != std::nullopt) {
-                            this->_service->callService(this->_clients, data.value(), Component, Entity);
+                            // this->_service->callService(this->_clients, data.value(), scene., Entity);
                         }
                     }
                 };

@@ -33,7 +33,7 @@ static int start_rtype(std::string port)
 {
     try {
         boost::asio::io_context ioc;
-        rtype::Core core(0, ioc, "", port);
+        rtype::Core core(ioc, "", port);
 
         core.loopGame();
         ioc.run();

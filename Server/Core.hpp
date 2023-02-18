@@ -16,9 +16,8 @@
     #include <boost/date_time/posix_time/posix_time.hpp>
     #include <iostream>
 
-    #include "ICore.hpp"
     #include "ISystem.hpp"
-    #include "IScene.hpp"
+    #include "ACore.hpp"
 
     #include "Storage.hpp"
 
@@ -27,7 +26,7 @@
          * @brief the Core class
          *
          */
-        class Core : public ICore
+        class Core : public ACore
         {
             public:
                 /**
@@ -35,7 +34,7 @@
                  *
                  * @param defaultScene the default scene index
                  */
-                Core(size_t defaultScene, boost::asio::io_context &ioc, std::string ip, std::string port);
+                Core(boost::asio::io_context &ioc, std::string ip, std::string port);
 
                 /**
                  * @brief Destroy the Core object
@@ -59,34 +58,17 @@
                 std::pair<size_t, size_t> getWindowSize() const;
 
                 /**
-                 * @brief the scenes
-                 *
-                 */
-                std::vector<std::shared_ptr<IScene>> _scenes;
-
-                /**
-                 * @brief the current scene in the vector
-                 *
-                 */
-                size_t _currentScene;
-
-                /**
-                 * @brief the systems
-                 *
-                 */
-                std::vector<std::shared_ptr<ISystem>> _systems;
-
-                /**
                  * @brief the timer
                  *
                  */
                 boost::asio::high_resolution_timer _timer;
 
                 /**
-                 * @brief the starting time
+                 * @brief check if the game is still running
                  *
+                 * @return true if the game is still running, false otherwise
                  */
-                std::chrono::high_resolution_clock::time_point _starting_time;
+                bool isGameRunning();
         };
     }
 

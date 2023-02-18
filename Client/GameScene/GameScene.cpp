@@ -15,14 +15,6 @@ namespace rtype
 {
     GameScene::GameScene()
     {
-    }
-
-    GameScene::~GameScene()
-    {
-    }
-
-    void GameScene::init()
-    {
         initSprite();
         initAnimation();
         initAction();
@@ -30,6 +22,11 @@ namespace rtype
         initMovement();
         initSound();
         initText();
+    }
+
+    GameScene::~GameScene()
+    {
+        
     }
 
     bool GameScene::isColliding(size_t x1, size_t y1, size_t width1, size_t height1, size_t x2, size_t y2, size_t width2, size_t height2)
@@ -85,15 +82,6 @@ namespace rtype
             playAnimation(_componentManager.getComponents<Animation>());
     }
 
-    void GameScene::destroy()
-    {
-    }
-
-    const bool &GameScene::isGameStillPlaying() const
-    {
-        return _entityManager.isGamePlaying();
-    }
-
     void GameScene::initSprite()
     {
         ComponentMap<Sprite> sprite;
@@ -137,7 +125,7 @@ namespace rtype
     void GameScene::initCollision()
     {
         ComponentMap<Collision> collisionMap;
-        Collision collision(std::vector<std::string>{"basicEnemy"}); // NEED TO BE CHANGED TO THE ENEMY VECTOR
+        Collision collision(ENEMIES);
 
         collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Collision>(collisionMap);
@@ -186,8 +174,8 @@ namespace rtype
     const size_t &windowWidth, const size_t &windowHeight)
     {
         static const Action::KeyType keys[4] = {Action::KeyType::Z, Action::KeyType::S, Action::KeyType::Q, Action::KeyType::D};
-        static const ssize_t x_move[4] = {0, 0, -1, 1};
-        static const ssize_t y_move[4] = {-1, 1, 0, 0};
+        static const int x_move[4] = {0, 0, -1, 1};
+        static const int y_move[4] = {-1, 1, 0, 0};
         static const int max_boost = 10;
 
         for (uint16_t it = 0; it < 4; it++) {
@@ -209,8 +197,8 @@ namespace rtype
                     y_direction = max_boost;
             }
             player_movement.setDirection(x_direction * 0.9, y_direction * 0.9);
-            if (player_sprite.getX() + player_movement.getXDirection() > 0 && player_sprite.getX() + (int)player_animation.getRectWidth() + player_movement.getXDirection() < (int)windowWidth
-            && player_sprite.getY() + player_movement.getYDirection() > 0 && player_sprite.getY() + (int)player_animation.getRectHeight() + player_movement.getYDirection() < (int)windowHeight)
+            if (player_sprite.getX() + player_movement.getXDirection() > 0 && player_sprite.getX() + (int)player_animation.getRectWidth() * (int)player_sprite.getScale() + player_movement.getXDirection() < (int)windowWidth
+            && player_sprite.getY() + player_movement.getYDirection() > 0 && player_sprite.getY() + (int)player_animation.getRectHeight() * (int)player_sprite.getScale() + player_movement.getYDirection() < (int)windowHeight)
                 player_sprite.setPosition(player_sprite.getX() + player_movement.getXDirection(), player_sprite.getY() + player_movement.getYDirection());
         }
     }

@@ -1,28 +1,30 @@
 /*
 ** EPITECH PROJECT, 2023
-** ARenderSystem
+** AGameSystem
 ** File description:
-** ARenderSystem
+** AGameSystem
 */
 
-#ifndef _ARenderSystem_
-    #define _ARenderSystem_
+
+#ifndef _AGameSystem_
+    #define _AGameSystem_
 
     #include "ISystem.hpp"
 
     namespace rtype {
         /**
-         * @brief Abstract for all Render System
+         * @brief Abstract for all GameSystem
          * 
          */
-        class ARenderSystem : public ISystem {
+        class AGameSystem : public ISystem {
             public:
                 /**
-                 * @brief Construct a new ARenderSystem (used by the children class)
+                 * @brief Construct a new AGameSystem object (used by the children class)
                  * 
-                 * @param libraryName the rendering library name
+                 * @param name the input game name
+                 *
                  */
-                ARenderSystem(const std::string &libraryName) : _libraryName(libraryName) {}
+                AGameSystem(const std::string &name) : _name(name) {}
 
                 /**
                  * @brief Get the Library name or the Game name of the object
@@ -31,15 +33,16 @@
                  */
                 const std::string &getName() const
                 {
-                    return _libraryName;
+                    return _name;
                 }
+
             protected:
                 /**
-                 * @brief the library name
+                 * @brief The Game Name
                  * 
                  */
-                std::string _libraryName;
+                std::string _name;
         };
     }
 
-#endif /* !_ARenderSystem_ */
+#endif /* !_AGameSystem_ */

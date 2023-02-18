@@ -16,7 +16,7 @@
     #include <boost/date_time/posix_time/posix_time.hpp>
     #include <iostream>
 
-    #include "ICore.hpp"
+    #include "ACore.hpp"
     #include "ISystem.hpp"
     #include "IScene.hpp"
 
@@ -25,7 +25,7 @@
          * @brief the Core class
          *
          */
-        class Core : public ICore
+        class Core : public ACore
         {
             public:
                 /**
@@ -33,7 +33,7 @@
                  *
                  * @param defaultScene the default scene index
                  */
-                Core(size_t defaultScene, boost::asio::io_context &ioc, std::string ip, std::string port);
+                Core(boost::asio::io_context &ioc, std::string ip, std::string port);
 
                 /**
                  * @brief Destroy the Core object
@@ -48,6 +48,14 @@
                  */
                 int loopGame();
 
+                /**
+                 * @brief Get the game status
+                 *
+                 * @return true Game is running
+                 * @return false Game is stoped
+                 */
+                bool isGameRunning();
+
             private:
                 /**
                  * @brief Get the Window Size object
@@ -57,34 +65,10 @@
                 std::pair<size_t, size_t> getWindowSize() const;
 
                 /**
-                 * @brief the scenes
-                 *
-                 */
-                std::vector<std::shared_ptr<IScene>> _scenes;
-
-                /**
-                 * @brief the current scene in the vector
-                 *
-                 */
-                size_t _currentScene;
-
-                /**
-                 * @brief the systems
-                 *
-                 */
-                std::vector<std::shared_ptr<ISystem>> _systems;
-
-                /**
                  * @brief the timer
                  *
                  */
                 boost::asio::high_resolution_timer _timer;
-
-                /**
-                 * @brief the starting time
-                 *
-                 */
-                std::chrono::high_resolution_clock::time_point _starting_time;
         };
     }
 

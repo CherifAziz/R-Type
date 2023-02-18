@@ -45,30 +45,12 @@
                 ~GameScene();
 
                 /**
-                 * @brief Init the Game
-                 * 
-                 */
-                void init();
-
-                /**
                  * @brief Update the Game
                  * 
                  * @param time the current time that has been elapsed
                  */
                 void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
 
-                /**
-                 * @brief Destroy the Game Scene components and entities
-                 * 
-                 */
-                void destroy();
-
-                /**
-                 * @brief check if the game is still playing
-                 * 
-                 * @return true if the game is still playing, false otherwise
-                 */
-                const bool &isGameStillPlaying() const;
             protected:
                 /**
                  * @brief init the sprite map
@@ -271,8 +253,8 @@
                  */
                 int handleElementCollision(entity_t id);
 
-                static const std::string ENEMIES[];
-                static const std::string BULLET_NAMES[];
+                static const std::vector<std::string> ENEMIES;
+                static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
 

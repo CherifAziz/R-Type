@@ -44,18 +44,35 @@
                     std::shared_ptr<Entity> new_entity(new Entity());
 
                     new_entity->setFamily(family);
-                    for (auto &entity : _entities) {
-                        if (entity->getStatus() == Entity::EntityStatus::DEAD) {
-                            new_entity->setId(entity->getId());
-                            entity->setStatus(Entity::EntityStatus::USED);
-                            _entities.push_back(new_entity);
-                            return new_entity;
-                        }
-                    }
                     new_entity->setId(_biggestId);
                     _biggestId += 1;
                     _entities.push_back(new_entity);
                     return new_entity;
+                }
+
+                /**
+                 * @brief Get the Entity object
+                 * 
+                 * @param id the id of the entity to get
+                 * @return the entity as a const std::shared_ptr<Entity>& 
+                 */
+                const std::shared_ptr<Entity> &getEntity(const entity_t &id) const
+                {
+                    for (auto &entity : _entities)
+                        if (entity->getId() == id)
+                            return entity;
+                    throw std::invalid_argument("Entity id doesn't exist");
+                }
+
+                /**
+                 * @brief Get the Entity Status object
+                 * 
+                 * @param id the id of the entity to get the status from
+                 * @return the entity status as a const Entity::EntityStatus&
+                 */
+                const Entity::EntityStatus &getEntityStatus(const entity_t &id) const
+                {
+                    return getEntity(id)->getStatus();
                 }
 
                 /**
@@ -68,6 +85,7 @@
                     for (auto &entity : _entities) {
                         if (entity->getId() == entity_id && entity->getStatus() == Entity::EntityStatus::ALIVE) {
                             entity->setStatus(Entity::EntityStatus::DEAD);
+                            entity->hide();
                             return;
                         }
                     }
@@ -118,10 +136,6 @@
                     }
                     return family_entities;
                 }
-
-                void setGamePlayingStatus(const bool &gamePlaying) { _gamePlaying = gamePlaying; }
-
-                const bool &isGamePlaying() const { return _gamePlaying; }
 
             protected:
                 /**
