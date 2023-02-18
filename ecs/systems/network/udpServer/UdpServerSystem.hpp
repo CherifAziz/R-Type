@@ -10,7 +10,7 @@
 
     #include "AUdpServerSystem.hpp"
     #include "Serialize.hpp"
-    #include "Services.hpp"
+    #include "IServices.hpp"
     #include <optional>
     #include <iostream>
     #include <string>
@@ -85,7 +85,7 @@
 
         class UdpServerSystem : public AUdpServerSystem {
             public:
-                UdpServerSystem(boost::asio::io_service &io_service, int port) : AUdpServerSystem("UdpServer"), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port)){
+                UdpServerSystem(boost::asio::io_service &io_service, int port, std::unique_ptr<Services::IService> services) : AUdpServerSystem("UdpServer"), _service(std::move(services)), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port))    {
                     std::cout << "UdpServer Created" << std::endl;
                     this->start_receive();
                 };
@@ -106,23 +106,24 @@
                                         boost::asio::placeholders::error,
                                         boost::asio::placeholders::bytes_transferred));
                 };
+
                 void init() {};
 
                 void update(ComponentManager &Component, EntityManager &Entity) {
                     for (auto &client : this->_clients) {
                         std::optional<Serialize::Data> data = client.second->getCommand();
                         if (data != std::nullopt) {
-                            std::cout << "Update" << std::endl;
-                            // data.value().printData();
-                            this->_service.callService(data.value(), Component, Entity);
+                            this->_service->callService(this->_clients, data.value(), Component, Entity);
                         }
                     }
                 };
 
                 void destroy() {};
+
                 std::pair<size_t, size_t> getWindowWSize() const {
                     return std::make_pair(0, 0);
                 };
+
                 ~UdpServerSystem() {};
 
             protected:
@@ -165,7 +166,7 @@
                 udp::socket _socker;
                 udp::endpoint _remote_endpoint;
                 std::array<char, 1024> _data;
-                Services::Service _service;
+                std::unique_ptr<Services::IService> _service;
                 std::map<udp::endpoint, std::unique_ptr<UdpClient>> _clients;
         };
     }

@@ -10,15 +10,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
-find_package(Boost 1.74.0 COMPONENTS system serialization thread REQUIRED)
+find_package(Boost COMPONENTS system serialization REQUIRED)
+
+include_directories(Services/ GameScene/)
+
+set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp)
+set(SERVICES_FILES Services/Services.cpp)
 
 add_executable(${BIN_NAME}
-GameScene/GameScene.cpp
-GameScene/PlayerBullet.cpp
-GameScene/BasicEnemy.cpp
+${GAMESCENE_FILES}
+${SERVICES_FILES}
 Core.cpp
 main.cpp
 )
 
-target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization Boost::thread)
+target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization)
 set_property(TARGET ${BIN_NAME} PROPERTY CXX_STANDARD 20)
