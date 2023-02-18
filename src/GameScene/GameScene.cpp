@@ -15,14 +15,6 @@ namespace rtype
 {
     GameScene::GameScene()
     {
-    }
-
-    GameScene::~GameScene()
-    {
-    }
-
-    void GameScene::init()
-    {
         initSprite();
         initAnimation();
         initAction();
@@ -30,6 +22,11 @@ namespace rtype
         initMovement();
         initSound();
         initText();
+    }
+
+    GameScene::~GameScene()
+    {
+        
     }
 
     bool GameScene::isColliding(size_t x1, size_t y1, size_t width1, size_t height1, size_t x2, size_t y2, size_t width2, size_t height2)
@@ -86,15 +83,6 @@ namespace rtype
         }
         if (time % 10 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
-    }
-
-    void GameScene::destroy()
-    {
-    }
-
-    const bool &GameScene::isGameStillPlaying() const
-    {
-        return _entityManager.isGamePlaying();
     }
 
     void GameScene::initSprite()
