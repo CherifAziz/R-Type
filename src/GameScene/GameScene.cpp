@@ -128,7 +128,7 @@ namespace rtype
     void GameScene::initCollision()
     {
         ComponentMap<Collision> collisionMap;
-        Collision collision(std::vector<std::string>{"basicEnemy"}); // NEED TO BE CHANGED TO THE ENEMY VECTOR
+        Collision collision(ENEMIES);
 
         collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Collision>(collisionMap);
