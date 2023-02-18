@@ -37,7 +37,7 @@ namespace rtype {
         }
         entity_t enemy = _entityManager.spawnEntity("basicEnemy")->getId();
         Sprite sprite("assets/basicEnemy.gif", x, y, 4);
-        Animation animation(21, 24, 5, 6, 8, 1, 12, 0, 500);
+        Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
         Movement movement(-5, 0);
         Collision collision({"player"});
 
@@ -56,10 +56,8 @@ namespace rtype {
     {
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
-            // TEMPORARY UNTIL ENEMY DEATH ARE FIX
-            sprite.setPosition(2000, rand() % 900);
-            //_componentManager.killEntity(enemy_id);
-            //_entityManager.killEntity(enemy_id);
+            _componentManager.killEntity(enemy_id);
+            _entityManager.killEntity(enemy_id);
             return true;
         }
         return false;
