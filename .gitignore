@@ -57,3 +57,7 @@ r-type_server
 tcpclient
 tcpserver
 udpserver
+*.zip
+*.tar.gz
+.vscode
+*.sln

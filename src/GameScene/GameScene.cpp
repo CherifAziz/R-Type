@@ -177,8 +177,8 @@ namespace rtype
     const size_t &windowWidth, const size_t &windowHeight)
     {
         static const Action::KeyType keys[4] = {Action::KeyType::Z, Action::KeyType::S, Action::KeyType::Q, Action::KeyType::D};
-        static const ssize_t x_move[4] = {0, 0, -1, 1};
-        static const ssize_t y_move[4] = {-1, 1, 0, 0};
+        static const int x_move[4] = {0, 0, -1, 1};
+        static const int y_move[4] = {-1, 1, 0, 0};
         static const int max_boost = 10;
 
         for (uint16_t it = 0; it < 4; it++) {

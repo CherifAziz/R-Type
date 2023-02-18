@@ -9,6 +9,8 @@ git --version || (winget install -e --id Git.Git)
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%27))
 
+call RefreshEnv.cmd
+
 cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
 
 if not exist ".\vcpkg" (
@@ -22,11 +24,12 @@ if not exist ".\vcpkg" (
   cd ..
 )
 
+call RefreshEnv.cmd
+
 .\vcpkg\vcpkg.exe install boost-serialization
 .\vcpkg\vcpkg.exe install boost-system
 .\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
-cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=$PWD\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
-cmake --build .\build\ --config Release
-move assets build\Release\assets
-mklink /H ".\rtype.lnk" ".\build\Release\rtype.exe"
+
+echo "executing build.bat"
+call ".\build.bat"
