@@ -11,11 +11,11 @@
 #include "Collision.hpp"
 
 namespace rtype {
-    const std::string GameScene::ENEMIES[] = {
+    const std::vector<std::string> GameScene::ENEMIES = {
         "basicEnemy"
     };
 
-    const std::string GameScene::BULLET_NAMES[] = {
+    const std::vector<std::string> GameScene::BULLET_NAMES = {
         "bullet",
         "chargedbullet",
         "bigbullet",
@@ -64,7 +64,7 @@ namespace rtype {
     {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sound pow("assets/pow.ogg", false, Sound::SoundStatus::PLAY);
-        Collision collision(std::vector<std::string>{"basicEnemy"}); // NEED TO BE CHANGED TO THE ENEMY VECTOR
+        Collision collision(ENEMIES); // NEED TO BE CHANGED TO THE ENEMY VECTOR
         Sprite sprite("assets/spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
         Movement movement(20, 0);
         Animation animation(bullet_frames.at(_bulletLoad).first.width, bullet_frames.at(_bulletLoad).first.height, bullet_frames.at(_bulletLoad).first.x, bullet_frames.at(_bulletLoad).first.y, 1, 1, 0, 0, 500);

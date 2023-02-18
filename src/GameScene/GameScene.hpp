@@ -253,8 +253,8 @@
                  */
                 int handleElementCollision(entity_t id);
 
-                static const std::string ENEMIES[];
-                static const std::string BULLET_NAMES[];
+                static const std::vector<std::string> ENEMIES;
+                static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
 
