@@ -37,7 +37,7 @@ namespace rtype {
         }
         entity_t enemy = _entityManager.spawnEntity("basicEnemy")->getId();
         Sprite sprite("assets/basicEnemy.gif", x, y, 4);
-        Animation animation(20, 25, 5, 7, 8, 1, 12, 0, 500);
+        Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
         Movement movement(-5, 0);
         Collision collision({"player"});
 
