@@ -17,5 +17,5 @@ Core.cpp
 main.cpp
 )
 
-target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio)
+target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio -ldl)
 set_property(TARGET ${BIN_NAME} PROPERTY CXX_STANDARD 20)

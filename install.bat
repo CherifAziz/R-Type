@@ -1,10 +1,5 @@
 @echo off
 
-if not "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
-  echo "Ce script doit être exécuté sur un système 64-bits."
-  exit /b 1
-)
-
 git --version || (winget install -e --id Git.Git)
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%27))
@@ -12,6 +7,8 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 call RefreshEnv.cmd
 
 cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
+
+makensis --version || choco install nsis -Y
 
 if not exist ".\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
