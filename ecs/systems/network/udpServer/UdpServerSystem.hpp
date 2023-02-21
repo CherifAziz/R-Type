@@ -84,7 +84,7 @@
 
         class UdpServerSystem : public AUdpServerSystem {
             public:
-                UdpServerSystem(boost::asio::io_service &io_service, int port, std::unique_ptr<Services::IService> services) : AUdpServerSystem("UdpServer"), _service(std::move(services)), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port))    {
+                UdpServerSystem(boost::asio::io_service &io_service, int port, std::shared_ptr<Services::IService> services) : AUdpServerSystem("UdpServer"), _service(services), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port)), _nullscene(0), _nullstring("") {
                     std::cout << "UdpServer Created" << std::endl;
                     this->start_receive();
                 };
@@ -103,14 +103,17 @@
                 };
 
                 void init() {};
-                const std::string &getName() const { return (""); };
+                const std::string &getName() const { return this->_nullstring; };
                 bool isGameStillPlaying() { return true; };
-                const size_t &getCurrentScene() const { return 0; };
+                const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void update(std::shared_ptr<IScene> &scene) {
                     for (auto &client : this->_clients) {
                         std::optional<Serialize::Data> data = client.second->getCommand();
                         if (data != std::nullopt) {
+                            client.second->getEndpoint();
+                            data.value().printData();
+                            std::cout << this->_service << std::endl;
                             this->_service->callService(client.second->getEndpoint(), this->_clients, data.value(), *scene);
                         }
                     }
@@ -160,8 +163,10 @@
                 udp::socket _socker;
                 udp::endpoint _remote_endpoint;
                 std::array<char, 1024> _data;
-                std::unique_ptr<Services::IService> _service;
+                std::shared_ptr<Services::IService> _service;
                 std::map<udp::endpoint, std::unique_ptr<UdpClient>> _clients;
+                const std::string _nullstring;
+                const size_t _nullscene;
         };
     }
 

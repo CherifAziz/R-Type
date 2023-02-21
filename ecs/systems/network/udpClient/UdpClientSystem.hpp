@@ -28,7 +28,7 @@
     namespace rtype {
         class UdpClientSystem : public AUdpClientSystem {
             public:
-                UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::unique_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(std::move(services)), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc) {
+                UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::shared_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(services), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _nullscene(0), _nullstring("") {
                     std::cout << "UDP CLIENT SYSTEM" << std::endl;
                     this->_socket.open(udp::v4());
                     this->send_data(Services::Command::CONNECTED, "");
@@ -52,9 +52,9 @@
                                         boost::asio::placeholders::bytes_transferred));
                 };
 
-                const std::string &getName() const { return (""); };
+                const std::string &getName() const { return this->_nullstring; };
                 bool isGameStillPlaying() { return true; };
-                const size_t &getCurrentScene() const { return 0; };
+                const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void init() {};
 
@@ -106,7 +106,9 @@
                 udp::socket _socket;
                 std::array<char, 1024> _buffer;
                 std::queue<Serialize::Data> _queue;
-                std::unique_ptr<Services::IService> _service;
+                std::shared_ptr<Services::IService> _service;
+                const std::string _nullstring;
+                const size_t _nullscene;
         };
     }
 

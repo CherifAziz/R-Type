@@ -23,7 +23,7 @@ Core::Core(boost::asio::io_context &ioc, std::string ip, std::string port) : _ti
     _systems.push_back(std::make_shared<SfmlInputSystem>());
     _systems.push_back(std::make_shared<SfmlRenderSystem>());
     _systems.push_back(std::make_shared<RTypeGameSystem>(this->_scenes));
-    _systems.push_back(std::make_shared<UdpClientSystem>(ioc, ip, port, std::make_unique<Services::Service>()));
+    _systems.push_back(std::make_shared<UdpClientSystem>(ioc, ip, port, std::make_shared<Services::Service>()));
     for (auto &system : _systems)
         system->init();
 }
