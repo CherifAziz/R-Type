@@ -71,3 +71,5 @@ udpserver
 *.tar.gz
 .vscode
 *.sln
+*.rpm
+*.nsi
