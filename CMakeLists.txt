@@ -7,12 +7,6 @@ set(BIN_CLIENT r-type_client)
 set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/Client)
 set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/Server)
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(BIN_FOLDER ${CMAKE_SOURCE_DIR}/build/Release)
-    install(DIRECTORY ${BIN_FOLDER} DESTINATION .)
-endif ()
-set(CPACK_PACKAGE_NAME "rtype")
-set(CPACK_PACKAGE_VERSION "1.0")
 
 include_directories(
     $ENV{ROOT_DIR}/ecs/
@@ -37,13 +31,17 @@ include_directories(
 add_subdirectory(${CLIENT}/)
 add_subdirectory(${SERVER}/)
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(BIN_FOLDER ${CMAKE_SOURCE_DIR}/build/Release/)
+    install(DIRECTORY ${BIN_FOLDER} DESTINATION .)
+    set(CPACK_GENERATOR "NSIS")
+else ()
     install(TARGETS ${BIN_SERVER} DESTINATION .)
     install(TARGETS ${BIN_CLIENT} DESTINATION .)
     set(CPACK_GENERATOR "RPM")
 endif ()
+set(CPACK_PACKAGE_NAME "rtype")
+set(CPACK_PACKAGE_VERSION "1.0")
+
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
 include(CPack)
-
-set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/Client)
-set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/Server)
