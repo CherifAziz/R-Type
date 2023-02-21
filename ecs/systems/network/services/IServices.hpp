@@ -15,6 +15,7 @@
     #include "Serialize.hpp"
     #include "ComponentManager.hpp"
     #include "EntityManager.hpp"
+    #include "IScene.hpp"
 
     namespace rtype {
         class UdpClient;
@@ -24,27 +25,21 @@
     using namespace rtype;
 
     namespace Services {
-        enum Type : int {
-            NOTIF = 0,
-            COMMAND
-        };
-
         enum Command : int {
             CONNECTED = 0,
             DISCONNECTED,
             MOVE,
             SHOOT,
-        };
-
-        enum Notification : int {
-            NEW_PLAYER = 0,
-            PLAYER_MOVE,
-            PLAYER_SHOOT,
+            NEW_PLAYER,
+            PLAYER_DISCONNECTED,
+            MOVE_PLAYER,
+            SHOOT_PLAYER,
         };
 
         class IService {
             public:
-                virtual void callService(std::map<udp::endpoint, std::unique_ptr<rtype::UdpClient>> &clients, Serialize::Data &data, rtype::ComponentManager &Components, rtype::EntityManager &Entities) = 0;
+                virtual void callService(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene) = 0;
+                virtual void callService(Serialize::Data &data, rtype::IScene &scene) = 0;
                 virtual ~IService() = default;
         };
 

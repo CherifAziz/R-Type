@@ -8,17 +8,18 @@
 #ifndef UDPCLIENTSYSTEM_HPP_
     #define UDPCLIENTSYSTEM_HPP_
 
-    #include "IServices.hpp"
-    #include "Serialize.hpp"
     #include <iostream>
     #include <string>
-    #include <unordered_map>
     #include <map>
+    #include <queue>
+    #include <memory>
     #include <boost/array.hpp>
     #include <boost/bind/bind.hpp>
     #include <boost/shared_ptr.hpp>
     #include <boost/asio.hpp>
     #include <boost/unordered_map.hpp>
+    #include "IServices.hpp"
+    #include "Serialize.hpp"
     #include "AUdpClientSystem.hpp"
 
     using namespace boost::asio;
@@ -27,10 +28,10 @@
     namespace rtype {
         class UdpClientSystem : public AUdpClientSystem {
             public:
-                UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port) : AUdpClientSystem("UdpClient"), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _id(0) {
+                UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::unique_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(std::move(services)), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc) {
                     std::cout << "UDP CLIENT SYSTEM" << std::endl;
                     this->_socket.open(udp::v4());
-                    this->send_data(Services::Type::COMMAND, Services::Command::CONNECTED, "");
+                    this->send_data(Services::Command::CONNECTED, "");
                     this->start_receive();
                 }
 
@@ -42,26 +43,36 @@
                                                                 boost::asio::placeholders::bytes_transferred));
                 };
 
-                void send_data(Services::Type type, size_t s_id,std::string text) {
-                    Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Type::COMMAND, this->_id, s_id, text);
+                void send_data(size_t s_id,std::string text) {
+                    Serialize::Data info = Serialize::createData<Serialize::Data>(s_id, text);
                     std::string data = Serialize::serialize<Serialize::Data>(info);
                     this->_socket.async_send_to(boost::asio::buffer(data), this->_receiver_endpoint,
                                         boost::bind(&UdpClientSystem::handler_send, this,
                                         boost::asio::placeholders::error,
                                         boost::asio::placeholders::bytes_transferred));
                 };
-                 const std::string &getName() const { return (""); };
+
+                const std::string &getName() const { return (""); };
                 bool isGameStillPlaying() { return true; };
                 const size_t &getCurrentScene() const { return 0; };
 
                 void init() {};
-                void update(std::shared_ptr<IScene> &/*scene*/) {};
+
+                void update(std::shared_ptr<IScene> &scene) {
+                    if (!this->_queue.empty()) {
+                        this->_service->callService(this->_queue.front(), *scene);
+                        this->_queue.pop();
+                    }
+                };
+
                 void destroy() {
                     this->_socket.close();
                 };
+
                 std::pair<size_t, size_t> getWindowWSize() const {
                     return std::make_pair(0, 0);
                 };
+
                 ~UdpClientSystem() {};
 
             private:
@@ -69,7 +80,7 @@
                     if (!error && error != boost::asio::error::eof && size > 0) {
                         std::cout << "On Received" << std::endl;
                         Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->_buffer.data(), size), size);
-                        received_data.printData();
+                        this->_queue.push(received_data);
                     }
                     if (error == boost::asio::error::eof) {
                         std::cout << "Server closed: " << this->_receiver_endpoint << std::endl;
@@ -94,7 +105,8 @@
                 udp::endpoint _receiver_endpoint;
                 udp::socket _socket;
                 std::array<char, 1024> _buffer;
-                std::size_t _id;
+                std::queue<Serialize::Data> _queue;
+                std::unique_ptr<Services::IService> _service;
         };
     }
 

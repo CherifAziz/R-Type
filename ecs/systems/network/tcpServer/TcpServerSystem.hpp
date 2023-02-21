@@ -31,7 +31,7 @@
 
                 void start() {
                     std::cout << "client started" << std::endl;
-                    Serialize::Data info = { 0, "Connected to Server" };
+                    Serialize::Data info = Serialize::createData<Serialize::Data>(0, "");
                     std::string data = Serialize::serialize<Serialize::Data>(info);
                     boost::asio::async_write(this->_socket, boost::asio::buffer(data), boost::bind(&ClientServer::onWrite, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
                     sleep(2);
@@ -56,7 +56,6 @@
                         if (err == boost::asio::error::eof)
                             return;
                         Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->data_.data(), size), size);
-                        std::cout << "Received data from client: " << received_data.size << received_data._data << std::endl;
                         boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&ClientServer::onRead, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
                 };
 
@@ -72,7 +71,7 @@
 
         class TcpServerSystem : public ATcpServerSystem {
             public:
-                TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("ServerSystem"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc) {
+                TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("TcpServer"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc) {
                     std::cout << "ServerSystem created" << std::endl;
                     this->start_accept();
                 };

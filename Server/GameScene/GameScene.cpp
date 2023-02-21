@@ -22,11 +22,12 @@ namespace rtype
         initMovement();
         initSound();
         initText();
+        initNetwork();
     }
 
     GameScene::~GameScene()
     {
-        
+
     }
 
     bool GameScene::isColliding(size_t x1, size_t y1, size_t width1, size_t height1, size_t x2, size_t y2, size_t width2, size_t height2)
@@ -87,20 +88,20 @@ namespace rtype
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/spacebg.png", 0, 0);
         Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
-        Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
+        // Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
-        sprite.put(spaceship_sprite, _entityManager.spawnEntity("player")->getId());
+        // sprite.put(spaceship_sprite, _entityManager.spawnEntity("player")->getId());
         _componentManager.registerComponent<Sprite>(sprite);
     }
 
     void GameScene::initAnimation()
     {
         ComponentMap<Animation> animation;
-        Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
+        // Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
 
-        animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
     }
 
@@ -125,20 +126,20 @@ namespace rtype
     void GameScene::initCollision()
     {
         ComponentMap<Collision> collisionMap;
-        Collision collision(ENEMIES);
+        // Collision collision(ENEMIES);
 
-        collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Collision>(collisionMap);
     }
 
     void GameScene::initMovement()
     {
         ComponentMap<Movement> movement;
-        Movement player_move(0, 0);
+        // Movement player_move(0, 0);
         Movement first_background_movement(1, 1);
         Movement second_background_movement(1, 1);
 
-        movement.put(player_move, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // movement.put(player_move, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         movement.put(first_background_movement, _entityManager.getEntitiesFromFamily("background")[0]->getId());
         movement.put(second_background_movement, _entityManager.getEntitiesFromFamily("background")[1]->getId());
         _componentManager.registerComponent<Movement>(movement);
@@ -147,9 +148,9 @@ namespace rtype
     void GameScene::initAction()
     {
         ComponentMap<Action> action;
-        Action player_action;
+        // Action player_action;
 
-        action.put(player_action, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // action.put(player_action, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Action>(action);
     }
 
@@ -225,5 +226,11 @@ namespace rtype
 
             animation.animate();
         }
+    }
+
+    void GameScene::initNetwork()
+    {
+        ComponentMap<Network> network;
+        _componentManager.registerComponent<Network>(network);
     }
 }

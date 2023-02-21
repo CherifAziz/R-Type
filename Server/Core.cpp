@@ -50,7 +50,7 @@ int Core::loopGame()
 bool Core::isGameRunning()
 {
     for (auto &system : _systems)
-        if (system->isGameStillPlaying() == false)
-            return false;
-    return true;
+        if (system->isGameStillPlaying() == true)
+            return true;
+    return false;
 }

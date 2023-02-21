@@ -38,8 +38,6 @@
                 if (err == boost::asio::error::eof)
                     return;
                 Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->data_.data(), size), size);
-                std::cout << "Received data: " << received_data.size << " -> " << received_data._data << std::endl;
-                this->data_.fill(0);
                 boost::asio::async_read(this->_socket, boost::asio::buffer(this->data_), boost::asio::transfer_at_least(1), boost::bind(&TcpClientSystem::onReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             };
 

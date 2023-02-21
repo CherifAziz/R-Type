@@ -30,12 +30,8 @@
     namespace rtype {
         class UdpClient {
             public:
-                UdpClient(std::size_t id, udp::endpoint endpoint, udp::socket &socket) : _id(id), _endpoint(endpoint), _serverSocket(socket) {
+                UdpClient(std::size_t id, udp::endpoint endpoint, udp::socket &socket) : _endpoint(endpoint), _serverSocket(socket) {
                     std::cout << "UdpClient Added" << std::endl;
-                };
-
-                std::size_t getId() const {
-                    return this->_id;
                 };
 
                 void sendDataToClient(Serialize::Data data) {
@@ -44,6 +40,10 @@
                                         boost::bind(&UdpClient::handler_send, this,
                                         boost::asio::placeholders::error,
                                         boost::asio::placeholders::bytes_transferred));
+                };
+
+                udp::endpoint &getEndpoint() {
+                    return this->_endpoint;
                 };
 
                 void handler_send(const boost::system::error_code &error, std::size_t bytes_transferred) {
@@ -76,7 +76,6 @@
                 };
 
             private:
-                std::size_t _id;
                 udp::socket &_serverSocket;
                 udp::endpoint _endpoint;
                 boost::array<char, 1024> _data;
@@ -98,13 +97,9 @@
                                                     boost::asio::placeholders::bytes_transferred));
                 };
 
-                void send_data(Services::Type type, int s_id, std::string text, boost::asio::ip::udp::endpoint endpoint) {
-                    Serialize::Data info = Serialize::createData<Serialize::Data>(type, 0, s_id, text);
-                    std::string data = Serialize::serialize<Serialize::Data>(info);
-                    this->_socker.async_send_to(boost::asio::buffer(data), endpoint,
-                                        boost::bind(&UdpServerSystem::handler_send, this,
-                                        boost::asio::placeholders::error,
-                                        boost::asio::placeholders::bytes_transferred));
+                void send_data(int s_id, std::string text, boost::asio::ip::udp::endpoint endpoint) {
+                    Serialize::Data info = Serialize::createData<Serialize::Data>(s_id, text);
+                    this->_clients[endpoint]->sendDataToClient(info);
                 };
 
                 void init() {};
@@ -116,7 +111,7 @@
                     for (auto &client : this->_clients) {
                         std::optional<Serialize::Data> data = client.second->getCommand();
                         if (data != std::nullopt) {
-                            // this->_service->callService(this->_clients, data.value(), scene., Entity);
+                            this->_service->callService(client.second->getEndpoint(), this->_clients, data.value(), *scene);
                         }
                     }
                 };
@@ -134,12 +129,8 @@
                 void handler_received(const boost::system::error_code &error, std::size_t size) {
                     std::cout << "On Received" << std::endl;
                     if (!error && error != boost::asio::error::eof && size > 0) {
-                        if (this->_clients.find(this->_remote_endpoint) == this->_clients.end()) {
-                            // for (auto &client : this->_clients)
-                            //     this->send_data(1, std::to_string(this->_clients.size() + 1), client.first);
+                        if (this->_clients.find(this->_remote_endpoint) == this->_clients.end())
                             this->_clients[this->_remote_endpoint] = std::make_unique<UdpClient>(this->_clients.size() + 1, this->_remote_endpoint, this->_socker);
-                            this->_clients[this->_remote_endpoint]->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Type::COMMAND, 0, this->_clients.size(), "Connected to server"));
-                        }
                         std::cout << size << sizeof(Serialize::Data) << std::endl;
                         if (size >= sizeof(Serialize::Data)) {
                             std::cout << "Received data" << std::endl;

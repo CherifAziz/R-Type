@@ -16,13 +16,14 @@
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
 #include "UdpClientSystem.hpp"
+#include "Services.hpp"
 
 Core::Core(boost::asio::io_context &ioc, std::string ip, std::string port) : _timer(ioc)
 {
     _systems.push_back(std::make_shared<SfmlInputSystem>());
     _systems.push_back(std::make_shared<SfmlRenderSystem>());
     _systems.push_back(std::make_shared<RTypeGameSystem>(this->_scenes));
-    _systems.push_back(std::make_shared<UdpClientSystem>(ioc, ip, port));
+    _systems.push_back(std::make_shared<UdpClientSystem>(ioc, ip, port, std::make_unique<Services::Service>()));
     for (auto &system : _systems)
         system->init();
 }

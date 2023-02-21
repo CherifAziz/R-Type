@@ -22,11 +22,12 @@ namespace rtype
         initMovement();
         initSound();
         initText();
+        initNetwork();
     }
 
     GameScene::~GameScene()
     {
-        
+
     }
 
     bool GameScene::isColliding(size_t x1, size_t y1, size_t width1, size_t height1, size_t x2, size_t y2, size_t width2, size_t height2)
@@ -225,5 +226,11 @@ namespace rtype
 
             animation.animate();
         }
+    }
+
+    void GameScene::initNetwork()
+    {
+        ComponentMap<Network> network;
+        _componentManager.registerComponent<Network>(network);
     }
 }
