@@ -9,11 +9,14 @@
     #define _GameSystem_
 
     #include <chrono>
+    #include <fstream>
 
     #include "AGameSystem.hpp"
     #include "IScene.hpp"
 
     #include "GameScene.hpp"
+
+    #define CONFIG_FILE_PATH "../../../assets/configfile/config.txt"
 
     namespace rtype {
         /**
@@ -97,6 +100,44 @@
                 const size_t &getCurrentScene() const
                 {
                     return _storage->getCurrentScene();
+                }
+
+                bool ReadConfigFile()
+                {
+                    std::ifstream cf(CONFIG_FILE_PATH);
+
+                    if (!cf.is_open())
+                    {
+                        std::cout << "Error in the opening of the file" << std::endl;
+                        return false;
+                    }
+
+                    std::string param;
+                    std::string type;
+                    uint x = 0;
+                    uint y = 0;
+                    uint value;
+
+                    while (!cf.eof())
+                    {
+                        cf >> param;
+                        cf >> value;
+
+                        if (param == "TYPE")
+                        {
+                            type = value;
+                        } else if (param == "X")
+                        {
+                            x = value;
+                        } else if (param == "Y")
+                        {
+                            y = value;
+                        }
+                    }
+
+                    in.close();
+
+                    return true;
                 }
 
             protected:
