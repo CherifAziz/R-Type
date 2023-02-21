@@ -28,6 +28,8 @@ call RefreshEnv.cmd
 
 .\vcpkg\vcpkg.exe install boost-serialization
 .\vcpkg\vcpkg.exe install boost-system
+.\vcpkg\vcpkg.exe install boost-asio
+.\vcpkg\vcpkg.exe install boost-uuid
 .\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
 

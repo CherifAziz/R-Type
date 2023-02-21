@@ -57,8 +57,12 @@ cd $PWD/vcpkg
 sudo git pull
 sudo ./bootstrap-vcpkg.sh -disableMetrics
 cd ..
+# autoconf and libtool
+# libudev and libx11 and libxrandr and opengl 
 sudo $PWD/vcpkg/vcpkg install sfml
 sudo $PWD/vcpkg/vcpkg install boost-system
+sudo $PWD/vcpkg/vcpkg install boost-uuid
+sudo $PWD/vcpkg/vcpkg install boost-asio
 sudo $PWD/vcpkg/vcpkg install boost-serialization
 sudo $PWD/vcpkg/vcpkg upgrade
 
