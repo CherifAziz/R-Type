@@ -2,17 +2,11 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
 
 project(rtype LANGUAGES CXX)
 
+set(BIN_SERVER r-type_server)
+set(BIN_CLIENT r-type_client)
 set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/client)
-set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/server)
-set(INSTALL_SH ${CMAKE_SOURCE_DIR}/install.sh)
-set(INSTALL_BAT ${CMAKE_SOURCE_DIR}/install.bat)
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(BIN_FOLDER ${CMAKE_SOURCE_DIR}/build/Release)
-    install(DIRECTORY ${BIN_FOLDER} DESTINATION .)
-endif ()
-set(CPACK_PACKAGE_NAME "rtype")
-set(CPACK_PACKAGE_VERSION "1.0")
+set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/Client)
+set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/Server)
 
 include_directories(
     $ENV{ROOT_DIR}/ecs/
@@ -36,14 +30,18 @@ include_directories(
 
 add_subdirectory(${CLIENT}/)
 add_subdirectory(${SERVER}/)
-if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    install(TARGETS rtype DESTINATION Release)
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(BIN_FOLDER ${CMAKE_SOURCE_DIR}/build/Release/)
+    install(DIRECTORY ${BIN_FOLDER} DESTINATION .)
+    set(CPACK_GENERATOR "NSIS")
+else ()
+    install(TARGETS ${BIN_SERVER} DESTINATION .)
+    install(TARGETS ${BIN_CLIENT} DESTINATION .)
+    set(CPACK_GENERATOR "RPM")
 endif ()
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION Release)
-install(FILES ${INSTALL_SH} DESTINATION .)
-install(FILES ${INSTALL_BAT} DESTINATION .)
+set(CPACK_PACKAGE_NAME "rtype")
+set(CPACK_PACKAGE_VERSION "1.0")
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
 include(CPack)
-
-
-set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/Client)
-set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/Server)
