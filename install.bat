@@ -17,6 +17,7 @@ if not exist ".\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
   cd vcpkg
   call .\bootstrap-vcpkg.bat -disableMetrics
+  cd ..
 ) else (
   cd vcpkg
   git pull
