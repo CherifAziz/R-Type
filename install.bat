@@ -31,7 +31,7 @@ call RefreshEnv.cmd
 .\vcpkg\vcpkg.exe install boost-system
 .\vcpkg\vcpkg.exe install boost-asio
 .\vcpkg\vcpkg.exe install boost-uuid
-.\vcpkg\vcpkg.exe install sfml:x64-windows
+.\vcpkg\vcpkg.exe install sfml:x86-windows
 .\vcpkg\vcpkg.exe integrate install
 
 echo "executing build.bat"

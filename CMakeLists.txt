@@ -1,7 +1,12 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
 
 project(rtype LANGUAGES CXX)
-
+execute_process(
+  COMMAND lsb_release -is
+  OUTPUT_VARIABLE LINUX_DISTRO
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+message(STATUS "${LINUX_DISTRO}")
 set(BIN_SERVER r-type_server)
 set(BIN_CLIENT r-type_client)
 set(ENV{ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
@@ -40,7 +45,10 @@ else ()
     install(TARGETS ${BIN_SERVER} DESTINATION bin)
     install(TARGETS ${BIN_CLIENT} DESTINATION bin)
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION bin)
-    set(CPACK_GENERATOR "RPM")
+    if (LINUX_DISTRO STREQUAL "Fedora" OR LINUX_DISTRO STREQUAL "CentOS" OR LINUX_DISTRO STREQUAL "RedHatEnterpriseServer" OR LINUX_DISTRO STREQUAL "OracleServer")
+        set(CPACK_GENERATOR "RPM")
+    else ()
+        set(CPACK_GENERATOR "DEB")
 endif ()
 set(CPACK_PACKAGE_NAME "rtype")
 set(CPACK_PACKAGE_VERSION "1.0")

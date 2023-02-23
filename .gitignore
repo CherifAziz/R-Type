@@ -73,3 +73,5 @@ udpserver
 *.sln
 *.rpm
 *.nsi
+*.txt
+*.deb
