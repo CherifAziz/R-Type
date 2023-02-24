@@ -212,6 +212,18 @@
                 void spawnBasicEnemy();
 
                 /**
+                 * @brief Create a new Boss
+                 *
+                 */
+                void spawnBoss();
+
+                /**
+                 * @brief Create a new medium enemy
+                 *
+                 */
+                void spawnMediumEnemy();
+
+                /**
                  * @brief Move basic enemy until it reach end of the screen
                  *
                  * @param sprite the sprite of the enemy
@@ -228,6 +240,16 @@
                  * @return true if the enemy has been destroyed, false otherwise
                  */
                 bool destroyBasicEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id);
+
+                /**
+                 * @brief Destroy boss if the player killed them
+                 *
+                 * @param sprite the sprite of the boss
+                 * @param animation the animation component of the boss
+                 * @param enemy_id the boss entity id
+                 * @return true if the boss has been destroyed, false otherwise
+                 */
+                bool destroyBoss(Sprite &sprite, Animation &animation, entity_t enemy_id);
 
                 /**
                  * @brief Handle basic enemy, so his destruction, movement, creation..
