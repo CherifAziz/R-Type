@@ -13,11 +13,17 @@ choco --version || (
   powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
 )
 
+call RefreshEnv.cmd
+
 choco upgrade chocolatey -y
 
-mingw32-make --version || (choco install mingw -y --installargs 'ADD_CMAKE_TO_PATH=System')
-
 call RefreshEnv.cmd
+
+choco install visualstudio2022community -y --installargs 'ADD_CMAKE_TO_PATH=System' --force
+
+choco install visualstudio2022-workload-vctools -y --installargs 'ADD_CMAKE_TO_PATH=System' --force
+
+mingw32-make --version || (choco install mingw -y --installargs 'ADD_CMAKE_TO_PATH=System')
 
 cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
 
