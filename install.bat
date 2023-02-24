@@ -1,13 +1,16 @@
 @echo off
 
-if not "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
-  echo "Ce script doit être exécuté sur un système 64-bits."
-  exit /b 1
-)
+@REM if not "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
+@REM   echo "Ce script doit être exécuté sur un système 64-bits."
+@REM   exit /b 1
+@REM )
 
 git --version || (winget install -e --id Git.Git)
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%27))
+@REM powershell.exe -Command "Set-ExecutionPolicy Bypass -Scope Process -Force"
+@REM powershell.exe -Command "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072"
+@REM powershell.exe -Command "((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+@REM powershell.exe -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
 
 call RefreshEnv.cmd
 
@@ -27,10 +30,10 @@ if not exist ".\vcpkg" (
 
 call RefreshEnv.cmd
 
-.\vcpkg\vcpkg.exe install boost-serialization
-.\vcpkg\vcpkg.exe install boost-system
-.\vcpkg\vcpkg.exe install boost-asio
-.\vcpkg\vcpkg.exe install boost-uuid
+.\vcpkg\vcpkg.exe install boost-serialization:x64-windows
+.\vcpkg\vcpkg.exe install boost-system:x64-windows
+.\vcpkg\vcpkg.exe install boost-asio:x64-windows
+.\vcpkg\vcpkg.exe install boost-uuid:x64-windows
 .\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
 

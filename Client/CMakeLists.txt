@@ -10,12 +10,12 @@ else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $ENV{ROOT_DIR}/build/Release)
 endif ()
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
-find_package(Boost 1.74.0 COMPONENTS system serialization REQUIRED)
-
-set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp)
-set(SERVICES_FILES Services/Services.cpp)
+find_package(Boost COMPONENTS system serialization REQUIRED)
 
 include_directories(Services/ GameScene/)
+
+set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp GameScene/MediumEnemy.cpp)
+set(SERVICES_FILES Services/Services.cpp)
 
 add_executable(${BIN_NAME}
 ${GAMESCENE_FILES}

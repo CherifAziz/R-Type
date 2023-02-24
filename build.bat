@@ -1,6 +1,6 @@
 @echo off
 
-call .\clean.bat
+@REM call .\clean.bat
 
 cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=%cd%\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .\build\ --config Release
