@@ -1,8 +1,8 @@
 @echo off
 
 rem need msbuild with minimun vs 2017
-rem need winget 
-rem need mingw64 in the path
+rem need winget
+rem need mingw64 in the path ?
 
 git --version || (winget install -e --id Git.Git)
 
@@ -20,6 +20,8 @@ mingw32-make --version || (choco install mingw -y --installargs 'ADD_CMAKE_TO_PA
 call RefreshEnv.cmd
 
 cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
+
+makensis /version || (choco install nsis -y --installargs 'ADD_CMAKE_TO_PATH=System')
 
 .\vcpkg\vcpkg.exe --version || if not exist ".\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git

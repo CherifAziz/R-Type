@@ -26,6 +26,8 @@ else
   echo "g++ déjà installé."
 fi
 
+# mdr il est ou git ?
+
 if ! [ -d "$PWD/vcpkg" ]; then
   echo "vcpkg n'est pas installé, installation en cours..."
   git clone https://github.com/Microsoft/vcpkg.git
