@@ -15,14 +15,6 @@ namespace rtype
 {
     GameScene::GameScene()
     {
-    }
-
-    GameScene::~GameScene()
-    {
-    }
-
-    void GameScene::init()
-    {
         initSprite();
         initAnimation();
         initAction();
@@ -30,6 +22,11 @@ namespace rtype
         initMovement();
         initSound();
         initText();
+    }
+
+    GameScene::~GameScene()
+    {
+        
     }
 
     bool GameScene::isColliding(size_t x1, size_t y1, size_t width1, size_t height1, size_t x2, size_t y2, size_t width2, size_t height2)
@@ -88,15 +85,6 @@ namespace rtype
             playAnimation(_componentManager.getComponents<Animation>());
     }
 
-    void GameScene::destroy()
-    {
-    }
-
-    const bool &GameScene::isGameStillPlaying() const
-    {
-        return _entityManager.isGamePlaying();
-    }
-
     void GameScene::initSprite()
     {
         ComponentMap<Sprite> sprite;
@@ -131,7 +119,7 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Hi player !", "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text title("Hi player !", "assets/font.ttf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         _componentManager.registerComponent<Text>(text);

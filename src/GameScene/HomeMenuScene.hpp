@@ -27,8 +27,6 @@
 
                 void destroy();
 
-                const bool &isGameStillPlaying() const;
-
             protected:
 
                 void initSprite();

@@ -15,6 +15,7 @@
     #include <memory>
 
     #include "ARenderSystem.hpp"
+    #include "IScene.hpp"
 
     #include "Storage.hpp"
 
@@ -66,15 +67,14 @@
                 /**
                  * @brief display and play all components that can be rendered or played
                  * 
-                 * @param componentManager the component manager
-                 * @param entityManager the entity manager
+                 * @param scene the current scene
                  */
-                void update(ComponentManager &componentManager, EntityManager &/*entityManager*/)
+                void update(std::shared_ptr<IScene> &scene)
                 {
-                    std::shared_ptr<ComponentMap<Sprite>> sprite = componentManager.getComponents<Sprite>();
-                    std::shared_ptr<ComponentMap<Animation>> animation = componentManager.getComponents<Animation>();
-                    std::shared_ptr<ComponentMap<Text>> text = componentManager.getComponents<Text>();
-                    std::shared_ptr<ComponentMap<Sound>> sound = componentManager.getComponents<Sound>();
+                    std::shared_ptr<ComponentMap<Sprite>> sprite = scene->getComponentManager().getComponents<Sprite>();
+                    std::shared_ptr<ComponentMap<Animation>> animation = scene->getComponentManager().getComponents<Animation>();
+                    std::shared_ptr<ComponentMap<Text>> text = scene->getComponentManager().getComponents<Text>();
+                    std::shared_ptr<ComponentMap<Sound>> sound = scene->getComponentManager().getComponents<Sound>();
 
                     _storage->getRenderWindow().clear();
                     if (_storage->getRenderWindow().isOpen()) {
@@ -117,23 +117,23 @@
                 }
 
                 /**
-                 * @brief Check if the window is still open
+                 * @brief check if the game is still playing
                  * 
-                 * @return true if the window is still open, false otherwise
+                 * @return true if the game is still playing, false otherwise
                  */
-                bool isOpen() const
+                bool isGameStillPlaying()
                 {
                     return _storage->getRenderWindow().isOpen();
                 }
 
                 /**
-                 * @brief Get the Window Size object
+                 * @brief Get the Current Scene object
                  * 
-                 * @return the window size as an const std::pair<size_t, size_t>& 
+                 * @return the current scene as a const size_t&
                  */
-                std::pair<size_t, size_t> getWindowWSize() const
+                const size_t &getCurrentScene() const
                 {
-                    return std::make_pair(_storage->getRenderWindow().getSize().x, _storage->getRenderWindow().getSize().y);
+                    return _storage->getCurrentScene();
                 }
 
             private:

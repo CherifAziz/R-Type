@@ -28,11 +28,6 @@ namespace rtype {
     {
     }
 
-    const bool &HomeMenuScene::isGameStillPlaying() const
-    {
-        return _entityManager.isGamePlaying();
-    }
-
     void HomeMenuScene::initSprite() {
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/Menu-background.png", 0, 0);
