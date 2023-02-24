@@ -36,12 +36,6 @@ else
   echo "vcpkg déjà installé."
 fi
 
-if ! command -v make > /dev/null; then
-  echo "make n'est pas installé, installation en cours..."
-else
-  echo "make déjà installé."
-fi
-
 if ! command -v cmake > /dev/null; then
   echo "cmake n'est pas installé, installation en cours..."
   curl -L https://github.com/Kitware/CMake/releases/download/v3.25.0-rc1/cmake-3.25.0-rc1-linux-x86_64.sh -o cmake-install.sh
