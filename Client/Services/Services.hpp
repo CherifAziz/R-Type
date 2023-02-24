@@ -16,7 +16,7 @@
         class Service : public IService {
             public:
                 Service();
-                void callService(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene);
+                void callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 void callService(Serialize::Data &data, rtype::IScene &scene);
                 ~Service();
 

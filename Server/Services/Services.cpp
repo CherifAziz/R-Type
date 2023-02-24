@@ -12,6 +12,7 @@
 #include "Animation.hpp"
 #include "GameValues.hpp"
 #include "UdpServerSystem.hpp"
+#include <utility>
 
 Services::Service::Service()
 {
@@ -25,8 +26,9 @@ Services::Service::~Service()
 {
 }
 
-void Services::Service::callService(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene)
+void Services::Service::callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene)
 {
+    std::cout << "call service" << std::endl;
     this->_commands[data.s_id](client, clients, data, scene);
 }
 
@@ -34,26 +36,24 @@ void Services::Service::callService(Serialize::Data &data, rtype::IScene &scene)
 {
 }
 
-boost::uuids::uuid createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities)
+std::pair<boost::uuids::uuid, entity_t> createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities)
 {
+    std::cout << "create player" << std::endl;
     entity_t player = Entities.spawnEntity("player")->getId();
-    Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
-    Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
     Network spaceship_network;
 
     std::shared_ptr<ComponentMap<Sprite>> mapS = Components.getComponents<Sprite>();
     std::shared_ptr<ComponentMap<Animation>> mapA = Components.getComponents<Animation>();
     std::shared_ptr<ComponentMap<Network>> mapN = Components.getComponents<Network>();
 
-    mapS->put(spaceship_sprite, player);
-    mapA->put(spaceship_animation, player);
     mapN->put(spaceship_network, player);
-    return spaceship_network.getUUID();
+    return std::make_pair(spaceship_network.getUUID(), player);
+    std::cout << "End of create player" << std::endl;
 }
 
-void Services::Service::Connected(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene) {
-    std::cout << "connected" << std::endl;
-    std::string uid_player = boost::uuids::to_string(createPlayer(scene.getComponentManager(), scene.getEntityManager()));
+void Services::Service::Connected(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+    std::cout << "connected Zebi " << std::endl;
+    std::pair<boost::uuids::uuid, entity_t> player_pair = createPlayer(scene.getComponentManager(), scene.getEntityManager());
     std::string uid;
 
     std::vector<std::shared_ptr<rtype::Entity>> entities = scene.getEntityManager().getEntitiesFromFamily("player");
@@ -64,32 +64,46 @@ void Services::Service::Connected(udp::endpoint &client, std::map<udp::endpoint,
     }
 
     std::cout << "uid players => " << uid << std::endl;
-    std::cout << "uid player => " << uid_player << std::endl;
+    std::cout << "uid player => " << player_pair.first << std::endl;
 
-    for (auto &clientTmp : clients)
+    if (clients.getClient(client).has_value()) {
+        clients.getClient(client).value()->setUuid(player_pair.first);
+        clients.getClient(client).value()->setEntity(player_pair.second);
+    }
+
+    for (auto &clientTmp : clients.getClients())
         if (clientTmp.first == client)
             clientTmp.second->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Command::CONNECTED, uid));
         else
-            clientTmp.second->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Command::NEW_PLAYER, uid_player));
+            clientTmp.second->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Command::NEW_PLAYER, boost::uuids::to_string((player_pair.first))));
 
 }
 
-void Services::Service::Disconnect(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene) {
+void Services::Service::Disconnect(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+    std::cout << "disconnect" << std::endl;
+    std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
+
+    boost::uuids::uuid uuid = clients.getClient(client).value()->getUuid();
+    std::cout << "uuid => " << uuid << std::endl;
+    scene.getEntityManager().killEntity(clients.getClient(client).value()->getEntity());
+    scene.getComponentManager().killEntity(clients.getClient(client).value()->getEntity());
+    clients.removeClient(client);
+    clients.sendToEachClient(Serialize::createData<Serialize::Data>(Services::Command::PLAYER_DISCONNECTED, boost::uuids::to_string(uuid)));
     std::cout << "disconnect" << std::endl;
 }
 
-void Services::Service::Move(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene) {
+void Services::Service::Move(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "move" << std::endl;
 }
 
-void Services::Service::Shoot(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene) {
+void Services::Service::Shoot(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "shoot" << std::endl;
 }
 
-void Services::Service::NewPlayer(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene) {
+void Services::Service::NewPlayer(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "new player" << std::endl;
 }
 
-void Services::Service::PlayerMove(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene) {
+void Services::Service::PlayerMove(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "player move" << std::endl;
 }

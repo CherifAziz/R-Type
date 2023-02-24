@@ -75,3 +75,4 @@ udpserver
 *.nsi
 *.txt
 *.deb
+buildMacos.sh
