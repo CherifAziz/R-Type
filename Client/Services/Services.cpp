@@ -19,13 +19,14 @@ Services::Service::Service()
     this->_commands.push_back(std::bind(&Services::Service::Move, this, std::placeholders::_1, std::placeholders::_2));
     this->_commands.push_back(std::bind(&Services::Service::Shoot, this, std::placeholders::_1, std::placeholders::_2));
     this->_commands.push_back(std::bind(&Services::Service::NewPlayer, this, std::placeholders::_1, std::placeholders::_2));
+    this->_commands.push_back(std::bind(&Services::Service::PlayerDisconnected, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 Services::Service::~Service()
 {
 }
 
-void Services::Service::callService(udp::endpoint &client, std::map<udp::endpoint, std::unique_ptr<UdpClient>> &clients, Serialize::Data &data, rtype::IScene &scene)
+void Services::Service::callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene)
 {
 }
 
@@ -76,7 +77,7 @@ void Services::Service::Connected(Serialize::Data &data, rtype::IScene &scene) {
     int index = 0;
 
     for (auto &i : datas) {
-        if (index == 0) {
+        if (index == datas.size() - 1) {
             Network network(boost::lexical_cast<boost::uuids::uuid>(i));
             std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
             mapN->put(network, scene.getEntityManager().getEntitiesFromFamily("player")[0]->getId());
@@ -100,6 +101,26 @@ void Services::Service::Shoot( Serialize::Data &data, rtype::IScene &scene) {
 }
 
 void Services::Service::NewPlayer(Serialize::Data &data, rtype::IScene &scene) {
-    std::cout << "new player" << std::endl;
     createPlayer(scene.getComponentManager(), scene.getEntityManager(), boost::lexical_cast<boost::uuids::uuid>(data._data));
+}
+
+void Services::Service::PlayerDisconnected(Serialize::Data &data, rtype::IScene &scene) {
+    std::cout << "player disconnected" << std::endl;
+
+    std::vector<std::shared_ptr<rtype::Entity>> players = scene.getEntityManager().getEntitiesFromFamily("player");
+    std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
+    try {
+        boost::uuids::uuid uuid = boost::lexical_cast<boost::uuids::uuid>(data._data);
+
+        for (auto &i : players) {
+            if (mapN->get(i->getId()).getUUID() == uuid) {
+                std::cout << "Entity removed" << i->getId() << std::endl;
+                scene.getEntityManager().killEntity(i->getId());
+                scene.getComponentManager().killEntity(i->getId());
+                break;
+            }
+        }
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
 }
