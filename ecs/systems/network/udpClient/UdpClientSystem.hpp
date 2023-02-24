@@ -23,6 +23,7 @@
     #include "AUdpClientSystem.hpp"
 
     using namespace boost::asio;
+    using namespace boost::placeholders;
     using namespace boost::asio::ip;
 
     namespace rtype {
