@@ -15,14 +15,6 @@ namespace rtype
 {
     GameScene::GameScene()
     {
-    }
-
-    GameScene::~GameScene()
-    {
-    }
-
-    void GameScene::init()
-    {
         initSprite();
         initAnimation();
         initAction();
@@ -30,6 +22,12 @@ namespace rtype
         initMovement();
         initSound();
         initText();
+        initNetwork();
+    }
+
+    GameScene::~GameScene()
+    {
+
     }
 
     bool GameScene::isColliding(size_t x1, size_t y1, size_t width1, size_t height1, size_t x2, size_t y2, size_t width2, size_t height2)
@@ -63,38 +61,26 @@ namespace rtype
                 }
             }
         }
-        return -1;    
+        return -1;
     }
 
     void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
-
-        if (time % 2 == 0) {
-            int value = handleElementCollision(player_id);
-            if (value != -1)
-                _player_hp -= 1;
-            if (_player_hp == 0) {
-                std::cout << "THE END" << std::endl;
-                exit(0);
-            }
-            handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
-            handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
-            _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
-            handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-            handleBasicEnemy(time);
+        int value = handleElementCollision(player_id);
+        if (value != -1)
+            _player_hp -= 1;
+        if (_player_hp == 0) {
+            std::cout << "THE END" << std::endl;
+            exit(0);
         }
+        handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
+        handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
+        _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
+        handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
+        // handleBasicEnemy(time);
         if (time % 10 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
-    }
-
-    void GameScene::destroy()
-    {
-    }
-
-    const bool &GameScene::isGameStillPlaying() const
-    {
-        return _entityManager.isGamePlaying();
     }
 
     void GameScene::initSprite()
@@ -102,27 +88,27 @@ namespace rtype
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/spacebg.png", 0, 0);
         Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
-        Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
+        // Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
-        sprite.put(spaceship_sprite, _entityManager.spawnEntity("player")->getId());
+        // sprite.put(spaceship_sprite, _entityManager.spawnEntity("player")->getId());
         _componentManager.registerComponent<Sprite>(sprite);
     }
 
     void GameScene::initAnimation()
     {
         ComponentMap<Animation> animation;
-        Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
+        // Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
 
-        animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
     }
 
     void GameScene::initSound()
     {
         ComponentMap<Sound> sound;
-        Sound music("assets/music.ogg", true, Sound::SoundStatus::PLAY);
+        Sound music("assets/music.ogg", true, Sound::SoundStatus::PAUSE);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);
@@ -140,20 +126,20 @@ namespace rtype
     void GameScene::initCollision()
     {
         ComponentMap<Collision> collisionMap;
-        Collision collision(std::vector<std::string>{"basicEnemy"}); // NEED TO BE CHANGED TO THE ENEMY VECTOR
+        // Collision collision(ENEMIES);
 
-        collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Collision>(collisionMap);
     }
 
     void GameScene::initMovement()
     {
         ComponentMap<Movement> movement;
-        Movement player_move(0, 0);
+        // Movement player_move(0, 0);
         Movement first_background_movement(1, 1);
         Movement second_background_movement(1, 1);
 
-        movement.put(player_move, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // movement.put(player_move, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         movement.put(first_background_movement, _entityManager.getEntitiesFromFamily("background")[0]->getId());
         movement.put(second_background_movement, _entityManager.getEntitiesFromFamily("background")[1]->getId());
         _componentManager.registerComponent<Movement>(movement);
@@ -162,9 +148,9 @@ namespace rtype
     void GameScene::initAction()
     {
         ComponentMap<Action> action;
-        Action player_action;
+        // Action player_action;
 
-        action.put(player_action, _entityManager.getEntitiesFromFamily("player")[0]->getId());
+        // action.put(player_action, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Action>(action);
     }
 
@@ -189,8 +175,8 @@ namespace rtype
     const size_t &windowWidth, const size_t &windowHeight)
     {
         static const Action::KeyType keys[4] = {Action::KeyType::Z, Action::KeyType::S, Action::KeyType::Q, Action::KeyType::D};
-        static const ssize_t x_move[4] = {0, 0, -1, 1};
-        static const ssize_t y_move[4] = {-1, 1, 0, 0};
+        static const int x_move[4] = {0, 0, -1, 1};
+        static const int y_move[4] = {-1, 1, 0, 0};
         static const int max_boost = 10;
 
         for (uint16_t it = 0; it < 4; it++) {
@@ -212,8 +198,8 @@ namespace rtype
                     y_direction = max_boost;
             }
             player_movement.setDirection(x_direction * 0.9, y_direction * 0.9);
-            if (player_sprite.getX() + player_movement.getXDirection() > 0 && player_sprite.getX() + (int)player_animation.getRectWidth() + player_movement.getXDirection() < (int)windowWidth
-            && player_sprite.getY() + player_movement.getYDirection() > 0 && player_sprite.getY() + (int)player_animation.getRectHeight() + player_movement.getYDirection() < (int)windowHeight)
+            if (player_sprite.getX() + player_movement.getXDirection() > 0 && player_sprite.getX() + (int)player_animation.getRectWidth() * (int)player_sprite.getScale() + player_movement.getXDirection() < (int)windowWidth
+            && player_sprite.getY() + player_movement.getYDirection() > 0 && player_sprite.getY() + (int)player_animation.getRectHeight() * (int)player_sprite.getScale() + player_movement.getYDirection() < (int)windowHeight)
                 player_sprite.setPosition(player_sprite.getX() + player_movement.getXDirection(), player_sprite.getY() + player_movement.getYDirection());
         }
     }
@@ -240,5 +226,11 @@ namespace rtype
 
             animation.animate();
         }
+    }
+
+    void GameScene::initNetwork()
+    {
+        ComponentMap<Network> network;
+        _componentManager.registerComponent<Network>(network);
     }
 }

@@ -5,8 +5,8 @@
 ** IComponentMap
 */
 
-#ifndef _IComponentMap_
-    #define _IComponentMap_
+#ifndef IComponentMapDef
+    #define IComponentMapDef
 
     namespace rtype {
         /**
@@ -33,4 +33,4 @@
         };
     }
 
-#endif /* !_IComponentMap_ */
+#endif /* !IComponentMapDef */

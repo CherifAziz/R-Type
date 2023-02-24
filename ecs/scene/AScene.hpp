@@ -10,6 +10,9 @@
 
     #include "IScene.hpp"
 
+    #include "ComponentManager.hpp"
+    #include "EntityManager.hpp"
+
     namespace rtype {
         /**
          * @brief the Abstract for Scene class
