@@ -26,8 +26,6 @@ else
   echo "g++ déjà installé."
 fi
 
-# mdr il est ou git ?
-
 if ! [ -d "$PWD/vcpkg" ]; then
   echo "vcpkg n'est pas installé, installation en cours..."
   git clone https://github.com/Microsoft/vcpkg.git
@@ -36,12 +34,6 @@ if ! [ -d "$PWD/vcpkg" ]; then
   sudo chmod +x /usr/bin/vcpkg
 else 
   echo "vcpkg déjà installé."
-fi
-
-if ! command -v make > /dev/null; then
-  echo "make n'est pas installé, installation en cours..."
-else
-  echo "make déjà installé."
 fi
 
 if ! command -v cmake > /dev/null; then
