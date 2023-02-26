@@ -242,6 +242,14 @@
                 bool destroyBasicEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id);
 
                 /**
+                 * @brief Move boss for boss fight
+                 *
+                 * @param sprite the sprite of the enemy
+                 * @param movement the movement of the enemy
+                 */
+                void moveBoss(Sprite &sprite, Movement &movement);
+
+                /**
                  * @brief Destroy boss if the player killed them
                  *
                  * @param sprite the sprite of the boss
@@ -249,7 +257,14 @@
                  * @param enemy_id the boss entity id
                  * @return true if the boss has been destroyed, false otherwise
                  */
-                bool destroyBoss(Sprite &sprite, Animation &animation, entity_t enemy_id);
+                bool BossDeath(Sprite &sprite, Animation &animation, entity_t enemy_id);
+
+                /**
+                 * @brief Handle boss, so his destruction, movement, creation..
+                 *
+                 * @param time the time elapsed
+                 */
+                void handleBoss(const int64_t &time);
 
                 /**
                  * @brief Handle basic enemy, so his destruction, movement, creation..

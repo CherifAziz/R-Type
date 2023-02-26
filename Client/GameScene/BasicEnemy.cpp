@@ -91,7 +91,12 @@ namespace rtype {
             spawnBasicEnemy();
     }
 
-    bool GameScene::destroyBoss(Sprite &sprite, Animation &animation, entity_t enemy_id)
+    void GameScene::moveBoss(Sprite &sprite, Movement &movement)
+    {
+        sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
+    }
+
+    bool GameScene::BossDeath(Sprite &sprite, Animation &animation, entity_t enemy_id)
     {
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
@@ -100,6 +105,21 @@ namespace rtype {
             return true;
         }
         return false;
+    }
+
+    void GameScene::handleBoss(const int64_t &time)
+    {
+        std::vector<std::shared_ptr<Entity>> boss = _entityManager.getEntitiesFromFamily("boss");
+        std::shared_ptr<ComponentMap<Movement>> movementMap = _componentManager.getComponents<Movement>();
+        std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
+        std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
+
+        for (auto &boss : boss) {
+            if (BossDeath(spriteMap->get(boss->getId()), animationMap->get(boss->getId()), boss->getId()))
+                return handleBoss(time);
+            if (movementMap->contains(boss->getId()) && spriteMap->contains(boss->getId()))
+                moveBoss(spriteMap->get(boss->getId()), movementMap->get(boss->getId()));
+        }
     }
 
     void GameScene::spawnBoss()
@@ -116,7 +136,7 @@ namespace rtype {
         entity_t enemy = _entityManager.spawnEntity("boss")->getId();
         Sprite sprite("assets/boss1.gif", x, y, 4);
         Animation animation(255, 142, 0, 0, 2, 4, 5, 3, 2000);
-        Movement movement(-4, 0);
+        Movement movement(0, 1);
         Collision collision({"player"});
 
         _componentManager.put<Sprite>(sprite, enemy);
