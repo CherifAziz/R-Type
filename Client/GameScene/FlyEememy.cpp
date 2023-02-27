@@ -38,18 +38,29 @@ namespace rtype {
         entity_t enemy = _entityManager.spawnEntity("flyenemy")->getId();
         Sprite sprite("assets/flyenemy.gif", x, y, 3);
         Animation animation(61, 46, 4, 3, 6, 1, 4, 0, 500);
-        Movement movement(-5, 0);
+        if (rand() % 2 == 0) {
+            Movement movement(-3, -2);
+            _componentManager.put<Movement>(movement, enemy);
+        }
+        else {
+            Movement movement(-3, 2);
+            _componentManager.put<Movement>(movement, enemy);
+        }
         Collision collision({"player"});
 
         _componentManager.put<Sprite>(sprite, enemy);
         _componentManager.put<Animation>(animation, enemy);
-        _componentManager.put<Movement>(movement, enemy);
         _componentManager.put<Collision>(collision, enemy);
     }
 
     void GameScene::moveFlyEnemy(Sprite &sprite, Movement &movement)
     {
+        if (sprite.getY() > 900)
+            movement.setDirection(-3, (rand() % 10) - 10);
+        if (sprite.getY() < 50)
+            movement.setDirection(-3, (rand() % 10) + 1);
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
+        
     }
 
     bool GameScene::destroyFlyEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id)
@@ -73,8 +84,9 @@ namespace rtype {
         for (auto &flyEnemy : flyEnemies) {
             if (destroyFlyEnemy(spriteMap->get(flyEnemy->getId()), animationMap->get(flyEnemy->getId()), flyEnemy->getId()))
                 return handleFlyEnemy(time);
-            if (movementMap->contains(flyEnemy->getId()) && spriteMap->contains(flyEnemy->getId()))
+            if (movementMap->contains(flyEnemy->getId()) && spriteMap->contains(flyEnemy->getId())) {
                 moveFlyEnemy(spriteMap->get(flyEnemy->getId()), movementMap->get(flyEnemy->getId()));
+            }
         }
         if (flyEnemies.size() < 5 && time % 20 == 0)
             spawnFlyEnemy();
