@@ -17,7 +17,7 @@
             public:
                 Service();
                 void callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
-                void callService(Serialize::Data &data, rtype::IScene &scene);
+                void callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 ~Service();
 
             private:

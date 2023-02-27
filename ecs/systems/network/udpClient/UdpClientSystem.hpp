@@ -61,8 +61,14 @@
                 };
 
                 void update(std::shared_ptr<IScene> &scene) {
+                    try {
+                        std::optional<Serialize::Data> data = scene->getComponentManager().get<Network>(scene->getEntityManager().getEntitiesFromFamily("player")[0]->getId()).getCommands();
+                        if (data.has_value())
+                            this->_service->callService(data.value(), *this, *scene);
+                    } catch (std::invalid_argument &e) {}
+
                     if (!this->_queue.empty()) {
-                        this->_service->callService(this->_queue.front(), *scene);
+                        this->_service->callService(this->_queue.front(), *this, *scene);
                         this->_queue.pop();
                     }
                 };

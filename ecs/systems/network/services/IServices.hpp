@@ -19,6 +19,7 @@
 
     namespace rtype {
         class ClientManager;
+        class UdpClientSystem;
     };
 
     using namespace boost::asio::ip;
@@ -39,7 +40,7 @@
         class IService {
             public:
                 virtual void callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) = 0;
-                virtual void callService(Serialize::Data &data, rtype::IScene &scene) = 0;
+                virtual void callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) = 0;
                 virtual ~IService() = default;
         };
 
