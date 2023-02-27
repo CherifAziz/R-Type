@@ -41,7 +41,12 @@
                  * @brief Destroy the Sfml Render System object
                  * 
                  */
-                ~SfmlRenderSystem() = default;
+                ~SfmlRenderSystem()
+                {
+                    destroy();
+                    if (_storage->getRenderWindow().isOpen())
+                        _storage->getRenderWindow().close();
+                }
 
                 /**
                  * @brief init the SFML Render System object
@@ -112,8 +117,6 @@
                     _fontCache.clear();
                     _textCache.clear();
                     _musicCache.clear();
-                    if (_storage->getRenderWindow().isOpen())
-                        _storage->getRenderWindow().close();
                 }
 
                 /**

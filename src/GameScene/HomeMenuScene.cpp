@@ -33,10 +33,6 @@ namespace rtype {
         }
     }
 
-    void HomeMenuScene::destroy()
-    {
-    }
-
     void HomeMenuScene::initSprite() {
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/Menu-background.png", 0, 0);

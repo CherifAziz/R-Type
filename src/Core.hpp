@@ -51,6 +51,12 @@
                  * @return true if the game is still running, false otherwise
                  */
                 bool isGameRunning();
+
+                /**
+                 * @brief clear the systems cache between scene
+                 * 
+                 */
+                void clearSystemCache();
         };
     }
 

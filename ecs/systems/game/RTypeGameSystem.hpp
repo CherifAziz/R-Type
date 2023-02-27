@@ -14,6 +14,7 @@
     #include "IScene.hpp"
 
     #include "HomeMenuScene.hpp"
+    #include "GameScene.hpp"
 
     namespace rtype {
         /**
@@ -31,6 +32,7 @@
                 RTypeGameSystem(std::vector<std::shared_ptr<IScene>> &scenes) : AGameSystem("RType")
                 {
                     scenes.push_back(std::make_shared<HomeMenuScene>());
+                    scenes.push_back(std::make_shared<GameScene>());
                 }
 
                 /**
@@ -69,8 +71,9 @@
                     scene->update(elapsed_time, _storage->getWindowWidth(), _storage->getWindowHeight(), scene_id);
                     if (elapsed_time >= 100)
                         _startingTime = current;
-                    if (scene_id != _storage->getCurrentScene())
+                    if (scene_id != _storage->getCurrentScene()) {
                         _storage->setCurrentScene(scene_id);
+                    }
                 }
 
                 /**

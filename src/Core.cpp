@@ -44,8 +44,10 @@ namespace rtype
                 size_t current_scene = system->getCurrentScene();
 
                 system->update(_scenes[current_scene]);
-                if (current_scene != system->getCurrentScene())
+                if (current_scene != system->getCurrentScene()) {
+                    clearSystemCache();
                     break;
+                }
             }
         }
         return 0;
@@ -57,5 +59,11 @@ namespace rtype
             if (system->isGameStillPlaying() == false)
                 return false;
         return true;
+    }
+
+    void Core::clearSystemCache()
+    {
+        for (auto &system : _systems)
+            system->destroy();
     }
 }
