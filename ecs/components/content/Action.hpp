@@ -13,16 +13,16 @@
     namespace rtype {
         /**
          * @brief the Action Component
-         * 
+         *
          */
         class Action {
             public:
                 /**
                  * @brief Every keyboard key used by the game
-                 * 
+                 *
                  */
-                enum class KeyType {
-                    Z,
+                enum KeyType : int {
+                    Z = 0,
                     S,
                     Q,
                     D,
@@ -31,10 +31,10 @@
 
                 /**
                  * @brief The state of a key (UP, PRESSED, DOWN or RELEASED)
-                 * 
+                 *
                  */
-                enum class KeyState {
-                    PRESSED,
+                enum KeyState : int {
+                    PRESSED = 0,
                     DOWN,
                     RELEASED,
                     UP
@@ -42,19 +42,19 @@
 
                 /**
                  * @brief Construct a new Action object
-                 * 
+                 *
                  */
                 Action() = default;
 
                 /**
                  * @brief Destroy the Action object
-                 * 
+                 *
                  */
                 ~Action() = default;
 
                 /**
                  * @brief Set the State object
-                 * 
+                 *
                  * @param key the keyboard key that will be set in the key map as a key
                  * @param state the keyboard key state that will be set in the key map as the value
                  */
@@ -65,16 +65,16 @@
 
                 /**
                  * @brief Get the Key State object
-                 * 
+                 *
                  * @param key the key to get the state from
-                 * @return the state as a const KeyState& 
+                 * @return the state as a const KeyState&
                  */
                 const KeyState &getKeyState(const KeyType &key) const { return _keys.at(key); }
 
             protected:
                 /**
                  * @brief the key map with the keyboard key as a key and the key state as the value
-                 * 
+                 *
                  */
                 std::unordered_map<KeyType, KeyState> _keys = {
                     {KeyType::Z, KeyState::UP},

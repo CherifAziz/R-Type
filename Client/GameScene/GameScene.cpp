@@ -231,6 +231,7 @@ namespace rtype
     void GameScene::initNetwork()
     {
         ComponentMap<Network> network;
+
         _componentManager.registerComponent<Network>(network);
     }
 }

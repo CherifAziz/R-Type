@@ -6,8 +6,10 @@
 */
 
 #include <string>
+#include <queue>
 
 #include "Core.hpp"
+
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
@@ -46,6 +48,7 @@ static int start_rtype(std::string ip, std::string port)
 
 int main(int ac, char **av)
 {
+
     if (ac == 2 && check_parameter_is_helper((std::string)av[1])) {
         display_help();
         return (0);
