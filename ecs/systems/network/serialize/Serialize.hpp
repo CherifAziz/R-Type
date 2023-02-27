@@ -10,6 +10,7 @@
 
     #include <iostream>
     #include <string>
+    #include <vector>
     #include <boost/array.hpp>
     #include <boost/bind/bind.hpp>
     #include <boost/shared_ptr.hpp>
@@ -18,23 +19,27 @@
     #include <boost/archive/binary_oarchive.hpp>
     #include <boost/archive/binary_iarchive.hpp>
     #include <boost/serialization/serialization.hpp>
-
+    #include <boost/serialization/vector.hpp>
     namespace Serialize {
-        struct Data {
-            int s_id;
-            std::string _data;
-            void printData() {
-                std::cout << "s_id: " << s_id << std::endl;
-                std::cout << "_data: " << _data << std::endl;
-            };
-            template<typename Ar> void serialize(Ar& ar, unsigned) {
-                ar & s_id & _data;
-            }
+        class Data {
+            public:
+                friend class boost::serialization::access;
+                int s_id;
+                std::vector<std::string> _args;
+                void printData() {
+                    std::cout << "s_id: " << s_id << std::endl;
+                    std::cout << "_args: " << std::endl;
+                    for (auto &str: _args)
+                        std::cout << str << std::endl;
+                };
+                template<typename Ar> void serialize(Ar& ar, unsigned) {
+                    ar & s_id & _args;
+                }
         };
 
         template<typename T>
-        T createData(int s_id, std::string data) {
-            T info = { s_id, data };
+        T createData(int s_id, std::vector<std::string> args) {
+            T info = { s_id, args };
             return info;
         }
 

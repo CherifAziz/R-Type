@@ -60,9 +60,9 @@ namespace rtype {
         return false;
     }
 
-    void GameScene::initBullet(entity_t entity)
+    void GameScene::initBullet(entity_t entity, entity_t &player_id)
     {
-        Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
+        Sprite &player_sprite = _componentManager.get<Sprite>(player_id);
         Sound pow("assets/pow.ogg", false, Sound::SoundStatus::PLAY);
         Collision collision(ENEMIES); // NEED TO BE CHANGED TO THE ENEMY VECTOR
         Sprite sprite("assets/spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
@@ -99,7 +99,7 @@ namespace rtype {
         _componentManager.put<Sprite>(sprite, entity);
     }
 
-    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state)
+    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state, entity_t &player_id)
     {
         // if (_loadState == LoadState::ON) {
             // initBulletLoading();
@@ -107,7 +107,7 @@ namespace rtype {
         // }
         if (space_state == Action::KeyState::RELEASED) {
             std::shared_ptr<Entity> bullet = _entityManager.spawnEntity(BULLET_NAMES[(int)_bulletLoad]);
-            initBullet(bullet->getId());
+            initBullet(bullet->getId(), player_id);
             _bullet_sent[bullet->getId()] = std::make_pair(BulletSentState::SENT, _bulletLoad);
             _bulletLoad = BulletLoadState::LITTLE;
             _bulletTime = BulletTimeState::NONE;
@@ -130,7 +130,7 @@ namespace rtype {
         bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY());
     }
 
-    void GameScene::handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth)
+    void GameScene::handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth, entity_t player_id)
     {
         std::vector<std::shared_ptr<Entity>> bullets = _entityManager.getEntitiesFromSubFamily("bullet");
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
@@ -141,7 +141,7 @@ namespace rtype {
         for (auto &bullet : bullets) {
             if (spriteMap->contains(bullet->getId())) {
                 if (handleBulletDestruction(spriteMap->get(bullet->getId()), windowWidth, bullet->getId()))
-                    return (handleBullet(time, player_action, windowWidth));
+                    return (handleBullet(time, player_action, windowWidth, player_id));
             }
         }
         for (auto &bullet : bullets) {
@@ -151,8 +151,7 @@ namespace rtype {
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
         if (space_state != Action::KeyState::UP && time % 10 == 0) {
-            std::cout << "BULLET SENT" << std::endl;
-            spawnBullet(player_action, space_state);
+            spawnBullet(player_action, space_state, player_id);
             // if (_loadState == LoadState::OFF)
                 // updateBulletLoading();
         }

@@ -19,13 +19,9 @@
     namespace rtype {
         class Network {
             public:
-                Network(boost::uuids::uuid uid = boost::uuids::random_generator()()) : _uuid(uid) {
-                    std::cout << "New Network Component uid => " << _uuid << std::endl;
-                };
+                Network(boost::uuids::uuid uid = boost::uuids::random_generator()()) : _uuid(uid) {};
 
-                ~Network() {
-                    std::cout << "c'est ciao => " << this->_uuid << std::endl;
-                };
+                ~Network() {};
 
                 boost::uuids::uuid getUUID() const { return _uuid; };
 

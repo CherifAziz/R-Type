@@ -40,8 +40,7 @@
                                                                 boost::asio::placeholders::bytes_transferred));
                 };
 
-                void send_data(size_t s_id,std::string text) {
-                    Serialize::Data info = Serialize::createData<Serialize::Data>(s_id, text);
+                void send_data(Serialize::Data info) {
                     std::string data = Serialize::serialize<Serialize::Data>(info);
                     this->_socket.async_send_to(boost::asio::buffer(data), this->_receiver_endpoint,
                                         boost::bind(&UdpClientSystem::handler_send, this,
@@ -55,7 +54,7 @@
 
                 void init() {
                     this->_socket.open(udp::v4());
-                    this->send_data(Services::Command::CONNECTED, "");
+                    this->send_data(Serialize::createData<Serialize::Data>(Services::Command::CONNECTED, {}));
                     this->start_receive();
                 };
 
@@ -73,7 +72,7 @@
                 };
 
                 void destroy() {
-                    Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Command::DISCONNECTED, "");
+                    Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Command::DISCONNECTED, {});
                     std::string data = Serialize::serialize<Serialize::Data>(info);
                     this->_socket.async_send_to(boost::asio::buffer(data), this->_receiver_endpoint,
                                                 boost::bind(&UdpClientSystem::handler_quit, this,
@@ -95,7 +94,6 @@
 
                 void handler_received(const boost::system::error_code &error, std::size_t size) {
                     if (!error && error != boost::asio::error::eof && size > 0) {
-                        std::cout << "On Received" << std::endl;
                         Serialize::Data received_data = Serialize::deserialize<Serialize::Data>(std::string(this->_buffer.data(), size), size);
                         this->_queue.push(received_data);
                     }
@@ -113,8 +111,10 @@
                                                                 boost::asio::placeholders::bytes_transferred));
                 };
 
-                void handler_send(const boost::system::error_code & /*error*/, std::size_t /*bytes_transferred*/) {
-                    std::cout << "sent to client" << std::endl;
+                void handler_send(const boost::system::error_code & err, std::size_t /*bytes_transferred*/) {
+                    if (err) {
+                        std::cerr << err.what() << std::endl;
+                    }
                 };
 
                 udp::resolver _resolver;
