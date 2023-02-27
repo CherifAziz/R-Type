@@ -37,7 +37,7 @@ namespace rtype {
         }
         entity_t enemy = _entityManager.spawnEntity("flyenemy")->getId();
         Sprite sprite("assets/flyenemy.gif", x, y, 3);
-        Animation animation(61, 45, 26, 48, 6, 1, 6, 0, 2000);
+        Animation animation(61, 46, 4, 3, 6, 1, 4, 0, 500);
         Movement movement(-5, 0);
         Collision collision({"player"});
 
