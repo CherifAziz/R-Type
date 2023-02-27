@@ -72,7 +72,7 @@
                  * @param windowWidth 
                  * @param windowHeight 
                  */
-                void handleInteractions(Animation &animation, Sprite &sprite, Action &player_action, Action::KeyState mouse_state, const size_t &windowWidth, const size_t &windowHeight)
+                void handleInteractions(Animation &animation, Sprite &sprite, Action &player_action, Action::KeyState mouse_state, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
                 {
                     float windowWidthSizeRatio = 1920.0 / windowWidth;
                     float windowHeightSizeRatio = 1020.0 / windowHeight;
@@ -82,6 +82,7 @@
                         animation.animate();
                     } else if (this->_status == ButtonStatus::RELEASED) {
                         if (mouse_state == Action::KeyState::RELEASED) {
+                            scene = _linked_scene;
                             this->_status = ButtonStatus::NONE;
                             animation.animate();
                         }

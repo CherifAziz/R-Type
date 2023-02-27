@@ -43,7 +43,13 @@
                  * 
                  * @param time the current time that has been elapsed
                  */
-                virtual void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight) = 0;
+                virtual void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene) = 0;
+
+                /**
+                 * @brief destroy the scene (must be override)
+                 * 
+                 */
+                virtual void destroy() = 0;
 
             protected:
         };

@@ -9,18 +9,27 @@
 
 namespace rtype {
 
-    HomeMenuScene::HomeMenuScene() {}
+    HomeMenuScene::HomeMenuScene()
+    {
+        initSprite();
+        initSound();
+        initText();
+        initMovement();
+        initAction();
+        initAnimation();
+        initButtons();
+    }
 
     HomeMenuScene::~HomeMenuScene() {}
 
-    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
+    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
 
         if (time % 2 == 0) {
             handleButtons(_componentManager.getComponents<Animation>(), _componentManager.getComponents<Sprite>(),
                 _componentManager.getComponents<Button>(), _componentManager.getComponents<Action>()->get(player_id),
-                windowWidth, windowHeight);
+                windowWidth, windowHeight, scene);
         }
     }
 

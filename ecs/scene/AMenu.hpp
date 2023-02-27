@@ -19,19 +19,6 @@
              */
         class AMenu : public AScene {
             public:
-                /**
-                 * @brief Init the game
-                 * 
-                 */
-                void init() {
-                    initSprite();
-                    initSound();
-                    initText();
-                    initMovement();
-                    initAction();
-                    initAnimation();
-                    initButtons();
-                };
 
             protected:
                 /**
@@ -88,7 +75,7 @@
                  */
                 void handleButtons(std::shared_ptr<ComponentMap<Animation>> animationMap,
                         std::shared_ptr<ComponentMap<Sprite>> spriteMap, std::shared_ptr<ComponentMap<Button>> buttonMap,
-                        Action &player_action, const size_t &windowWidth, const size_t &windowHeight) {
+                        Action &player_action, const size_t &windowWidth, const size_t &windowHeight, size_t &scene) {
 
                     static const Action::MouseType keys[1] = { Action::MouseType::Left };
 
@@ -103,7 +90,7 @@
                         if (button_component.getButtonStatus() == Button::ButtonStatus::HOVER && mouse_state == Action::KeyState::PRESSED) {
                             button_component.setButtonStatus(Button::ButtonStatus::PRESSED);
                         } else
-                            button_component.handleInteractions(button_animation, button_sprite, player_action, mouse_state, windowWidth, windowHeight);
+                            button_component.handleInteractions(button_animation, button_sprite, player_action, mouse_state, windowWidth, windowHeight, scene);
                     }
                 };
 

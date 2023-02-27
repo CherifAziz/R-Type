@@ -40,8 +40,13 @@ namespace rtype
     {
         srand(time(NULL));
         while (isGameRunning()) {
-            for (auto &system : _systems)
-                system->update(_scenes[system->getCurrentScene()]);
+            for (auto &system : _systems) {
+                size_t current_scene = system->getCurrentScene();
+
+                system->update(_scenes[current_scene]);
+                if (current_scene != system->getCurrentScene())
+                    break;
+            }
         }
         return 0;
     }
