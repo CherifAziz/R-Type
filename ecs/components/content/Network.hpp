@@ -8,7 +8,7 @@
 #ifndef NETWORK_HPP_
     #define NETWORK_HPP_
 
-    #include <stack>
+    #include <queue>
     #include <optional>
     #include "Serialize.hpp"
     #include <boost/uuid/uuid.hpp>
@@ -20,27 +20,31 @@
         class Network {
             public:
                 Network(boost::uuids::uuid uid = boost::uuids::random_generator()()) : _uuid(uid) {
-                    std::cout << "New Network Component" << std::endl;
+                    std::cout << "New Network Component uid => " << _uuid << std::endl;
                 };
-                ~Network() {};
+
+                ~Network() {
+                    std::cout << "c'est ciao => " << this->_uuid << std::endl;
+                };
+
                 boost::uuids::uuid getUUID() const { return _uuid; };
 
-                void setUUID(boost::uuids::uuid uid) { this->_uuid = uid; };
+                void setUUID(boost::uuids::uuid uid) {
+                    this->_uuid = uid;
+                };
 
                 std::optional<Serialize::Data> getCommands() {
-                    std::cout << _uuid << " GetCommand => " << this->_queue.size() << std::endl;
-                    // if (!this->_queue.empty()) {
-                    //     Serialize::Data data = this->_queue.front();
-                        // this->_queue.pop();
-                    //     return data;
-                    // }
+                    if (!this->_queue.empty()) {
+                        Serialize::Data data = this->_queue.front();
+                        this->_queue.pop();
+                        return data;
+                    }
                     return std::nullopt;
                 };
 
                 bool addToQueue(Serialize::Data data) {
                     try {
                         this->_queue.push(data);
-                        std::cout << _uuid << " add to Queue => " << this->_queue.size() << std::endl;
                         return true;
                     } catch (std::exception &e) {
                         std::cout << "error addToQueue => " << e.what() << std::endl;
@@ -50,7 +54,7 @@
 
             private:
                 boost::uuids::uuid _uuid;
-                std::stack<Serialize::Data> _queue;
+                std::queue<Serialize::Data> _queue;
         };
     }
 

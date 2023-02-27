@@ -122,7 +122,7 @@
                             try {
                                 handleKey(_event.type, _event.key.code, action->get(entity), network->get(entity));
                             } catch (...) {
-                                handleKey(_event.type, _event.key.code, action->get(entity), std::nullopt);
+                                handleKey(_event.type, _event.key.code, action->get(entity));
                             }
                         }
                     }
@@ -136,19 +136,29 @@
                  * @param key the key type (keyboard key)
                  * @param action the player's Action component
                  */
-                void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action, std::optional<Network> network)
+                void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action)
                 {
                     if (_keyTranslator.count(key) == 0)
                         return;
 
                     if (event == sf::Event::KeyPressed) {
                         action.setState(_keyTranslator.at(key), Action::KeyState::PRESSED);
-                        if (network.has_value())
-                            network.value().addToQueue(Serialize::createData<Serialize::Data>(Services::Command::MOVE, std::string(boost::uuids::to_string(network.value().getUUID()) + "\t" + std::to_string(_keyTranslator.at(key)) + "\t" + std::to_string(Action::KeyState::PRESSED))));
                     } else if (event == sf::Event::KeyReleased) {
                         action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
-                        if (network.has_value())
-                            network.value().addToQueue(Serialize::createData<Serialize::Data>(Services::Command::MOVE, std::string(boost::uuids::to_string(network.value().getUUID()) + "\t" + std::to_string(_keyTranslator.at(key)) + "\t" + std::to_string(Action::KeyState::RELEASED))));
+                    }
+                }
+
+                void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action, Network &network)
+                {
+                    if (_keyTranslator.count(key) == 0)
+                        return;
+
+                    if (event == sf::Event::KeyPressed) {
+                        action.setState(_keyTranslator.at(key), Action::KeyState::PRESSED);
+                        network.addToQueue(Serialize::createData<Serialize::Data>(Services::Command::MOVE, std::string(boost::uuids::to_string(network.getUUID()) + "\t" + std::to_string(_keyTranslator.at(key)) + "\t" + std::to_string(Action::KeyState::PRESSED) + "\t")));
+                    } else if (event == sf::Event::KeyReleased) {
+                        action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
+                        network.addToQueue(Serialize::createData<Serialize::Data>(Services::Command::MOVE, std::string(boost::uuids::to_string(network.getUUID()) + "\t" + std::to_string(_keyTranslator.at(key)) + "\t" + std::to_string(Action::KeyState::RELEASED) + "\t")));
                     }
                 }
 

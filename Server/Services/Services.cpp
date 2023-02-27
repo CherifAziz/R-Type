@@ -32,13 +32,12 @@ void Services::Service::callService(udp::endpoint &client, rtype::ClientManager 
     this->_commands[data.s_id](client, clients, data, scene);
 }
 
-void Services::Service::callService(Serialize::Data &data, rtype::IScene &scene)
+void Services::Service::callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene)
 {
 }
 
 std::pair<boost::uuids::uuid, entity_t> createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities)
 {
-    std::cout << "create player" << std::endl;
     entity_t player = Entities.spawnEntity("player")->getId();
     Network spaceship_network;
 
@@ -48,7 +47,6 @@ std::pair<boost::uuids::uuid, entity_t> createPlayer(rtype::ComponentManager &Co
 
     mapN->put(spaceship_network, player);
     return std::make_pair(spaceship_network.getUUID(), player);
-    std::cout << "End of create player" << std::endl;
 }
 
 void Services::Service::Connected(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
@@ -62,9 +60,6 @@ void Services::Service::Connected(udp::endpoint &client, rtype::ClientManager &c
         uid.append(boost::uuids::to_string(scene.getComponentManager().getComponents<Network>()->get(entity->getId()).getUUID()));
         uid.append("\t");
     }
-
-    std::cout << "uid players => " << uid << std::endl;
-    std::cout << "uid player => " << player_pair.first << std::endl;
 
     if (clients.getClient(client).has_value()) {
         clients.getClient(client).value()->setUuid(player_pair.first);
@@ -84,7 +79,6 @@ void Services::Service::Disconnect(udp::endpoint &client, rtype::ClientManager &
     std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
 
     boost::uuids::uuid uuid = clients.getClient(client).value()->getUuid();
-    std::cout << "uuid => " << uuid << std::endl;
     scene.getEntityManager().killEntity(clients.getClient(client).value()->getEntity());
     scene.getComponentManager().killEntity(clients.getClient(client).value()->getEntity());
     clients.removeClient(client);
@@ -94,6 +88,9 @@ void Services::Service::Disconnect(udp::endpoint &client, rtype::ClientManager &
 
 void Services::Service::Move(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "move" << std::endl;
+    for (auto &clientTmp : clients.getClients())
+        if (clientTmp.first != client)
+            clientTmp.second->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Command::MOVE_PLAYER, data._data));
 }
 
 void Services::Service::Shoot(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
