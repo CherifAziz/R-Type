@@ -61,8 +61,7 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIEN - R
 **Prerequisite list :**
 > You should have theses prerequisites installed on your computer to be able to launch our game.
 - Visual Studio 2022
-- Winget
-- MinGW
+- Winget (you can get it here: https://github.com/microsoft/winget-cli/releases/download/v1.4.10173/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle)
 > Here is the command you need to launch to install all the dependencies and build the installer.
 ```
 ./install.bat
