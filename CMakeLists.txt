@@ -32,10 +32,24 @@ add_subdirectory(${CLIENT}/)
 add_subdirectory(${SERVER}/)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(USERS_DESKTOP "")
+    execute_process(
+        COMMAND "powershell" "-Command" "[Environment]::GetFolderPath('Desktop')"
+        OUTPUT_VARIABLE USERS_DESKTOP
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    message(STATUS "Desktop: ${USERS_DESKTOP}")
     set(BIN_FOLDER ${CMAKE_SOURCE_DIR}/build/Release/)
     install(DIRECTORY ${BIN_FOLDER} DESTINATION .)
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
     set(CPACK_GENERATOR "NSIS")
+    set(CPACK_NSIS_MODIFY_PATH ON)
+    set(CPACK_NSIS_CREATE_ICONS_EXTRA
+        "CreateShortCut '${USERS_DESKTOP}\\\\r-type_client.lnk' '$INSTDIR\\\\r-type_client.exe';
+        CreateShortCut '${USERS_DESKTOP}\\\\r-type_server.lnk' '$INSTDIR\\\\r-type_server.exe';
+        CreateShortCut '$SMPROGRAMS\\\\$START_MENU\\\\r-type_server.lnk' '$INSTDIR\\\\r-type_server.exe';
+        CreateShortCut '$SMPROGRAMS\\\\$START_MENU\\\\r-type_client.lnk' '$INSTDIR\\\\r-type_client.exe'"
+    )
 else ()
     install(TARGETS ${BIN_SERVER} DESTINATION bin)
     install(TARGETS ${BIN_CLIENT} DESTINATION bin)
@@ -44,6 +58,8 @@ else ()
         set(CPACK_GENERATOR "DEB")
     elseif (RPM_EXECUTABLE)
         set(CPACK_GENERATOR "RPM")
+    else()
+        set(CPACK_GENERATOR "TGZ")
     endif ()
 endif ()
 set(CPACK_PACKAGE_NAME "rtype")
