@@ -1,18 +1,5 @@
 #!/bin/sh
 
-if ! command -v ping > /dev/null; then
-  echo "ping n'est pas installé, installation en cours..."
-  sudo yum update -y
-  sudo yum install -y iputils
-else
-  echo "ping déjà installé."
-fi
-
-if ! ping -q -c 1 -W 1 google.com > /dev/null; then
-  echo "Aucune connexion internet détectée. Vérifiez votre connexion et réessayez."
-  exit 1
-fi
-
 if ! command -v g++ > /dev/null; then
   echo "g++ n'est pas installé, installation en cours..."
   curl -L https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.gz -o gcc.tar.gz
