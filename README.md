@@ -39,6 +39,7 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIEN - R
 
 # **Installation**
 > For the installation we've made two different installer script that you can find below.
+**⚠️⚠️ You will need connection to download depedencies make sure to be connected online ⚠️⚠️**
 
 ## **Linux :**
 **Prerequisite list :**
