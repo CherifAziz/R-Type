@@ -155,10 +155,10 @@
 
                     if (event == sf::Event::KeyPressed) {
                         action.setState(_keyTranslator.at(key), Action::KeyState::PRESSED);
-                        network.addToQueue(Serialize::createData<Serialize::Data>(Services::Command::MOVE, std::string(boost::uuids::to_string(network.getUUID()) + "\t" + std::to_string(_keyTranslator.at(key)) + "\t" + std::to_string(Action::KeyState::PRESSED) + "\t")));
+                        network.addToQueue(Serialize::createData<Serialize::Data>(Services::Command::INPUT, {boost::uuids::to_string(network.getUUID()), std::to_string(_keyTranslator.at(key)), std::to_string(Action::KeyState::PRESSED) }));
                     } else if (event == sf::Event::KeyReleased) {
                         action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
-                        network.addToQueue(Serialize::createData<Serialize::Data>(Services::Command::MOVE, std::string(boost::uuids::to_string(network.getUUID()) + "\t" + std::to_string(_keyTranslator.at(key)) + "\t" + std::to_string(Action::KeyState::RELEASED) + "\t")));
+                        network.addToQueue(Serialize::createData<Serialize::Data>(Services::Command::INPUT, {boost::uuids::to_string(network.getUUID()), std::to_string(_keyTranslator.at(key)), std::to_string(Action::KeyState::RELEASED) }));
                     }
                 }
 

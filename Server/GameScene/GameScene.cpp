@@ -77,7 +77,7 @@ namespace rtype
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
-        handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
+        handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth, player_id);
         // handleBasicEnemy(time);
         if (time % 10 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
@@ -97,9 +97,7 @@ namespace rtype
     void GameScene::initAnimation()
     {
         ComponentMap<Animation> animation;
-        // Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
 
-        // animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
     }
 
@@ -124,9 +122,7 @@ namespace rtype
     void GameScene::initCollision()
     {
         ComponentMap<Collision> collisionMap;
-        // Collision collision(ENEMIES);
 
-        // collisionMap.put(collision, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Collision>(collisionMap);
     }
 

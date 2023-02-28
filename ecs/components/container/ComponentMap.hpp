@@ -59,11 +59,7 @@
                  */
                 void put(Component &component, entity_t entity)
                 {
-                    if (typeid(Component) == typeid(Network))
-                        std::cout << "put to nework" << std::endl;
                     _data[entity] = component;
-                    if (typeid(Component) == typeid(Network))
-                        std::cout << "end of put to nework" << std::endl;
                 }
 
                 /**
