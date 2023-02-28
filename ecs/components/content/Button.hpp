@@ -74,7 +74,7 @@
                  */
                 void handleInteractions(Animation &animation, Sprite &sprite, Action &player_action, Action::KeyState mouse_state, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
                 {
-                    float windowWidthSizeRatio = 1850.0 / windowWidth;
+                    float windowWidthSizeRatio = 1900.0 / windowWidth;
                     float windowHeightSizeRatio = 1020.0 / windowHeight;
 
                     if (this->_status == ButtonStatus::PRESSED) {
