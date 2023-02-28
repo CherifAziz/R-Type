@@ -6,10 +6,22 @@
 */
 
 #include "GameScene.hpp"
-
+#include <iostream>
+#include <fstream>
+#include <string>
 #include "Collision.hpp"
 #include "Text.hpp"
 #include "GameValues.hpp"
+
+// WAVES = [
+//     WAVE1 = [
+//         {basic, 5},
+//         {medium, 2}
+//     ],
+// ]
+
+// index_wave
+
 
 namespace rtype
 {
@@ -23,6 +35,7 @@ namespace rtype
         initSound();
         initText();
         initNetwork();
+        initWaves();
     }
 
     GameScene::~GameScene()
@@ -78,9 +91,10 @@ namespace rtype
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-        // handleBasicEnemy(time);
-        // handleMediumEnemy(time);
-        // handleVessel(time);
+        handleWaves(time);
+        handleBasicEnemy(time);
+        handleMediumEnemy(time);
+        handleVessel(time);
         handleFlyEnemy(time);
         if (time % 10 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
@@ -155,6 +169,42 @@ namespace rtype
 
         action.put(player_action, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Action>(action);
+    }
+
+    void GameScene::initWaves()
+    {
+        std::string line;
+        std::vector<std::pair<std::string, int>> wave_config;
+
+        std::ifstream wave_file("assets/wave.txt");
+
+        if (wave_file.is_open()) {
+            while (std::getline(wave_file, line)) 
+            {
+                if (line.empty() || wave_file.eof()) {
+                    waves.push_back(wave_config);
+                    wave_config.clear();
+                }
+                else {
+                    std::string enemy;
+                    std::string nbrOfEnemy;
+                    std::stringstream ss(line);
+                    std::getline(ss, enemy, ',');
+                    std::getline(ss, nbrOfEnemy, ',');
+                    wave_config.push_back(std::make_pair(enemy, std::stoi(nbrOfEnemy)));
+                }
+            }
+            wave_file.close();
+        }
+
+        for (int i = 0; i < waves.size(); i++) {
+            for (int j = 0; j < waves[i].size(); j++) {
+                std::cout << waves[i][j].first << " ";
+                std::cout << waves[i][j].second << " ";
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;
+        }
     }
 
     void GameScene::handleBackgroundMovement(std::shared_ptr<ComponentMap<Sprite>> spriteMap, const std::shared_ptr<ComponentMap<Movement>> &movementMap)

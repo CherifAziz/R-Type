@@ -108,6 +108,8 @@
                  */
                 void initNetwork();
 
+                void initWaves();
+
                 /**
                  * @brief move the background to create a parallax effect
                  *
@@ -134,6 +136,8 @@
                  * @param player_action the player action component
                  */
                 void handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight);
+
+                void handleWaves(const int64_t &time);
 
                 /**
                  * @brief play all scene components animation
@@ -399,6 +403,8 @@
                 } _loadState = LoadState::ON;
 
                 std::unordered_map<entity_t, std::pair<BulletSentState, BulletLoadState>> _bullet_sent;
+
+                std::vector<std::vector<std::pair<std::string, int>>> waves;
 
                 enum class BulletTimeState {
                     NONE,

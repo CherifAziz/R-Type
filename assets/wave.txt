@@ -1,0 +1,14 @@
+basicEnemy,50
+mediumEnemy,30
+flyenemy,20
+vessel,10
+
+basicEnemy,80
+mediumEnemy,50
+flyenemy,35
+vessel,20
+
+basicEnemy,120
+mediumEnemy,70
+flyenemy,50
+vessel,30
