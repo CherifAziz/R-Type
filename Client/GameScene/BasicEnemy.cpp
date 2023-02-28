@@ -76,7 +76,7 @@ namespace rtype {
             if (movementMap->contains(basicEnemy->getId()) && spriteMap->contains(basicEnemy->getId()))
                 moveBasicEnemy(spriteMap->get(basicEnemy->getId()), movementMap->get(basicEnemy->getId()));
         }
-        if (basicEnemies.size() < 5 && time % 20 == 0)
+        if (basicEnemies.size() < 5 && time % 20 == 0 && waves[0][GetFamilyIndex("basicEnemy")].second != 0)
             spawnBasicEnemy();
     }
 }

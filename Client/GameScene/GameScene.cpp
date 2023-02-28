@@ -33,9 +33,9 @@ namespace rtype
         initCollision();
         initMovement();
         initSound();
+        initWaves();
         initText();
         initNetwork();
-        initWaves();
     }
 
     GameScene::~GameScene()
@@ -69,6 +69,14 @@ namespace rtype
 
                     if (isColliding(sprite.getX(), sprite.getY(), animation.getRectWidth() * sprite.getScale(), animation.getRectHeight() * sprite.getScale(),
                                     enemy_sprite.getX(), enemy_sprite.getY(), enemy_animation.getRectWidth() * enemy_sprite.getScale(), enemy_animation.getRectHeight() * enemy_sprite.getScale())) {
+                        auto& wave = waves[0];
+                        auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
+                            return p.first == family;
+                        });
+                        if (it != wave.end()) {
+                            if (it->second != 0)
+                                --it->second;
+                        }
                         return entity->getId();
                     }
                 }
@@ -92,10 +100,10 @@ namespace rtype
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
         handleWaves(time);
-        handleBasicEnemy(time);
-        handleMediumEnemy(time);
-        handleVessel(time);
-        handleFlyEnemy(time);
+        // handleBasicEnemy(time);
+        // handleMediumEnemy(time);
+        // handleVessel(time);
+        // handleFlyEnemy(time);
         if (time % 10 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
     }
@@ -134,7 +142,7 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Hi player !", "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text title("Wave "+ std::to_string(waves.size()), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         _componentManager.registerComponent<Text>(text);
@@ -205,6 +213,40 @@ namespace rtype
             }
             std::cout << std::endl;
         }
+    }
+
+    void GameScene::handleWaves(const int64_t &time)
+    {
+        int wave_finish = 0;
+
+        for (int j = 0; j < waves[0].size(); j++) {
+            if (waves[0][j].second != 0)
+                wave_finish = 1;
+        }
+        if (wave_finish == 0)
+            waves.erase(waves.begin());
+        for (int j = 0; j < waves[0].size(); j++) {
+            if (waves[0][j].first == "basicEnemy")
+                handleBasicEnemy(time);
+            if (waves[0][j].first == "mediumEnemy")
+                handleMediumEnemy(time);
+            if (waves[0][j].first == "flyenemy")
+                handleFlyEnemy(time);
+            if (waves[0][j].first == "vessel")
+                handleVessel(time);
+        }
+    }
+
+    int GameScene::GetFamilyIndex(const std::string &family)
+    {
+        auto& wave = waves[0];
+        auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
+            return p.first == family;
+        });
+        if (it != wave.end())
+            return(it - wave.begin());
+        else
+            std::cout << "Could not find " << family << std::endl;
     }
 
     void GameScene::handleBackgroundMovement(std::shared_ptr<ComponentMap<Sprite>> spriteMap, const std::shared_ptr<ComponentMap<Movement>> &movementMap)

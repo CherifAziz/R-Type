@@ -88,7 +88,7 @@ namespace rtype {
                 moveFlyEnemy(spriteMap->get(flyEnemy->getId()), movementMap->get(flyEnemy->getId()));
             }
         }
-        if (flyEnemies.size() < 5 && time % 20 == 0)
+        if (flyEnemies.size() < 5 && time % 20 == 0 && waves[0][GetFamilyIndex("flyenemy")].second != 0)
             spawnFlyEnemy();
     }
 }

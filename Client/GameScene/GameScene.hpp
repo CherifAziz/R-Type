@@ -385,6 +385,8 @@
                  */
                 int handleElementCollision(entity_t id);
 
+                int GetFamilyIndex(const std::string &family);
+
                 static const std::vector<std::string> ENEMIES;
                 static const std::vector<std::string> BULLET_NAMES;
 

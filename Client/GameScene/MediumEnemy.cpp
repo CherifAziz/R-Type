@@ -80,7 +80,7 @@ namespace rtype
             if (movementMap->contains(mediumEnemy->getId()) && spriteMap->contains(mediumEnemy->getId()))
                 moveMediumEnemy(spriteMap->get(mediumEnemy->getId()), movementMap->get(mediumEnemy->getId()));
         }
-        if (mediumEnemies.size() < 3 && time % 20 == 0)
+        if (mediumEnemies.size() < 3 && time % 20 == 0 && waves[0][GetFamilyIndex("mediumEnemy")].second != 0)
             spawnMediumEnemy();
     }
 }

@@ -76,7 +76,7 @@ namespace rtype {
             if (movementMap->contains(vesselEnemy->getId()) && spriteMap->contains(vesselEnemy->getId()))
                 moveVessel(spriteMap->get(vesselEnemy->getId()), movementMap->get(vesselEnemy->getId()));
         }
-        if (vesselEnemies.size() < 5 && time % 20 == 0)
+        if (vesselEnemies.size() < 5 && time % 20 == 0 && waves[0][GetFamilyIndex("vessel")].second != 0)
             spawnVessel();
     }
 }
