@@ -1,15 +1,15 @@
 /*
 ** EPITECH PROJECT, 2023
-** HomeMenuScene.cpp
+** SettingsMenu.cpp
 ** File description:
-** HomeMenuScene.cpp
+** SettingsMenu.cpp
 */
 
-#include "HomeMenuScene.hpp"
+#include "SettingsMenu.hpp"
 
 namespace rtype {
 
-    HomeMenuScene::HomeMenuScene()
+    SettingsMenu::SettingsMenu()
     {
         initSprite();
         initSound();
@@ -20,9 +20,9 @@ namespace rtype {
         initButtons();
     }
 
-    HomeMenuScene::~HomeMenuScene() {}
+    SettingsMenu::~SettingsMenu() {}
 
-    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
+    void SettingsMenu::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
 
@@ -33,19 +33,17 @@ namespace rtype {
         }
     }
 
-    void HomeMenuScene::initSprite() {
+    void SettingsMenu::initSprite() {
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/Menu-background.png", 0, 0);
         Sprite button_background_sprite("assets/Button-bg.png", 340, 317.5);
-        Sprite settings_button_background_sprite("assets/small-button-bg.png", 1700, 50);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(button_background_sprite, _entityManager.spawnEntity("button")->getId());
-        sprite.put(settings_button_background_sprite, _entityManager.spawnEntity("button")->getId());
         _componentManager.registerComponent<Sprite>(sprite);
     }
 
-    void HomeMenuScene::initSound() {
+    void SettingsMenu::initSound() {
         ComponentMap<Sound> sound;
         Sound music("assets/music.ogg", true, Sound::SoundStatus::PLAY);
         Sound pow("assets/pow.ogg", false, Sound::SoundStatus::STOP);
@@ -54,7 +52,7 @@ namespace rtype {
         _componentManager.registerComponent<Sound>(sound);
     }
 
-    void HomeMenuScene::initText() {
+    void SettingsMenu::initText() {
         ComponentMap<Text> text;
         Text title("START", "assets/font.ttf", 470, 305, 60, 1, Text::rgb_t(0, 0, 0));
 
@@ -62,14 +60,14 @@ namespace rtype {
         _componentManager.registerComponent<Text>(text);
     }
 
-    void HomeMenuScene::initMovement()
+    void SettingsMenu::initMovement()
     {
         ComponentMap<Movement> movement;
 
         _componentManager.registerComponent<Movement>(movement);
     }
 
-    void HomeMenuScene::initAction()
+    void SettingsMenu::initAction()
     {
         ComponentMap<Action> action;
         Action player_action;
@@ -78,25 +76,21 @@ namespace rtype {
         _componentManager.registerComponent<Action>(action);
     }
 
-    void HomeMenuScene::initAnimation()
+    void SettingsMenu::initAnimation()
     {
         ComponentMap<Animation> animation;
-        Animation start_button_animation(380, 98, 0, 0, 1, 3, 0, 7, 100);
-        Animation settings_button_animation(85, 84, 0, 0, 1, 3, 0, 8, 100);
+        Animation start_button_animation(420, 65, 0, 0, 1, 3, 0, 0, 100);
 
         animation.put(start_button_animation, _entityManager.getEntitiesFromFamily("button")[0]->getId());
-        animation.put(settings_button_animation, _entityManager.getEntitiesFromFamily("button")[1]->getId());
         _componentManager.registerComponent<Animation>(animation);
     }
 
-    void HomeMenuScene::initButtons()
+    void SettingsMenu::initButtons()
     {
         ComponentMap<Button> button;
-        Button start_button(2);
-        Button settings_button(1);
+        Button start_button(1);
 
         button.put(start_button, _entityManager.getEntitiesFromFamily("button")[0]->getId());
-        button.put(settings_button, _entityManager.getEntitiesFromFamily("button")[1]->getId());
         _componentManager.registerComponent<Button>(button);
     }
 }

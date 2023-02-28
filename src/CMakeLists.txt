@@ -11,6 +11,7 @@ find_package(SFML COMPONENTS system window graphics audio REQUIRED)
 
 add_executable(${BIN_NAME}
 GameScene/HomeMenuScene.cpp
+GameScene/SettingsMenu.cpp
 GameScene/GameScene.cpp
 GameScene/PlayerBullet.cpp
 GameScene/BasicEnemy.cpp
