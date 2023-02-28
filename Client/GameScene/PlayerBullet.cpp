@@ -12,7 +12,9 @@
 
 namespace rtype {
     const std::vector<std::string> GameScene::ENEMIES = {
-        "basicEnemy"
+        "basicEnemy",
+        "fly",
+        "boss"
     };
 
     const std::vector<std::string> GameScene::BULLET_NAMES = {
