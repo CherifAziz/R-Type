@@ -189,7 +189,17 @@ namespace rtype
         if (wave_file.is_open()) {
             while (std::getline(wave_file, line)) 
             {
-                if (line.empty() || wave_file.eof()) {
+                if (line.empty()) {
+                    waves.push_back(wave_config);
+                    wave_config.clear();
+                }
+                else if (wave_file.eof() && !line.empty()) {
+                    std::string enemy;
+                    std::string nbrOfEnemy;
+                    std::stringstream ss(line);
+                    std::getline(ss, enemy, ',');
+                    std::getline(ss, nbrOfEnemy, ',');
+                    wave_config.push_back(std::make_pair(enemy, std::stoi(nbrOfEnemy)));
                     waves.push_back(wave_config);
                     wave_config.clear();
                 }
@@ -219,21 +229,23 @@ namespace rtype
     {
         int wave_finish = 0;
 
-        for (int j = 0; j < waves[0].size(); j++) {
-            if (waves[0][j].second != 0)
-                wave_finish = 1;
-        }
-        if (wave_finish == 0)
-            waves.erase(waves.begin());
-        for (int j = 0; j < waves[0].size(); j++) {
-            if (waves[0][j].first == "basicEnemy")
-                handleBasicEnemy(time);
-            if (waves[0][j].first == "mediumEnemy")
-                handleMediumEnemy(time);
-            if (waves[0][j].first == "flyenemy")
-                handleFlyEnemy(time);
-            if (waves[0][j].first == "vessel")
-                handleVessel(time);
+        if (waves.size() >= 1) {
+            for (int j = 0; j < waves[0].size(); j++) {
+                if (waves[0][j].second != 0)
+                    wave_finish = 1;
+            }
+            if (wave_finish == 0 && waves.size() != 1)
+                waves.erase(waves.begin());
+            for (int j = 0; j < waves[0].size(); j++) {
+                if (waves[0][j].first == "basicEnemy")
+                    handleBasicEnemy(time);
+                if (waves[0][j].first == "mediumEnemy")
+                    handleMediumEnemy(time);
+                if (waves[0][j].first == "flyenemy")
+                    handleFlyEnemy(time);
+                if (waves[0][j].first == "vessel")
+                    handleVessel(time);
+            }
         }
     }
 
