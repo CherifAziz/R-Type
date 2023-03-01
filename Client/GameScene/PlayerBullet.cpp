@@ -51,6 +51,24 @@ namespace rtype {
         int value = handleElementCollision(entity);
 
         if (value != -1) {
+            const std::shared_ptr<Entity> test = _entityManager.getEntity(value);
+            std::string family = test->getFamily();
+            auto& wave = waves[0];
+            auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
+                return p.first == family;
+            });
+            if (it != wave.end()) {
+                if (it->second != 0)
+                    --it->second;
+            }
+            if (family == "basicEnemy")
+                _score += 10;
+            if (family == "mediumEnemy")
+                _score += 15;
+            if (family == "flyenemy")
+                _score += 25;
+            if (family == "vessel")
+                _score += 20;
             _componentManager.killEntity(value);
             _entityManager.killEntity(value);
         }

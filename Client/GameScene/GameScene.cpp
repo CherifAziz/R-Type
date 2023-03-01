@@ -69,14 +69,6 @@ namespace rtype
 
                     if (isColliding(sprite.getX(), sprite.getY(), animation.getRectWidth() * sprite.getScale(), animation.getRectHeight() * sprite.getScale(),
                                     enemy_sprite.getX(), enemy_sprite.getY(), enemy_animation.getRectWidth() * enemy_sprite.getScale(), enemy_animation.getRectHeight() * enemy_sprite.getScale())) {
-                        auto& wave = waves[0];
-                        auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
-                            return p.first == family;
-                        });
-                        if (it != wave.end()) {
-                            if (it->second != 0)
-                                --it->second;
-                        }
                         return entity->getId();
                     }
                 }
@@ -88,7 +80,6 @@ namespace rtype
     void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
-        entity_t text_id = _entityManager.getEntitiesFromFamily("title")[0]->getId();
         int value = handleElementCollision(player_id);
         // if (value != -1)
         //     _player_hp -= 1;
@@ -100,12 +91,8 @@ namespace rtype
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-        handleWaves(time, text_id);
-        // handleBasicEnemy(time);
-        // handleMediumEnemy(time);
-        // handleVessel(time);
-        // handleFlyEnemy(time);
-        if (time % 10 == 0)
+        handleWaves(time);
+        if (time % 20 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
     }
 
@@ -144,8 +131,10 @@ namespace rtype
     {
         ComponentMap<Text> text;
         Text title("Wave "+ std::to_string(_actual_wave), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text score("SCORE: " + std::to_string(_score), "assets/font.otf", 30, 980, 50, 1, Text::rgb_t(255, 199, 17));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
+        text.put(score, _entityManager.spawnEntity("score")->getId());
         _componentManager.registerComponent<Text>(text);
     }
 
@@ -226,22 +215,27 @@ namespace rtype
         }
     }
 
-    void GameScene::handleWaves(const int64_t &time, entity_t text_id)
+    void GameScene::handleWaves(const int64_t &time)
     {
+        entity_t text_id = _entityManager.getEntitiesFromFamily("title")[0]->getId();
+        entity_t score_id = _entityManager.getEntitiesFromFamily("score")[0]->getId();
         std::shared_ptr<ComponentMap<Text>> textMap = _componentManager.getComponents<Text>();
-        Text &text = textMap->get(text_id);
+
+        Text &title = textMap->get(text_id);
+        Text &score = textMap->get(score_id);
         int wave_finish = 0;
 
+        score.setText("Score: "+ std::to_string(_score));
         if (waves.size() >= 1) {
             for (int j = 0; j < waves[0].size(); j++) {
                 if (waves[0][j].second != 0)
                     wave_finish = 1;
             }
             if (wave_finish == 0 && waves.size() == 1)
-                text.setText("The end");
+                title.setText("The end");
             if (wave_finish == 0 && waves.size() != 1) {
                 _actual_wave += 1;
-                text.setText("Wave "+ std::to_string(_actual_wave));
+                title.setText("Wave "+ std::to_string(_actual_wave));
                 waves.erase(waves.begin());
             }
             for (int j = 0; j < waves[0].size(); j++) {

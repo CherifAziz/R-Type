@@ -56,9 +56,9 @@ namespace rtype {
     void GameScene::moveFlyEnemy(Sprite &sprite, Movement &movement)
     {
         if (sprite.getY() > 900)
-            movement.setDirection(-3, (rand() % 10) - 10);
+            movement.setDirection((rand() % 5) -6, (rand() % 10) - 10);
         if (sprite.getY() < 50)
-            movement.setDirection(-3, (rand() % 10) + 1);
+            movement.setDirection((rand() % 5) - 6, (rand() % 10) + 1);
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
         
     }
@@ -90,7 +90,7 @@ namespace rtype {
             }
         }
         familyIndex = GetFamilyIndex("flyenemy");
-        if (flyEnemies.size() < 5 && time % 20 == 0 && familyIndex != -1) {
+        if (flyEnemies.size() < 3 && time % 20 == 0 && familyIndex != -1) {
             if (waves[0][familyIndex].second != 0)
                 spawnFlyEnemy();
         }
