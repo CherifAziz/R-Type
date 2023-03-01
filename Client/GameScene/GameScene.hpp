@@ -137,7 +137,7 @@
                  */
                 void handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight);
 
-                void handleWaves(const int64_t &time);
+                void handleWaves(const int64_t &time, entity_t text_id);
 
                 /**
                  * @brief play all scene components animation
@@ -407,6 +407,8 @@
                 std::unordered_map<entity_t, std::pair<BulletSentState, BulletLoadState>> _bullet_sent;
 
                 std::vector<std::vector<std::pair<std::string, int>>> waves;
+                
+                size_t _actual_wave = 1;
 
                 enum class BulletTimeState {
                     NONE,

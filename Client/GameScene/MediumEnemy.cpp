@@ -72,6 +72,7 @@ namespace rtype
         std::shared_ptr<ComponentMap<Movement>> movementMap = _componentManager.getComponents<Movement>();
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
+        int familyIndex = 0;
 
         for (auto &mediumEnemy : mediumEnemies)
         {
@@ -80,7 +81,9 @@ namespace rtype
             if (movementMap->contains(mediumEnemy->getId()) && spriteMap->contains(mediumEnemy->getId()))
                 moveMediumEnemy(spriteMap->get(mediumEnemy->getId()), movementMap->get(mediumEnemy->getId()));
         }
-        if (mediumEnemies.size() < 3 && time % 20 == 0 && waves[0][GetFamilyIndex("mediumEnemy")].second != 0)
-            spawnMediumEnemy();
+        familyIndex = GetFamilyIndex("mediumEnemy");
+        if (mediumEnemies.size() < 3 && time % 20 == 0 && familyIndex != -1)
+            if (waves[0][familyIndex].second != 0)
+                spawnMediumEnemy();
     }
 }

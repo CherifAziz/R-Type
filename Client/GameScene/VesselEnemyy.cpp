@@ -69,6 +69,7 @@ namespace rtype {
         std::shared_ptr<ComponentMap<Movement>> movementMap = _componentManager.getComponents<Movement>();
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
+        int familyIndex = 0;
 
         for (auto &vesselEnemy : vesselEnemies) {
             if (destroyVessel(spriteMap->get(vesselEnemy->getId()), animationMap->get(vesselEnemy->getId()), vesselEnemy->getId()))
@@ -76,7 +77,9 @@ namespace rtype {
             if (movementMap->contains(vesselEnemy->getId()) && spriteMap->contains(vesselEnemy->getId()))
                 moveVessel(spriteMap->get(vesselEnemy->getId()), movementMap->get(vesselEnemy->getId()));
         }
-        if (vesselEnemies.size() < 5 && time % 20 == 0 && waves[0][GetFamilyIndex("vessel")].second != 0)
-            spawnVessel();
+        familyIndex = GetFamilyIndex("vessel");
+        if (vesselEnemies.size() < 5 && time % 20 == 0 && familyIndex != -1)
+            if (waves[0][familyIndex].second != 0)
+                spawnVessel();
     }
 }
