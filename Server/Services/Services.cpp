@@ -12,6 +12,8 @@
 #include "Animation.hpp"
 #include "GameValues.hpp"
 #include "UdpServerSystem.hpp"
+#include "TcpServerSystem.hpp"
+#include "TcpClientSystem.hpp"
 #include <utility>
 
 Services::Service::Service()
@@ -30,7 +32,16 @@ void Services::Service::callService(udp::endpoint &client, rtype::ClientManager 
     this->_commands[data.s_id](client, clients, data, scene);
 }
 
+void Services::Service::callService(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene)
+{
+    this->_commands_tcp[data.s_id](client, clients, data, scene);
+}
+
 void Services::Service::callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene)
+{
+}
+
+void Services::Service::callService(Serialize::Data &data, rtype::TcpClientSystem &client, rtype::IScene &scene)
 {
 }
 
@@ -94,4 +105,39 @@ void Services::Service::NewPlayer(udp::endpoint &client, rtype::ClientManager &c
 
 void Services::Service::PlayerMove(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "player move" << std::endl;
+}
+
+void Services::Service::NewPlayer_tcp(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+    std::cout << "new player" << std::endl;
+}
+
+void Services::Service::Connected_tcp(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+    std::pair<boost::uuids::uuid, entity_t> player_pair = createPlayer(scene.getComponentManager(), scene.getEntityManager());
+    std::vector<std::string> uid;
+
+    std::vector<std::shared_ptr<rtype::Entity>> entities = scene.getEntityManager().getEntitiesFromFamily("player");
+
+    for (auto &entity : entities)
+        uid.push_back(boost::uuids::to_string(scene.getComponentManager().getComponents<Network>()->get(entity->getId()).getUUID()));
+
+    if (clients.getClient(client).has_value()) {
+        clients.getClient(client).value()->setUuid(player_pair.first);
+        clients.getClient(client).value()->setEntity(player_pair.second);
+    }
+
+    for (auto &clientTmp : clients.getClients())
+        if (clientTmp.first == client)
+            clientTmp.second->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Command::CONNECTED, uid));
+        else
+            clientTmp.second->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Command::NEW_PLAYER, { boost::uuids::to_string((player_pair.first)) }));
+
+}
+
+void Services::Service::Disconnect_tcp(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+    std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
+    boost::uuids::uuid uuid = clients.getClient(client).value()->getUuid();
+    scene.getEntityManager().killEntity(clients.getClient(client).value()->getEntity());
+    scene.getComponentManager().killEntity(clients.getClient(client).value()->getEntity());
+    clients.removeClient(client);
+    clients.sendToEachClient(Serialize::createData<Serialize::Data>(Services::Command::PLAYER_DISCONNECTED, { boost::uuids::to_string(uuid) }));
 }

@@ -17,7 +17,9 @@
             public:
                 Service();
                 void callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
+                void callService(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 void callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                void callService(Serialize::Data &data, rtype::TcpClientSystem &client, rtype::IScene &scene);
                 ~Service();
 
             private:
@@ -28,6 +30,11 @@
                 void NewPlayer(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 void PlayerMove(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 std::vector<std::function<void(udp::endpoint&, rtype::ClientManager&, Serialize::Data&, rtype::IScene&)>> _commands;
+                void Connected_tcp(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
+                void Disconnect_tcp(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
+                void NewPlayer_tcp(tcp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
+                std::vector<std::function<void(tcp::endpoint&, rtype::ClientManager&, Serialize::Data&, rtype::IScene&)>> _commands_tcp;
+
         };
 
     };
