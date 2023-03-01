@@ -66,9 +66,10 @@ namespace rtype {
     void GameScene::initBullet(entity_t entity)
     {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
+        Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sound pow("assets/pow.ogg", false, Sound::SoundStatus::PLAY);
         Collision collision(ENEMIES); // NEED TO BE CHANGED TO THE ENEMY VECTOR
-        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
+        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
         Movement movement(20, 0);
         Animation animation(bullet_frames.at(_bulletLoad).first.width, bullet_frames.at(_bulletLoad).first.height, bullet_frames.at(_bulletLoad).first.x, bullet_frames.at(_bulletLoad).first.y, 1, 1, 0, 0, 500);
 
@@ -86,17 +87,19 @@ namespace rtype {
     void GameScene::updateBulletLoading()
     {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
+        Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sprite &loading_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("loading")[0]->getId());
 
-        loading_sprite.setPosition(player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2));
+        loading_sprite.setPosition(player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() / 2);
     }
 
     void GameScene::initBulletLoading()
     {
         entity_t entity = _entityManager.spawnEntity("loading")->getId();
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
+        Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation animation(31, 32, 2, 51, 8, 1, 1, 0, 500);
-        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
+        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() / 2, 4);
 
         _componentManager.put<Animation>(animation, entity);
         _componentManager.put<Sprite>(sprite, entity);
@@ -104,10 +107,10 @@ namespace rtype {
 
     void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state)
     {
-        // if (_loadState == LoadState::ON) {
-            // initBulletLoading();
-            // _loadState = LoadState::OFF;
-        // }
+        if (_loadState == LoadState::ON) {
+            initBulletLoading();
+            _loadState = LoadState::OFF;
+        }
         if (space_state == Action::KeyState::RELEASED) {
             std::shared_ptr<Entity> bullet = _entityManager.spawnEntity(BULLET_NAMES[(int)_bulletLoad]);
             initBullet(bullet->getId());
@@ -115,10 +118,10 @@ namespace rtype {
             _bulletLoad = BulletLoadState::LITTLE;
             _bulletTime = BulletTimeState::NONE;
             player_action.setState(Action::KeyType::SPACE, Action::KeyState::UP);
-            // entity_t entity = _entityManager.getEntitiesFromFamily("loading")[0]->getId();
-            // _componentManager.killEntity(entity);
-            // _entityManager.killEntity(entity);
-            // _loadState = LoadState::ON;
+            entity_t entity = _entityManager.getEntitiesFromFamily("loading")[0]->getId();
+            _componentManager.killEntity(entity);
+            _entityManager.killEntity(entity);
+            _loadState = LoadState::ON;
         } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE) {
             _bulletTime = (BulletTimeState)((int)_bulletTime + 1);
             if (_bulletTime == BulletTimeState::READY) {
@@ -156,8 +159,8 @@ namespace rtype {
         if (space_state != Action::KeyState::UP && time % 10 == 0) {
             std::cout << "BULLET SENT" << std::endl;
             spawnBullet(player_action, space_state);
-            // if (_loadState == LoadState::OFF)
-                // updateBulletLoading();
+            if (_loadState == LoadState::OFF)
+                updateBulletLoading();
         }
     }
 }
