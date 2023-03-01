@@ -9,6 +9,7 @@
     #define _EnemyManager_
 
     #include "AScene.hpp"
+    #include "IEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -24,9 +25,9 @@
          */
         enum EnemyType: int {
             BASIC = 0,
-            STUPID,
             FLY,
-            BOSS
+            BOSS,
+            STUPID
         };
 
         class EnemyManager {
@@ -42,8 +43,21 @@
                  *
                  */
                 ~EnemyManager();
+
+                /**
+                 * @brief create a new enemy and adding it to the list of enemy
+                 *
+                 */
+                std::shared_ptr<IEnemy> createEnemy(EnemyType type, ComponentManager &componentManager, EntityManager &entityManager);
+
+                /**
+                 * @brief handle all enemies comportement
+                 *
+                 */
+                void enemiesHandle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+
             protected:
-                std::vector<> _entity;
+                std::vector<std::shared_ptr<IEnemy>> _enemies;
         };
     }
 

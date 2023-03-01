@@ -9,6 +9,7 @@
     #define _BossEnemy_
 
     #include "AScene.hpp"
+    #include "IEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -22,7 +23,7 @@
          * @brief The BossEnemy class
          *
          */
-        class BossEnemy {
+        class BossEnemy : public IEnemy{
             public:
                 /**
                  * @brief Construct a new BossEnemy
@@ -53,7 +54,7 @@
                  * @brief handle the enemy
                  *
                  */
-                void handle(const int64_t &time);
+                void handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
 
             protected:
                 /**

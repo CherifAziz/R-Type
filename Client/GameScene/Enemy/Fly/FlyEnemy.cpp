@@ -13,12 +13,12 @@
 
 namespace rtype
 {
-    bool isAlreadyAnFlyEnemyHere(size_t x, size_t y)
+    bool isAlreadyAnFlyEnemyHere(size_t x, size_t y, ComponentManager &componentManager, EntityManager &entityManager)
     {
-        std::vector<std::shared_ptr<Entity>> flyEnemies = _entityManager.getEntitiesFromFamily("fly");
+        std::vector<std::shared_ptr<Entity>> flyEnemies = entityManager.getEntitiesFromFamily("fly");
 
         for (auto &flyEnemy : flyEnemies) {
-            Sprite &sprite = _componentManager.get<Sprite>(flyEnemy->getId());
+            Sprite &sprite = componentManager.get<Sprite>(flyEnemy->getId());
 
             if ((int)x > sprite.getX() - ENEMY_REACH && (int)x < sprite.getX() + ENEMY_REACH)
                 return true;
@@ -36,7 +36,7 @@ namespace rtype
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnFlyEnemyHere(x, y))
+        while (isAlreadyAnFlyEnemyHere(x, y, componentManager, entityManager))
         {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
@@ -67,30 +67,26 @@ namespace rtype
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0)
         {
-            _componentManager.killEntity(enemy_id);
-            _entityManager.killEntity(enemy_id);
+            componentManager.killEntity(enemy_id);
+            entityManager.killEntity(enemy_id);
             return true;
         }
         return false;
     }
 
-    void FlyEnemy::handle(const int64_t &time)
+    void FlyEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
-        std::vector<std::shared_ptr<Entity>> flyEnemies = _entityManager.getEntitiesFromFamily("fly");
-        std::shared_ptr<ComponentMap<Movement>> movementMap = _componentManager.getComponents<Movement>();
-        std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
-        std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
+        std::vector<std::shared_ptr<Entity>> flyEnemies = entityManager.getEntitiesFromFamily("fly");
+        std::shared_ptr<ComponentMap<Movement>> movementMap = componentManager.getComponents<Movement>();
+        std::shared_ptr<ComponentMap<Sprite>> spriteMap = componentManager.getComponents<Sprite>();
+        std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
 
         for (auto &flyEnemy : flyEnemies)
         {
-            if (destroyFlyEnemy(spriteMap->get(flyEnemy->getId()), animationMap->get(flyEnemy->getId()), flyEnemy->getId()))
-                return handleFlyEnemy(time);
+            if (destroy(spriteMap->get(flyEnemy->getId()), animationMap->get(flyEnemy->getId()), flyEnemy->getId()))
+                return handle(time);
             if (movementMap->contains(flyEnemy->getId()) && spriteMap->contains(flyEnemy->getId()))
-                moveFlyEnemy(spriteMap->get(flyEnemy->getId()), movementMap->get(flyEnemy->getId()));
-        }
-        if (flyEnemies.size() < 5 && time % 20 == 0)
-        {
-            spawnFlyEnemy();
+                move(spriteMap->get(flyEnemy->getId()), movementMap->get(flyEnemy->getId()));
         }
     }
 }

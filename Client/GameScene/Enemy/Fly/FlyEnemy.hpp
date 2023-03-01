@@ -9,6 +9,7 @@
     #define _FlyEnemy_
 
     #include "AScene.hpp"
+    #include "IEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -22,7 +23,7 @@
          * @brief The FlyEnemy class
          *
          */
-        class FlyEnemy {
+        class FlyEnemy : public IEnemy {
             public:
                 /**
                  * @brief Construct a new flyenemy
@@ -53,7 +54,7 @@
                  * @brief handle the enemy
                  *
                  */
-                void handle(const int64_t &time);
+                void handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
 
             protected:
                 /**

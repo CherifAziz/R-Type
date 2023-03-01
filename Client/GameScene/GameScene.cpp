@@ -6,6 +6,7 @@
 */
 
 #include "GameScene.hpp"
+#include "EnemyManager.hpp"
 
 #include "Collision.hpp"
 #include "Text.hpp"
@@ -79,9 +80,7 @@ namespace rtype
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-        handleBasicEnemy(time);
-        handleBoss(time);
-        handleFlyEnemy(time);
+        
         if (time % 10 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
     }

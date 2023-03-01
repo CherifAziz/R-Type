@@ -5,9 +5,12 @@
 ** Interface Enemy manager
 */
 
-#ifndef ICoreDef
-    #define ICoreDef
+#ifndef _IEnemy_
+    #define _IEnemy_
 
+    #include "FlyEnemy.hpp"
+    #include "BasicEnemy.hpp"
+    #include "BossEnemy.hpp"
     #include "ComponentManager.hpp"
     #include "EntityManager.hpp"
 
@@ -29,21 +32,8 @@
                  * @brief handle every enemy
                  *
                  */
-                virtual void handle();
-
-                /**
-                 * @brief handle movement of the enemy
-                 *
-                 */
-                virtual void move();
-
-                /**
-                 * @brief destroy the current alive enemy
-                 *
-                 * @return true if the enemy is dead
-                 */
-                virtual bool destroy(ComponentManager &componentManager, EntityManager &entityManager);
+                virtual void handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager) = 0;
         };
     }
 
-#endif /* !IEnemy */
+#endif /* !_IEnemy_ */

@@ -9,6 +9,7 @@
     #define _BasicEnemy_
 
     #include "AScene.hpp"
+    #include "IEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -22,7 +23,7 @@
          * @brief The BasicEnemy class
          *
          */
-        class BasicEnemy {
+        class BasicEnemy : public IEnemy{
             public:
                 /**
                  * @brief Construct a new BasicEnemy
@@ -53,7 +54,7 @@
                  * @brief handle the enemy
                  *
                  */
-                void handle(const int64_t &time);
+                void handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
 
             protected:
                 /**
