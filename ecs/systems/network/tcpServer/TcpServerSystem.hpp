@@ -10,6 +10,7 @@
 
     #include "ATcpServerSystem.hpp"
     #include "Serialize.hpp"
+    #include "Services.hpp"
     #include <iostream>
     #include <string>
     #include <memory>
@@ -31,7 +32,7 @@
 
                 void start() {
                     std::cout << "client started" << std::endl;
-                    Serialize::Data info = Serialize::createData<Serialize::Data>(0, "");
+                    Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Command::CONNECTED, {});
                     std::string data = Serialize::serialize<Serialize::Data>(info);
                     boost::asio::async_write(this->_socket, boost::asio::buffer(data), boost::bind(&ClientServer::onWrite, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
                     sleep(2);
@@ -71,7 +72,7 @@
 
         class TcpServerSystem : public ATcpServerSystem {
             public:
-                TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("TcpServer"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc) {
+                TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("TcpServer"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc), _nullscene(0) {
                     std::cout << "ServerSystem created" << std::endl;
                     this->start_accept();
                 };
@@ -80,6 +81,7 @@
                 void start_accept() {
                     std::cout << "start accept" << std::endl;
                     this->_clients.push_back(std::make_shared<ClientServer>(this->_io_context));
+                    std::cout << "client created" << std::endl;
                     this->_acceptor.async_accept(this->_clients[this->_clients.size() - 1]->getSocket(),
                         boost::bind(&TcpServerSystem::handle_accept, this, this->_clients[this->_clients.size() - 1], boost::asio::placeholders::error));
                 };
@@ -99,9 +101,9 @@
                 };
 
 
-                 const std::string &getName() const { return (""); };
+                const std::string &getName() const { return (""); };
                 bool isGameStillPlaying() { return true; };
-                const size_t &getCurrentScene() const { return 0; };
+                const size_t &getCurrentScene() const { return this->_nullscene; };
                 void init() {};
                 void update(std::shared_ptr<IScene> &/*scene*/) {};
                 void destroy() {};
@@ -114,6 +116,7 @@
                 tcp::acceptor _acceptor;
                 boost::asio::io_context &_io_context;
                 std::vector<std::shared_ptr<ClientServer> > _clients;
+                const size_t _nullscene;
         };
     }
 
