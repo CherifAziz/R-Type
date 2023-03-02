@@ -49,3 +49,6 @@ namespace rtype
         }
     }
 }
+
+// methode dans ienemy en mode getid en virtual pure et dans tout les enemy un getter d'id et chacun aura un attribut ID
+//

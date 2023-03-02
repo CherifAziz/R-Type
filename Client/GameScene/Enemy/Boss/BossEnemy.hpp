@@ -62,6 +62,12 @@
                  * 
                  */
                 size_t _hp;
+
+                /**
+                 * @brief the id of the enemy
+                 * 
+                 */
+                entity_t _id;
         };
     }
 

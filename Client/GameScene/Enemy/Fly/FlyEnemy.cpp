@@ -32,7 +32,6 @@ namespace rtype
     {
         this->_hp = 10;
 
-
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
@@ -41,16 +40,16 @@ namespace rtype
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        entity_t enemy = entityManager.spawnEntity("fly")->getId();
+        this->_id = entityManager.spawnEntity("fly")->getId();
         Sprite sprite("assets/flyenemy.gif", x, y, 3);
         Animation animation(61, 46, 4, 3, 6, 1, 6, 0, 2000);
-        Movement movement(-2, 0);
+        Movement movement(-2, 2);
         Collision collision({"player"});
 
-        componentManager.put<Sprite>(sprite, enemy);
-        componentManager.put<Animation>(animation, enemy);
-        componentManager.put<Movement>(movement, enemy);
-        componentManager.put<Collision>(collision, enemy);
+        componentManager.put<Sprite>(sprite, this->_id);
+        componentManager.put<Animation>(animation, this->_id);
+        componentManager.put<Movement>(movement, this->_id);
+        componentManager.put<Collision>(collision, this->_id);
     }
 
     FlyEnemy::~FlyEnemy()
@@ -58,7 +57,11 @@ namespace rtype
     }
 
     void FlyEnemy::move(Sprite &sprite, Movement &movement)
-    {
+     {
+        if (sprite.getY() > 900)
+            movement.setDirection((rand() % 5) -6, (rand() % 10) - 10);
+        if (sprite.getY() < 50)
+            movement.setDirection((rand() % 5) - 6, (rand() % 10) + 1);
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
@@ -81,12 +84,9 @@ namespace rtype
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
 
-        for (auto &flyEnemy : flyEnemies)
-        {
-            if (destroy(spriteMap->get(flyEnemy->getId()), animationMap->get(flyEnemy->getId()), flyEnemy->getId(), componentManager, entityManager))
-                return handle(time, componentManager, entityManager);
-            if (movementMap->contains(flyEnemy->getId()) && spriteMap->contains(flyEnemy->getId()))
-                move(spriteMap->get(flyEnemy->getId()), movementMap->get(flyEnemy->getId()));
-        }
+        if (destroy(spriteMap->get(this->_id), animationMap->get(this->_id), this->_id, componentManager, entityManager))
+            return handle(time, componentManager, entityManager);
+        if (movementMap->contains(this->_id) && spriteMap->contains(this->_id))
+            move(spriteMap->get(this->_id), movementMap->get(this->_id));
     }
 }

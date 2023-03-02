@@ -48,7 +48,7 @@
                  *
                  * @return true if the enemy is dead
                  */
-                bool destroy(Sprite &sprite, Animation &animation, entity_t enemy_id, ComponentManager &componentManager, EntityManager &entityManager);
+                bool destroy(Sprite &sprite, Animation &animation, ComponentManager &componentManager, EntityManager &entityManager);
 
                 /**
                  * @brief handle the enemy
@@ -62,6 +62,12 @@
                  * 
                  */
                 size_t _hp;
+
+                /**
+                 * @brief the id of the enemy
+                 * 
+                 */
+                entity_t _id;
         };
     }
 

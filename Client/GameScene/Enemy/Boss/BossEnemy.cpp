@@ -20,16 +20,16 @@ namespace rtype
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        entity_t enemy = entityManager.spawnEntity("fly")->getId();
+        this->_id = entityManager.spawnEntity("fly")->getId();
         Sprite sprite("assets/BossEnemy.gif", x, y, 3);
         Animation animation(61, 46, 4, 3, 6, 1, 6, 0, 2000);
         Movement movement(-2, 0);
         Collision collision({"player"});
 
-        componentManager.put<Sprite>(sprite, enemy);
-        componentManager.put<Animation>(animation, enemy);
-        componentManager.put<Movement>(movement, enemy);
-        componentManager.put<Collision>(collision, enemy);
+        componentManager.put<Sprite>(sprite, this->_id);
+        componentManager.put<Animation>(animation, this->_id);
+        componentManager.put<Movement>(movement, this->_id);
+        componentManager.put<Collision>(collision, this->_id);
     }
 
     BossEnemy::~BossEnemy()
@@ -62,10 +62,10 @@ namespace rtype
 
         for (auto &BossEnemy : flyEnemies)
         {
-            if (destroy(spriteMap->get(BossEnemy->getId()), animationMap->get(BossEnemy->getId()), BossEnemy->getId(), componentManager, entityManager))
+            if (destroy(spriteMap->get(this->_id), animationMap->get(this->_id), this->_id, componentManager, entityManager))
                 return handle(time, componentManager, entityManager);
-            if (movementMap->contains(BossEnemy->getId()) && spriteMap->contains(BossEnemy->getId()))
-                move(spriteMap->get(BossEnemy->getId()), movementMap->get(BossEnemy->getId()));
+            if (movementMap->contains(this->_id) && spriteMap->contains(this->_id))
+                move(spriteMap->get(this->_id), movementMap->get(this->_id));
         }
     }
 }

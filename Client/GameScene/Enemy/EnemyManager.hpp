@@ -60,6 +60,10 @@
                 void handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
 
             protected:
+                /**
+                 * @brief List of all instancied enemy
+                 *
+                 */
                 std::vector<std::shared_ptr<IEnemy>> _enemies;
         };
     }

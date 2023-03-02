@@ -39,34 +39,36 @@ namespace rtype
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        entity_t enemy = entityManager.spawnEntity("basicEnemy")->getId();
+        this->_id = entityManager.spawnEntity("basicEnemy")->getId();
         Sprite sprite("assets/basicEnemy.gif", x, y, 4);
         Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
-        Movement movement(-5, 0);
+        Movement movement(-5, 3);
         Collision collision({"player"});
 
-        componentManager.put<Sprite>(sprite, enemy);
-        componentManager.put<Animation>(animation, enemy);
-        componentManager.put<Movement>(movement, enemy);
-        componentManager.put<Collision>(collision, enemy);
+        componentManager.put<Sprite>(sprite, this->_id);
+        componentManager.put<Animation>(animation, this->_id);
+        componentManager.put<Movement>(movement, this->_id);
+        componentManager.put<Collision>(collision, this->_id);
     }
 
+    BasicEnemy::~BasicEnemy()
+    {
+    }
 
     void BasicEnemy::move(Sprite &sprite, Movement &movement)
     {
         if (sprite.getY() > 900)
-            movement.setDirection(-5, -4);
+            movement.setDirection(-7, -9);
         if (sprite.getY() < 50)
-            movement.setDirection(3, 4);
+            movement.setDirection(2, 9);
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool BasicEnemy::destroy(Sprite &sprite, Animation &animation, entity_t enemy_id, ComponentManager &componentManager, EntityManager &entityManager)
+    bool BasicEnemy::destroy(Sprite &sprite, Animation &animation, ComponentManager &componentManager, EntityManager &entityManager)
     {
-        (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
-            componentManager.killEntity(enemy_id);
-            entityManager.killEntity(enemy_id);
+            componentManager.killEntity(this->_id);
+            entityManager.killEntity(this->_id);
             return true;
         }
         return false;
@@ -79,15 +81,9 @@ namespace rtype
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
 
-        for (auto &basicEnemy : basicEnemies) {
-            if (destroy(spriteMap->get(basicEnemy->getId()), animationMap->get(basicEnemy->getId()), basicEnemy->getId(), componentManager, entityManager))
-                return handle(time, componentManager, entityManager);
-            if (movementMap->contains(basicEnemy->getId()) && spriteMap->contains(basicEnemy->getId()))
-                move(spriteMap->get(basicEnemy->getId()), movementMap->get(basicEnemy->getId()));
-        }
-    }
-
-    BasicEnemy::~BasicEnemy()
-    {
+        if (destroy(spriteMap->get(this->_id), animationMap->get(this->_id), componentManager, entityManager))
+            return handle(time, componentManager, entityManager);
+        if (movementMap->contains(this->_id) && spriteMap->contains(this->_id))
+            move(spriteMap->get(this->_id), movementMap->get(this->_id));
     }
 }
