@@ -1,0 +1,15 @@
+FROM ubuntu:latest
+
+RUN apt-get update -y
+
+RUN apt-get install -y sudo curl git make gcc g++ zip unzip
+
+RUN useradd -m -s /bin/bash -G sudo -p 1234 ubuntu
+
+USER ubuntu
+
+WORKDIR /home/ubuntu/r-type
+
+COPY . .
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
