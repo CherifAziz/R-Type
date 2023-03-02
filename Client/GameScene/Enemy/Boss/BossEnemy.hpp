@@ -23,7 +23,7 @@
          * @brief The BossEnemy class
          *
          */
-        class BossEnemy : public IEnemy{
+        class BossEnemy : public IEnemy {
             public:
                 /**
                  * @brief Construct a new BossEnemy
@@ -48,7 +48,7 @@
                  *
                  * @return true if the enemy is dead
                  */
-                bool destroy(ComponentManager &componentManager, EntityManager &entityManager);
+                bool destroy(Sprite &sprite, Animation &animation, entity_t enemy_id, ComponentManager &componentManager, EntityManager &entityManager);
 
                 /**
                  * @brief handle the enemy

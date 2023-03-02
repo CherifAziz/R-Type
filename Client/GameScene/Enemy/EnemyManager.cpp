@@ -42,7 +42,7 @@ namespace rtype
         return new_enemy;
     }
 
-    void EnemyManager::enemiesHandle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    void EnemyManager::handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
         for (auto &enemy : this->_enemies) {
             enemy->handle(time, componentManager, entityManager);

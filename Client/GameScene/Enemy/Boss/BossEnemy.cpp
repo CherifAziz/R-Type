@@ -41,7 +41,7 @@ namespace rtype
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool BossEnemy::destroy(ComponentManager &componentManager, EntityManager &entityManager)
+    bool BossEnemy::destroy(Sprite &sprite, Animation &animation, entity_t enemy_id, ComponentManager &componentManager, EntityManager &entityManager)
     {
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0)
@@ -62,8 +62,8 @@ namespace rtype
 
         for (auto &BossEnemy : flyEnemies)
         {
-            if (destroy(spriteMap->get(BossEnemy->getId()), animationMap->get(BossEnemy->getId()), BossEnemy->getId()))
-                return handle(time);
+            if (destroy(spriteMap->get(BossEnemy->getId()), animationMap->get(BossEnemy->getId()), BossEnemy->getId(), componentManager, entityManager))
+                return handle(time, componentManager, entityManager);
             if (movementMap->contains(BossEnemy->getId()) && spriteMap->contains(BossEnemy->getId()))
                 move(spriteMap->get(BossEnemy->getId()), movementMap->get(BossEnemy->getId()));
         }

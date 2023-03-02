@@ -10,6 +10,9 @@
 
     #include "AScene.hpp"
     #include "IEnemy.hpp"
+    #include "FlyEnemy.hpp"
+    #include "BasicEnemy.hpp"
+    #include "BossEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -54,7 +57,7 @@
                  * @brief handle all enemies comportement
                  *
                  */
-                void enemiesHandle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+                void handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
 
             protected:
                 std::vector<std::shared_ptr<IEnemy>> _enemies;

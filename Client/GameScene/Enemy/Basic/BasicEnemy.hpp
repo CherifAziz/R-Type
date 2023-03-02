@@ -23,7 +23,7 @@
          * @brief The BasicEnemy class
          *
          */
-        class BasicEnemy : public IEnemy{
+        class BasicEnemy : public IEnemy {
             public:
                 /**
                  * @brief Construct a new BasicEnemy
@@ -48,7 +48,7 @@
                  *
                  * @return true if the enemy is dead
                  */
-                bool destroy(ComponentManager &componentManager, EntityManager &entityManager);
+                bool destroy(Sprite &sprite, Animation &animation, entity_t enemy_id, ComponentManager &componentManager, EntityManager &entityManager);
 
                 /**
                  * @brief handle the enemy

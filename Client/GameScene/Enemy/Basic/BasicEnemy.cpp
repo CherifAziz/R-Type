@@ -61,7 +61,7 @@ namespace rtype
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool BasicEnemy::destroy(ComponentManager &componentManager, EntityManager &entityManager)
+    bool BasicEnemy::destroy(Sprite &sprite, Animation &animation, entity_t enemy_id, ComponentManager &componentManager, EntityManager &entityManager)
     {
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
@@ -80,10 +80,14 @@ namespace rtype
         std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
 
         for (auto &basicEnemy : basicEnemies) {
-            if (destroy(spriteMap->get(basicEnemy->getId()), animationMap->get(basicEnemy->getId()), basicEnemy->getId()))
-                return handle(time);
+            if (destroy(spriteMap->get(basicEnemy->getId()), animationMap->get(basicEnemy->getId()), basicEnemy->getId(), componentManager, entityManager))
+                return handle(time, componentManager, entityManager);
             if (movementMap->contains(basicEnemy->getId()) && spriteMap->contains(basicEnemy->getId()))
                 move(spriteMap->get(basicEnemy->getId()), movementMap->get(basicEnemy->getId()));
         }
+    }
+
+    BasicEnemy::~BasicEnemy()
+    {
     }
 }

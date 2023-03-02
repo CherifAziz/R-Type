@@ -8,9 +8,6 @@
 #ifndef _IEnemy_
     #define _IEnemy_
 
-    #include "FlyEnemy.hpp"
-    #include "BasicEnemy.hpp"
-    #include "BossEnemy.hpp"
     #include "ComponentManager.hpp"
     #include "EntityManager.hpp"
 

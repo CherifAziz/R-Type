@@ -9,6 +9,7 @@
     #define _GameScene_
 
     #include "AScene.hpp"
+    #include "EnemyManager.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -335,6 +336,7 @@
                 static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
+                EnemyManager _enemyManager;
 
                 enum class BulletSentState {
                     SENT,
