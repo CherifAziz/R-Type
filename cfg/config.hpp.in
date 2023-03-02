@@ -9,5 +9,6 @@
     #define CONFIG_HPP
 
     #define ASSETS_DIR "@ASSETS_DIR@"
+    #define SYSTEM_NAME "@SYSTEM_NAME@"
 
 #endif // CONFIG_HPP

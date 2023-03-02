@@ -33,6 +33,11 @@ add_subdirectory(${CLIENT}/)
 add_subdirectory(${SERVER}/)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(SYSTEM_NAME "Windows")
+    configure_file(
+        $ENV{ROOT_DIR}/cfg/config.hpp.in
+        $ENV{ROOT_DIR}/cfg/config.hpp
+    )
     set(USERS_DESKTOP "")
     execute_process(
         COMMAND "powershell" "-Command" "[Environment]::GetFolderPath('Desktop')"
@@ -54,6 +59,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     )
 else ()
     set(ASSETS_DIR "/usr/share/rtype/assets/")
+    set(SYSTEM_NAME "Linux")
     configure_file(
         $ENV{ROOT_DIR}/cfg/config.hpp.in
         $ENV{ROOT_DIR}/cfg/config.hpp
