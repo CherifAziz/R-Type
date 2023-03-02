@@ -11,5 +11,3 @@ USER ubuntu
 WORKDIR /home/ubuntu/r-type
 
 COPY . .
-
-ENTRYPOINT ["tail", "-f", "/dev/null"]
