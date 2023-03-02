@@ -60,13 +60,15 @@ if ! command -v cmake > /dev/null; then
 else
   echo "cmake déjà installé."
 fi
-
 cd $PWD/vcpkg
 sudo git pull
 sudo ./bootstrap-vcpkg.sh -disableMetrics
 cd ..
-# autoconf and libtool
-# libudev and libx11 and libxrandr and opengl 
+# autoconf and libtool pkg-config via apt-get if apt-get is available
+if command -v apt-get > /dev/null; then
+  echo "apt-get est disponible, installation des dépendances via apt-get."
+  apt-get install autoconf libtool pkg-config libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libudev-dev
+fi
 sudo $PWD/vcpkg/vcpkg install sfml
 sudo $PWD/vcpkg/vcpkg install boost-system
 sudo $PWD/vcpkg/vcpkg install boost-uuid
@@ -89,4 +91,4 @@ fi
 sudo $PWD/vcpkg/vcpkg integrate install
 
 echo "executing build.sh"
-source ./build.sh
+./build.sh
