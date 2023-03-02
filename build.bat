@@ -7,3 +7,4 @@ cmake --build .\build\ --config Release --target package
 if not exist ".\build\Release\assets\" (
   mklink /j .\build\Release\assets\ .\assets\
 )
+mv .\build\*.exe %cd%
