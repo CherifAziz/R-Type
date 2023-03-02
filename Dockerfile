@@ -4,7 +4,9 @@ RUN apt-get update -y
 
 RUN apt-get install -y sudo curl git make gcc g++ zip unzip nano
 
-RUN useradd -m -s /bin/bash -G sudo -p 1234 ubuntu
+RUN useradd -m -s /bin/bash -G sudo ubuntu
+
+RUN echo "ubuntu:1234" | chpasswd
 
 USER ubuntu
 
