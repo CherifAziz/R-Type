@@ -9,6 +9,7 @@ set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/Client)
 set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/Server)
 
 include_directories(
+    $ENV{ROOT_DIR}/cfg/
     $ENV{ROOT_DIR}/ecs/
     $ENV{ROOT_DIR}/ecs/components/container/
     $ENV{ROOT_DIR}/ecs/components/content/
@@ -52,9 +53,14 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         CreateShortCut '$SMPROGRAMS\\\\$START_MENU\\\\r-type_client.lnk' '$INSTDIR\\\\r-type_client.exe'"
     )
 else ()
+    set(ASSETS_DIR "/usr/share/rtype/assets/")
+    configure_file(
+        $ENV{ROOT_DIR}/cfg/config.hpp.in
+        $ENV{ROOT_DIR}/cfg/config.hpp
+    )
     install(TARGETS ${BIN_SERVER} DESTINATION bin)
     install(TARGETS ${BIN_CLIENT} DESTINATION bin)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION bin)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION share/rtype)
     if (DPKG_EXECUTABLE)
         set(CPACK_GENERATOR "DEB")
     elseif (RPM_EXECUTABLE)

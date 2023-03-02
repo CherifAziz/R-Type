@@ -5,6 +5,7 @@
 ** PlayerBullet
 */
 
+#include "config.hpp"
 #include "GameScene.hpp"
 #include "GameValues.hpp"
 
@@ -63,9 +64,9 @@ namespace rtype {
     void GameScene::initBullet(entity_t entity)
     {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
-        Sound pow("assets/pow.ogg", false, Sound::SoundStatus::PLAY);
+        Sound pow(std::string(ASSETS_DIR)+"pow.ogg", false, Sound::SoundStatus::PLAY);
         Collision collision(ENEMIES); // NEED TO BE CHANGED TO THE ENEMY VECTOR
-        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
         Movement movement(20, 0);
         Animation animation(bullet_frames.at(_bulletLoad).first.width, bullet_frames.at(_bulletLoad).first.height, bullet_frames.at(_bulletLoad).first.x, bullet_frames.at(_bulletLoad).first.y, 1, 1, 0, 0, 500);
 
@@ -93,7 +94,7 @@ namespace rtype {
         entity_t entity = _entityManager.spawnEntity("loading")->getId();
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation animation(31, 32, 2, 51, 8, 1, 1, 0, 500);
-        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
 
         _componentManager.put<Animation>(animation, entity);
         _componentManager.put<Sprite>(sprite, entity);

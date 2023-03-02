@@ -5,6 +5,7 @@
 ** GameScene
 */
 
+#include "config.hpp"
 #include "GameScene.hpp"
 
 #include "Collision.hpp"
@@ -86,9 +87,9 @@ namespace rtype
     void GameScene::initSprite()
     {
         ComponentMap<Sprite> sprite;
-        Sprite background_sprite("assets/spacebg.png", 0, 0);
-        Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
-        Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
+        Sprite background_sprite(std::string(ASSETS_DIR)+"spacebg.png", 0, 0);
+        Sprite second_background_sprite(std::string(ASSETS_DIR)+"spacebg.png", 1920, 0);
+        Sprite spaceship_sprite(std::string(ASSETS_DIR)+"spaceship.gif", 100, 100, 4);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
@@ -108,7 +109,7 @@ namespace rtype
     void GameScene::initSound()
     {
         ComponentMap<Sound> sound;
-        Sound music("assets/music.ogg", true, Sound::SoundStatus::PAUSE);
+        Sound music(std::string(ASSETS_DIR)+"music.ogg", true, Sound::SoundStatus::PAUSE);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);
@@ -117,7 +118,7 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Hi player !", "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text title("Hi player !", std::string(ASSETS_DIR)+"font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         _componentManager.registerComponent<Text>(text);
