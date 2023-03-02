@@ -48,11 +48,16 @@ namespace rtype {
 
     bool GameScene::handleBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity)
     {
+        const std::shared_ptr<Entity> _bullet = _entityManager.getEntity(entity);
+        const std::string bullet_family = _bullet->getFamily();
         int value = handleElementCollision(entity);
 
         if (value != -1) {
-            const std::shared_ptr<Entity> test = _entityManager.getEntity(value);
-            std::string family = test->getFamily();
+            const std::shared_ptr<Entity> _enemy = _entityManager.getEntity(value);
+            const std::string family = _enemy->getFamily();
+
+            _componentManager.killEntity(value);
+            _entityManager.killEntity(value);
             auto& wave = waves[0];
             auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
                 return p.first == family;
@@ -69,10 +74,13 @@ namespace rtype {
                 _score += 25;
             if (family == "vessel")
                 _score += 20;
-            _componentManager.killEntity(value);
-            _entityManager.killEntity(value);
+            if (bullet_family != "beboubullet") {
+                _componentManager.killEntity(entity);
+                _entityManager.killEntity(entity);
+                _bullet_sent.erase(entity);
+            }
         }
-        if (bullet.getX() >= (int)windowWidth || value != -1) {
+        if (bullet.getX() >= (int)windowWidth) {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _bullet_sent.erase(entity);
