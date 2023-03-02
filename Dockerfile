@@ -14,4 +14,6 @@ WORKDIR /home/ubuntu/r-type
 
 COPY . .
 
+RUN chown -R ubuntu:ubuntu /home/ubuntu/r-type
+
 ENTRYPOINT ["tail", "-f", "/dev/null"]
