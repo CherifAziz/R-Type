@@ -82,11 +82,13 @@ namespace rtype
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
+        handleWaves(time);
         handleEnemyBullet(time);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-        handleWaves(time);
-        if (time % 20 == 0)
+        if (time % 20 == 0) {
             playAnimation(_componentManager.getComponents<Animation>());
+            callEnemiesSendingBullets();
+        }
     }
 
     void GameScene::initSprite()
@@ -124,7 +126,7 @@ namespace rtype
     {
         ComponentMap<Text> text;
         Text title("Wave "+ std::to_string(_actual_wave), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
-        Text score("SCORE: " + std::to_string(_score), "assets/font.otf", 30, 980, 50, 1, Text::rgb_t(255, 199, 17));
+        Text score("SCORE: " + std::to_string(_score), "assets/font.otf", 30, 900, 50, 1, Text::rgb_t(255, 199, 17));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         text.put(score, _entityManager.spawnEntity("score")->getId());
@@ -235,11 +237,13 @@ namespace rtype
                 if (waves[0][j].first == "basicEnemy")
                     _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
                 if (waves[0][j].first == "mediumEnemy")
-                    _enemyManager.createEnemy(STUPID, _componentManager, _entityManager);
-                if (waves[0][j].first == "flyenemy")
+                    _enemyManager.createEnemy(MEDIUM, _componentManager, _entityManager);
+                if (waves[0][j].first == "flyEnemy")
                     _enemyManager.createEnemy(FLY, _componentManager, _entityManager);
                 if (waves[0][j].first == "vesselEnemy")
                     _enemyManager.createEnemy(VESSEL, _componentManager, _entityManager);
+                if (waves[0][j].first == "boss")
+                    _enemyManager.createEnemy(BOSS, _componentManager, _entityManager);
 
             }
             _enemyManager.handleEnemies(time, _componentManager, _entityManager);

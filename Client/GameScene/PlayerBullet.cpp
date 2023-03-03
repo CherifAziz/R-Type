@@ -14,8 +14,9 @@ namespace rtype {
     const std::vector<std::string> GameScene::ENEMIES = {
         "basicEnemy",
         "mediumEnemy",
-        "vessel",
-        "flyenemy"
+        "vesselEnemy",
+        "flyEnemy",
+        "boss"
     };
 
     const std::vector<std::string> GameScene::BULLET_NAMES = {
@@ -69,9 +70,9 @@ namespace rtype {
                 _score += 10;
             if (family == "mediumEnemy")
                 _score += 15;
-            if (family == "flyenemy")
+            if (family == "flyEnemy")
                 _score += 25;
-            if (family == "vessel")
+            if (family == "vesselEnemy")
                 _score += 20;
             if (bullet_family != "beboubullet") {
                 _componentManager.killEntity(entity);
@@ -94,7 +95,7 @@ namespace rtype {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sound pow("assets/pow.ogg", false, Sound::SoundStatus::PLAY);
-        Collision collision(ENEMIES); // NEED TO BE CHANGED TO THE ENEMY VECTOR
+        Collision collision(ENEMIES);
         Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
         Movement movement(20, 0);
         Animation animation(bullet_frames.at(_bulletLoad).first.width, bullet_frames.at(_bulletLoad).first.height, bullet_frames.at(_bulletLoad).first.x, bullet_frames.at(_bulletLoad).first.y, 1, 1, 0, 0, 500);
@@ -183,7 +184,6 @@ namespace rtype {
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
         if (space_state != Action::KeyState::UP && time % 10 == 0) {
-            std::cout << "BULLET SENT" << std::endl;
             spawnBullet(player_action, space_state);
             if (_loadState == LoadState::OFF)
                 updateBulletLoading();

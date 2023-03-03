@@ -15,7 +15,7 @@
 #include "BasicEnemy.hpp"
 #include "BossEnemy.hpp"
 #include "VesselEnemy.hpp"
-#include "StupidEnemy.hpp"
+#include "MediumEnemy.hpp"
 
 namespace rtype
 {
@@ -30,7 +30,10 @@ namespace rtype
     std::shared_ptr<IEnemy> EnemyManager::createEnemy(EnemyType type, ComponentManager &componentManager, EntityManager &entityManager)
     {
         std::shared_ptr<IEnemy> new_enemy;
+        std::vector<std::shared_ptr<Entity>> enemies = entityManager.getEntitiesFromFamily(enemyTranslator.at(type));
 
+        if (enemies.size() == enemyLimiter.at(type))
+            return nullptr;
         switch (type) {
             case EnemyType::BASIC:
                 new_enemy = std::make_shared<BasicEnemy>(componentManager, entityManager);
@@ -41,11 +44,11 @@ namespace rtype
             case EnemyType::BOSS:
                 new_enemy = std::make_shared<BossEnemy>(componentManager, entityManager);
                 break;
+            case EnemyType::MEDIUM:
+                new_enemy = std::make_shared<MediumEnemy>(componentManager, entityManager);
+                break;
             case EnemyType::VESSEL:
                 new_enemy = std::make_shared<VesselEnemy>(componentManager, entityManager);
-                break;
-            case EnemyType::STUPID:
-                new_enemy = std::make_shared<StupidEnemy>(componentManager, entityManager);
                 break;
             default:
                 break;

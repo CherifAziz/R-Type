@@ -151,10 +151,10 @@
                 void handleEnemyBulletSpriteSheet(Animation &bullet);
                 bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);                
                 void initEnemyBullet(entity_t entity);
+                void callEnemiesSendingBullets();
                 void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
                 void moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity);
                 void handleEnemyBullet(const int64_t &time);
-
 
                 /**
                  * @brief move shown frame on spritesheet according to player action

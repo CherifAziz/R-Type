@@ -1,11 +1,11 @@
 /*
 ** EPITECH PROJECT, 2023
-** VesselEnemy
+** MediumEnemy
 ** File description:
-** VesselEnemy
+** MediumEnemy
 */
 
-#include "VesselEnemy.hpp"
+#include "MediumEnemy.hpp"
 #include "GameValues.hpp"
 
 #include "GameScene.hpp"
@@ -13,20 +13,21 @@
 #include "Collision.hpp"
 
 namespace rtype {
-    VesselEnemy::VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    MediumEnemy::MediumEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = 30;
+        this->_hp = 15;
+
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "vesselEnemy")) {
+        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "mediumEnemy")) {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        this->_id = entityManager.spawnEntity("vesselEnemy")->getId();
-        Sprite sprite("assets/r-typesheet26.gif", x, y, 3);
-        Animation animation(63, 49, 1, 1, 3, 1, 2, 1, 500);
-        Movement movement(-5, 0);
+        this->_id = entityManager.spawnEntity("mediumEnemy")->getId();
+        Sprite sprite("assets/mediumEnemy.gif", x, y, 4);
+        Animation animation(33, 32, 1, 1, 3, 1, 1, 0, 500);
+        Movement movement(-3, 0);
         Collision collision({"player"});
 
         componentManager.put<Sprite>(sprite, _id);
@@ -35,17 +36,17 @@ namespace rtype {
         componentManager.put<Collision>(collision, _id);
     }
 
-    VesselEnemy::~VesselEnemy()
+    MediumEnemy::~MediumEnemy()
     {
 
     }
 
-    void VesselEnemy::move(Sprite &sprite, Movement &movement)
+    void MediumEnemy::move(Sprite &sprite, Movement &movement)
     {
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool VesselEnemy::destroy(Sprite &sprite, Animation &animation, ComponentManager &componentManager, EntityManager &entityManager)
+    bool MediumEnemy::destroy(Sprite &sprite, Animation &animation, ComponentManager &componentManager, EntityManager &entityManager)
     {
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
             componentManager.killEntity(_id);
@@ -55,7 +56,7 @@ namespace rtype {
         return false;
     }
 
-    bool VesselEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool MediumEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
         Movement &movement = componentManager.get<Movement>(this->_id);
         Sprite &sprite = componentManager.get<Sprite>(this->_id);

@@ -59,15 +59,13 @@ namespace rtype
 
     bool BossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
-        std::vector<std::shared_ptr<Entity>> flyEnemies = entityManager.getEntitiesFromFamily("bossEnemy");
-        std::shared_ptr<ComponentMap<Movement>> movementMap = componentManager.getComponents<Movement>();
-        std::shared_ptr<ComponentMap<Sprite>> spriteMap = componentManager.getComponents<Sprite>();
-        std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
+        Movement &movement = componentManager.get<Movement>(this->_id);
+        Sprite &sprite = componentManager.get<Sprite>(this->_id);
+        Animation &animation = componentManager.get<Animation>(this->_id);
 
-        if (destroy(spriteMap->get(this->_id), animationMap->get(this->_id), componentManager, entityManager))
+        if (destroy(sprite, animation, componentManager, entityManager))
             return true;
-        if (movementMap->contains(this->_id) && spriteMap->contains(this->_id))
-            move(spriteMap->get(this->_id), movementMap->get(this->_id));
+        move(sprite, movement);
         return false;
     }
 }

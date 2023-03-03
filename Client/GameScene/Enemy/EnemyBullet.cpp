@@ -31,6 +31,13 @@ namespace rtype {
         return false;
     }
 
+    void GameScene::callEnemiesSendingBullets()
+    {
+        std::vector<std::shared_ptr<Entity>> vesselEnemies = _entityManager.getEntitiesFromFamily("vesselEnemy");
+
+        spawnEnemyBullet(vesselEnemies);
+    }
+
     void GameScene::spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies)
     {
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
