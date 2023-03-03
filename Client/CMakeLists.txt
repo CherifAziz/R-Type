@@ -12,7 +12,7 @@ endif ()
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
 find_package(Boost COMPONENTS system serialization REQUIRED)
 
-set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp)
+set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/Enemy/EnemyManager.cpp GameScene/Enemy/Basic/BasicEnemy.cpp GameScene/Enemy/Fly/FlyEnemy.cpp GameScene/Enemy/Boss/BossEnemy.cpp)
 set(SERVICES_FILES Services/Services.cpp)
 
 include_directories(Services/ GameScene/)

@@ -6,22 +6,14 @@
 */
 
 #include "GameScene.hpp"
+#include "EnemyManager.hpp"
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "Collision.hpp"
 #include "Text.hpp"
 #include "GameValues.hpp"
-
-// WAVES = [
-//     WAVE1 = [
-//         {basic, 5},
-//         {medium, 2}
-//     ],
-// ]
-
-// index_wave
-
 
 namespace rtype
 {
@@ -246,7 +238,7 @@ namespace rtype
                     handleMediumEnemy(time);
                 if (waves[0][j].first == "flyenemy")
                     handleFlyEnemy(time);
-                if (waves[0][j].first == "vessel")
+                if (waves[0][j].first == "vesselEnemy")
                     handleVessel(time);
             }
         }
