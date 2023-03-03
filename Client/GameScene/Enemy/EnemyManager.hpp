@@ -10,9 +10,6 @@
 
     #include "AScene.hpp"
     #include "AEnemy.hpp"
-    #include "FlyEnemy.hpp"
-    #include "BasicEnemy.hpp"
-    #include "BossEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -30,7 +27,8 @@
             BASIC = 0,
             FLY,
             BOSS,
-            STUPID
+            STUPID,
+            VESSEL
         };
 
         class EnemyManager {

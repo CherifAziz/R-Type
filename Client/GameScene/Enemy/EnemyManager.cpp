@@ -11,6 +11,12 @@
 #include "Text.hpp"
 #include "GameValues.hpp"
 
+#include "FlyEnemy.hpp"
+#include "BasicEnemy.hpp"
+#include "BossEnemy.hpp"
+#include "VesselEnemy.hpp"
+#include "StupidEnemy.hpp"
+
 namespace rtype
 {
     EnemyManager::EnemyManager()
@@ -35,6 +41,12 @@ namespace rtype
             case EnemyType::BOSS:
                 new_enemy = std::make_shared<BossEnemy>(componentManager, entityManager);
                 break;
+            case EnemyType::VESSEL:
+                new_enemy = std::make_shared<VesselEnemy>(componentManager, entityManager);
+                break;
+            case EnemyType::STUPID:
+                new_enemy = std::make_shared<StupidEnemy>(componentManager, entityManager);
+                break;
             default:
                 break;
         }
@@ -52,6 +64,3 @@ namespace rtype
         }
     }
 }
-
-// methode dans ienemy en mode getid en virtual pure et dans tout les enemy un getter d'id et chacun aura un attribut ID
-//

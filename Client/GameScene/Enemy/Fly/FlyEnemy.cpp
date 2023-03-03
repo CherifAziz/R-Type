@@ -13,21 +13,6 @@
 
 namespace rtype
 {
-    bool isAlreadyAnFlyEnemyHere(size_t x, size_t y, ComponentManager &componentManager, EntityManager &entityManager)
-    {
-        std::vector<std::shared_ptr<Entity>> flyEnemies = entityManager.getEntitiesFromFamily("fly");
-
-        for (auto &flyEnemy : flyEnemies) {
-            Sprite &sprite = componentManager.get<Sprite>(flyEnemy->getId());
-
-            if ((int)x > sprite.getX() - ENEMY_REACH && (int)x < sprite.getX() + ENEMY_REACH)
-                return true;
-            else if ((int)y > sprite.getY() - ENEMY_REACH && (int)y < sprite.getY() + ENEMY_REACH)
-                return true;
-        }
-        return false;
-    }
-
     FlyEnemy::FlyEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
         this->_hp = 10;
@@ -35,12 +20,12 @@ namespace rtype
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnFlyEnemyHere(x, y, componentManager, entityManager))
+        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "flyEnemy"))
         {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        this->_id = entityManager.spawnEntity("fly")->getId();
+        this->_id = entityManager.spawnEntity("flyEnemy")->getId();
         Sprite sprite("assets/flyenemy.gif", x, y, 3);
         Animation animation(61, 46, 4, 3, 6, 1, 6, 0, 2000);
         Movement movement(-2, 2);
@@ -77,7 +62,7 @@ namespace rtype
 
     bool FlyEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
-        std::vector<std::shared_ptr<Entity>> flyEnemies = entityManager.getEntitiesFromFamily("fly");
+        std::vector<std::shared_ptr<Entity>> flyEnemies = entityManager.getEntitiesFromFamily("flyEnemy");
         std::shared_ptr<ComponentMap<Movement>> movementMap = componentManager.getComponents<Movement>();
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();

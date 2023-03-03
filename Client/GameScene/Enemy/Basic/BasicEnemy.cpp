@@ -13,21 +13,6 @@
 
 namespace rtype 
 {
-    bool isAlreadyAnEnemyHere(size_t x, size_t y, ComponentManager &componentManager, EntityManager &entityManager)
-    {
-        std::vector<std::shared_ptr<Entity>> basicEnemies = entityManager.getEntitiesFromFamily("basicEnemy");
-
-        for (auto &basicEnemy : basicEnemies) {
-            Sprite &sprite = componentManager.get<Sprite>(basicEnemy->getId());
-
-            if ((int)x > sprite.getX() - ENEMY_REACH && (int)x < sprite.getX() + ENEMY_REACH)
-                return true;
-            else if ((int)y > sprite.getY() - ENEMY_REACH && (int)y < sprite.getY() + ENEMY_REACH)
-                return true;
-        }
-        return false;
-    }
-
     BasicEnemy::BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
         this->_hp = 1;
@@ -35,7 +20,7 @@ namespace rtype
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager)) {
+        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "basicEnemy")) {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }

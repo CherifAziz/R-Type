@@ -88,11 +88,9 @@ namespace rtype
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/spacebg.png", 0, 0);
         Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
-        // Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
-        // sprite.put(spaceship_sprite, _entityManager.spawnEntity("player")->getId());
         _componentManager.registerComponent<Sprite>(sprite);
     }
 

@@ -1,12 +1,12 @@
 /*
 ** EPITECH PROJECT, 2023
-** StupidEnemy
+** VesselEnemy
 ** File description:
-** StupidEnemy
+** VesselEnemy
 */
 
-#ifndef _StupidEnemy_
-    #define _StupidEnemy_
+#ifndef _VesselEnemy_
+    #define _VesselEnemy_
 
     #include "AEnemy.hpp"
 
@@ -15,10 +15,10 @@
     #include "Animation.hpp"
 
     namespace rtype {
-        class StupidEnemy : public AEnemy {
+        class VesselEnemy : public AEnemy {
             public:
-                StupidEnemy(ComponentManager &componentManager, EntityManager &entityManager);
-                ~StupidEnemy();
+                VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager);
+                ~VesselEnemy();
 
                 /**
                  * @brief Move the enemy
@@ -41,4 +41,4 @@
         };
     }
 
-#endif /* !_StupidEnemy_ */
+#endif /* !_VesselEnemy_ */

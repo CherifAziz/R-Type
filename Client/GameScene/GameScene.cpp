@@ -8,6 +8,9 @@
 #include "GameScene.hpp"
 #include "EnemyManager.hpp"
 
+#include <iostream>
+#include <fstream>
+#include <string>
 #include "Collision.hpp"
 #include "Text.hpp"
 #include "GameValues.hpp"
@@ -22,22 +25,9 @@ namespace rtype
         initCollision();
         initMovement();
         initSound();
+        initWaves();
         initText();
         initNetwork();
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-        _enemyManager.createEnemy(FLY, _componentManager, _entityManager);
-        _enemyManager.createEnemy(BOSS, _componentManager, _entityManager);
-        // spawnBoss();
     }
 
     GameScene::~GameScene()
@@ -92,9 +82,10 @@ namespace rtype
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
+        handleEnemyBullet(time);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-        _enemyManager.handleEnemies(time, _componentManager, _entityManager);
-        if (time % 10 == 0)
+        handleWaves(time);
+        if (time % 20 == 0)
             playAnimation(_componentManager.getComponents<Animation>());
     }
 
@@ -132,9 +123,11 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Hi player !", "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text title("Wave "+ std::to_string(_actual_wave), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text score("SCORE: " + std::to_string(_score), "assets/font.otf", 30, 980, 50, 1, Text::rgb_t(255, 199, 17));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
+        text.put(score, _entityManager.spawnEntity("score")->getId());
         _componentManager.registerComponent<Text>(text);
     }
 
@@ -167,6 +160,102 @@ namespace rtype
 
         action.put(player_action, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Action>(action);
+    }
+
+    void GameScene::initWaves()
+    {
+        std::string line;
+        std::vector<std::pair<std::string, int>> wave_config;
+
+        std::ifstream wave_file("assets/wave.txt");
+
+        if (wave_file.is_open()) {
+            while (std::getline(wave_file, line)) 
+            {
+                if (line.empty()) {
+                    waves.push_back(wave_config);
+                    wave_config.clear();
+                }
+                else if (wave_file.eof() && !line.empty()) {
+                    std::string enemy;
+                    std::string nbrOfEnemy;
+                    std::stringstream ss(line);
+                    std::getline(ss, enemy, ',');
+                    std::getline(ss, nbrOfEnemy, ',');
+                    wave_config.push_back(std::make_pair(enemy, std::stoi(nbrOfEnemy)));
+                    waves.push_back(wave_config);
+                    wave_config.clear();
+                }
+                else {
+                    std::string enemy;
+                    std::string nbrOfEnemy;
+                    std::stringstream ss(line);
+                    std::getline(ss, enemy, ',');
+                    std::getline(ss, nbrOfEnemy, ',');
+                    wave_config.push_back(std::make_pair(enemy, std::stoi(nbrOfEnemy)));
+                }
+            }
+            wave_file.close();
+        }
+
+        for (int i = 0; i < waves.size(); i++) {
+            for (int j = 0; j < waves[i].size(); j++) {
+                std::cout << waves[i][j].first << " ";
+                std::cout << waves[i][j].second << " ";
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;
+        }
+    }
+
+    void GameScene::handleWaves(const int64_t &time)
+    {
+        entity_t text_id = _entityManager.getEntitiesFromFamily("title")[0]->getId();
+        entity_t score_id = _entityManager.getEntitiesFromFamily("score")[0]->getId();
+        std::shared_ptr<ComponentMap<Text>> textMap = _componentManager.getComponents<Text>();
+
+        Text &title = textMap->get(text_id);
+        Text &score = textMap->get(score_id);
+        int wave_finish = 0;
+
+        score.setText("Score: "+ std::to_string(_score));
+        if (waves.size() >= 1) {
+            for (int j = 0; j < waves[0].size(); j++) {
+                if (waves[0][j].second != 0)
+                    wave_finish = 1;
+            }
+            if (wave_finish == 0 && waves.size() == 1)
+                title.setText("The end");
+            if (wave_finish == 0 && waves.size() != 1) {
+                _actual_wave += 1;
+                title.setText("Wave "+ std::to_string(_actual_wave));
+                waves.erase(waves.begin());
+            }
+            for (int j = 0; j < waves[0].size(); j++) {
+                if (waves[0][j].first == "basicEnemy")
+                    handleBasicEnemy(time);
+                if (waves[0][j].first == "mediumEnemy")
+                    handleMediumEnemy(time);
+                if (waves[0][j].first == "flyenemy")
+                    handleFlyEnemy(time);
+                if (waves[0][j].first == "vesselEnemy")
+                    handleVessel(time);
+            }
+        }
+    }
+
+    int GameScene::GetFamilyIndex(const std::string &family)
+    {
+        auto& wave = waves[0];
+        auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
+            return p.first == family;
+        });
+        if (it != wave.end())
+            return(it - wave.begin());
+        else {
+            std::cout << "Could not find " << family << std::endl;
+            return(-1);
+        }
     }
 
     void GameScene::handleBackgroundMovement(std::shared_ptr<ComponentMap<Sprite>> spriteMap, const std::shared_ptr<ComponentMap<Movement>> &movementMap)

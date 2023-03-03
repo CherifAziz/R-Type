@@ -1,11 +1,11 @@
 /*
 ** EPITECH PROJECT, 2023
-** StupidEnemy
+** VesselEnemy
 ** File description:
-** StupidEnemy
+** VesselEnemy
 */
 
-#include "StupidEnemy.hpp"
+#include "VesselEnemy.hpp"
 #include "GameValues.hpp"
 
 #include "GameScene.hpp"
@@ -13,21 +13,20 @@
 #include "Collision.hpp"
 
 namespace rtype {
-    StupidEnemy::StupidEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    VesselEnemy::VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = 15;
+        this->_hp = 30;
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "stupidEnemy"))
-        {
+        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "vesselEnemy")) {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        entity_t enemy = entityManager.spawnEntity("stupidEnemy")->getId();
-        Sprite sprite("assets/mediumEnemy.gif", x, y, 4);
-        Animation animation(33, 32, 1, 1, 3, 1, 1, 0, 500);
-        Movement movement(-3, 0);
+        entity_t enemy = entityManager.spawnEntity("vesselEnemy")->getId();
+        Sprite sprite("assets/r-typesheet26.gif", x, y, 3);
+        Animation animation(63, 49, 1, 1, 3, 1, 2, 1, 500);
+        Movement movement(-5, 0);
         Collision collision({"player"});
 
         componentManager.put<Sprite>(sprite, enemy);
@@ -36,17 +35,17 @@ namespace rtype {
         componentManager.put<Collision>(collision, enemy);
     }
 
-    StupidEnemy::~StupidEnemy()
+    VesselEnemy::~VesselEnemy()
     {
 
     }
 
-    void StupidEnemy::move(Sprite &sprite, Movement &movement)
+    void VesselEnemy::move(Sprite &sprite, Movement &movement)
     {
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool StupidEnemy::destroy(Sprite &sprite, Animation &animation, ComponentManager &componentManager, EntityManager &entityManager)
+    bool VesselEnemy::destroy(Sprite &sprite, Animation &animation, ComponentManager &componentManager, EntityManager &entityManager)
     {
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
             componentManager.killEntity(_id);
@@ -56,9 +55,9 @@ namespace rtype {
         return false;
     }
 
-    bool StupidEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool VesselEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
-        std::vector<std::shared_ptr<Entity>> mediumEnemies = entityManager.getEntitiesFromFamily("stupidEnemy");
+        std::vector<std::shared_ptr<Entity>> vesselEnemies = entityManager.getEntitiesFromFamily("vesselEnemy");
         std::shared_ptr<ComponentMap<Movement>> movementMap = componentManager.getComponents<Movement>();
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
