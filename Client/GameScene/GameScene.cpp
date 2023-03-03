@@ -233,14 +233,16 @@ namespace rtype
             }
             for (int j = 0; j < waves[0].size(); j++) {
                 if (waves[0][j].first == "basicEnemy")
-                    handleBasicEnemy(time);
+                    _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
                 if (waves[0][j].first == "mediumEnemy")
-                    handleMediumEnemy(time);
+                    _enemyManager.createEnemy(STUPID, _componentManager, _entityManager);
                 if (waves[0][j].first == "flyenemy")
-                    handleFlyEnemy(time);
+                    _enemyManager.createEnemy(FLY, _componentManager, _entityManager);
                 if (waves[0][j].first == "vesselEnemy")
-                    handleVessel(time);
+                    _enemyManager.createEnemy(VESSEL, _componentManager, _entityManager);
+
             }
+            _enemyManager.handleEnemies(time, _componentManager, _entityManager);
         }
     }
 

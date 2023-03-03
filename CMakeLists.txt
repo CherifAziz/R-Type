@@ -30,6 +30,8 @@ include_directories(
     $ENV{ROOT_DIR}/Client/GameScene/Enemy/Basic/
     $ENV{ROOT_DIR}/Client/GameScene/Enemy/Fly/
     $ENV{ROOT_DIR}/Client/GameScene/Enemy/Boss/
+    $ENV{ROOT_DIR}/Client/GameScene/Enemy/Stupid/
+    $ENV{ROOT_DIR}/Client/GameScene/Enemy/Vessel/
 )
 
 add_subdirectory(${CLIENT}/)
