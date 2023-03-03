@@ -36,6 +36,7 @@ namespace rtype
         _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
         _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
         _enemyManager.createEnemy(FLY, _componentManager, _entityManager);
+        _enemyManager.createEnemy(BOSS, _componentManager, _entityManager);
         // spawnBoss();
     }
 
