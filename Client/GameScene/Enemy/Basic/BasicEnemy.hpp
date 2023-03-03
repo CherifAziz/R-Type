@@ -9,7 +9,7 @@
     #define _BasicEnemy_
 
     #include "AScene.hpp"
-    #include "IEnemy.hpp"
+    #include "AEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -23,7 +23,7 @@
          * @brief The BasicEnemy class
          *
          */
-        class BasicEnemy : public IEnemy {
+        class BasicEnemy : public AEnemy {
             public:
                 /**
                  * @brief Construct a new BasicEnemy

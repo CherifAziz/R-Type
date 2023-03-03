@@ -9,7 +9,7 @@
     #define _FlyEnemy_
 
     #include "AScene.hpp"
-    #include "IEnemy.hpp"
+    #include "AEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -23,7 +23,7 @@
          * @brief The FlyEnemy class
          *
          */
-        class FlyEnemy : public IEnemy {
+        class FlyEnemy : public AEnemy {
             public:
                 /**
                  * @brief Construct a new flyenemy

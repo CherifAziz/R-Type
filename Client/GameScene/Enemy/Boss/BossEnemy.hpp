@@ -9,7 +9,7 @@
     #define _BossEnemy_
 
     #include "AScene.hpp"
-    #include "IEnemy.hpp"
+    #include "AEnemy.hpp"
 
     #include "Sprite.hpp"
     #include "Action.hpp"
@@ -23,7 +23,7 @@
          * @brief The BossEnemy class
          *
          */
-        class BossEnemy : public IEnemy {
+        class BossEnemy : public AEnemy {
             public:
                 /**
                  * @brief Construct a new BossEnemy

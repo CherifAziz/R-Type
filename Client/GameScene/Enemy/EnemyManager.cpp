@@ -45,7 +45,10 @@ namespace rtype
     void EnemyManager::handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
         for (auto &enemy : this->_enemies) {
-            enemy->handle(time, componentManager, entityManager);
+            if (entityManager.getEntityStatus(enemy->getId()) != Entity::EntityStatus::ALIVE || enemy->handle(time, componentManager, entityManager)) {
+                _enemies.erase(std::find(_enemies.begin(), _enemies.end(), enemy));
+                return handleEnemies(time, componentManager, entityManager);
+            }
         }
     }
 }

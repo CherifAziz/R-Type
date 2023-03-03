@@ -9,7 +9,7 @@
     #define _EnemyManager_
 
     #include "AScene.hpp"
-    #include "IEnemy.hpp"
+    #include "AEnemy.hpp"
     #include "FlyEnemy.hpp"
     #include "BasicEnemy.hpp"
     #include "BossEnemy.hpp"
@@ -64,7 +64,7 @@
                  * @brief List of all instancied enemy
                  *
                  */
-                std::vector<std::shared_ptr<IEnemy>> _enemies;
+                std::vector<std::shared_ptr<AEnemy>> _enemies;
         };
     }
 
