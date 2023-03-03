@@ -17,6 +17,9 @@ set(SERVICES_FILES Services/Services.cpp)
 
 include_directories(Services/ GameScene/)
 
+set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp GameScene/MediumEnemy.cpp GameScene/VesselEnemyy.cpp  GameScene/FlyEememy.cpp GameScene/EnemyBullet.cpp)
+set(SERVICES_FILES Services/Services.cpp)
+
 add_executable(${BIN_NAME}
 ${GAMESCENE_FILES}
 ${SERVICES_FILES}

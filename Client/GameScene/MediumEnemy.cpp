@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** BasicEnemy
+** MediumEnemy
 ** File description:
-** BasicEnemy
+** MediumEnemy
 */
 
 #include "GameScene.hpp"
@@ -10,13 +10,15 @@
 
 #include "Collision.hpp"
 
-namespace rtype {
-    bool GameScene::isAlreadyAnEnemyHere(size_t x, size_t y)
+namespace rtype
+{
+    bool GameScene::isAlreadyMediumEnemyHere(size_t x, size_t y)
     {
-        std::vector<std::shared_ptr<Entity>> basicEnemies = _entityManager.getEntitiesFromFamily("basicEnemy");
+        std::vector<std::shared_ptr<Entity>> mediumEnemies = _entityManager.getEntitiesFromFamily("mediumEnemy");
 
-        for (auto &basicEnemy : basicEnemies) {
-            Sprite &sprite = _componentManager.get<Sprite>(basicEnemy->getId());
+        for (auto &mediumEnemy : mediumEnemies)
+        {
+            Sprite &sprite = _componentManager.get<Sprite>(mediumEnemy->getId());
 
             if ((int)x > sprite.getX() - ENEMY_REACH && (int)x < sprite.getX() + ENEMY_REACH)
                 return true;
@@ -26,19 +28,20 @@ namespace rtype {
         return false;
     }
 
-    void GameScene::spawnBasicEnemy()
+    void GameScene::spawnMediumEnemy()
     {
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnEnemyHere(x, y)) {
+        while (isAlreadyMediumEnemyHere(x, y))
+        {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        entity_t enemy = _entityManager.spawnEntity("basicEnemy")->getId();
-        Sprite sprite("assets/basicEnemy.gif", x, y, 4);
-        Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
-        Movement movement(-5, 0);
+        entity_t enemy = _entityManager.spawnEntity("mediumEnemy")->getId();
+        Sprite sprite("assets/mediumEnemy.gif", x, y, 4);
+        Animation animation(33, 32, 1, 1, 3, 1, 1, 0, 500);
+        Movement movement(-3, 0);
         Collision collision({"player"});
 
         _componentManager.put<Sprite>(sprite, enemy);
@@ -47,12 +50,12 @@ namespace rtype {
         _componentManager.put<Collision>(collision, enemy);
     }
 
-    void GameScene::moveBasicEnemy(Sprite &sprite, Movement &movement)
+    void GameScene::moveMediumEnemy(Sprite &sprite, Movement &movement)
     {
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool GameScene::destroyBasicEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id)
+    bool GameScene::destroyMediumEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id)
     {
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
@@ -63,24 +66,24 @@ namespace rtype {
         return false;
     }
 
-    void GameScene::handleBasicEnemy(const int64_t &time)
+    void GameScene::handleMediumEnemy(const int64_t &time)
     {
-        std::vector<std::shared_ptr<Entity>> basicEnemies = _entityManager.getEntitiesFromFamily("basicEnemy");
+        std::vector<std::shared_ptr<Entity>> mediumEnemies = _entityManager.getEntitiesFromFamily("mediumEnemy");
         std::shared_ptr<ComponentMap<Movement>> movementMap = _componentManager.getComponents<Movement>();
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
         int familyIndex = 0;
 
-        for (auto &basicEnemy : basicEnemies) {
-            if (destroyBasicEnemy(spriteMap->get(basicEnemy->getId()), animationMap->get(basicEnemy->getId()), basicEnemy->getId()))
-                return handleBasicEnemy(time);
-            if (movementMap->contains(basicEnemy->getId()) && spriteMap->contains(basicEnemy->getId()))
-                moveBasicEnemy(spriteMap->get(basicEnemy->getId()), movementMap->get(basicEnemy->getId()));
+        for (auto &mediumEnemy : mediumEnemies)
+        {
+            if (destroyMediumEnemy(spriteMap->get(mediumEnemy->getId()), animationMap->get(mediumEnemy->getId()), mediumEnemy->getId()))
+                return handleMediumEnemy(time);
+            if (movementMap->contains(mediumEnemy->getId()) && spriteMap->contains(mediumEnemy->getId()))
+                moveMediumEnemy(spriteMap->get(mediumEnemy->getId()), movementMap->get(mediumEnemy->getId()));
         }
-        familyIndex = GetFamilyIndex("basicEnemy");
-        if (basicEnemies.size() < 5 && time % 20 == 0 && familyIndex != -1) {
+        familyIndex = GetFamilyIndex("mediumEnemy");
+        if (mediumEnemies.size() < 3 && time % 20 == 0 && familyIndex != -1)
             if (waves[0][familyIndex].second != 0)
-                spawnBasicEnemy();
-        }
+                spawnMediumEnemy();
     }
 }

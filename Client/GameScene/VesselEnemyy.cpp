@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** BasicEnemy
+** Vessel
 ** File description:
-** BasicEnemy
+** Vessel
 */
 
 #include "GameScene.hpp"
@@ -11,12 +11,12 @@
 #include "Collision.hpp"
 
 namespace rtype {
-    bool GameScene::isAlreadyAnEnemyHere(size_t x, size_t y)
+    bool GameScene::isAlreadyVesselHere(size_t x, size_t y)
     {
-        std::vector<std::shared_ptr<Entity>> basicEnemies = _entityManager.getEntitiesFromFamily("basicEnemy");
+        std::vector<std::shared_ptr<Entity>> vesselEnemies = _entityManager.getEntitiesFromFamily("vessel");
 
-        for (auto &basicEnemy : basicEnemies) {
-            Sprite &sprite = _componentManager.get<Sprite>(basicEnemy->getId());
+        for (auto &vesselEnemy : vesselEnemies) {
+            Sprite &sprite = _componentManager.get<Sprite>(vesselEnemy->getId());
 
             if ((int)x > sprite.getX() - ENEMY_REACH && (int)x < sprite.getX() + ENEMY_REACH)
                 return true;
@@ -26,18 +26,18 @@ namespace rtype {
         return false;
     }
 
-    void GameScene::spawnBasicEnemy()
+    void GameScene::spawnVessel()
     {
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnEnemyHere(x, y)) {
+        while (isAlreadyVesselHere(x, y)) {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        entity_t enemy = _entityManager.spawnEntity("basicEnemy")->getId();
-        Sprite sprite("assets/basicEnemy.gif", x, y, 4);
-        Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
+        entity_t enemy = _entityManager.spawnEntity("vessel")->getId();
+        Sprite sprite("assets/r-typesheet26.gif", x, y, 3);
+        Animation animation(63, 49, 1, 1, 3, 1, 2, 1, 500);
         Movement movement(-5, 0);
         Collision collision({"player"});
 
@@ -47,12 +47,12 @@ namespace rtype {
         _componentManager.put<Collision>(collision, enemy);
     }
 
-    void GameScene::moveBasicEnemy(Sprite &sprite, Movement &movement)
+    void GameScene::moveVessel(Sprite &sprite, Movement &movement)
     {
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool GameScene::destroyBasicEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id)
+    bool GameScene::destroyVessel(Sprite &sprite, Animation &animation, entity_t enemy_id)
     {
         (void)enemy_id;
         if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
@@ -63,24 +63,25 @@ namespace rtype {
         return false;
     }
 
-    void GameScene::handleBasicEnemy(const int64_t &time)
+    void GameScene::handleVessel(const int64_t &time)
     {
-        std::vector<std::shared_ptr<Entity>> basicEnemies = _entityManager.getEntitiesFromFamily("basicEnemy");
+        std::vector<std::shared_ptr<Entity>> vesselEnemies = _entityManager.getEntitiesFromFamily("vessel");
         std::shared_ptr<ComponentMap<Movement>> movementMap = _componentManager.getComponents<Movement>();
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
         int familyIndex = 0;
 
-        for (auto &basicEnemy : basicEnemies) {
-            if (destroyBasicEnemy(spriteMap->get(basicEnemy->getId()), animationMap->get(basicEnemy->getId()), basicEnemy->getId()))
-                return handleBasicEnemy(time);
-            if (movementMap->contains(basicEnemy->getId()) && spriteMap->contains(basicEnemy->getId()))
-                moveBasicEnemy(spriteMap->get(basicEnemy->getId()), movementMap->get(basicEnemy->getId()));
+        for (auto &vesselEnemy : vesselEnemies) {
+            if (destroyVessel(spriteMap->get(vesselEnemy->getId()), animationMap->get(vesselEnemy->getId()), vesselEnemy->getId()))
+                return handleVessel(time);
+            if (movementMap->contains(vesselEnemy->getId()) && spriteMap->contains(vesselEnemy->getId()))
+                moveVessel(spriteMap->get(vesselEnemy->getId()), movementMap->get(vesselEnemy->getId()));
         }
-        familyIndex = GetFamilyIndex("basicEnemy");
-        if (basicEnemies.size() < 5 && time % 20 == 0 && familyIndex != -1) {
+        familyIndex = GetFamilyIndex("vessel");
+        if (vesselEnemies.size() < 1 && time % 20 == 0 && familyIndex != -1)
             if (waves[0][familyIndex].second != 0)
-                spawnBasicEnemy();
-        }
+                spawnVessel();
+        if (time % 20 == 0)
+            spawnEnemyBullet(vesselEnemies);
     }
 }

@@ -108,6 +108,8 @@
                  */
                 void initNetwork();
 
+                void initWaves();
+
                 /**
                  * @brief move the background to create a parallax effect
                  *
@@ -135,12 +137,23 @@
                  */
                 void handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight);
 
+                void handleWaves(const int64_t &time);
+
                 /**
                  * @brief play all scene components animation
                  *
                  * @param animationMap the animation map
                  */
                 void playAnimation(std::shared_ptr<ComponentMap<Animation>> animationMap);
+
+
+                void handleEnemyBulletSpriteSheet(Animation &bullet);
+                bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);                
+                void initEnemyBullet(entity_t entity);
+                void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
+                void moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity);
+                void handleEnemyBullet(const int64_t &time);
+
 
                 /**
                  * @brief move shown frame on spritesheet according to player action
@@ -205,6 +218,87 @@
                  */
                 bool isAlreadyAnEnemyHere(size_t x, size_t y);
 
+/**
+                 * @brief Check if there is an enemy at this position to prevent the two enemies to be at a same position
+                 *
+                 * @param x the x position to check
+                 * @param y the y position to check
+                 * @return true if there is an enemy, false otherwise
+                 */
+                bool isAlreadyFlyEnemyHere(size_t x, size_t y);
+
+                /**
+                         * @brief Create a new medium enemy
+                         * 
+                         */
+                void spawnFlyEnemy();
+
+                /**
+                         * @brief Move medium enemy until it reach end of the screen
+                         * 
+                         * @param sprite the sprite of the enemy
+                         * @param movement the movement of the enemy
+                         */
+                void moveFlyEnemy(Sprite &sprite, Movement &movement);
+
+                /**
+                         * @brief Destroy enemy if they have reach the end of the screen
+                         * 
+                         * @param sprite the sprite of enemy
+                         * @param animation the animation component of the enemy
+                         * @param enemy_id the enemy entity id
+                         * @return true if the enemy has been destroyed, false otherwise
+                         */
+                bool destroyFlyEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id);
+
+                /**
+                         * @brief Handle vessel enemy, so his destruction, movement, creation..
+                         * 
+                         * @param time the time elapsed
+                         */
+                void handleFlyEnemy(const int64_t &time);
+    
+
+                /**
+                 * @brief Check if there is an enemy at this position to prevent the two enemies to be at a same position
+                 *
+                 * @param x the x position to check
+                 * @param y the y position to check
+                 * @return true if there is an enemy, false otherwise
+                 */
+                bool isAlreadyVesselHere(size_t x, size_t y);
+
+                /**
+                         * @brief Create a new medium enemy
+                         * 
+                         */
+                void spawnVessel();
+
+                /**
+                         * @brief Move medium enemy until it reach end of the screen
+                         * 
+                         * @param sprite the sprite of the enemy
+                         * @param movement the movement of the enemy
+                         */
+                void moveVessel(Sprite &sprite, Movement &movement);
+
+                /**
+                         * @brief Destroy enemy if they have reach the end of the screen
+                         * 
+                         * @param sprite the sprite of enemy
+                         * @param animation the animation component of the enemy
+                         * @param enemy_id the enemy entity id
+                         * @return true if the enemy has been destroyed, false otherwise
+                         */
+                bool destroyVessel(Sprite &sprite, Animation &animation, entity_t enemy_id);
+
+                /**
+                         * @brief Handle vessel enemy, so his destruction, movement, creation..
+                         * 
+                         * @param time the time elapsed
+                         */
+                void handleVessel(const int64_t &time);
+
                 /**
                  * @brief Create a new Basic enemy
                  *
@@ -237,6 +331,46 @@
                 void handleBasicEnemy(const int64_t &time);
 
                 /**
+                         * @brief Check if there is an enemy at this position to prevent the two enemies to be at a same position
+                         * 
+                         * @param x the x position to check
+                         * @param y the y position to check
+                         * @return true if there is an enemy, false otherwise
+                         */
+                bool isAlreadyMediumEnemyHere(size_t x, size_t y);
+
+                /**
+                         * @brief Create a new medium enemy
+                         * 
+                         */
+                void spawnMediumEnemy();
+
+                /**
+                         * @brief Move medium enemy until it reach end of the screen
+                         * 
+                         * @param sprite the sprite of the enemy
+                         * @param movement the movement of the enemy
+                         */
+                void moveMediumEnemy(Sprite &sprite, Movement &movement);
+
+                /**
+                         * @brief Destroy enemy if they have reach the end of the screen
+                         * 
+                         * @param sprite the sprite of enemy
+                         * @param animation the animation component of the enemy
+                         * @param enemy_id the enemy entity id
+                         * @return true if the enemy has been destroyed, false otherwise
+                         */
+                bool destroyMediumEnemy(Sprite &sprite, Animation &animation, entity_t enemy_id);
+
+                /**
+                         * @brief Handle medium enemy, so his destruction, movement, creation..
+                         * 
+                         * @param time the time elapsed
+                         */
+                void handleMediumEnemy(const int64_t &time);
+
+                /**
                  * @brief Check if the two element are colliding
                  *
                  * @param x1 the x position of the first element
@@ -260,6 +394,8 @@
                  */
                 int handleElementCollision(entity_t id);
 
+                int GetFamilyIndex(const std::string &family);
+
                 static const std::vector<std::string> ENEMIES;
                 static const std::vector<std::string> BULLET_NAMES;
 
@@ -278,6 +414,11 @@
                 } _loadState = LoadState::ON;
 
                 std::unordered_map<entity_t, std::pair<BulletSentState, BulletLoadState>> _bullet_sent;
+
+                std::vector<std::vector<std::pair<std::string, int>>> waves;
+                
+                size_t _actual_wave = 1;
+                size_t _score = 0;
 
                 enum class BulletTimeState {
                     NONE,
