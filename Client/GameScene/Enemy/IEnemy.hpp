@@ -29,7 +29,7 @@
                  * @brief handle every enemy
                  *
                  */
-                virtual void handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager) = 0;
+                virtual bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager) = 0;
 
                 /**
                  * @brief Get the id of the enemy

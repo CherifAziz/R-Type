@@ -74,7 +74,7 @@ namespace rtype
         return false;
     }
 
-    void BasicEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool BasicEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
         std::vector<std::shared_ptr<Entity>> basicEnemies = entityManager.getEntitiesFromFamily("basicEnemy");
         std::shared_ptr<ComponentMap<Movement>> movementMap = componentManager.getComponents<Movement>();
@@ -82,8 +82,9 @@ namespace rtype
         std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
 
         if (destroy(spriteMap->get(this->_id), animationMap->get(this->_id), componentManager, entityManager))
-            return handle(time, componentManager, entityManager);
+            return true;
         if (movementMap->contains(this->_id) && spriteMap->contains(this->_id))
             move(spriteMap->get(this->_id), movementMap->get(this->_id));
+        return false;
     }
 }

@@ -41,31 +41,26 @@ namespace rtype
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
-    bool BossEnemy::destroy(Sprite &sprite, Animation &animation, entity_t enemy_id, ComponentManager &componentManager, EntityManager &entityManager)
+    bool BossEnemy::destroy(Sprite &sprite, Animation &animation, ComponentManager &componentManager, EntityManager &entityManager)
     {
-        (void)enemy_id;
-        if ((int)(sprite.getX() + animation.getRectWidth()) < 0)
-        {
-            componentManager.killEntity(enemy_id);
-            entityManager.killEntity(enemy_id);
+        if ((int)(sprite.getX() + animation.getRectWidth()) < 0) {
+            componentManager.killEntity(this->_id);
+            entityManager.killEntity(this->_id);
             return true;
         }
         return false;
     }
 
-    void BossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool BossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
     {
         std::vector<std::shared_ptr<Entity>> flyEnemies = entityManager.getEntitiesFromFamily("fly");
         std::shared_ptr<ComponentMap<Movement>> movementMap = componentManager.getComponents<Movement>();
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = componentManager.getComponents<Animation>();
 
-        for (auto &BossEnemy : flyEnemies)
-        {
-            if (destroy(spriteMap->get(this->_id), animationMap->get(this->_id), this->_id, componentManager, entityManager))
-                return handle(time, componentManager, entityManager);
-            if (movementMap->contains(this->_id) && spriteMap->contains(this->_id))
-                move(spriteMap->get(this->_id), movementMap->get(this->_id));
-        }
+        if (destroy(spriteMap->get(this->_id), animationMap->get(this->_id), componentManager, entityManager))
+            return true;
+        if (movementMap->contains(this->_id) && spriteMap->contains(this->_id))
+            move(spriteMap->get(this->_id), movementMap->get(this->_id));
     }
 }
