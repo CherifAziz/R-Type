@@ -11,7 +11,6 @@
 #include "Collision.hpp"
 
 namespace rtype {
-
     bool GameScene::handleEnemyBulletDestruction(Sprite &bullet, entity_t entity)
     {
         int value = handleElementCollision(entity);

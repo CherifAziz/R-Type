@@ -8,15 +8,7 @@
 #ifndef _EnemyManager_
     #define _EnemyManager_
 
-    #include "AScene.hpp"
-    #include "AEnemy.hpp"
-
-    #include "Sprite.hpp"
-    #include "Action.hpp"
-    #include "Animation.hpp"
-    #include "Movement.hpp"
-    #include "Sound.hpp"
-    #include "Network.hpp"
+    #include "IEnemy.hpp"
 
     namespace rtype {
         /**
