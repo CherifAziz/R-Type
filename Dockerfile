@@ -8,12 +8,12 @@ RUN useradd -m -s /bin/bash -G sudo ubuntu
 
 RUN echo "ubuntu:1234" | chpasswd
 
-USER ubuntu
-
 WORKDIR /home/ubuntu/r-type
 
 COPY . .
 
 RUN chown -R ubuntu:ubuntu /home/ubuntu/r-type
+
+USER ubuntu
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
