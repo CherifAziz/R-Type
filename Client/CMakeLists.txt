@@ -14,7 +14,7 @@ find_package(Boost COMPONENTS system serialization REQUIRED)
 
 include_directories(Services/ GameScene/)
 
-set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp GameScene/MediumEnemy.cpp GameScene/VesselEnemyy.cpp  GameScene/FlyEememy.cpp)
+set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp GameScene/MediumEnemy.cpp GameScene/VesselEnemyy.cpp  GameScene/FlyEememy.cpp GameScene/EnemyBullet.cpp)
 set(SERVICES_FILES Services/Services.cpp)
 
 add_executable(${BIN_NAME}

@@ -81,5 +81,7 @@ namespace rtype {
         if (vesselEnemies.size() < 3 && time % 20 == 0 && familyIndex != -1)
             if (waves[0][familyIndex].second != 0)
                 spawnVessel();
+        if (time % 40 == 0)
+            spawnEnemyBullet(vesselEnemies);
     }
 }

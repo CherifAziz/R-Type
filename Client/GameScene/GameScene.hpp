@@ -146,6 +146,15 @@
                  */
                 void playAnimation(std::shared_ptr<ComponentMap<Animation>> animationMap);
 
+
+                void handleEnemyBulletSpriteSheet(Animation &bullet);
+                bool handleEnemyBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity);                
+                void initEnemyBullet(entity_t entity);
+                void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
+                void moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity);
+                void handleEnemyBullet(const int64_t &time, const size_t &windowWidth);
+
+
                 /**
                  * @brief move shown frame on spritesheet according to player action
                  *
