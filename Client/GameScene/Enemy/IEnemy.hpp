@@ -30,6 +30,13 @@
                  *
                  */
                 virtual void handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager) = 0;
+
+                /**
+                 * @brief Get the id of the enemy
+                 * 
+                 * @return the component manager as a ComponentManager& 
+                 */
+                virtual entity_t &getId() = 0;
         };
     }
 

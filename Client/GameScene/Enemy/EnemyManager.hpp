@@ -64,7 +64,7 @@
                  * @brief List of all instancied enemy
                  *
                  */
-                std::vector<std::shared_ptr<AEnemy>> _enemies;
+                std::vector<std::shared_ptr<IEnemy>> _enemies;
         };
     }
 
