@@ -53,8 +53,7 @@ namespace rtype {
         int value = handleElementCollision(entity);
 
         if (value != -1) {
-            const std::shared_ptr<Entity> _enemy = _entityManager.getEntity(value);
-            const std::string family = _enemy->getFamily();
+            const std::string family = _entityManager.getEntity(value)->getFamily();
 
             _componentManager.killEntity(value);
             _entityManager.killEntity(value);
@@ -78,6 +77,7 @@ namespace rtype {
                 _componentManager.killEntity(entity);
                 _entityManager.killEntity(entity);
                 _bullet_sent.erase(entity);
+                return true;
             }
         }
         if (bullet.getX() >= (int)windowWidth) {

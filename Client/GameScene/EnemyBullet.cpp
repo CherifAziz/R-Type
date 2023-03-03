@@ -41,7 +41,7 @@ namespace rtype {
         Animation animation(6, 6, 212, 279, 1, 1, 0, 0, 500);
 
         for (auto &shootEnemy : enemies) {
-            std::shared_ptr<Entity> bullet = _entityManager.spawnEntity("enemy_bullet");
+            std::shared_ptr<Entity> bullet = _entityManager.spawnEntity("enemy_shoot");
             entity_t bullet_id = bullet->getId();
             Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
             Animation &enemy_animation = animationMap->get(shootEnemy->getId());
@@ -61,7 +61,7 @@ namespace rtype {
 
     void GameScene::handleEnemyBullet(const int64_t &time, const size_t &windowWidth)
     {
-        std::vector<std::shared_ptr<Entity>> bullets = _entityManager.getEntitiesFromSubFamily("enemy_bullet");
+        std::vector<std::shared_ptr<Entity>> bullets = _entityManager.getEntitiesFromFamily("enemy_shoot");
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
         std::shared_ptr<ComponentMap<Movement>> movementMap = _componentManager.getComponents<Movement>();
@@ -71,9 +71,8 @@ namespace rtype {
                 if (handleEnemyBulletDestruction(spriteMap->get(bullet->getId()), windowWidth, bullet->getId()))
                     return (handleEnemyBullet(time, windowWidth));
             }
-
             if (movementMap->contains(bullet->getId()))
-                    moveEnemyBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
+                moveEnemyBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
     }
 }

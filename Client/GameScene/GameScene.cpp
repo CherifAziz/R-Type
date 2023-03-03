@@ -90,7 +90,7 @@ namespace rtype
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
-        handleEnemyBullet(time, windowWidth);
+        // handleEnemyBullet(time, windowWidth);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
         handleWaves(time);
         if (time % 20 == 0)
