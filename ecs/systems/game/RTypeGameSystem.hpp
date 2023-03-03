@@ -15,6 +15,7 @@
 
     #include "HomeMenuScene.hpp"
     #include "GameScene.hpp"
+    #include "SettingsMenu.hpp"
 
     namespace rtype {
         /**
@@ -32,6 +33,7 @@
                 RTypeGameSystem(std::vector<std::shared_ptr<IScene>> &scenes) : AGameSystem("RType")
                 {
                     scenes.push_back(std::make_shared<HomeMenuScene>());
+                    scenes.push_back(std::make_shared<SettingsMenu>());
                     scenes.push_back(std::make_shared<GameScene>());
                 }
 
@@ -65,13 +67,15 @@
                     auto current = std::chrono::high_resolution_clock::now();
                     int64_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - _startingTime).count();
                     size_t scene_id = _storage->getCurrentScene();
+                    size_t previous_scene_id = _storage->getPreviousScene();
 
                     if (_storage->getRenderWindow().isOpen() == false)
                         return;
-                    scene->update(elapsed_time, _storage->getWindowWidth(), _storage->getWindowHeight(), scene_id);
+                    scene->update(elapsed_time, _storage->getWindowWidth(), _storage->getWindowHeight(), scene_id, previous_scene_id);
                     if (elapsed_time >= 100)
                         _startingTime = current;
                     if (scene_id != _storage->getCurrentScene()) {
+                        _storage->setPreviousScene(_storage->getCurrentScene());
                         _storage->setCurrentScene(scene_id);
                     }
                 }

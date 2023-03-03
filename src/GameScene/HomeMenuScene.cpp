@@ -22,12 +22,12 @@ namespace rtype {
 
     HomeMenuScene::~HomeMenuScene() {}
 
-    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
+    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &/*previousScene*/)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
 
         if (time % 2 == 0) {
-            handleButtons(_componentManager.getComponents<Animation>(), _componentManager.getComponents<Sprite>(),
+            handleButtons(_componentManager.getComponents<Animation>(), _componentManager.getComponents<Text>(), _componentManager.getComponents<Sprite>(),
                 _componentManager.getComponents<Button>(), _componentManager.getComponents<Action>()->get(player_id),
                 windowWidth, windowHeight, scene);
         }
@@ -36,12 +36,14 @@ namespace rtype {
     void HomeMenuScene::initSprite() {
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/Menu-background.png", 0, 0);
-        Sprite button_background_sprite("assets/Button-bg.png", 340, 317.5);
-        Sprite settings_button_background_sprite("assets/small-button-bg.png", 1700, 50);
+        Sprite button_background_sprite("assets/Button-bg.png", 300, 200);
+        Sprite settings_button_background_sprite("assets/small-button-bg.png", 1345, 35);
+        Sprite settings_icon_sprite("assets/settings-icon.png", 1360, 50);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
-        sprite.put(button_background_sprite, _entityManager.spawnEntity("button")->getId());
-        sprite.put(settings_button_background_sprite, _entityManager.spawnEntity("button")->getId());
+        sprite.put(button_background_sprite, _entityManager.spawnEntity("text-button")->getId());
+        sprite.put(settings_button_background_sprite, _entityManager.spawnEntity("icon-button")->getId());
+        sprite.put(settings_icon_sprite, _entityManager.spawnEntity("icon")->getId());
         _componentManager.registerComponent<Sprite>(sprite);
     }
 
@@ -56,9 +58,9 @@ namespace rtype {
 
     void HomeMenuScene::initText() {
         ComponentMap<Text> text;
-        Text title("START", "assets/font.ttf", 470, 305, 60, 1, Text::rgb_t(0, 0, 0));
+        Text title("PLAY", "assets/font.ttf", 390, 207.5, 45, 1, Text::rgb_t(255, 255, 255));
 
-        text.put(title, _entityManager.getEntitiesFromFamily("button")[0]->getId());
+        text.put(title, _entityManager.getEntitiesFromFamily("text-button")[0]->getId());
         _componentManager.registerComponent<Text>(text);
     }
 
@@ -83,9 +85,11 @@ namespace rtype {
         ComponentMap<Animation> animation;
         Animation start_button_animation(380, 98, 0, 0, 1, 3, 0, 7, 100);
         Animation settings_button_animation(85, 84, 0, 0, 1, 3, 0, 8, 100);
+        Animation settings_icon_animation(46, 39, 0, 0, 1, 3, 0, 3, 100);
 
-        animation.put(start_button_animation, _entityManager.getEntitiesFromFamily("button")[0]->getId());
-        animation.put(settings_button_animation, _entityManager.getEntitiesFromFamily("button")[1]->getId());
+        animation.put(start_button_animation, _entityManager.getEntitiesFromFamily("text-button")[0]->getId());
+        animation.put(settings_button_animation, _entityManager.getEntitiesFromFamily("icon-button")[0]->getId());
+        animation.put(settings_icon_animation, _entityManager.getEntitiesFromFamily("icon")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
     }
 
@@ -95,8 +99,8 @@ namespace rtype {
         Button start_button(2);
         Button settings_button(1);
 
-        button.put(start_button, _entityManager.getEntitiesFromFamily("button")[0]->getId());
-        button.put(settings_button, _entityManager.getEntitiesFromFamily("button")[1]->getId());
+        button.put(start_button, _entityManager.getEntitiesFromFamily("text-button")[0]->getId());
+        button.put(settings_button, _entityManager.getEntitiesFromFamily("icon-button")[0]->getId());
         _componentManager.registerComponent<Button>(button);
     }
 }

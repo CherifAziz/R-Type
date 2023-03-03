@@ -65,7 +65,7 @@
                             delete text.second;
                     _textCache.clear();
                     if (!_storage->getRenderWindow().isOpen())
-                        _storage->getRenderWindow().create({1920, 1080}, "R-Type");
+                        _storage->getRenderWindow().create({1440, 810}, "R-Type");
                     _storage->getRenderWindow().setFramerateLimit(60);
                 }
 

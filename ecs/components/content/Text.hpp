@@ -78,7 +78,7 @@
                  * @param color the color for the text
                  */
                 Text(const std::string &text = "", const std::string &font = "", const size_t &x = 0, const size_t &y = 0, const size_t &characterSize = 30,
-                const size_t &scale = 1, const rgb_t &color = rgb_s()) : _text(text), _font(font), _x(x), _y(y), _characterSize(characterSize),
+                const float &scale = 0.75, const rgb_t &color = rgb_s()) : _text(text), _font(font), _x(x), _y(y), _characterSize(characterSize),
                 _scale(scale), _color(color) {}
 
                 /**
@@ -172,16 +172,16 @@
                 /**
                  * @brief Get the Scale object
                  * 
-                 * @return the scale as a const size_t& 
+                 * @return the scale as a const float& 
                  */
-                const size_t &getScale() const { return _scale; }
+                const float &getScale() const { return _scale; }
 
                 /**
                  * @brief Set the Scale object
                  * 
                  * @param scale the scale that will be assigned
                  */
-                void setScale(const size_t &scale) { _scale = scale; }
+                void setScale(const float &scale) { _scale = scale; }
 
                 /**
                  * @brief check if the text are the same
@@ -229,7 +229,7 @@
                  * @brief the scale
                  * 
                  */
-                size_t _scale;
+                float _scale;
 
                 /**
                  * @brief the color

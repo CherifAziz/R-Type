@@ -14,6 +14,7 @@
     #include "Action.hpp"
     #include "Sprite.hpp"
     #include "Animation.hpp"
+    #include "Text.hpp"
 
     namespace rtype {
         /**
@@ -64,6 +65,20 @@
                 void setButtonStatus(ButtonStatus status) { this->_status = status; };
 
                 /**
+                 * @brief Get the Button Linked scene
+                 * 
+                 * @return _linked_scene 
+                 */
+                const size_t &getLinkedScene() const { return (this->_linked_scene); };
+
+                /**
+                 * @brief Set the Button Linked Scene
+                 * 
+                 * @param linked_scene 
+                 */
+                void setLinkedScene(const size_t &linked_scene) { this->_linked_scene = linked_scene; };
+
+                /**
                  * @brief 
                  * 
                  * @param animation 
@@ -72,33 +87,83 @@
                  * @param windowWidth 
                  * @param windowHeight 
                  */
-                void handleInteractions(Animation &animation, Sprite &sprite, Action &player_action, Action::KeyState mouse_state, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
+                void handleIconButtonInteractions(Animation &animation, Animation &icon_animation, Sprite &sprite, Action &player_action, Action::KeyState mouse_state, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
                 {
-                    float windowWidthSizeRatio = 1900.0 / windowWidth;
-                    float windowHeightSizeRatio = 1020.0 / windowHeight;
+                    float windowWidthSizeRatio = 1440.0 / windowWidth;
+                    float windowHeightSizeRatio = 810.0 / windowHeight;
 
                     if (this->_status == ButtonStatus::PRESSED) {
                         this->_status = ButtonStatus::RELEASED;
                         animation.animate();
+                        icon_animation.animate();
                     } else if (this->_status == ButtonStatus::RELEASED) {
                         if (mouse_state == Action::KeyState::RELEASED) {
                             scene = _linked_scene;
                             this->_status = ButtonStatus::NONE;
                             animation.animate();
+                            icon_animation.animate();
                         }
                     } else {
                         if (player_action.getMousePosition().X * windowWidthSizeRatio >= sprite.getX() &&
                             player_action.getMousePosition().X * windowWidthSizeRatio <= (sprite.getX() + (animation.getRectWidth() * sprite.getScale())) &&
                             player_action.getMousePosition().Y * windowHeightSizeRatio >= sprite.getY() &&
                             player_action.getMousePosition().Y * windowHeightSizeRatio <= (sprite.getY() + (animation.getRectHeight()) * sprite.getScale())) {
-                        
+
                             if (this->_status != ButtonStatus::HOVER) {
                                 animation.animate();
+                                icon_animation.animate();
                                 this->_status = ButtonStatus::HOVER;
                             }
                         } else if (this->_status == ButtonStatus::HOVER) {
                             animation.animate();
                             animation.animate();
+                            icon_animation.animate();
+                            icon_animation.animate();
+                            this->_status = ButtonStatus::NONE;
+                        }
+                    }
+                };
+
+                /**
+                 * @brief 
+                 * 
+                 * @param animation 
+                 * @param sprite 
+                 * @param mouse_state 
+                 * @param windowWidth 
+                 * @param windowHeight 
+                 */
+                void handleTextButtonInteractions(Animation &animation, Sprite &sprite, Text &text, Action &player_action, Action::KeyState mouse_state, const size_t &windowWidth, const size_t &windowHeight, size_t &scene)
+                {
+                    float windowWidthSizeRatio = 1440.0 / windowWidth;
+                    float windowHeightSizeRatio = 810.0 / windowHeight;
+
+                    if (this->_status == ButtonStatus::PRESSED) {
+                        this->_status = ButtonStatus::RELEASED;
+                        animation.animate();
+                        text.setColor(Text::rgb_t(0, 0, 0));
+                    } else if (this->_status == ButtonStatus::RELEASED) {
+                        if (mouse_state == Action::KeyState::RELEASED) {
+                            scene = _linked_scene;
+                            this->_status = ButtonStatus::NONE;
+                            animation.animate();
+                            text.setColor(Text::rgb_t(255, 255, 255));
+                        }
+                    } else {
+                        if (player_action.getMousePosition().X * windowWidthSizeRatio >= sprite.getX() &&
+                            player_action.getMousePosition().X * windowWidthSizeRatio <= (sprite.getX() + (animation.getRectWidth() * sprite.getScale())) &&
+                            player_action.getMousePosition().Y * windowHeightSizeRatio >= sprite.getY() &&
+                            player_action.getMousePosition().Y * windowHeightSizeRatio <= (sprite.getY() + (animation.getRectHeight()) * sprite.getScale())) {
+
+                            if (this->_status != ButtonStatus::HOVER) {
+                                animation.animate();
+                                text.setColor(Text::rgb_t(134, 218, 239));
+                                this->_status = ButtonStatus::HOVER;
+                            }
+                        } else if (this->_status == ButtonStatus::HOVER) {
+                            animation.animate();
+                            animation.animate();
+                            text.setColor(Text::rgb_t(250, 250, 250));
                             this->_status = ButtonStatus::NONE;
                         }
                     }
@@ -116,8 +181,6 @@
                  * 
                  */
                 size_t _linked_scene;
-
-            private:
         };
     }
 

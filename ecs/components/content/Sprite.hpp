@@ -25,7 +25,7 @@
                  * @param y the y position of the sprite in the window
                  * @param scale the scale of the sprite
                  */
-                Sprite(const std::string &filename = "", const ssize_t &x = 0, const ssize_t &y = 0, const size_t &scale = 1) : _filename(filename), _x(x), _y(y), _scale(scale) {};
+                Sprite(const std::string &filename = "", const size_t &x = 0, const size_t &y = 0, const float &scale = 0.75) : _filename(filename), _x(x), _y(y), _scale(scale) {};
 
                 /**
                  * @brief Destroy the Sprite object
@@ -50,16 +50,16 @@
                 /**
                  * @brief Get the X position object
                  * 
-                 * @return the x position as a const ssize_t& 
+                 * @return the x position as a const size_t& 
                  */
-                const ssize_t &getX() const {return _x;};
+                const size_t &getX() const {return _x;};
 
                 /**
                  * @brief Get the Y position object
                  * 
-                 * @return the y position as a const ssize_t& 
+                 * @return the y position as a const size_t& 
                  */
-                const ssize_t &getY() const {return _y;};
+                const size_t &getY() const {return _y;};
 
                 /**
                  * @brief Set the Position object
@@ -67,7 +67,7 @@
                  * @param x the x position that will be assigned
                  * @param y the y position that will be assigned
                  */
-                void setPosition(const ssize_t &x, const ssize_t &y)
+                void setPosition(const size_t &x, const size_t &y)
                 {
                     _x = x;
                     _y = y;
@@ -76,16 +76,16 @@
                 /**
                  * @brief Get the Scale object
                  * 
-                 * @return the scale as a const size_t& 
+                 * @return the scale as a const float& 
                  */
-                const size_t &getScale() const { return _scale; }
+                const float &getScale() const { return _scale; }
 
                 /**
                  * @brief Set the Scale object
                  * 
                  * @param scale the scale that will be assigned
                  */
-                void setScale(const size_t &scale) { _scale = scale; }
+                void setScale(const float &scale) { _scale = scale; }
 
                 /**
                  * @brief check if the sprites are the same
@@ -109,19 +109,19 @@
                  * @brief the x position of the sprite
                  * 
                  */
-                ssize_t _x;
+                size_t _x;
 
                 /**
                  * @brief the y position of the sprite
                  * 
                  */
-                ssize_t _y;
+                size_t _y;
 
                 /**
                  * @brief the scale of the sprite
                  * 
                  */
-                size_t _scale;
+                float _scale;
         };
     }
 

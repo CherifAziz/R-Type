@@ -23,7 +23,7 @@
 
                 ~HomeMenuScene();
 
-                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene);
+                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene);
 
             protected:
 
@@ -40,8 +40,6 @@
                 void initAnimation();
 
                 void initButtons();
-
-            private:
         };
 
     }
