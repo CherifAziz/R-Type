@@ -12,7 +12,7 @@
 
 namespace rtype {
 
-    bool GameScene::handleEnemyBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity)
+    bool GameScene::handleEnemyBulletDestruction(Sprite &bullet, entity_t entity)
     {
         int value = handleElementCollision(entity);
         
@@ -23,7 +23,7 @@ namespace rtype {
                 exit(0);
             }
         }
-        if (bullet.getX() >= (int)windowWidth) {
+        if (bullet.getX() <= 0) {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _bullet_sent.erase(entity);
@@ -41,8 +41,7 @@ namespace rtype {
         Animation animation(6, 6, 212, 279, 1, 1, 0, 0, 500);
 
         for (auto &shootEnemy : enemies) {
-            std::shared_ptr<Entity> bullet = _entityManager.spawnEntity("enemy_shoot");
-            entity_t bullet_id = bullet->getId();
+            entity_t bullet_id = _entityManager.spawnEntity("enemy_shoot")->getId();
             Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
             Animation &enemy_animation = animationMap->get(shootEnemy->getId());
             Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 63 + (enemy_animation.getRectWidth() - 63) * enemy_sprite.getScale(), enemy_sprite.getY() + (enemy_animation.getRectHeight() * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
@@ -59,7 +58,7 @@ namespace rtype {
         bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY());
     }
 
-    void GameScene::handleEnemyBullet(const int64_t &time, const size_t &windowWidth)
+    void GameScene::handleEnemyBullet(const int64_t &time)
     {
         std::vector<std::shared_ptr<Entity>> bullets = _entityManager.getEntitiesFromFamily("enemy_shoot");
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
@@ -68,8 +67,8 @@ namespace rtype {
 
         for (auto &bullet : bullets) {
             if (spriteMap->contains(bullet->getId())) {
-                if (handleEnemyBulletDestruction(spriteMap->get(bullet->getId()), windowWidth, bullet->getId()))
-                    return (handleEnemyBullet(time, windowWidth));
+                if (handleEnemyBulletDestruction(spriteMap->get(bullet->getId()), bullet->getId()))
+                    return (handleEnemyBullet(time));
             }
             if (movementMap->contains(bullet->getId()))
                 moveEnemyBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));

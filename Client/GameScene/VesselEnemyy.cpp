@@ -78,7 +78,7 @@ namespace rtype {
                 moveVessel(spriteMap->get(vesselEnemy->getId()), movementMap->get(vesselEnemy->getId()));
         }
         familyIndex = GetFamilyIndex("vessel");
-        if (vesselEnemies.size() < 4 && time % 20 == 0 && familyIndex != -1)
+        if (vesselEnemies.size() < 1 && time % 20 == 0 && familyIndex != -1)
             if (waves[0][familyIndex].second != 0)
                 spawnVessel();
         if (time % 20 == 0)
