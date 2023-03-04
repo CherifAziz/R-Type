@@ -72,7 +72,7 @@ namespace rtype {
                 return p.first == family;
             });
             if (it != wave.end()) {
-                if (it->second != 0)
+                if (it->second != 0 && remaining_life == 0)
                     --it->second;
             }
 
