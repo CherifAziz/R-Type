@@ -170,7 +170,7 @@ namespace rtype
         std::string line;
         std::vector<std::pair<std::string, int>> wave_config;
 
-        std::ifstream wave_file("assets/wave.txt");
+        std::ifstream wave_file(std::string(ASSETS_DIR)+"wave.txt");
 
         if (wave_file.is_open()) {
             while (std::getline(wave_file, line)) 

@@ -24,7 +24,7 @@ namespace rtype {
             y = rand() % (900 - ENEMY_REACH);
         }
         this->_id = entityManager.spawnEntity("vesselEnemy")->getId();
-        Sprite sprite("assets/r-typesheet26.gif", x, y, 3);
+        Sprite sprite(std::string(ASSETS_DIR)+"r-typesheet26.gif", x, y, 3);
         Animation animation(63, 49, 1, 1, 3, 1, 2, 1, 500);
         Movement movement(-5, 0);
         Collision collision({"player"});
