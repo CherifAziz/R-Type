@@ -29,6 +29,7 @@
                  * @details NONE if nothing is interracting with the button, HOVER if the mouse is hover the button, PRESSED if the mouse click on the button, RELEASE when the mouse release the click on the button
                  */
                 enum class ButtonStatus {
+                    DISABLE,
                     NONE,
                     HOVER,
                     PRESSED,

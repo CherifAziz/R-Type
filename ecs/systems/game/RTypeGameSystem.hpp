@@ -74,7 +74,9 @@
                     scene->update(elapsed_time, _storage->getWindowWidth(), _storage->getWindowHeight(), scene_id, previous_scene_id);
                     if (elapsed_time >= 100)
                         _startingTime = current;
-                    if (scene_id != _storage->getCurrentScene()) {
+                    if (scene_id == (size_t)-1)
+                        _storage->getRenderWindow().close();
+                    else if (scene_id != _storage->getCurrentScene()) {
                         _storage->setPreviousScene(_storage->getCurrentScene());
                         _storage->setCurrentScene(scene_id);
                     }
