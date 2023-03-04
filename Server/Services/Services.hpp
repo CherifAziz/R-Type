@@ -27,6 +27,8 @@
                 void Shoot(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 void NewPlayer(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 void PlayerMove(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
+                void NewEnemy(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
+                void Useless(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 std::vector<std::function<void(udp::endpoint&, rtype::ClientManager&, Serialize::Data&, rtype::IScene&)>> _commands;
         };
 
