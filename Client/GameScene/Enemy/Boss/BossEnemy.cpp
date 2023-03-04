@@ -27,7 +27,7 @@ namespace rtype
         }
 
         this->_id = entityManager.spawnEntity("bossEnemy")->getId();
-        Sprite sprite("assets/boss1.gif", x, y, 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"boss1.gif", x, y, 4);
         Animation animation(255, 142, 0, 0, 2, 4, 5, 3, 2000);
         Movement movement(1, 0);
         Collision collision({"player"});
