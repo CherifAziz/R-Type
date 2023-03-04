@@ -1,13 +1,1 @@
-basicEnemy,10
-mediumEnemy,10
-
-basicEnemy,80
-mediumEnemy,50
-flyEnemy,35
-
-basicEnemy,120
-mediumEnemy,70
-flyEnemy,50
-vesselEnemy,30
-
 bossEnemy,1

@@ -22,11 +22,11 @@ namespace rtype {
 
     static const std::unordered_map<std::string, size_t> BULLET_POWER = {
         {"bullet", 1},
-        {"chargedbullet", 2},
-        {"bigbullet", 4},
-        {"superbullet", 6},
-        {"megabullet", 8},
-        {"beboubullet", 12}
+        {"chargedbullet", 4},
+        {"bigbullet", 7},
+        {"superbullet", 12},
+        {"megabullet", 15},
+        {"beboubullet", 20}
     };
 
     void GameScene::handleBulletSpriteSheet(Animation &bullet)
@@ -155,7 +155,7 @@ namespace rtype {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _loadState = LoadState::ON;
-        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE && handleGameTime(500, time, "bulletLoad")) {
+        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE && handleGameTime(250, time, "bulletLoad")) {
             _bulletTime = (BulletTimeState)((int)_bulletTime + 1);
             if (_bulletTime == BulletTimeState::READY) {
                 _bulletTime = BulletTimeState::NONE;

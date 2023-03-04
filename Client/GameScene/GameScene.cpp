@@ -108,7 +108,7 @@ namespace rtype
             handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
             playAnimation(_componentManager.getComponents<Animation>());
         }
-        else if (handleGameTime(300, time, "enemyBulletSpawn"))
+        else if (handleGameTime(400, time, "enemyBulletSpawn"))
             callEnemiesSendingBullets(_componentManager.getComponents<Sprite>()->get(player_id));
     }
 
@@ -251,7 +251,7 @@ namespace rtype
                 title.setText("The end");
             if (wave_finish == 0 && waves.size() != 1) {
                 _actual_wave += 1;
-                title.setText("Wave "+ std::to_string(_actual_wave));
+                title.setText("Level "+ std::to_string(_actual_wave));
                 waves.erase(waves.begin());
             }
             for (int j = 0; j < waves[0].size(); j++) {
