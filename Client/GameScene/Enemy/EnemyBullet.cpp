@@ -55,10 +55,11 @@ namespace rtype {
             Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
             Animation &enemy_animation = animationMap->get(shootEnemy->getId());
             Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 63 + (enemy_animation.getRectWidth() - 63) * enemy_sprite.getScale(), enemy_sprite.getY() + (enemy_animation.getRectHeight() * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
-            float distance = sqrt((player_sprite.getX() - enemy_sprite.getX())^2 + (player_sprite.getY() - enemy_sprite.getY())^2);
-            float magnitude = distance * 0.1;
-            float direction = std::atan2(player_sprite.getY() - enemy_sprite.getY(), player_sprite.getX() - enemy_sprite.getX());
-            // float y_direction = player_sprite.getY() < enemy_sprite.getY() ? 1 : -1;
+            float dx = player_sprite.getX() - enemy_sprite.getX();
+            float dy = player_sprite.getY() - enemy_sprite.getY();
+            float direction = std::atan2(dy, dx);
+            float distance = std::sqrt(dx*dx + dy*dy);
+            float magnitude = distance * 0.01;
             Movement movement(std::cos(direction) * magnitude, (std::sin(direction) ) * magnitude);
             std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
             std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
