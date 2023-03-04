@@ -47,19 +47,20 @@ namespace rtype
     void ScalingBossEnemy::move(Sprite &player_sprite, Sprite &sprite, Movement &movement)
     {   
 
-        if (sprite.getX() > 1400){
+        if (sprite.getX() > 1920 - 32 * sprite.getScale()){
             sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
         } else {
-        static const int defaultSpeed = movement.getXDirection();
-        int x_direction = player_sprite.getX() < sprite.getX() ? 1 : -1;
-        int y_direction = player_sprite.getY() < sprite.getY() ? 1 : -1;
-
-        if (this->_lastHp > this->_hp) {
-            sprite.setScale(sprite.getScale() + 0.1);
-            this->_lastHp = this->_hp;
-        }
-        sprite.setPosition(sprite.getX() + (movement.getXDirection() * x_direction), sprite.getY() + (movement.getYDirection() * y_direction));
-        movement.setDirection(defaultSpeed, defaultSpeed);
+            static const int defaultSpeed = movement.getXDirection();
+            double Speed = defaultSpeed > 0 ? defaultSpeed + (sprite.getScale() * 0.1) : defaultSpeed - (sprite.getScale() * 0.1);
+            std::cout << "Speed " << Speed << std::endl << "Default Speed " << defaultSpeed << std::endl;
+            int x_direction = player_sprite.getX() + (16 * player_sprite.getScale()) < sprite.getX() + (16 * sprite.getScale()) ? 1 : -1;
+            int y_direction = player_sprite.getY() + (7 * player_sprite.getScale()) < sprite.getY() + (14 * sprite.getScale()) ? 1 : -1;
+            if (this->_lastHp > this->_hp) {
+                sprite.setScale(sprite.getScale() + 0.2);
+                this->_lastHp = this->_hp;
+            }
+            sprite.setPosition(sprite.getX() + (movement.getXDirection() * x_direction), sprite.getY() + (movement.getYDirection() * y_direction));
+            movement.setDirection(Speed, Speed);
         }
     }
 
