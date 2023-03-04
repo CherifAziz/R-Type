@@ -34,6 +34,7 @@ namespace rtype
         this->_id = entityManager.spawnEntity("bossEnemy")->getId();
         Sprite sprite("assets/boss1.gif", x, y, 4);
         Animation animation(255, 142, 0, 0, 2, 4, 5, 3, 2000);
+        // Movement movement(-3, 0);
         Movement movement(0, 0);
         Collision collision({"player"});
 
@@ -49,10 +50,8 @@ namespace rtype
 
     void BossEnemy::move(Sprite &sprite, Movement &movement)
     {
-        // if (sprite.getX() < 600)
-        //     movement.setDirection(1, 0);
-        // if (sprite.getX() > 1100 && movement.getXDirection() != -3)
-        //     movement.setDirection(-2, 0);
+        if (sprite.getX() <= 900)
+            movement.setDirection(0, 0);
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
