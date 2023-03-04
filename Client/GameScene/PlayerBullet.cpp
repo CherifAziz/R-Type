@@ -137,7 +137,7 @@ namespace rtype {
         _componentManager.put<Sprite>(sprite, entity);
     }
 
-    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state)
+    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state, const int64_t &time)
     {
         if (_loadState == LoadState::ON) {
             initBulletLoading();
@@ -155,7 +155,7 @@ namespace rtype {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _loadState = LoadState::ON;
-        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE) {
+        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE && handleGameTime(500, time, "bulletLoad")) {
             _bulletTime = (BulletTimeState)((int)_bulletTime + 1);
             if (_bulletTime == BulletTimeState::READY) {
                 _bulletTime = BulletTimeState::NONE;
@@ -184,13 +184,15 @@ namespace rtype {
             }
         }
         for (auto &bullet : bullets) {
-            if (animationMap->contains(bullet->getId()))
+            if (animationMap->contains(bullet->getId()) && handleGameTime(1000, time, "bulletPower"))
                 handleBulletSpriteSheet(animationMap->get(bullet->getId()));
             if (movementMap->contains(bullet->getId()))
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
-        if (space_state != Action::KeyState::UP && time % 10 == 0) {
-            spawnBullet(player_action, space_state);
+        if (space_state != Action::KeyState::UP) {
+            if (handleGameTime(100, time, "bulletSpawn")) {
+                spawnBullet(player_action, space_state, time);
+            }
             if (_loadState == LoadState::OFF)
                 updateBulletLoading();
         }

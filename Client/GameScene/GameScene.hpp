@@ -195,7 +195,7 @@
                  * @brief Create a bullet
                  *
                  */
-                void spawnBullet(Action &player_action, const Action::KeyState &space_state);
+                void spawnBullet(Action &player_action, const Action::KeyState &space_state, const int64_t &time);
 
                 /**
                  * @brief Make bullets movement
@@ -237,6 +237,14 @@
 
                 int GetFamilyIndex(const std::string &family);
 
+                typedef struct laps_s {
+                    int64_t lastTime = 0;
+                    size_t lapsPassed = 0;
+                    int64_t prevTime = 0;
+                } laps_t;
+
+                bool handleGameTime(const int64_t &wantedLaps, const int64_t &elapsedTime, const std::string &lapsName);
+
                 static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
@@ -265,15 +273,12 @@
                 enum class BulletTimeState {
                     NONE,
                     STARTED,
-                    LOADING1,
-                    LOADING2,
-                    LOADING3,
-                    LOADING4,
-                    LOADING5,
                     READY
                 } _bulletTime = BulletTimeState::NONE;
 
                 size_t _player_hp = 1;
+
+                std::unordered_map<std::string, laps_t> _laps;
         };
     }
 
