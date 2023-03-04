@@ -78,14 +78,14 @@
                  * 
                  * @return the scale as a const size_t& 
                  */
-                const size_t &getScale() const { return _scale; }
+                const float &getScale() const { return _scale; }
 
                 /**
                  * @brief Set the Scale object
                  * 
                  * @param scale the scale that will be assigned
                  */
-                void setScale(const size_t &scale) { _scale = scale; }
+                void setScale(const float &scale) { _scale = scale; }
 
                 /**
                  * @brief check if the sprites are the same
@@ -121,7 +121,7 @@
                  * @brief the scale of the sprite
                  * 
                  */
-                size_t _scale;
+                float _scale;
         };
     }
 
