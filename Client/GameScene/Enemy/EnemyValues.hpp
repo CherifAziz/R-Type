@@ -39,9 +39,9 @@
 
         const std::unordered_map<std::string, size_t> ENEMY_LIFE = {
             {"basicEnemy", 1},
-            {"mediumEnemy", 15},
-            {"vesselEnemy", 30},
-            {"flyEnemy", 10},
+            {"mediumEnemy", 1},
+            {"vesselEnemy", 1},
+            {"flyEnemy", 1},
             {"bossEnemy", 100}
         };
     }

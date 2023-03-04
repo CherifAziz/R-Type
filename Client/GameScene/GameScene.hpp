@@ -151,8 +151,9 @@
                 void handleEnemyBulletSpriteSheet(Animation &bullet);
                 bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);                
                 void initEnemyBullet(entity_t entity);
-                void callEnemiesSendingBullets();
+                void callEnemiesSendingBullets(Sprite &player_sprite);
                 void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
+                void spawnBossBullet(std::vector<std::shared_ptr<Entity>> &enemies, Sprite &player_sprite);
                 void moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity);
                 void handleEnemyBullet(const int64_t &time);
 

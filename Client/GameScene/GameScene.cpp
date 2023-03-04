@@ -87,7 +87,7 @@ namespace rtype
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
         if (time % 20 == 0) {
             playAnimation(_componentManager.getComponents<Animation>());
-            callEnemiesSendingBullets();
+            callEnemiesSendingBullets(_componentManager.getComponents<Sprite>()->get(player_id));
         }
     }
 

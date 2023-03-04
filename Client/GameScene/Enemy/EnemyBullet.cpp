@@ -31,11 +31,35 @@ namespace rtype {
         return false;
     }
 
-    void GameScene::callEnemiesSendingBullets()
+    void GameScene::callEnemiesSendingBullets(Sprite &player_sprite)
     {
         std::vector<std::shared_ptr<Entity>> vesselEnemies = _entityManager.getEntitiesFromFamily("vesselEnemy");
+        std::vector<std::shared_ptr<Entity>> bossEnemies = _entityManager.getEntitiesFromFamily("bossEnemy");
 
         spawnEnemyBullet(vesselEnemies);
+        spawnBossBullet(bossEnemies, player_sprite);
+    }
+
+    void GameScene::spawnBossBullet(std::vector<std::shared_ptr<Entity>> &enemies, Sprite &player_sprite)
+    {
+        std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
+        std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
+        Collision collision({"player"});
+        Movement movement(-2, -10);
+        // player_sprite.getY()
+        Animation animation(6, 6, 212, 279, 1, 1, 0, 0, 500);
+
+        for (auto &shootEnemy : enemies) {
+            entity_t bullet_id = _entityManager.spawnEntity("enemy_shoot")->getId();
+            Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
+            Animation &enemy_animation = animationMap->get(shootEnemy->getId());
+            Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 63 + (enemy_animation.getRectWidth() - 63) * enemy_sprite.getScale(), enemy_sprite.getY() + (enemy_animation.getRectHeight() * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+
+            _componentManager.put<Sprite>(sprite, bullet_id);
+            _componentManager.put<Collision>(collision, bullet_id);
+            _componentManager.put<Movement>(movement, bullet_id);
+            _componentManager.put<Animation>(animation, bullet_id);
+        }
     }
 
     void GameScene::spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies)
@@ -61,7 +85,7 @@ namespace rtype {
 
     void GameScene::moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity)
     {
-        bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY());
+        bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY() + bullet_velocity.getYDirection());
     }
 
     void GameScene::handleEnemyBullet(const int64_t &time)
