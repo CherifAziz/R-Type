@@ -233,8 +233,10 @@ namespace rtype
                 title.setText("Wave "+ std::to_string(_actual_wave));
                 waves.erase(waves.begin());
             }
-            for (int j = 0; j < waves[0].size(); j++)
-                _enemyManager.createEnemy(waves[0][j].first, _componentManager, _entityManager);
+            for (int j = 0; j < waves[0].size(); j++) {
+                if (waves[0][j].second > 0)
+                    _enemyManager.createEnemy(waves[0][j].first, _componentManager, _entityManager);
+            }
             _enemyManager.handleEnemies(time, _componentManager, _entityManager);
         }
     }
