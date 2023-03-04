@@ -14,6 +14,14 @@
 #include "UdpServerSystem.hpp"
 #include "UdpClientSystem.hpp"
 
+std::vector<std::string> ENEMIES = {
+    "basicEnemy",
+    "bossEnemy",
+    "flyEnemy",
+    "mediumEnemy",
+    "vesselEnemy"
+};
+
 Services::Service::Service()
 {
     this->_commands.push_back(std::bind(&Services::Service::Connected, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -22,7 +30,7 @@ Services::Service::Service()
     this->_commands.push_back(std::bind(&Services::Service::NewPlayer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     this->_commands.push_back(std::bind(&Services::Service::PlayerDisconnected, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     this->_commands.push_back(std::bind(&Services::Service::MovePlayer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    // this->_commands.push_back(std::bind(&Services::Service::NewEnemy, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    this->_commands.push_back(std::bind(&Services::Service::NewEnemy, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 Services::Service::~Service()
@@ -38,7 +46,7 @@ void Services::Service::callService(Serialize::Data &data, rtype::UdpClientSyste
     this->_commands[data.s_id](data, client, scene);
 }
 
-void createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities, boost::uuids::uuid uid)
+void Services::Service::createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities, boost::uuids::uuid uid)
 {
     entity_t player = Entities.spawnEntity("player")->getId();
     Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
@@ -76,6 +84,13 @@ void Services::Service::Connected(Serialize::Data &data, rtype::UdpClientSystem 
     }
 }
 
+void Services::Service::createEnemy(rtype::ComponentManager &Components, rtype::EntityManager &Entities, Serialize::Data &data) {
+    std::cout << "Enemy type: " << data._args[0] << std::endl;
+    std::cout << "X: " << data._args[1] << std::endl;
+    std::cout << "Y: " << data._args[2] << std::endl;
+    // std::shared_ptr<Entity> enemy = Entities.spawnEntity(ENEMIES[std::atoi(data._args[0].c_str())]);
+}
+
 void Services::Service::Disconnect( Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) {
     std::cout << "disconnect" << std::endl;
 }
@@ -86,6 +101,10 @@ void Services::Service::Move(Serialize::Data &data, rtype::UdpClientSystem &clie
 
 void Services::Service::NewPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) {
     createPlayer(scene.getComponentManager(), scene.getEntityManager(), boost::lexical_cast<boost::uuids::uuid>(data._args[0]));
+}
+
+void Services::Service::NewEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) {
+    createEnemy(scene.getComponentManager(), scene.getEntityManager(), data);
 }
 
 void Services::Service::PlayerDisconnected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) {

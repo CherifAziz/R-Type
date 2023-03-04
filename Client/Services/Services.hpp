@@ -26,10 +26,13 @@
                 void Move(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 void Shoot(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 void NewPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                void createEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 void PlayerDisconnected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 void MovePlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 void ShootPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                // void NewEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                void NewEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                void createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities, boost::uuids::uuid uid);
+                void createEnemy(rtype::ComponentManager &Components, rtype::EntityManager &Entities, Serialize::Data &data);
                 std::vector<std::function<void(Serialize::Data&, rtype::UdpClientSystem &, rtype::IScene&)>> _commands;
         };
 
