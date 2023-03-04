@@ -9,6 +9,8 @@
 #include "GameValues.hpp"
 
 #include "Collision.hpp"
+#include <cmath>
+
 
 namespace rtype {
     bool GameScene::handleEnemyBulletDestruction(Sprite &bullet, entity_t entity)
@@ -45,15 +47,24 @@ namespace rtype {
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
         Collision collision({"player"});
-        Movement movement(-2, -10);
-        // player_sprite.getY()
         Animation animation(6, 6, 212, 279, 1, 1, 0, 0, 500);
+        
 
         for (auto &shootEnemy : enemies) {
             entity_t bullet_id = _entityManager.spawnEntity("enemy_shoot")->getId();
             Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
             Animation &enemy_animation = animationMap->get(shootEnemy->getId());
             Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 63 + (enemy_animation.getRectWidth() - 63) * enemy_sprite.getScale(), enemy_sprite.getY() + (enemy_animation.getRectHeight() * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+            float distance = sqrt((player_sprite.getX() - enemy_sprite.getX())^2 + (player_sprite.getY() - enemy_sprite.getY())^2);
+            float magnitude = distance * 0.1;
+            float direction = std::atan2(player_sprite.getY() - enemy_sprite.getY(), player_sprite.getX() - enemy_sprite.getX());
+            // float y_direction = player_sprite.getY() < enemy_sprite.getY() ? 1 : -1;
+            Movement movement(std::cos(direction) * magnitude, (std::sin(direction) ) * magnitude);
+            std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
+            std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
+            std::cout << "distance = " << distance << std::endl;
+            std::cout << "magnitude = " << magnitude << std::endl;
+            std::cout << "direction = " << direction << std::endl;
 
             _componentManager.put<Sprite>(sprite, bullet_id);
             _componentManager.put<Collision>(collision, bullet_id);
