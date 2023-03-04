@@ -45,6 +45,10 @@
                  */
                 void handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
 
+                const size_t &getEnemyHp(const entity_t &entity);
+
+                void setEnemyHp(const entity_t &entity, const size_t &hp);
+
             protected:
                 /**
                  * @brief List of all instancied enemy

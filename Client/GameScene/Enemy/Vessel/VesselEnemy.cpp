@@ -6,7 +6,9 @@
 */
 
 #include "VesselEnemy.hpp"
+
 #include "GameValues.hpp"
+#include "EnemyValues.hpp"
 
 #include "GameScene.hpp"
 
@@ -15,7 +17,8 @@
 namespace rtype {
     VesselEnemy::VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = 30;
+        this->_hp = ENEMY_LIFE.at("vesselEnemy");
+
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
 

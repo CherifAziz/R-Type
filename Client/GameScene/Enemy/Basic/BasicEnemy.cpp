@@ -7,7 +7,9 @@
 
 #include "BasicEnemy.hpp"
 #include "GameScene.hpp"
+
 #include "GameValues.hpp"
+#include "EnemyValues.hpp"
 
 #include "Collision.hpp"
 
@@ -15,7 +17,7 @@ namespace rtype
 {
     BasicEnemy::BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = 1;
+        this->_hp = ENEMY_LIFE.at("basicEnemy");
 
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);

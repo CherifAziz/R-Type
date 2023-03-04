@@ -6,7 +6,9 @@
 */
 
 #include "MediumEnemy.hpp"
+
 #include "GameValues.hpp"
+#include "EnemyValues.hpp"
 
 #include "GameScene.hpp"
 
@@ -15,7 +17,7 @@
 namespace rtype {
     MediumEnemy::MediumEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = 15;
+        this->_hp = ENEMY_LIFE.at("mediumEnemy");
 
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);
