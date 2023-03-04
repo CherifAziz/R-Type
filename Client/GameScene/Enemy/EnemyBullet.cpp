@@ -54,18 +54,18 @@ namespace rtype {
             entity_t bullet_id = _entityManager.spawnEntity("enemy_shoot")->getId();
             Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
             Animation &enemy_animation = animationMap->get(shootEnemy->getId());
-            Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 63 + (enemy_animation.getRectWidth() - 63) * enemy_sprite.getScale(), enemy_sprite.getY() + (enemy_animation.getRectHeight() * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+            Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 200 + (enemy_animation.getRectWidth() - 200) * enemy_sprite.getScale(), enemy_sprite.getY() - 50 + ((enemy_animation.getRectHeight() - 50) * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
             float dx = player_sprite.getX() - enemy_sprite.getX();
             float dy = player_sprite.getY() - enemy_sprite.getY();
             float direction = std::atan2(dy, dx);
             float distance = std::sqrt(dx*dx + dy*dy);
             float magnitude = distance * 0.01;
             Movement movement(std::cos(direction) * magnitude, (std::sin(direction) ) * magnitude);
-            // std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
-            // std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
-            // std::cout << "distance = " << distance << std::endl;
-            // std::cout << "magnitude = " << magnitude << std::endl;
-            // std::cout << "direction = " << direction << std::endl;
+            std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
+            std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
+            std::cout << "distance = " << distance << std::endl;
+            std::cout << "magnitude = " << magnitude << std::endl;
+            std::cout << "direction = " << direction << std::endl;
 
             _componentManager.put<Sprite>(sprite, bullet_id);
             _componentManager.put<Collision>(collision, bullet_id);
