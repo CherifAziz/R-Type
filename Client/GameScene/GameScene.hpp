@@ -236,7 +236,6 @@
 
                 int GetFamilyIndex(const std::string &family);
 
-                static const std::vector<std::string> ENEMIES;
                 static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;

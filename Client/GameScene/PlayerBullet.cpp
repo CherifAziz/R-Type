@@ -11,14 +11,6 @@
 #include "Collision.hpp"
 
 namespace rtype {
-    const std::vector<std::string> GameScene::ENEMIES = {
-        "basicEnemy",
-        "mediumEnemy",
-        "vesselEnemy",
-        "flyEnemy",
-        "bossEnemy"
-    };
-
     const std::vector<std::string> GameScene::BULLET_NAMES = {
         "bullet",
         "chargedbullet",
@@ -66,16 +58,7 @@ namespace rtype {
                 if (it->second != 0)
                     --it->second;
             }
-            if (family == "basicEnemy")
-                _score += 10;
-            if (family == "mediumEnemy")
-                _score += 15;
-            if (family == "flyEnemy")
-                _score += 25;
-            if (family == "vesselEnemy")
-                _score += 20;
-            if (family == "bossEnemy")
-                _score += 50;
+            _score += ENEMY_SCORE.at(family);
             if (bullet_family != "beboubullet") {
                 _componentManager.killEntity(entity);
                 _entityManager.killEntity(entity);

@@ -10,6 +10,8 @@
 
     #include "IEnemy.hpp"
 
+    #include "EnemyValues.hpp"
+
     #include <unordered_map>
 
     namespace rtype {
@@ -17,30 +19,6 @@
          * @brief The Enemy manager to handle life, damage and more else
          *
          */
-        enum EnemyType: int {
-            BASIC = 0,
-            FLY,
-            BOSS,
-            MEDIUM,
-            VESSEL
-        };
-
-        const std::unordered_map<EnemyType, size_t> enemyLimiter = {
-            {EnemyType::BASIC, 5},
-            {EnemyType::FLY, 3},
-            {EnemyType::BOSS, 1},
-            {EnemyType::MEDIUM, 3},
-            {EnemyType::VESSEL, 4}
-        };
-
-        const std::unordered_map<EnemyType, std::string> enemyTranslator = {
-            {EnemyType::BASIC, "basicEnemy"},
-            {EnemyType::FLY, "flyEnemy"},
-            {EnemyType::BOSS, "bossEnemy"},
-            {EnemyType::MEDIUM, "mediumEnemy"},
-            {EnemyType::VESSEL, "vesselEnemy"}
-        };
-
         class EnemyManager {
             public:
                 /**
@@ -59,7 +37,7 @@
                  * @brief create a new enemy and adding it to the list of enemy
                  *
                  */
-                std::shared_ptr<IEnemy> createEnemy(EnemyType type, ComponentManager &componentManager, EntityManager &entityManager);
+                std::shared_ptr<IEnemy> createEnemy(std::string &enemy, ComponentManager &componentManager, EntityManager &entityManager);
 
                 /**
                  * @brief handle all enemies comportement

@@ -233,19 +233,8 @@ namespace rtype
                 title.setText("Wave "+ std::to_string(_actual_wave));
                 waves.erase(waves.begin());
             }
-            for (int j = 0; j < waves[0].size(); j++) {
-                if (waves[0][j].first == "basicEnemy")
-                    _enemyManager.createEnemy(BASIC, _componentManager, _entityManager);
-                if (waves[0][j].first == "mediumEnemy")
-                    _enemyManager.createEnemy(MEDIUM, _componentManager, _entityManager);
-                if (waves[0][j].first == "flyEnemy")
-                    _enemyManager.createEnemy(FLY, _componentManager, _entityManager);
-                if (waves[0][j].first == "vesselEnemy")
-                    _enemyManager.createEnemy(VESSEL, _componentManager, _entityManager);
-                if (waves[0][j].first == "bossEnemy")
-                    _enemyManager.createEnemy(BOSS, _componentManager, _entityManager);
-
-            }
+            for (int j = 0; j < waves[0].size(); j++)
+                _enemyManager.createEnemy(waves[0][j].first, _componentManager, _entityManager);
             _enemyManager.handleEnemies(time, _componentManager, _entityManager);
         }
     }

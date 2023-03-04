@@ -9,6 +9,7 @@
 
 #include "Collision.hpp"
 #include "Text.hpp"
+
 #include "GameValues.hpp"
 
 #include "FlyEnemy.hpp"
@@ -27,34 +28,25 @@ namespace rtype
     {
     }
 
-    std::shared_ptr<IEnemy> EnemyManager::createEnemy(EnemyType type, ComponentManager &componentManager, EntityManager &entityManager)
+    std::shared_ptr<IEnemy> EnemyManager::createEnemy(std::string &enemy, ComponentManager &componentManager, EntityManager &entityManager)
     {
         std::shared_ptr<IEnemy> new_enemy;
-        std::vector<std::shared_ptr<Entity>> enemies = entityManager.getEntitiesFromFamily(enemyTranslator.at(type));
+        std::vector<std::shared_ptr<Entity>> enemies = entityManager.getEntitiesFromFamily(enemy);
 
-        std::cout << "A " << enemies.size() << " " << enemyLimiter.at(type) << std::endl;
-        if (enemies.size() == enemyLimiter.at(type))
+        if (enemies.size() == ENEMY_LIMITER.at(enemy))
             return nullptr;
-        std::cout << "B" << std::endl;
-        switch (type) {
-            case EnemyType::BASIC:
-                new_enemy = std::make_shared<BasicEnemy>(componentManager, entityManager);
-                break;
-            case EnemyType::FLY:
-                new_enemy = std::make_shared<FlyEnemy>(componentManager, entityManager);
-                break;
-            case EnemyType::BOSS:
-                new_enemy = std::make_shared<BossEnemy>(componentManager, entityManager);
-                break;
-            case EnemyType::MEDIUM:
-                new_enemy = std::make_shared<MediumEnemy>(componentManager, entityManager);
-                break;
-            case EnemyType::VESSEL:
-                new_enemy = std::make_shared<VesselEnemy>(componentManager, entityManager);
-                break;
-            default:
-                break;
-        }
+        if (enemy == "basicEnemy")
+            new_enemy = std::make_shared<BasicEnemy>(componentManager, entityManager);
+        else if (enemy == "mediumEnemy")
+            new_enemy = std::make_shared<MediumEnemy>(componentManager, entityManager);
+        else if (enemy == "flyEnemy")
+            new_enemy = std::make_shared<FlyEnemy>(componentManager, entityManager);
+        else if (enemy == "vesselEnemy")
+            new_enemy = std::make_shared<VesselEnemy>(componentManager, entityManager);
+        else if (enemy == "bossEnemy")
+            new_enemy = std::make_shared<BossEnemy>(componentManager, entityManager);
+        else
+            throw std::invalid_argument("The given enemy does not exist: " + enemy);
         this->_enemies.push_back(new_enemy);
         return new_enemy;
     }
