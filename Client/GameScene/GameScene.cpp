@@ -85,7 +85,7 @@ namespace rtype
             _componentManager.getComponents<Action>()->get(entity->getId()), _componentManager.getComponents<Animation>()->get(entity->getId()), windowWidth, windowHeight);
         }
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth, player_id);
-        // handleWaves(time);
+        handleWaves(time);
         handleEnemyBullet(time);
         if (time % 20 == 0) {
             playAnimation(_componentManager.getComponents<Animation>());

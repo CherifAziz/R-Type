@@ -149,7 +149,7 @@
 
 
                 void handleEnemyBulletSpriteSheet(Animation &bullet);
-                bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);                
+                bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);
                 void initEnemyBullet(entity_t entity);
                 void callEnemiesSendingBullets();
                 void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
@@ -161,7 +161,7 @@
                  *
                  * @param bullet
                  */
-                void handleBulletSpriteSheet(Animation &bullet);
+                void handleBulletSpriteSheet(Animation &bullet, entity_t &player_id);
 
                 /**
                  * @brief destroy dead or outborder bullet
@@ -170,7 +170,7 @@
                  *
                  * @return true if the bullet was destroyed, false otherwise
                  */
-                bool handleBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity);
+                bool handleBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity, entity_t &player_id);
 
                 /**
                  * @brief move the bullet loading following the player
@@ -239,7 +239,8 @@
                 static const std::vector<std::string> ENEMIES;
                 static const std::vector<std::string> BULLET_NAMES;
 
-                BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
+                std::unordered_map<entity_t, BulletLoadState> _bulletLoad;
+
                 EnemyManager _enemyManager;
 
                 enum class BulletSentState {
@@ -252,9 +253,11 @@
                 enum class LoadState {
                     OFF,
                     ON
-                } _loadState = LoadState::ON;
+                };
 
-                std::unordered_map<entity_t, std::pair<BulletSentState, BulletLoadState>> _bullet_sent;
+                std::unordered_map<entity_t, LoadState> _loadState;
+
+                std::unordered_map<entity_t, std::unordered_map<entity_t, std::pair<BulletSentState, BulletLoadState>>> _bullet_sent;
 
                 std::vector<std::vector<std::pair<std::string, int>>> waves;
                 
@@ -270,7 +273,9 @@
                     LOADING4,
                     LOADING5,
                     READY
-                } _bulletTime = BulletTimeState::NONE;
+                };
+
+                std::unordered_map<entity_t, BulletTimeState> _bulletTime;
 
                 size_t _player_hp = 1;
         };

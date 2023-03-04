@@ -25,7 +25,6 @@ namespace rtype {
         if (bullet.getX() <= 0) {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
-            _bullet_sent.erase(entity);
             return true;
         }
         return false;
@@ -50,7 +49,7 @@ namespace rtype {
             entity_t bullet_id = _entityManager.spawnEntity("enemy_shoot")->getId();
             Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
             Animation &enemy_animation = animationMap->get(shootEnemy->getId());
-            Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 63 + (enemy_animation.getRectWidth() - 63) * enemy_sprite.getScale(), enemy_sprite.getY() + (enemy_animation.getRectHeight() * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+            Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 63 + (enemy_animation.getRectWidth() - 63) * enemy_sprite.getScale(), enemy_sprite.getY() + (enemy_animation.getRectHeight() * enemy_sprite.getScale()) / 2 - bullet_frames.at(GameScene::BulletLoadState::LITTLE).first.height, 4);
 
             _componentManager.put<Sprite>(sprite, bullet_id);
             _componentManager.put<Collision>(collision, bullet_id);

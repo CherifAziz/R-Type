@@ -28,7 +28,7 @@ namespace rtype {
         "beboubullet"
     };
 
-    void GameScene::handleBulletSpriteSheet(Animation &bullet)
+    void GameScene::handleBulletSpriteSheet(Animation &bullet, entity_t &player_id)
     {
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
         entity_t entity_id = 0;
@@ -36,18 +36,18 @@ namespace rtype {
         if (animationMap->contains(bullet) == false)
             return;
         entity_id = animationMap->getEntityId(bullet);
-        if (_bullet_sent[entity_id].first != BulletSentState::LONG_DISTANCE && _bullet_sent[entity_id].first != BulletSentState::SHOOTED)
-            _bullet_sent[entity_id].first = (BulletSentState)((int)_bullet_sent[entity_id].first + 1);
-        else if (_bullet_sent[entity_id].first == BulletSentState::LONG_DISTANCE) {
-            _bullet_sent[entity_id].first = BulletSentState::SHOOTED;
-            bullet.setRectWidth(bullet_frames.at(_bullet_sent[entity_id].second).second.width);
-            bullet.setRectHeight(bullet_frames.at(_bullet_sent[entity_id].second).second.height);
-            bullet.setX(bullet_frames.at(_bullet_sent[entity_id].second).second.x);
-            bullet.setY(bullet_frames.at(_bullet_sent[entity_id].second).second.y);
+        if (_bullet_sent[player_id][entity_id].first != BulletSentState::LONG_DISTANCE && _bullet_sent[player_id][entity_id].first != BulletSentState::SHOOTED)
+            _bullet_sent[player_id][entity_id].first = (BulletSentState)((int)_bullet_sent[player_id][entity_id].first + 1);
+        else if (_bullet_sent[player_id][entity_id].first == BulletSentState::LONG_DISTANCE) {
+            _bullet_sent[player_id][entity_id].first = BulletSentState::SHOOTED;
+            bullet.setRectWidth(bullet_frames.at(_bullet_sent[player_id][entity_id].second).second.width);
+            bullet.setRectHeight(bullet_frames.at(_bullet_sent[player_id][entity_id].second).second.height);
+            bullet.setX(bullet_frames.at(_bullet_sent[player_id][entity_id].second).second.x);
+            bullet.setY(bullet_frames.at(_bullet_sent[player_id][entity_id].second).second.y);
         }
     }
 
-    bool GameScene::handleBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity)
+    bool GameScene::handleBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity, entity_t &player_id)
     {
         const std::shared_ptr<Entity> _bullet = _entityManager.getEntity(entity);
         const std::string bullet_family = _bullet->getFamily();
@@ -77,14 +77,14 @@ namespace rtype {
             if (bullet_family != "beboubullet") {
                 _componentManager.killEntity(entity);
                 _entityManager.killEntity(entity);
-                _bullet_sent.erase(entity);
+                _bullet_sent[player_id].erase(entity);
                 return true;
             }
         }
         if (bullet.getX() >= (int)windowWidth) {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
-            _bullet_sent.erase(entity);
+            _bullet_sent[player_id].erase(entity);
             return true;
         }
         return false;
@@ -96,13 +96,13 @@ namespace rtype {
         Animation &player_animation = _componentManager.get<Animation>(player_id);
         Sound pow("assets/pow.ogg", false, Sound::SoundStatus::PLAY);
         Collision collision(ENEMIES);
-        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad[player_id]).first.height, 4);
         Movement movement(20, 0);
-        Animation animation(bullet_frames.at(_bulletLoad).first.width, bullet_frames.at(_bulletLoad).first.height, bullet_frames.at(_bulletLoad).first.x, bullet_frames.at(_bulletLoad).first.y, 1, 1, 0, 0, 500);
+        Animation animation(bullet_frames.at(_bulletLoad[player_id]).first.width, bullet_frames.at(_bulletLoad[player_id]).first.height, bullet_frames.at(_bulletLoad[player_id]).first.x, bullet_frames.at(_bulletLoad[player_id]).first.y, 1, 1, 0, 0, 500);
 
-        if (_bulletLoad == BulletLoadState::BEBOU_CHARGE || _bulletLoad == BulletLoadState::MEGA_CHARGE)
+        if (_bulletLoad[player_id] == BulletLoadState::BEBOU_CHARGE || _bulletLoad[player_id] == BulletLoadState::MEGA_CHARGE)
             movement.setDirection(40, 0);
-        else if (_bulletLoad == BulletLoadState::SUPER_CHARGE || _bulletLoad == BulletLoadState::BIG_CHARGE)
+        else if (_bulletLoad[player_id] == BulletLoadState::SUPER_CHARGE || _bulletLoad[player_id] == BulletLoadState::BIG_CHARGE)
             movement.setDirection(30, 0);
         _componentManager.put<Sound>(pow, entity);
         _componentManager.put<Sprite>(sprite, entity);
@@ -134,26 +134,29 @@ namespace rtype {
 
     void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state, entity_t player)
     {
-        if (_loadState == LoadState::ON) {
+        if (_loadState.count(player) == 0 || _loadState[player] == LoadState::ON) {
             initBulletLoading();
-            _loadState = LoadState::OFF;
+            _loadState[player] = LoadState::OFF;
+            _bulletLoad[player] = BulletLoadState::LITTLE;
         }
         if (space_state == Action::KeyState::RELEASED) {
-            std::shared_ptr<Entity> bullet = _entityManager.spawnEntity(BULLET_NAMES[(int)_bulletLoad]);
+            std::shared_ptr<Entity> bullet = _entityManager.spawnEntity(BULLET_NAMES[(int)_bulletLoad[player]]);
             initBullet(bullet->getId(), player);
-            _bullet_sent[bullet->getId()] = std::make_pair(BulletSentState::SENT, _bulletLoad);
-            _bulletLoad = BulletLoadState::LITTLE;
-            _bulletTime = BulletTimeState::NONE;
+            _bullet_sent[player][bullet->getId()] = std::make_pair(BulletSentState::SENT, _bulletLoad[player]);
+            _bulletLoad[player] = BulletLoadState::LITTLE;
+            _bulletTime[player] = BulletTimeState::NONE;
             player_action.setState(Action::KeyType::SPACE, Action::KeyState::UP);
             entity_t entity = _entityManager.getEntitiesFromFamily("loading")[0]->getId();
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
-            _loadState = LoadState::ON;
-        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE) {
-            _bulletTime = (BulletTimeState)((int)_bulletTime + 1);
-            if (_bulletTime == BulletTimeState::READY) {
-                _bulletTime = BulletTimeState::NONE;
-                _bulletLoad = (BulletLoadState)((int)_bulletLoad + 1);
+            _loadState[player] = LoadState::ON;
+        } else if (_bulletLoad[player] != BulletLoadState::BEBOU_CHARGE) {
+            if (_bulletTime.count(player) == 0)
+                _bulletTime[player] = BulletTimeState::NONE;
+            _bulletTime[player] = (BulletTimeState)((int)_bulletTime[player] + 1);
+            if (_bulletTime[player] == BulletTimeState::READY) {
+                _bulletTime[player] = BulletTimeState::NONE;
+                _bulletLoad[player] = (BulletLoadState)((int)_bulletLoad[player] + 1);
             }
         }
     }
@@ -173,19 +176,19 @@ namespace rtype {
 
         for (auto &bullet : bullets) {
             if (spriteMap->contains(bullet->getId())) {
-                if (handleBulletDestruction(spriteMap->get(bullet->getId()), windowWidth, bullet->getId()))
+                if (handleBulletDestruction(spriteMap->get(bullet->getId()), windowWidth, bullet->getId(), player_id))
                     return (handleBullet(time, player_action, windowWidth, player_id));
             }
         }
         for (auto &bullet : bullets) {
             if (animationMap->contains(bullet->getId()))
-                handleBulletSpriteSheet(animationMap->get(bullet->getId()));
+                handleBulletSpriteSheet(animationMap->get(bullet->getId()), player_id);
             if (movementMap->contains(bullet->getId()))
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
         if (space_state != Action::KeyState::UP && time % 10 == 0) {
             spawnBullet(player_action, space_state, player_id);
-            if (_loadState == LoadState::OFF)
+            if (_loadState[player_id] == LoadState::OFF)
                 updateBulletLoading();
         }
     }
