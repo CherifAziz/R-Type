@@ -61,11 +61,11 @@ namespace rtype {
             float distance = std::sqrt(dx*dx + dy*dy);
             float magnitude = distance * 0.01;
             Movement movement(std::cos(direction) * magnitude, (std::sin(direction) ) * magnitude);
-            std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
-            std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
-            std::cout << "distance = " << distance << std::endl;
-            std::cout << "magnitude = " << magnitude << std::endl;
-            std::cout << "direction = " << direction << std::endl;
+            // std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
+            // std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
+            // std::cout << "distance = " << distance << std::endl;
+            // std::cout << "magnitude = " << magnitude << std::endl;
+            // std::cout << "direction = " << direction << std::endl;
 
             _componentManager.put<Sprite>(sprite, bullet_id);
             _componentManager.put<Collision>(collision, bullet_id);
