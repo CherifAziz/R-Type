@@ -19,11 +19,8 @@ namespace rtype
     {
         this->_hp = ENEMY_LIFE.at("bossEnemy");
 
-        // size_t x = 1920 + rand() % 100;
-        // size_t y = 450 + rand() % 100;
-
-        size_t x = 900;
-        size_t y = 450;
+        size_t x = 1920 + rand() % 100;
+        size_t y = 450 + rand() % 100;
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "bossEnemy"))
         {
@@ -34,8 +31,7 @@ namespace rtype
         this->_id = entityManager.spawnEntity("bossEnemy")->getId();
         Sprite sprite("assets/boss1.gif", x, y, 4);
         Animation animation(255, 142, 0, 0, 2, 4, 5, 3, 2000);
-        // Movement movement(-3, 0);
-        Movement movement(0, 0);
+        Movement movement(-3, 0);
         Collision collision({"player"});
 
         componentManager.put<Sprite>(sprite, this->_id);
