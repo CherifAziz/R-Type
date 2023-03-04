@@ -32,7 +32,8 @@
             INPUT,
             NEW_PLAYER,
             PLAYER_DISCONNECTED,
-            EVENT_PLAYER
+            EVENT_PLAYER,
+            NEW_ENEMY
         };
 
         class IService {

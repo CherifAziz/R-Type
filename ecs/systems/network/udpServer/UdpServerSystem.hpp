@@ -8,6 +8,7 @@
 #ifndef UDPSERVERSYSTEM_HPP_
     #define UDPSERVERSYSTEM_HPP_
 
+    #include "ComponentMap.hpp"
     #include "AUdpServerSystem.hpp"
     #include "Serialize.hpp"
     #include "Storage.hpp"
@@ -121,6 +122,14 @@
                         return this->_clients[endpoint].get();
                 };
 
+                std::optional<UdpClient * const> getClient(boost::uuids::uuid uuid) {
+                    for (auto &client : this->_clients) {
+                        if (client.second->getUuid() == uuid)
+                            return client.second.get();
+                    }
+                    return std::nullopt;
+                };
+
                 void sendToEachClient(Serialize::Data data) {
                     for (auto &client : this->_clients) {
                         client.second->sendDataToClient(data);
@@ -172,6 +181,16 @@
                 const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void update(std::shared_ptr<IScene> &scene) {
+                    std::vector<std::shared_ptr<rtype::Entity>> players = scene->getEntityManager().getEntitiesFromFamily("player");
+                    for (auto &player: players) {
+                        Network net = scene->getComponentManager().get<Network>(player->getId());
+                        std::optional<Serialize::Data> data = net.getCommands();
+                        if (data != std::nullopt) {
+                            std::cout << "Jolis bonnet gros" << std::endl;
+                            this->_service->callService(this->_clients.getClient(net.getUUID()).value()->getEndpoint(), this->_clients, data.value(), *scene);
+                            std::cout << "j'ai mal au nez gros" << std::endl;
+                        }
+                    }
                     for (auto &client : this->_clients.getClients()) {
                         std::optional<Serialize::Data> data = client.second->getCommand();
                         if (data != std::nullopt) {
@@ -199,8 +218,6 @@
                         if (size >= sizeof(Serialize::Data)) {
                             Serialize::Data info = Serialize::deserialize<Serialize::Data>(std::string(this->_data.data(), size), size);
                             if (this->_clients.getClient(this->_remote_endpoint) != std::nullopt) {
-                                std::cout << "Client: " << this->_remote_endpoint <<std::endl;
-                                info.printData();
                                 this->_clients.getClient(this->_remote_endpoint).value()->addToListOfCommands(info);
                             }else
                                 std::cout << "Client not found" << std::endl;
