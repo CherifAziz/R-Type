@@ -17,6 +17,7 @@
 #include "BossEnemy.hpp"
 #include "VesselEnemy.hpp"
 #include "MediumEnemy.hpp"
+#include "ScalingBossEnemy.hpp"
 
 namespace rtype
 {
@@ -45,6 +46,8 @@ namespace rtype
             new_enemy = std::make_shared<VesselEnemy>(componentManager, entityManager);
         else if (enemy == "bossEnemy")
             new_enemy = std::make_shared<BossEnemy>(componentManager, entityManager);
+        else if (enemy == "scalingbossEnemy")
+            new_enemy = std::make_shared<ScalingBossEnemy>(componentManager, entityManager);
         else
             throw std::invalid_argument("The given enemy does not exist: " + enemy);
         this->_enemies.push_back(new_enemy);
