@@ -21,6 +21,7 @@
     #include "IServices.hpp"
     #include "Serialize.hpp"
     #include "AUdpClientSystem.hpp"
+    #include "Storage.hpp"
 
     using namespace boost::asio;
     using namespace boost::asio::ip;
@@ -53,6 +54,7 @@
                 const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void init() {
+                    this->_storage = Storage::getStorage();
                     this->_socket.open(udp::v4());
                     this->send_data(Serialize::createData<Serialize::Data>(Services::Command::CONNECTED, {}));
                     this->start_receive();
@@ -117,6 +119,11 @@
                     }
                 };
 
+                /**
+                 * @brief the singleton storage
+                 *
+                 */
+                std::shared_ptr<Storage> _storage;
                 udp::resolver _resolver;
                 udp::resolver::query _query;
                 udp::endpoint _receiver_endpoint;

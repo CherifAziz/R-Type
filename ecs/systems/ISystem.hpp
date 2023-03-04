@@ -64,6 +64,15 @@
                  * @return the current scene as a const size_t&
                  */
                 virtual const size_t &getCurrentScene() const = 0;
+
+
+                /**
+                 * @brief check if the game is connected
+                 *
+                 * @return true if the game is connected, false otherwise
+                 */
+                virtual bool isConnected() = 0;
+
         };
     }
 
