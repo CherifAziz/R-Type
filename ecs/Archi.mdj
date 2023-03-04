@@ -8193,7 +8193,7 @@
 											"top": 637,
 											"width": 126,
 											"height": 13,
-											"text": "#_h: ssize_t",
+											"text": "#_h: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8211,7 +8211,7 @@
 											"top": 637,
 											"width": 126,
 											"height": 13,
-											"text": "#_w: ssize_t",
+											"text": "#_w: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8228,7 +8228,7 @@
 											"top": 941,
 											"width": 215,
 											"height": 13,
-											"text": "#_x: ssize_t",
+											"text": "#_x: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8245,7 +8245,7 @@
 											"top": 956,
 											"width": 215,
 											"height": 13,
-											"text": "#_y: ssize_t",
+											"text": "#_y: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -14003,7 +14003,7 @@
 							},
 							"name": "_id",
 							"visibility": "protected",
-							"type": "ssize_t"
+							"type": "int"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15184,7 +15184,7 @@
 							},
 							"name": "_x",
 							"visibility": "protected",
-							"type": "ssize_t"
+							"type": "int"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15194,7 +15194,7 @@
 							},
 							"name": "_y",
 							"visibility": "protected",
-							"type": "ssize_t"
+							"type": "int"
 						}
 					],
 					"operations": [
@@ -17171,7 +17171,7 @@
 									"name": "_h",
 									"documentation": "height of the image",
 									"visibility": "protected",
-									"type": "ssize_t"
+									"type": "int"
 								},
 								{
 									"_type": "UMLAttribute",
@@ -17182,7 +17182,7 @@
 									"name": "_w",
 									"documentation": "width of the image",
 									"visibility": "protected",
-									"type": "ssize_t"
+									"type": "int"
 								},
 								{
 									"_type": "UMLAttribute",
@@ -17192,7 +17192,7 @@
 									},
 									"name": "_x",
 									"visibility": "protected",
-									"type": "ssize_t"
+									"type": "int"
 								},
 								{
 									"_type": "UMLAttribute",
@@ -17202,7 +17202,7 @@
 									},
 									"name": "_y",
 									"visibility": "protected",
-									"type": "ssize_t"
+									"type": "int"
 								},
 								{
 									"_type": "UMLAttribute",

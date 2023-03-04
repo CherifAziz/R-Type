@@ -25,7 +25,7 @@
                  * @param y the y position of the sprite in the window
                  * @param scale the scale of the sprite
                  */
-                Sprite(const std::string &filename = "", const size_t &x = 0, const size_t &y = 0, const float &scale = 0.75) : _filename(filename), _x(x), _y(y), _scale(scale) {};
+                Sprite(const std::string &filename = "", const int &x = 0, const int &y = 0, const size_t &scale = 0.75) : _filename(filename), _x(x), _y(y), _scale(scale) {};
 
                 /**
                  * @brief Destroy the Sprite object
@@ -50,16 +50,16 @@
                 /**
                  * @brief Get the X position object
                  * 
-                 * @return the x position as a const size_t& 
+                 * @return the x position as a const int&
                  */
-                const size_t &getX() const {return _x;};
+                const int &getX() const {return _x;};
 
                 /**
                  * @brief Get the Y position object
                  * 
-                 * @return the y position as a const size_t& 
+                 * @return the y position as a const std::int&
                  */
-                const size_t &getY() const {return _y;};
+                const int &getY() const {return _y;};
 
                 /**
                  * @brief Set the Position object
@@ -67,7 +67,7 @@
                  * @param x the x position that will be assigned
                  * @param y the y position that will be assigned
                  */
-                void setPosition(const size_t &x, const size_t &y)
+                void setPosition(const int &x, const int &y)
                 {
                     _x = x;
                     _y = y;
@@ -109,13 +109,13 @@
                  * @brief the x position of the sprite
                  * 
                  */
-                size_t _x;
+                int _x;
 
                 /**
                  * @brief the y position of the sprite
                  * 
                  */
-                size_t _y;
+                int _y;
 
                 /**
                  * @brief the scale of the sprite

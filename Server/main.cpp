@@ -9,6 +9,11 @@
 
 #include "Core.hpp"
 
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <iostream>
+
 static bool check_parameter_is_helper(std::string param)
 {
     if (param == "-h" || param == "--help" || param == "-help")
@@ -18,18 +23,20 @@ static bool check_parameter_is_helper(std::string param)
 
 static void display_help()
 {
-    std::cout << "RTYPE HELPER" << std::endl;
+    std::cout << "RTYPE" << std::endl;
+    std::cout << "USAGE" << std::endl;
+    std::cout << "\t./r-type_server [port]" << std::endl;
     std::cout << std::endl;
-    std::cout << "Not really a lot of information right now" << std::endl;
-    std::cout << "Come back later" << std::endl;
 }
 
-static int start_rtype()
+static int start_rtype(std::string port)
 {
     try {
-        rtype::Core core;
+        boost::asio::io_context ioc;
+        rtype::Core core(ioc, "", port);
 
         core.loopGame();
+        ioc.run();
     } catch (const std::exception& e) {
         std::cout << "ERROR: " << e.what() << std::endl;
         return 84;
@@ -39,9 +46,11 @@ static int start_rtype()
 
 int main(int ac, char **av)
 {
-    if (ac == 2 && check_parameter_is_helper((std::string)av[1]))
+    if (ac != 2)
+        return 84;
+    if (check_parameter_is_helper((std::string)av[1]))
         display_help();
     else
-        return start_rtype();
+        return start_rtype((std::string) av[1]);
     return 0;
 }

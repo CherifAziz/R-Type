@@ -1,3 +1,9 @@
 #!/bin/sh
 
-rm -rf r-type_server r-type_client tcpclient tcpserver udpserver rtype
+if [ -d "$PWD/build" ]; then
+  rm -rf $PWD/build
+fi
+
+if [ -e "$PWD/rtype-1.0-Linux.rpm" ]; then
+  rm -rf $PWD/rtype-1.0-Linux.rpm
+fi

@@ -33,7 +33,7 @@
                 Animation(const size_t &rectWidth = 30, const size_t &rectHeight = 30, const size_t &x = 0, const size_t &y = 0, const size_t &horizontalPictureNb = 3,
                 const size_t &verticalPictureNb = 1, const size_t &horizontalSeparator = 0, const size_t &verticalSeparator = 0, const size_t &delay = 1) :
                 _rectWidth(rectWidth), _rectHeight(rectHeight), _x(x), _y(y), _horizontalPictureNb(horizontalPictureNb), _verticalPictureNb(verticalPictureNb),
-                _horizontalSeparator(horizontalSeparator), _verticalSeparator(verticalSeparator), _delay(delay) {}
+                _horizontalSeparator(horizontalSeparator), _verticalSeparator(verticalSeparator), _delay(delay), _defaultX(x), _defaultY(y) {}
 
                 /**
                  * @brief Destroy the Animation object
@@ -158,7 +158,7 @@
                  * 
                  * @param delay the delay that will be assigned (in milliseconds)
                  */
-                void setDelay(const ssize_t &delay) { _delay = delay; }
+                void setDelay(const int &delay) { _delay = delay; }
 
                 /**
                  * @brief Get the Delay object
@@ -174,18 +174,15 @@
                  */
                 void animate()
                 {
-                    static const size_t default_x = _x;
-                    static const size_t default_y = _y;
-
                     if (_horizontalPictureNb == 1 && _verticalPictureNb == 1)
                         return;
                     _x += _rectWidth + _horizontalSeparator;
-                    if (_x > (_horizontalPictureNb - 1) * (_rectWidth + _horizontalSeparator)) {
-                        _x = default_x;
+                    if (_x > _defaultX + (_horizontalPictureNb - 1) * (_rectWidth + _horizontalSeparator)) {
+                        _x = _defaultX;
                         _y += _rectHeight + _verticalSeparator;
-                        if (_y > (_verticalPictureNb - 1) * (_rectHeight + _verticalSeparator)) {
-                            _x = default_x;
-                            _y = default_y;
+                        if (_y > _defaultY + (_verticalPictureNb - 1) * (_rectHeight + _verticalSeparator)) {
+                            _x = _defaultX;
+                            _y = _defaultY;
                         }
                     }
                 }
@@ -200,7 +197,30 @@
                 {
                     return _rectWidth == other._rectWidth && _rectHeight == other._rectHeight && _x == other._x && _y == other._y
                     && _horizontalPictureNb == other._horizontalPictureNb && _verticalPictureNb == other._verticalPictureNb
-                    && _horizontalSeparator == other._horizontalSeparator && _verticalSeparator == other._verticalSeparator && _delay == other._delay;
+                    && _horizontalSeparator == other._horizontalSeparator && _verticalSeparator == other._verticalSeparator && _delay == other._delay
+                    && _defaultX == other._defaultX && _defaultY == other._defaultY;
+                }
+
+                /**
+                 * @brief set an Animation as the one given in parameter
+                 * 
+                 * @param other the Animation to take information from
+                 * @return the returned animation as an Animation& 
+                 */
+                Animation &operator=(const Animation &other)
+                {
+                    _rectWidth = other._rectWidth;
+                    _rectHeight = other._rectHeight;
+                    _x = other._x;
+                    _y = other._y;
+                    _horizontalPictureNb = other._horizontalPictureNb;
+                    _verticalPictureNb = other._verticalPictureNb;
+                    _horizontalSeparator = other._horizontalSeparator;
+                    _verticalSeparator = other._verticalSeparator;
+                    _delay = other._delay;
+                    _defaultX = other._defaultX;
+                    _defaultY = other._defaultY;
+                    return *this;
                 }
 
             protected:
@@ -258,6 +278,18 @@
                  * 
                  */
                 size_t _delay;
+
+                /**
+                 * @brief the default x value
+                 * 
+                 */
+                size_t _defaultX;
+
+                /**
+                 * @brief the default y value
+                 * 
+                 */
+                size_t _defaultY;
         };
     }
 

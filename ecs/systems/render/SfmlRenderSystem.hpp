@@ -133,6 +133,16 @@
                 }
 
                 /**
+                 * @brief check the connection status
+                 * 
+                 * @return true if it's connected to the server, false otherwise
+                 */
+                bool isConnected()
+                {
+                    return _storage->isConnected();
+                }
+
+                /**
                  * @brief Get the Current Scene object
                  * 
                  * @return the current scene as a const size_t&
