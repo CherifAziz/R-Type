@@ -60,11 +60,11 @@ namespace rtype {
             float direction = std::atan2(player_sprite.getY() - enemy_sprite.getY(), player_sprite.getX() - enemy_sprite.getX());
             // float y_direction = player_sprite.getY() < enemy_sprite.getY() ? 1 : -1;
             Movement movement(std::cos(direction) * magnitude, (std::sin(direction) ) * magnitude);
-            std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
-            std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
-            std::cout << "distance = " << distance << std::endl;
-            std::cout << "magnitude = " << magnitude << std::endl;
-            std::cout << "direction = " << direction << std::endl;
+            // std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
+            // std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
+            // std::cout << "distance = " << distance << std::endl;
+            // std::cout << "magnitude = " << magnitude << std::endl;
+            // std::cout << "direction = " << direction << std::endl;
 
             _componentManager.put<Sprite>(sprite, bullet_id);
             _componentManager.put<Collision>(collision, bullet_id);
