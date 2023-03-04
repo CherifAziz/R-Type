@@ -108,6 +108,20 @@
                 const size_t &getPreviousScene() const { return _previousScene; }
 
                 /**
+                 * @brief Set the Sound State object
+                 * 
+                 * @param soundState the new sound state
+                 */
+                void setSoundState(const bool &soundState) { _soundState = soundState; }
+
+                /**
+                 * @brief Get the SOund State object
+                 * 
+                 * @return the sound state as a const bool&
+                 */
+                const bool &getSoundState() const { return _soundState; }
+
+                /**
                  * @brief End the game by setting the playing value to false
                  * 
                  */
@@ -131,6 +145,12 @@
                  * 
                  */
                 bool _stillPlaying = true;
+
+                /**
+                 * @brief the game Sound state
+                 * 
+                 */
+                bool _soundState = true;
 
                 /**
                  * @brief the game current scene

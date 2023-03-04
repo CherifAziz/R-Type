@@ -43,7 +43,7 @@
                  * 
                  * @param time the current time that has been elapsed
                  */
-                virtual void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene) = 0;
+                virtual void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene, bool &soundState) = 0;
 
             protected:
         };

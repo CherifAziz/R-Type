@@ -22,7 +22,7 @@ namespace rtype {
 
     HomeMenuScene::~HomeMenuScene() {}
 
-    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &/*previousScene*/)
+    void HomeMenuScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &/*previousScene*/, bool &/*soundState*/)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
 
@@ -54,7 +54,6 @@ namespace rtype {
     void HomeMenuScene::initSound() {
         ComponentMap<Sound> sound;
         Sound music("assets/music.ogg", true, Sound::SoundStatus::PLAY);
-        Sound pow("assets/pow.ogg", false, Sound::SoundStatus::STOP);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);

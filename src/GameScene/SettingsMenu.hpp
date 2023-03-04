@@ -23,7 +23,7 @@
 
                 ~SettingsMenu();
 
-                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene);
+                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene, bool &soundState);
 
             protected:
 
@@ -40,6 +40,11 @@
                 void initAnimation();
 
                 void initButtons();
+
+                void handleSoundSetting(Action &player_action, std::shared_ptr<ComponentMap<Animation>> animationMap, std::shared_ptr<ComponentMap<Sprite>> spriteMap,
+                    std::shared_ptr<ComponentMap<Button>> buttonMap, bool &soundState, const size_t &windowWidth, const size_t &windowHeight);
+
+                bool _soundState = true;
         };
 
     }
