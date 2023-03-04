@@ -25,8 +25,8 @@
         const std::unordered_map<std::string, size_t> ENEMY_LIMITER = {
             {"basicEnemy", 5},
             {"mediumEnemy", 3},
-            {"vesselEnemy", 4},
-            {"flyEnemy", 3},
+            {"vesselEnemy", 3},
+            {"flyEnemy", 2},
             {"bossEnemy", 1},
             {"scalingbossEnemy", 1}
         };
@@ -42,8 +42,8 @@
 
         const std::unordered_map<std::string, size_t> ENEMY_LIFE = {
             {"basicEnemy", 1},
-            {"mediumEnemy", 15},
-            {"vesselEnemy", 30},
+            {"mediumEnemy", 5},
+            {"vesselEnemy", 15},
             {"flyEnemy", 10},
             {"bossEnemy", 100},
             {"scalingbossEnemy", 100}

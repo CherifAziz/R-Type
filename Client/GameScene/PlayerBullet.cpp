@@ -22,11 +22,11 @@ namespace rtype {
 
     static const std::unordered_map<std::string, size_t> BULLET_POWER = {
         {"bullet", 1},
-        {"chargedbullet", 2},
-        {"bigbullet", 4},
-        {"superbullet", 6},
-        {"megabullet", 8},
-        {"beboubullet", 12}
+        {"chargedbullet", 4},
+        {"bigbullet", 7},
+        {"superbullet", 12},
+        {"megabullet", 15},
+        {"beboubullet", 20}
     };
 
     void GameScene::handleBulletSpriteSheet(Animation &bullet)
@@ -72,7 +72,7 @@ namespace rtype {
                 return p.first == family;
             });
             if (it != wave.end()) {
-                if (it->second != 0)
+                if (it->second != 0 && remaining_life == 0)
                     --it->second;
             }
 
@@ -137,7 +137,7 @@ namespace rtype {
         _componentManager.put<Sprite>(sprite, entity);
     }
 
-    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state)
+    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state, const int64_t &time)
     {
         if (_loadState == LoadState::ON) {
             initBulletLoading();
@@ -155,7 +155,7 @@ namespace rtype {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _loadState = LoadState::ON;
-        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE) {
+        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE && handleGameTime(250, time, "bulletLoad")) {
             _bulletTime = (BulletTimeState)((int)_bulletTime + 1);
             if (_bulletTime == BulletTimeState::READY) {
                 _bulletTime = BulletTimeState::NONE;
@@ -184,13 +184,15 @@ namespace rtype {
             }
         }
         for (auto &bullet : bullets) {
-            if (animationMap->contains(bullet->getId()))
+            if (animationMap->contains(bullet->getId()) && handleGameTime(1000, time, "bulletPower"))
                 handleBulletSpriteSheet(animationMap->get(bullet->getId()));
             if (movementMap->contains(bullet->getId()))
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
-        if (space_state != Action::KeyState::UP && time % 10 == 0) {
-            spawnBullet(player_action, space_state);
+        if (space_state != Action::KeyState::UP) {
+            if (handleGameTime(100, time, "bulletSpawn")) {
+                spawnBullet(player_action, space_state, time);
+            }
             if (_loadState == LoadState::OFF)
                 updateBulletLoading();
         }

@@ -69,26 +69,47 @@ namespace rtype
         return -1;
     }
 
+    bool GameScene::handleGameTime(const int64_t &wantedLaps, const int64_t &elapsedTime, const std::string &lapsName)
+    {
+        if (_laps.count(lapsName) == 0)
+            _laps[lapsName] = {0, 0};
+        if (_laps[lapsName].lapsPassed * wantedLaps >= elapsedTime) {
+            _laps[lapsName].lapsPassed = 0;
+        } else if (_laps[lapsName].lastTime >= wantedLaps) {
+            _laps[lapsName].lapsPassed += 1;
+            _laps[lapsName].lastTime = 0;
+            _laps[lapsName].prevTime = elapsedTime;
+            return true;
+        } else if (elapsedTime == _laps[lapsName].prevTime)
+            return true;
+        else
+            _laps[lapsName].lastTime = elapsedTime - _laps[lapsName].lapsPassed * wantedLaps;
+        _laps[lapsName].prevTime = elapsedTime;
+        return false;
+    }
+
     void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
         int value = handleElementCollision(player_id);
+
         if (value != -1)
             _player_hp -= 1;
         if (_player_hp == 0) {
             std::cout << "THE END" << std::endl;
             exit(0);
         }
-        handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
         handleWaves(time);
         handleEnemyBullet(time);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-        if (time % 20 == 0) {
+        if (handleGameTime(100, time, "animationLaps")) {
+            handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
             playAnimation(_componentManager.getComponents<Animation>());
-            callEnemiesSendingBullets();
         }
+        else if (handleGameTime(400, time, "enemyBulletSpawn"))
+            callEnemiesSendingBullets(_componentManager.getComponents<Sprite>()->get(player_id));
     }
 
     void GameScene::initSprite()
@@ -125,7 +146,7 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Wave "+ std::to_string(_actual_wave), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text title("Level "+ std::to_string(_actual_wave), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
         Text score("SCORE: " + std::to_string(_score), "assets/font.otf", 30, 900, 50, 1, Text::rgb_t(255, 199, 17));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
@@ -230,11 +251,13 @@ namespace rtype
                 title.setText("The end");
             if (wave_finish == 0 && waves.size() != 1) {
                 _actual_wave += 1;
-                title.setText("Wave "+ std::to_string(_actual_wave));
+                title.setText("Level "+ std::to_string(_actual_wave));
                 waves.erase(waves.begin());
             }
-            for (int j = 0; j < waves[0].size(); j++)
-                _enemyManager.createEnemy(waves[0][j].first, _componentManager, _entityManager);
+            for (int j = 0; j < waves[0].size(); j++) {
+                if (waves[0][j].second > 0)
+                    _enemyManager.createEnemy(waves[0][j].first, _componentManager, _entityManager);
+            }
             _enemyManager.handleEnemies(time, _componentManager, _entityManager);
         }
     }
@@ -296,9 +319,9 @@ namespace rtype
                 else if (y_direction >= max_boost)
                     y_direction = max_boost;
             }
-            player_movement.setDirection(x_direction * 0.9, y_direction * 0.9);
-            if (player_sprite.getX() + player_movement.getXDirection() > 0 && player_sprite.getX() + (int)player_animation.getRectWidth() * (int)player_sprite.getScale() + player_movement.getXDirection() < (int)windowWidth
-            && player_sprite.getY() + player_movement.getYDirection() > 0 && player_sprite.getY() + (int)player_animation.getRectHeight() * (int)player_sprite.getScale() + player_movement.getYDirection() < (int)windowHeight)
+            player_movement.setDirection((int)x_direction * 0.9, (int)y_direction * 0.9);
+            if (player_sprite.getX() + (int)player_movement.getXDirection() >= 0 && player_sprite.getX() + (int)player_animation.getRectWidth() * (int)player_sprite.getScale() + (int)player_movement.getXDirection() <= (int)windowWidth
+            && player_sprite.getY() + (int)player_movement.getYDirection() >= 0 && player_sprite.getY() + (int)player_animation.getRectHeight() * (int)player_sprite.getScale() + (int)player_movement.getYDirection() <= (int)windowHeight)
                 player_sprite.setPosition(player_sprite.getX() + player_movement.getXDirection(), player_sprite.getY() + player_movement.getYDirection());
         }
     }

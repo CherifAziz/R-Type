@@ -1,13 +1,21 @@
-basicEnemy,2
-mediumEnemy,2
+basicEnemy,10
+mediumEnemy,5
 
-basicEnemy,2
-mediumEnemy,2
-flyEnemy,2
+basicEnemy,15
+mediumEnemy,7
+flyEnemy,5
 
-basicEnemy,2
-mediumEnemy,2
-flyEnemy,2
-vesselEnemy,2
+basicEnemy,20
+mediumEnemy,10
+flyEnemy,6
+vesselEnemy,4
 
-scalingbossEnemy,1
+bossEnemy,1
+
+flyEnemy,6
+vesselEnemy,5
+
+basicEnemy,30
+flyEnemy,10
+
+scalingBossEnemy,1
