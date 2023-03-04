@@ -80,6 +80,13 @@
                 const bool &isStillPlaying() { return _stillPlaying; }
 
                 /**
+                 * @brief Check if the game is still playing
+                 *
+                 * @return true if the game is still playing, false otherwise
+                 */
+                const bool &isConnected() { return _connected; }
+
+                /**
                  * @brief Set the Current Scene object
                  * 
                  * @param newScene the new current scene
@@ -99,6 +106,12 @@
                  */
                 void endGame() { _stillPlaying = false; }
 
+                /**
+                 * @brief Set the connect state to true
+                 *
+                 */
+                void connected() { _connected = true; }
+
             protected:
                 /**
                  * @brief Construct a new Storage object
@@ -117,6 +130,11 @@
                  * 
                  */
                 bool _stillPlaying = true;
+                /**
+                 * @brief the network state
+                 *
+                 */
+                bool _connected = false;
 
                 /**
                  * @brief the game current scene
