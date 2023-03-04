@@ -60,4 +60,20 @@ namespace rtype
             }
         }
     }
+
+    const size_t &EnemyManager::getEnemyHp(const entity_t &entity)
+    {
+        for (auto &enemy : _enemies)
+            if (enemy->getId() == entity)
+                return enemy->getHp();
+        throw std::invalid_argument("entity does not exist in enemy manager");
+    }
+
+    void EnemyManager::setEnemyHp(const entity_t &entity, const size_t &hp)
+    {
+        for (auto &enemy : _enemies)
+            if (enemy->getId() == entity)
+                return enemy->setHp(hp);
+        throw std::invalid_argument("entity does not exist in enemy manager");
+    }
 }

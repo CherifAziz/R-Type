@@ -9,13 +9,15 @@
 
 #include "Collision.hpp"
 #include "Text.hpp"
+
 #include "GameValues.hpp"
+#include "EnemyValues.hpp"
 
 namespace rtype
 {
     BossEnemy::BossEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = 100;
+        this->_hp = ENEMY_LIFE.at("bossEnemy");
 
         size_t x = 800;
         size_t y = 450;

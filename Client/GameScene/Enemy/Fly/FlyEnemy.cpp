@@ -9,13 +9,15 @@
 
 #include "Collision.hpp"
 #include "Text.hpp"
+
 #include "GameValues.hpp"
+#include "EnemyValues.hpp"
 
 namespace rtype
 {
     FlyEnemy::FlyEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = 10;
+        this->_hp = ENEMY_LIFE.at("flyEnemy");
 
         size_t x = 1920 + rand() % 100;
         size_t y = rand() % (900 - ENEMY_REACH);

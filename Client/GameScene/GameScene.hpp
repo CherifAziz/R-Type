@@ -254,6 +254,7 @@
                 } _loadState = LoadState::ON;
 
                 std::unordered_map<entity_t, std::pair<BulletSentState, BulletLoadState>> _bullet_sent;
+                std::unordered_map<entity_t, size_t> _bullet_remaining_force;
 
                 std::vector<std::vector<std::pair<std::string, int>>> waves;
                 

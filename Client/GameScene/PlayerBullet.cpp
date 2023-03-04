@@ -20,6 +20,15 @@ namespace rtype {
         "beboubullet"
     };
 
+    static const std::unordered_map<std::string, size_t> BULLET_POWER = {
+        {"bullet", 1},
+        {"chargedbullet", 2},
+        {"bigbullet", 4},
+        {"superbullet", 6},
+        {"megabullet", 8},
+        {"beboubullet", 12}
+    };
+
     void GameScene::handleBulletSpriteSheet(Animation &bullet)
     {
         std::shared_ptr<ComponentMap<Animation>> animationMap = _componentManager.getComponents<Animation>();
@@ -47,9 +56,17 @@ namespace rtype {
 
         if (value != -1) {
             const std::string family = _entityManager.getEntity(value)->getFamily();
+            size_t enemy_hp = _enemyManager.getEnemyHp(value);
+            int remaining_life = enemy_hp - _bullet_remaining_force[entity];
+            int remaining_force = _bullet_remaining_force[entity] - enemy_hp;
 
-            _componentManager.killEntity(value);
-            _entityManager.killEntity(value);
+            if (remaining_life <= 0) {
+                _componentManager.killEntity(value);
+                _entityManager.killEntity(value);
+                _score += ENEMY_SCORE.at(family);
+            } else
+                _enemyManager.setEnemyHp(value, remaining_life);
+
             auto& wave = waves[0];
             auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
                 return p.first == family;
@@ -58,18 +75,21 @@ namespace rtype {
                 if (it->second != 0)
                     --it->second;
             }
-            _score += ENEMY_SCORE.at(family);
-            if (bullet_family != "beboubullet") {
+
+            if (remaining_force <= 0) {
                 _componentManager.killEntity(entity);
                 _entityManager.killEntity(entity);
+                _bullet_remaining_force.erase(entity);
                 _bullet_sent.erase(entity);
                 return true;
-            }
+            } else
+                _bullet_remaining_force[entity] = remaining_force;
         }
         if (bullet.getX() >= (int)windowWidth) {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _bullet_sent.erase(entity);
+            _bullet_remaining_force.erase(entity);
             return true;
         }
         return false;
@@ -127,6 +147,7 @@ namespace rtype {
             std::shared_ptr<Entity> bullet = _entityManager.spawnEntity(BULLET_NAMES[(int)_bulletLoad]);
             initBullet(bullet->getId());
             _bullet_sent[bullet->getId()] = std::make_pair(BulletSentState::SENT, _bulletLoad);
+            _bullet_remaining_force[bullet->getId()] = BULLET_POWER.at(BULLET_NAMES[(int)_bulletLoad]);
             _bulletLoad = BulletLoadState::LITTLE;
             _bulletTime = BulletTimeState::NONE;
             player_action.setState(Action::KeyType::SPACE, Action::KeyState::UP);
