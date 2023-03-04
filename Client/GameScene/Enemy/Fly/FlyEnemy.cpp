@@ -5,6 +5,7 @@
 ** flyenemy's methode
 */
 
+#include "config.hpp"
 #include "FlyEnemy.hpp"
 
 #include "Collision.hpp"

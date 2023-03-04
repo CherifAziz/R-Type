@@ -5,6 +5,7 @@
 ** BossEnemy's methode
 */
 
+#include "config.hpp"
 #include "BossEnemy.hpp"
 
 #include "Collision.hpp"

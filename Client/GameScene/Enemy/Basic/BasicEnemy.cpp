@@ -5,6 +5,7 @@
 ** BasicEnemy
 */
 
+#include "config.hpp"
 #include "BasicEnemy.hpp"
 #include "GameScene.hpp"
 #include "GameValues.hpp"

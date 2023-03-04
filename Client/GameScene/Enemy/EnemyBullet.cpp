@@ -5,6 +5,7 @@
 ** EnemyBullet
 */
 
+#include "config.hpp"
 #include "GameScene.hpp"
 #include "GameValues.hpp"
 
