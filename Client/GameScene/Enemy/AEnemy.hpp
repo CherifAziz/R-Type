@@ -44,12 +44,33 @@
                     return false;
                 }
 
+                /**
+                 * @brief Get the position of the enemy
+                 *
+                 * @return pair of size_t
+                 */
+                std::pair<size_t, size_t> getPos() {
+                    return std::make_pair(_x, _y);
+                }
+
             protected:
                /**
                  * @brief the hp point of the enemy
                  * 
                  */
                 size_t _hp;
+
+                /**
+                 * @brief the x position of the enemy
+                 * 
+                 */
+                size_t _x;
+
+                /**
+                 * @brief the _y position of the enemy
+                 * 
+                 */
+                size_t _y;
 
                 /**
                  * @brief the id of the enemy

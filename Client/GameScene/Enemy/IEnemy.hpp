@@ -37,6 +37,13 @@
                  * @return the component manager as a ComponentManager& 
                  */
                 virtual entity_t &getId() = 0;
+
+                /**
+                 * @brief Get the pos of the enemy
+                 * 
+                 * @return the position of the enemy as a std::pair<size_t, size_t> 
+                 */
+                virtual std::pair<size_t, size_t> getPos() = 0;
         };
     }
 

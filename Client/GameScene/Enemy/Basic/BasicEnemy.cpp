@@ -17,15 +17,15 @@ namespace rtype
     {
         this->_hp = 1;
 
-        size_t x = 1920 + rand() % 100;
-        size_t y = rand() % (900 - ENEMY_REACH);
+        this->_x = 1920 + rand() % 100;
+        this->_y = rand() % (900 - ENEMY_REACH);
 
-        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "basicEnemy")) {
-            x = 1920 + rand() % 500;
-            y = rand() % (900 - ENEMY_REACH);
+        while (isAlreadyAnEnemyHere(this->_x, this->_y, componentManager, entityManager, "basicEnemy")) {
+            this->_x = 1920 + rand() % 500;
+            this->_y = rand() % (900 - ENEMY_REACH);
         }
         this->_id = entityManager.spawnEntity("basicEnemy")->getId();
-        Sprite sprite("assets/basicEnemy.gif", x, y, 4);
+        Sprite sprite("assets/basicEnemy.gif", this->_x, this->_y, 4);
         Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
         Movement movement(-5, 3);
         Collision collision({"player"});
@@ -64,6 +64,9 @@ namespace rtype
         Movement &movement = componentManager.get<Movement>(this->_id);
         Sprite &sprite = componentManager.get<Sprite>(this->_id);
         Animation &animation = componentManager.get<Animation>(this->_id);
+
+        this->_x = sprite.getX();
+        this->_y = sprite.getY();
 
         if (destroy(sprite, animation, componentManager, entityManager))
             return true;

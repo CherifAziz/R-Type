@@ -83,9 +83,9 @@ namespace rtype
         for (auto &entity : this->_entityManager.getEntitiesFromFamily("player")) {
             handlePlayerAction(_componentManager.getComponents<Sprite>()->get(entity->getId()), _componentManager.getComponents<Movement>()->get(entity->getId()),
             _componentManager.getComponents<Action>()->get(entity->getId()), _componentManager.getComponents<Animation>()->get(entity->getId()), windowWidth, windowHeight);
-            handleBullet(time, _componentManager.getComponents<Action>()->get(entity->getId()), windowWidth, entity->getId());
         }
-        handleWaves(time);
+        handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth, player_id);
+        // handleWaves(time);
         handleEnemyBullet(time);
         if (time % 20 == 0) {
             playAnimation(_componentManager.getComponents<Animation>());
