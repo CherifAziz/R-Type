@@ -1,13 +1,13 @@
-basicEnemy,10
-mediumEnemy,10
+basicEnemy,2
+mediumEnemy,2
 
-basicEnemy,80
-mediumEnemy,50
-flyEnemy,35
+basicEnemy,2
+mediumEnemy,2
+flyEnemy,2
 
-basicEnemy,120
-mediumEnemy,70
-flyEnemy,50
-vesselEnemy,30
+basicEnemy,2
+mediumEnemy,2
+flyEnemy,2
+vesselEnemy,2
 
-bossEnemy,1
+scalingbossEnemy,1
