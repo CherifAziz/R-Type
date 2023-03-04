@@ -36,7 +36,7 @@
         const std::unordered_map<EnemyType, std::string> enemyTranslator = {
             {EnemyType::BASIC, "basicEnemy"},
             {EnemyType::FLY, "flyEnemy"},
-            {EnemyType::BOSS, "boss"},
+            {EnemyType::BOSS, "bossEnemy"},
             {EnemyType::MEDIUM, "mediumEnemy"},
             {EnemyType::VESSEL, "vesselEnemy"}
         };

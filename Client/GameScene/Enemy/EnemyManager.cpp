@@ -32,8 +32,10 @@ namespace rtype
         std::shared_ptr<IEnemy> new_enemy;
         std::vector<std::shared_ptr<Entity>> enemies = entityManager.getEntitiesFromFamily(enemyTranslator.at(type));
 
+        std::cout << "A " << enemies.size() << " " << enemyLimiter.at(type) << std::endl;
         if (enemies.size() == enemyLimiter.at(type))
             return nullptr;
+        std::cout << "B" << std::endl;
         switch (type) {
             case EnemyType::BASIC:
                 new_enemy = std::make_shared<BasicEnemy>(componentManager, entityManager);

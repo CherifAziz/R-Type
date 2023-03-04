@@ -242,7 +242,7 @@ namespace rtype
                     _enemyManager.createEnemy(FLY, _componentManager, _entityManager);
                 if (waves[0][j].first == "vesselEnemy")
                     _enemyManager.createEnemy(VESSEL, _componentManager, _entityManager);
-                if (waves[0][j].first == "boss")
+                if (waves[0][j].first == "bossEnemy")
                     _enemyManager.createEnemy(BOSS, _componentManager, _entityManager);
 
             }

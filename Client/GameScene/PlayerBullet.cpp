@@ -16,7 +16,7 @@ namespace rtype {
         "mediumEnemy",
         "vesselEnemy",
         "flyEnemy",
-        "boss"
+        "bossEnemy"
     };
 
     const std::vector<std::string> GameScene::BULLET_NAMES = {
@@ -74,6 +74,8 @@ namespace rtype {
                 _score += 25;
             if (family == "vesselEnemy")
                 _score += 20;
+            if (family == "bossEnemy")
+                _score += 50;
             if (bullet_family != "beboubullet") {
                 _componentManager.killEntity(entity);
                 _entityManager.killEntity(entity);
