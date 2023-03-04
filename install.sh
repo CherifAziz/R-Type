@@ -1,31 +1,5 @@
 #!/bin/sh
 
-if ! command -v ping > /dev/null; then
-  echo "ping n'est pas installé, installation en cours..."
-  sudo yum update -y
-  sudo yum install -y iputils
-else
-  echo "ping déjà installé."
-fi
-
-if ! ping -q -c 1 -W 1 google.com > /dev/null; then
-  echo "Aucune connexion internet détectée. Vérifiez votre connexion et réessayez."
-  exit 1
-fi
-
-if ! command -v g++ > /dev/null; then
-  echo "g++ n'est pas installé, installation en cours..."
-  curl -L https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.gz -o gcc.tar.gz
-  sudo tar -xzf gcc.tar.gz
-  cd gcc-12.2.0
-  ./configure
-  make
-  make install
-  cd ..
-else
-  echo "g++ déjà installé."
-fi
-
 if ! [ -d "$PWD/vcpkg" ]; then
   echo "vcpkg n'est pas installé, installation en cours..."
   git clone https://github.com/Microsoft/vcpkg.git
@@ -46,13 +20,15 @@ if ! command -v cmake > /dev/null; then
 else
   echo "cmake déjà installé."
 fi
-
 cd $PWD/vcpkg
 sudo git pull
 sudo ./bootstrap-vcpkg.sh -disableMetrics
 cd ..
-# autoconf and libtool
-# libudev and libx11 and libxrandr and opengl 
+# autoconf and libtool pkg-config via apt-get if apt-get is available
+if command -v apt-get > /dev/null; then
+  echo "apt-get est disponible, installation des dépendances via apt-get."
+  apt-get install autoconf libtool pkg-config libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libudev-dev
+fi
 sudo $PWD/vcpkg/vcpkg install sfml
 sudo $PWD/vcpkg/vcpkg install boost-system
 sudo $PWD/vcpkg/vcpkg install boost-uuid
@@ -75,4 +51,4 @@ fi
 sudo $PWD/vcpkg/vcpkg integrate install
 
 echo "executing build.sh"
-source ./build.sh
+./build.sh
