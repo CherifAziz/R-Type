@@ -10,6 +10,7 @@
 
     #include "AUdpServerSystem.hpp"
     #include "Serialize.hpp"
+    #include "Storage.hpp"
     #include "IServices.hpp"
     #include <optional>
     #include <iostream>
@@ -135,7 +136,7 @@
 
         class UdpServerSystem : public AUdpServerSystem {
             public:
-                UdpServerSystem(boost::asio::io_service &io_service, int port, std::shared_ptr<Services::IService> services) : AUdpServerSystem("UdpServer"), _service(services), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port)), _nullscene(0), _nullstring("") {
+                UdpServerSystem(boost::asio::io_service &io_service, int port, std::shared_ptr<Services::IService> services) : AUdpServerSystem("UdpServer"), _service(services), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port)), _nullscene(0), _nullstring(""), _storage(Storage::getStorage()) {
                     std::cout << "UdpServer Created" << std::endl;
                     this->start_receive();
                 };
@@ -158,6 +159,15 @@
 
                 const std::string &getName() const { return this->_nullstring; };
                 bool isGameStillPlaying() { return true; };
+                /**
+                 * @brief check the connection status
+                 * 
+                 * @return true if it's connected to the server, false otherwise
+                 */
+                bool isConnected()
+                {
+                    return _storage->isConnected();
+                }
                 const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void update(std::shared_ptr<IScene> &scene) {
@@ -220,6 +230,8 @@
                 ClientManager _clients;
                 const std::string _nullstring;
                 const size_t _nullscene;
+                std::shared_ptr<Storage> _storage;
+
         };
     }
 
