@@ -40,6 +40,7 @@ add_subdirectory(${SERVER}/)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(SYSTEM_NAME "Windows")
+    set(ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets/")
     configure_file(
         $ENV{ROOT_DIR}/cfg/config.hpp.in
         $ENV{ROOT_DIR}/cfg/config.hpp
