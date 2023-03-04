@@ -5,6 +5,7 @@
 ** MediumEnemy
 */
 
+#include "config.hpp"
 #include "MediumEnemy.hpp"
 #include "GameValues.hpp"
 

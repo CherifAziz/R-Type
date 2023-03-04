@@ -5,6 +5,7 @@
 ** VesselEnemy
 */
 
+#include "config.hpp"
 #include "VesselEnemy.hpp"
 #include "GameValues.hpp"
 
