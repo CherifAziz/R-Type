@@ -198,9 +198,11 @@
                             this->_clients.addClient(this->_remote_endpoint, this->_socker);
                         if (size >= sizeof(Serialize::Data)) {
                             Serialize::Data info = Serialize::deserialize<Serialize::Data>(std::string(this->_data.data(), size), size);
-                            if (this->_clients.getClient(this->_remote_endpoint) != std::nullopt)
+                            if (this->_clients.getClient(this->_remote_endpoint) != std::nullopt) {
+                                std::cout << "Client: " << this->_remote_endpoint <<std::endl;
+                                info.printData();
                                 this->_clients.getClient(this->_remote_endpoint).value()->addToListOfCommands(info);
-                            else
+                            }else
                                 std::cout << "Client not found" << std::endl;
                         }
                     }
