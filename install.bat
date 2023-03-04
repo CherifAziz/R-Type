@@ -1,36 +1,47 @@
 @echo off
 
-if not "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
-  echo "Ce script doit être exécuté sur un système 64-bits."
-  exit /b 1
-)
+rem need msbuild with minimun vs 2017
+rem need winget
+rem need mingw64 in the path ?
 
 git --version || (winget install -e --id Git.Git)
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%27))
+choco --version || (
+  powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force"
+  powershell -Command "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072"
+  powershell -Command "((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+  powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+)
+
+choco upgrade chocolatey -y
+
+mingw32-make --version || (choco install mingw -y --installargs 'ADD_CMAKE_TO_PATH=System')
 
 call RefreshEnv.cmd
 
 cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
 
-if not exist ".\vcpkg" (
+makensis /version || (choco install nsis -y --installargs 'ADD_CMAKE_TO_PATH=System')
+
+.\vcpkg\vcpkg.exe --version || if not exist ".\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
   cd vcpkg
   call .\bootstrap-vcpkg.bat -disableMetrics
   cd ..
 ) else (
+  rmdir /s /q .\vcpkg
+  git clone https://github.com/Microsoft/vcpkg.git
   cd vcpkg
-  git pull
   call .\bootstrap-vcpkg.bat -disableMetrics
   cd ..
 )
 
 call RefreshEnv.cmd
 
-.\vcpkg\vcpkg.exe install boost-serialization
-.\vcpkg\vcpkg.exe install boost-system
-.\vcpkg\vcpkg.exe install boost-asio
-.\vcpkg\vcpkg.exe install boost-uuid
+.\vcpkg\vcpkg.exe install boost-serialization:x64-windows
+.\vcpkg\vcpkg.exe install boost-system:x64-windows
+.\vcpkg\vcpkg.exe install boost-asio:x64-windows
+.\vcpkg\vcpkg.exe install boost-uuid:x64-windows
 .\vcpkg\vcpkg.exe install sfml:x64-windows
 .\vcpkg\vcpkg.exe integrate install
 

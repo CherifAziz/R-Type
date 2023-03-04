@@ -27,6 +27,7 @@
 
     using namespace boost::asio;
     using namespace boost::asio::ip;
+    using namespace boost::placeholders;
 
     namespace rtype {
         class UdpClient {
