@@ -89,6 +89,7 @@
                             return;
                         }
                     }
+                    std::cout << "Entity: " << entity_id << " " << (int)getEntity(entity_id)->getStatus() << " " << getEntity(entity_id)->getFamily() << std::endl;
                     throw std::invalid_argument("Entity not found in killEntity method !");
                 }
 
