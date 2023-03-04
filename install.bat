@@ -8,6 +8,7 @@ winget -v || (
 git --version || (winget install -e --id Git.Git)
 
 choco --version || (
+  powershell -Command "Set-ExecutionPolicy AllSigned"
   powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force"
   powershell -Command "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072"
   powershell -Command "((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
@@ -20,9 +21,9 @@ choco upgrade chocolatey -y
 
 call RefreshEnv.cmd
 
-cmake --version || (choco install cmake -y --installargs 'ADD_CMAKE_TO_PATH=System')
+cmake --version || (choco install cmake -y)
 
-makensis /version || (choco install nsis -y --installargs 'ADD_CMAKE_TO_PATH=System')
+makensis /version || (choco install nsis -y)
 
 .\vcpkg\vcpkg.exe --version || if not exist ".\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
