@@ -12,11 +12,13 @@ fi
 
 if ! command -v cmake > /dev/null; then
   echo "cmake n'est pas installé, installation en cours..."
-  curl -L https://github.com/Kitware/CMake/releases/download/v3.25.0-rc1/cmake-3.25.0-rc1-linux-x86_64.sh -o cmake-install.sh
+  cd /usr/local
+  sudo curl -L https://github.com/Kitware/CMake/releases/download/v3.25.0-rc1/cmake-3.25.0-rc1-linux-x86_64.sh -o cmake-install.sh
   sudo chmod +x cmake-install.sh
-  sudo $PWD/cmake-install.sh --skip-license
-  sudo rm cmake-install.sh
+  sudo ./cmake-install.sh --skip-license
+  sudo rm /usr/local/cmake-install.sh
   echo "cmake installé."
+  cd -
 else
   echo "cmake déjà installé."
 fi
@@ -27,7 +29,11 @@ cd ..
 # autoconf and libtool pkg-config via apt-get if apt-get is available
 if command -v apt-get > /dev/null; then
   echo "apt-get est disponible, installation des dépendances via apt-get."
-  apt-get install autoconf libtool pkg-config libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libudev-dev
+  sudo apt-get install -y autoconf libtool pkg-config libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libudev-dev libasound2-dev
+fi
+if command -v apt > /dev/null; then
+  echo "apt est disponible, installation des dépendances via apt."
+  sudo apt install -y autoconf libtool pkg-config libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libudev-dev libasound2-dev
 fi
 sudo $PWD/vcpkg/vcpkg install sfml
 sudo $PWD/vcpkg/vcpkg install boost-system
