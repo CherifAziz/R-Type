@@ -9,6 +9,7 @@ set(CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/Client)
 set(SERVER ${CMAKE_CURRENT_SOURCE_DIR}/Server)
 
 include_directories(
+    $ENV{ROOT_DIR}/cfg/
     $ENV{ROOT_DIR}/ecs/
     $ENV{ROOT_DIR}/ecs/components/container/
     $ENV{ROOT_DIR}/ecs/components/content/
@@ -39,18 +40,48 @@ add_subdirectory(${CLIENT}/)
 add_subdirectory(${SERVER}/)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(SYSTEM_NAME "Windows")
+    set(ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets/")
+    configure_file(
+        $ENV{ROOT_DIR}/cfg/config.hpp.in
+        $ENV{ROOT_DIR}/cfg/config.hpp
+    )
+    set(USERS_DESKTOP "")
+    execute_process(
+        COMMAND "powershell" "-Command" "[Environment]::GetFolderPath('Desktop')"
+        OUTPUT_VARIABLE USERS_DESKTOP
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    message(STATUS "Desktop: ${USERS_DESKTOP}")
     set(BIN_FOLDER ${CMAKE_SOURCE_DIR}/build/Release/)
     install(DIRECTORY ${BIN_FOLDER} DESTINATION .)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
+    set(ASSETS_FOLDER ${CMAKE_SOURCE_DIR}/assets)
+    install(DIRECTORY ${ASSETS_FOLDER} DESTINATION .)
     set(CPACK_GENERATOR "NSIS")
+    set(CPACK_NSIS_MODIFY_PATH ON)
+    set(CPACK_NSIS_CREATE_ICONS_EXTRA
+        "CreateShortCut '${USERS_DESKTOP}\\\\r-type_client.lnk' '$INSTDIR\\\\r-type_client.exe';
+        CreateShortCut '${USERS_DESKTOP}\\\\r-type_server.lnk' '$INSTDIR\\\\r-type_server.exe';
+        CreateShortCut '$SMPROGRAMS\\\\$START_MENU\\\\r-type_server.lnk' '$INSTDIR\\\\r-type_server.exe';
+        CreateShortCut '$SMPROGRAMS\\\\$START_MENU\\\\r-type_client.lnk' '$INSTDIR\\\\r-type_client.exe'"
+    )
 else ()
+    set(ASSETS_DIR "assets/")
+    set(SYSTEM_NAME "Linux")
+    configure_file(
+        $ENV{ROOT_DIR}/cfg/config.hpp.in
+        $ENV{ROOT_DIR}/cfg/config.hpp
+    )
     install(TARGETS ${BIN_SERVER} DESTINATION bin)
     install(TARGETS ${BIN_CLIENT} DESTINATION bin)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION bin)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION share/rtype)
     if (DPKG_EXECUTABLE)
         set(CPACK_GENERATOR "DEB")
+        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "R-Type Team")
     elseif (RPM_EXECUTABLE)
         set(CPACK_GENERATOR "RPM")
+    else()
+        set(CPACK_GENERATOR "TGZ")
     endif ()
 endif ()
 set(CPACK_PACKAGE_NAME "rtype")

@@ -5,6 +5,7 @@
 ** GameScene
 */
 
+#include "config.hpp"
 #include "GameScene.hpp"
 #include "EnemyManager.hpp"
 
@@ -89,7 +90,7 @@ namespace rtype
         return false;
     }
 
-    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
+    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &/*scene*/, size_t &/*previousScene*/, bool &/*soundState*/)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
         int value = handleElementCollision(player_id);
@@ -116,9 +117,10 @@ namespace rtype
     void GameScene::initSprite()
     {
         ComponentMap<Sprite> sprite;
-        Sprite background_sprite("assets/spacebg.png", 0, 0);
-        Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
-        Sprite spaceship_sprite("assets/powerup.gif", 100, 100, 4);
+
+        Sprite background_sprite(std::string(ASSETS_DIR)+"spacebg.png", 0, 0, 1);
+        Sprite second_background_sprite(std::string(ASSETS_DIR)+"spacebg.png", 5279, 0, 1);
+        Sprite spaceship_sprite(std::string(ASSETS_DIR)+"powerup.gif", 100, 100, 4);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
@@ -138,7 +140,7 @@ namespace rtype
     void GameScene::initSound()
     {
         ComponentMap<Sound> sound;
-        Sound music("assets/music.ogg", true, Sound::SoundStatus::PAUSE);
+        Sound music(std::string(ASSETS_DIR)+"music.ogg", true, Sound::SoundStatus::PAUSE);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);
@@ -147,8 +149,8 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Level "+ std::to_string(_actual_wave), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
-        Text score("SCORE: " + std::to_string(_score), "assets/font.otf", 30, 900, 50, 1, Text::rgb_t(255, 199, 17));
+        Text title("Level "+ std::to_string(_actual_wave), std::string(ASSETS_DIR)+"font.ttf", 30, 30, 60, 1, Text::rgb_t(255, 255, 255));
+        Text score("SCORE: " + std::to_string(_score), std::string(ASSETS_DIR)+"font.ttf", 30, 900, 50, 1, Text::rgb_t(255, 255, 255));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         text.put(score, _entityManager.spawnEntity("score")->getId());
@@ -168,8 +170,8 @@ namespace rtype
     {
         ComponentMap<Movement> movement;
         Movement player_move(0, 0);
-        Movement first_background_movement(1, 1);
-        Movement second_background_movement(1, 1);
+        Movement first_background_movement(2, 1);
+        Movement second_background_movement(2, 1);
 
         movement.put(player_move, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         movement.put(first_background_movement, _entityManager.getEntitiesFromFamily("background")[0]->getId());
@@ -191,7 +193,7 @@ namespace rtype
         std::string line;
         std::vector<std::pair<std::string, int>> wave_config;
 
-        std::ifstream wave_file("assets/wave.txt");
+        std::ifstream wave_file(std::string(ASSETS_DIR)+"wave.txt");
 
         if (wave_file.is_open()) {
             while (std::getline(wave_file, line)) 
@@ -288,10 +290,10 @@ namespace rtype
 
         first_sprite.setPosition(first_sprite.getX() - first_movement.getXDirection(), first_sprite.getY());
         second_sprite.setPosition(second_sprite.getX() - second_movement.getXDirection(), second_sprite.getY());
-        if (first_sprite.getX() < -1919)
-            first_sprite.setPosition(1920, 0);
-        else if (second_sprite.getX() < -1919)
-            second_sprite.setPosition(1920, 0);
+        if (first_sprite.getX() < -5278)
+            first_sprite.setPosition(5279, 0);
+        else if (second_sprite.getX() < -5278)
+            second_sprite.setPosition(5279, 0);
     }
 
     void GameScene::handlePlayerMovement(Sprite &player_sprite, Movement &player_movement, Action &player_action, const Animation &player_animation,

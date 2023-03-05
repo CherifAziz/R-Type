@@ -25,7 +25,7 @@
                  * @param y the y position of the sprite in the window
                  * @param scale the scale of the sprite
                  */
-                Sprite(const std::string &filename = "", const int &x = 0, const int &y = 0, const size_t &scale = 1) : _filename(filename), _x(x), _y(y), _scale(scale) {};
+                Sprite(const std::string &filename = "", const int &x = 0, const int &y = 0, const float &scale = 0.75) : _filename(filename), _x(x), _y(y), _scale(scale) {};
 
                 /**
                  * @brief Destroy the Sprite object

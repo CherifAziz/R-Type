@@ -5,6 +5,7 @@
 ** GameScene
 */
 
+#include "config.hpp"
 #include "GameScene.hpp"
 
 #include "Collision.hpp"
@@ -64,7 +65,7 @@ namespace rtype
         return -1;
     }
 
-    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
+    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &/*scene*/, size_t &/*previousScene*/, bool &/*soundState*/)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
         int value = handleElementCollision(player_id);
@@ -82,8 +83,8 @@ namespace rtype
     void GameScene::initSprite()
     {
         ComponentMap<Sprite> sprite;
-        Sprite background_sprite("assets/spacebg.png", 0, 0);
-        Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
+        Sprite background_sprite(std::string(ASSETS_DIR)+"spacebg.png", 0, 0);
+        Sprite second_background_sprite(std::string(ASSETS_DIR)+"spacebg.png", 1920, 0);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
@@ -102,7 +103,7 @@ namespace rtype
     void GameScene::initSound()
     {
         ComponentMap<Sound> sound;
-        Sound music("assets/music.ogg", true, Sound::SoundStatus::PAUSE);
+        Sound music(std::string(ASSETS_DIR)+"music.ogg", true, Sound::SoundStatus::PAUSE);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);
@@ -111,7 +112,7 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Hi player !", "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text title("Hi player !", std::string(ASSETS_DIR)+"font.ttf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         _componentManager.registerComponent<Text>(text);

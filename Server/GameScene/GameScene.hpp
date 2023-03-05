@@ -51,7 +51,7 @@
                  *
                  * @param time the current time that has been elapsed
                  */
-                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
+                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene, bool &soundState);
 
             protected:
                 /**

@@ -69,6 +69,14 @@
                 };
 
                 void destroy() {
+                    
+                };
+
+                std::pair<size_t, size_t> getWindowWSize() const {
+                    return std::make_pair(0, 0);
+                };
+
+                ~UdpClientSystem() {
                     Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Command::DISCONNECTED, "");
                     std::string data = Serialize::serialize<Serialize::Data>(info);
                     this->_socket.async_send_to(boost::asio::buffer(data), this->_receiver_endpoint,
@@ -76,12 +84,6 @@
                                                 boost::asio::placeholders::error,
                                                 boost::asio::placeholders::bytes_transferred));
                 };
-
-                std::pair<size_t, size_t> getWindowWSize() const {
-                    return std::make_pair(0, 0);
-                };
-
-                ~UdpClientSystem() {};
 
             private:
                 std::shared_ptr<Storage> _storage;

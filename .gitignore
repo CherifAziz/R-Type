@@ -76,3 +76,4 @@ udpserver
 *.txt
 *.deb
 buildMacos.sh
+cfg/config.hpp

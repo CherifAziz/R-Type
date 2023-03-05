@@ -5,6 +5,7 @@
 ** ScalingBossEnemy's methode
 */
 
+#include "config.hpp"
 #include "ScalingBossEnemy.hpp"
 
 #include "Collision.hpp"
@@ -26,10 +27,10 @@ namespace rtype
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "scalingBossEnemy"))
         {
             x = windowWidth + rand() % 500;
-            y = rand() % (windowHeight - ENEMY_REACH);
+            y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("scalingBossEnemy")->getId();
-        Sprite sprite("assets/scalingboss.gif", x, y, 10);
+        Sprite sprite(std::string(ASSETS_DIR)+"scalingboss.gif", x, y, 10);
         Animation animation(31, 31, 0, 0, 3, 1, 3, 0, 2000);
         Movement movement(-3, 0);
         Collision collision({"player"});
@@ -44,10 +45,10 @@ namespace rtype
     {
     }
 
-    void ScalingBossEnemy::move(Sprite &player_sprite, Sprite &sprite, Movement &movement)
+    void ScalingBossEnemy::move(Sprite &player_sprite, Sprite &sprite, Movement &movement, Animation &animation, const size_t &windowWidth, const size_t &windowHeight)
     {   
 
-        if (sprite.getX() > 1920 - 32 * sprite.getScale()){
+        if (sprite.getX() > windowWidth - 32 * sprite.getScale()){
             sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
         } else {
             static const int defaultSpeed = movement.getXDirection();
@@ -83,7 +84,7 @@ namespace rtype
 
         if (destroy(sprite, animation, componentManager, entityManager))
             return true;
-        move(player_sprite, sprite, movement);
+        move(player_sprite, sprite, movement, animation, windowWidth, windowHeight);
         return false;
     }
 }
