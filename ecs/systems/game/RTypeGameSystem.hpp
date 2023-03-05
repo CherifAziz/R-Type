@@ -33,9 +33,7 @@
                  */
                 RTypeGameSystem(std::vector<std::shared_ptr<IScene>> &scenes) : AGameSystem("RType")
                 {
-                    scenes.push_back(std::make_shared<HomeMenuScene>());
-                    scenes.push_back(std::make_shared<SettingsMenu>());
-                    scenes.push_back(std::make_shared<GameScene>());
+                    
                 }
 
                 /**

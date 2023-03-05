@@ -42,6 +42,7 @@ void Services::Service::callService(Serialize::Data &data, rtype::UdpClientSyste
 
 void createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities, boost::uuids::uuid uid)
 {
+    std::cout << "PLAYER CREATED" << std::endl;
     entity_t player = Entities.spawnEntity("player")->getId();
     Sprite spaceship_sprite(std::string(ASSETS_DIR)+"spaceship.gif", 100, 100, 4);
     Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
@@ -65,13 +66,17 @@ void createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Ent
 
 void Services::Service::Connected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) {
     int index = 0;
-
+    for (auto &i : data._args) {
+        std::cout << "Data : " << i << std::endl;
+    }
     for (auto &i : data._args) {
         if (index == data._args.size() - 1) {
             Network network(boost::lexical_cast<boost::uuids::uuid>(i));
             std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
             mapN->put(network, scene.getEntityManager().getEntitiesFromFamily("player")[0]->getId());
+            std::cout << "UUID : " << network.getUUID() << " added in mapN" << std::endl;
         } else {
+            std::cout << "Player created" << std::endl;
             createPlayer(scene.getComponentManager(), scene.getEntityManager(), boost::lexical_cast<boost::uuids::uuid>(i));
         }
         index++;
@@ -87,6 +92,7 @@ void Services::Service::Move(Serialize::Data &data, rtype::UdpClientSystem &clie
 }
 
 void Services::Service::NewPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) {
+    std::cout << "New player joined" << std::endl;
     createPlayer(scene.getComponentManager(), scene.getEntityManager(), boost::lexical_cast<boost::uuids::uuid>(data._args[0]));
 }
 
@@ -110,6 +116,7 @@ void Services::Service::PlayerDisconnected(Serialize::Data &data, rtype::UdpClie
 }
 
 void Services::Service::MovePlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene) {
+    std::cout << "move player" << std::endl;
     std::vector<std::shared_ptr<rtype::Entity>> players = scene.getEntityManager().getEntitiesFromFamily("player");
     std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
     std::shared_ptr<ComponentMap<Action>> mapA = scene.getComponentManager().getComponents<Action>();

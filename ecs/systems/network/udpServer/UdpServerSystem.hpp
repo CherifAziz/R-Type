@@ -176,6 +176,7 @@
                     for (auto &client : this->_clients.getClients()) {
                         std::optional<Serialize::Data> data = client.second->getCommand();
                         if (data != std::nullopt) {
+                            std::cout << "Received" << std::endl;
                             this->_service->callService(client.second->getEndpoint(), this->_clients, data.value(), *scene);
                             if (data.value().s_id == Services::Command::DISCONNECTED)
                                 return;

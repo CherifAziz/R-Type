@@ -67,6 +67,7 @@
                 const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void init() {
+                    std::cout << "coucou" << std::endl;
                     this->_storage = Storage::getStorage();
                     this->_socket.open(udp::v4());
                     this->send_data(Serialize::createData<Serialize::Data>(Services::Command::CONNECTED, {}));
@@ -77,9 +78,12 @@
                     if (!_storage->isConnected())
                         return;
                     try {
+                        // std::cout << scene->getEntityManager().getEntitiesFromFamily("player").size() << std::endl;
+                        scene->getComponentManager().get<Network>(scene->getEntityManager().getEntitiesFromFamily("player")[0]->getId());
                         std::optional<Serialize::Data> data = scene->getComponentManager().get<Network>(scene->getEntityManager().getEntitiesFromFamily("player")[0]->getId()).getCommands();
-                        if (data.has_value())
+                        if (data.has_value()) {
                             this->_service->callService(data.value(), *this, *scene);
+                        }
                     } catch (std::invalid_argument &e) {}
 
                     if (!this->_queue.empty()) {

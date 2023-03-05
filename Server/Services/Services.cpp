@@ -48,6 +48,7 @@ std::pair<boost::uuids::uuid, entity_t> createPlayer(rtype::ComponentManager &Co
 }
 
 void Services::Service::Connected(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+    std::cout << "Connected" << std::endl;
     std::pair<boost::uuids::uuid, entity_t> player_pair = createPlayer(scene.getComponentManager(), scene.getEntityManager());
     std::vector<std::string> uid;
 

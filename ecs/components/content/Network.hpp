@@ -31,6 +31,7 @@
 
                 std::optional<Serialize::Data> getCommands() {
                     if (!this->_queue.empty()) {
+                        std::cout << "getCommands" << std::endl;
                         Serialize::Data data = this->_queue.front();
                         this->_queue.pop();
                         return data;

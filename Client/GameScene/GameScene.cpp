@@ -95,19 +95,22 @@ namespace rtype
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
         int value = handleElementCollision(player_id);
 
-        if (value != -1 && _playerShield == false)
-            _player_hp -= 1;
-        if (_player_hp == 0) {
-            _storage->endGame();
-            std::cout << "THE END" << std::endl;
-        }
-        handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
-        _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
-        handleWaves(time, windowWidth, windowHeight);
-        handleEnemyBullet(time);
-        handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth, player_id);
-        handlePowerUp(time);
+        // if (value != -1 && _playerShield == false)
+            // _player_hp -= 1;
+        // if (_player_hp == 0) {
+            // _storage->endGame();
+            // std::cout << "THE END" << std::endl;
+        // }
+        // handleEnemyBullet(time);
+        // handleWaves(time, windowWidth, windowHeight);
+        // handlePlayerMovement();
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
+        for (auto &entity : _entityManager.getEntitiesFromFamily("player")) {
+            handlePlayerAction(_componentManager.getComponents<Sprite>()->get(entity->getId()), _componentManager.getComponents<Movement>()->get(entity->getId()),
+            _componentManager.getComponents<Action>()->get(entity->getId()), _componentManager.getComponents<Animation>()->get(entity->getId()), windowWidth, windowHeight);
+            handleBullet(time, _componentManager.getComponents<Action>()->get(entity->getId()), windowWidth, entity->getId());
+        }
+        // handlePowerUp(time);
         if (handleGameTime(100, time, "animationLaps"))
             playAnimation(_componentManager.getComponents<Animation>());
         else if (handleGameTime(400, time, "enemyBulletSpawn"))
