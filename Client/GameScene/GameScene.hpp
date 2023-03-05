@@ -109,6 +109,10 @@
                  */
                 void initNetwork();
 
+                /**
+                 * @brief Init the game's waves
+                 *
+                 */
                 void initWaves();
 
                 /**
@@ -138,6 +142,10 @@
                  */
                 void handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight);
 
+                /**
+                 * @brief make wave's action
+                 *
+                 */
                 void handleWaves(const int64_t &time);
 
                 /**
@@ -147,13 +155,42 @@
                  */
                 void playAnimation(std::shared_ptr<ComponentMap<Animation>> animationMap);
 
-
+                /**
+                 * @brief Make the right animation for the enemy's bullet
+                 *
+                 */
                 void handleEnemyBulletSpriteSheet(Animation &bullet);
-                bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);                
+
+                /**
+                 * @brief make the enemy's bullet destroyable
+                 *
+                 */
+                bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);   
+
+                /**
+                 * @brief start the enemy's bullet engine
+                 *
+                 */             
                 void initEnemyBullet(entity_t entity);
+
                 void callEnemiesSendingBullets();
+
+                /**
+                 * @brief start the display of the enemy's bullet
+                 *
+                 */
                 void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
+
+                /**
+                 * @brief handle the way the enemy's bullet moves
+                 *
+                 */
                 void moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity);
+
+                /**
+                 * @brief handle all the enemy's bullet system
+                 *
+                 */
                 void handleEnemyBullet(const int64_t &time);
 
                 /**
@@ -247,6 +284,11 @@
                 static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
+
+                /**
+                 * @brief The enemy's manager class of the GameScene
+                 *
+                 */
                 EnemyManager _enemyManager;
 
                 enum class BulletSentState {
@@ -265,7 +307,16 @@
 
                 std::vector<std::vector<std::pair<std::string, int>>> waves;
                 
+                /**
+                 * @brief number of the actual waves
+                 *
+                 */
                 size_t _actual_wave = 1;
+
+                /**
+                 * @brief Score of the player
+                 *
+                 */
                 size_t _score = 0;
 
                 enum class BulletTimeState {
@@ -279,6 +330,10 @@
                     READY
                 } _bulletTime = BulletTimeState::NONE;
 
+                /**
+                 * @brief the player hp
+                 *
+                 */
                 size_t _player_hp = 1;
         };
     }

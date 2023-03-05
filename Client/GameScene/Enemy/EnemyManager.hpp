@@ -14,7 +14,7 @@
 
     namespace rtype {
         /**
-         * @brief The Enemy manager to handle life, damage and more else
+         * @brief EnemyEnum to handle the type of the enemy
          *
          */
         enum EnemyType: int {
@@ -25,6 +25,10 @@
             VESSEL
         };
 
+        /**
+         * @brief An unordered map which is handling the limit of every enemy type displayable on player's screen
+         *
+         */
         const std::unordered_map<EnemyType, size_t> enemyLimiter = {
             {EnemyType::BASIC, 5},
             {EnemyType::FLY, 3},
@@ -41,6 +45,10 @@
             {EnemyType::VESSEL, "vesselEnemy"}
         };
 
+        /**
+         * @brief The Enemy manager to handle life, damage and more else
+         *
+         */
         class EnemyManager {
             public:
                 /**
