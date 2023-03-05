@@ -22,8 +22,6 @@ Core::Core(boost::asio::io_context &ioc, std::string ip, std::string port) : _ti
 {
     _scenes.push_back(std::make_shared<GameScene>());
     _systems.push_back(std::make_shared<RTypeGameSystem>(this->_scenes));
-    this->_scenes.erase(_scenes.begin());
-    this->_scenes.erase(_scenes.begin());
     this->_systems.push_back(std::make_shared<UdpServerSystem>(ioc, std::atoi(port.c_str()), std::make_shared<Services::Service>()));
 
     for (auto &system : _systems)
