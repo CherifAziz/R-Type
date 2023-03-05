@@ -20,7 +20,6 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIEN - R
 - [**Game Usage**](#game-usage)
 - [**Project's Documentation**](#projects-documentation)
     - [**Game Engine's UML :**](#game-engines-uml-)
-    - [**Server's Protocol :**](#servers-protocol-)
 - [**Organisation**](#organisation)
     - [**Git Hub's repository**](#git-hubs-repository)
     - [**Jira**](#jira)
@@ -107,7 +106,7 @@ Space (Holding) | Charged Shoot
 
 ![UML](https://image.noelshack.com/fichiers/2023/09/7/1678048815-capture-d-ecran-du-2023-03-05-21-28-13.png)
 
-### **Server's Protocol :**
+
 [**Return at the table of contents**](#table-of-contents)
 # **Organisation**
 >To achieve our goal on this project the organisation was the key of success here so we've try used different tools to stay organize to fullfill our goal.
