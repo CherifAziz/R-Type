@@ -26,7 +26,7 @@ namespace rtype
             y = rand() % (900 - ENEMY_REACH);
         }
         this->_id = entityManager.spawnEntity("flyEnemy")->getId();
-        Sprite sprite("assets/flyenemy.gif", x, y, 3);
+        Sprite sprite("assets/flyEnemy.gif", x, y, 3);
         Animation animation(61, 46, 4, 3, 6, 1, 6, 0, 2000);
         Movement movement(-2, 2);
         Collision collision({"player"});

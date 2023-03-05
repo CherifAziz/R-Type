@@ -24,6 +24,7 @@ namespace rtype
             this->_x = 1920 + rand() % 500;
             this->_y = rand() % (900 - ENEMY_REACH);
         }
+        std::cout << "x: " << this->_x << "\ny:" << this->_y << std::endl;
         this->_id = entityManager.spawnEntity("basicEnemy")->getId();
         Sprite sprite("assets/basicEnemy.gif", this->_x, this->_y, 4);
         Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
