@@ -1,7 +1,9 @@
 @echo off
 
-call .\clean.bat
-
+cd ecs/
+cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=$%cd%\..\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
+cmake --build .\build\ --config Release
+cd ..
 cmake -S . -B .\build\ -DCMAKE_TOOLCHAIN_FILE=%cd%\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .\build\ --config Release --target package
 if not exist ".\build\Release\assets\" (
