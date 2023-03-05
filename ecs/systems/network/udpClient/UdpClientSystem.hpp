@@ -54,19 +54,7 @@
                 };
 
                 const std::string &getName() const { return this->_nullstring; };
-                
-                bool isGameStillPlaying() {
-                    return this->_storage->getRenderWindow().isOpen();
-                };
-                /**
-                 * @brief check the connection status
-                 * 
-                 * @return true if it's connected to the server, false otherwise
-                 */
-                bool isConnected()
-                {
-                    return _storage->isConnected();
-                }
+                bool isGameStillPlaying() { return true; };
                 const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void init() {
