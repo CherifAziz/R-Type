@@ -9,9 +9,9 @@ The file is called level.txt and is located in the "assets" folder.
 
 - [**Level system**](#level-system)
 - [**How to use it**](#how-to-use-it)
-    - [**Create an enemy :**](#create-an-enemy)
-    - [**Add more enemies :**](#add-more-enemies)
-    - [**Create levels :**](#create-levels)
+    - [**Create an enemy :**](#create-an-enemy-)
+    - [**Add more enemies :**](#add-more-enemies-)
+    - [**Create levels :**](#create-levels-)
 
 # How to use it
 
