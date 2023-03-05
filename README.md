@@ -71,7 +71,9 @@ Team's Member : Baptiste ALLEX - Johann SAKO - Nicolas MOREAU - Jules CIBIEN - R
 > This should generate a setup executable.
 >
 > Execute the setup and follow the instructions.
+
 [**Return at the table of contents**](#table-of-contents)
+
 # **Launching**
 >Due to the multiplayer possibility you must open two terminal to play on our version of the R-Type 
 
@@ -95,7 +97,9 @@ Q               | Left
 D               | Right        
 Space           | Shoot        
 Space (Holding) | Charged Shoot
+
 [**Return at the table of contents**](#table-of-contents)
+
 # **Project's Documentation**
 >To give the opportunity to everyone to understand how our project is working we've write as much precise documentation as we can so that an junior developper can understand our code and how the project is working.
 
