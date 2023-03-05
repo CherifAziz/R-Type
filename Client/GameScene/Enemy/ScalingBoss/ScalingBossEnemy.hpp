@@ -41,7 +41,7 @@
                  * @brief Move the enemy
                  *
                  */
-                void move(Sprite &player_sprite, Sprite &sprite, Movement &movement);
+                void move(Sprite &player_sprite, Sprite &sprite, Movement &movement, Animation &animation, const size_t &windowWidth, const size_t &windowHeight);
 
                 /**
                  * @brief Destroy the enemy

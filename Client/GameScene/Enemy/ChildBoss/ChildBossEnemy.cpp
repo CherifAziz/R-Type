@@ -50,9 +50,9 @@ namespace rtype
 
         if (sprite.getY() > windowHeight - (animation.getRectWidth() * sprite.getScale()))
             movement.setDirection(movement.getXDirection(), (rand() % 5) - velocity);
-        if (sprite.getY() < ENEMY_REACH)
+        if (sprite.getY() < 0)
             movement.setDirection(movement.getXDirection(), (rand() % 5) + velocity);
-        if (sprite.getX() < ENEMY_REACH)
+        if (sprite.getX() < 0)
             movement.setDirection((rand() % 5) + velocity, movement.getYDirection());
         if (sprite.getX() > windowWidth - (animation.getRectHeight() * sprite.getScale()))
             movement.setDirection((rand() % 5) - velocity, movement.getYDirection());

@@ -20,11 +20,11 @@ namespace rtype {
         this->_hp = ENEMY_LIFE.at("mediumEnemy");
 
         size_t x = windowWidth + rand() % 100;
-        size_t y = rand() % (windowHeight - ENEMY_REACH);
+        size_t y = rand() % (windowHeight - ENEMY_REACH - 100);
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "mediumEnemy")) {
             x = windowWidth + rand() % 500;
-            y = rand() % (windowHeight - ENEMY_REACH);
+            y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("mediumEnemy")->getId();
         Sprite sprite("assets/mediumEnemy.gif", x, y, 4);

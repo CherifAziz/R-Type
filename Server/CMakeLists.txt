@@ -12,9 +12,9 @@ endif ()
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
 find_package(Boost COMPONENTS system serialization REQUIRED)
 
-include_directories(Services/ GameScene/)
+include_directories(Services/ GameScene/ MenuScene/)
 
-set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp)
+set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/BasicEnemy.cpp MenuScene/HomeMenuScene.cpp MenuScene/SettingsMenu.cpp)
 set(SERVICES_FILES Services/Services.cpp)
 
 add_executable(${BIN_NAME}

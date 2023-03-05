@@ -20,11 +20,11 @@ namespace rtype
         this->_hp = ENEMY_LIFE.at("basicEnemy");
 
         size_t x = windowWidth + rand() % 100;
-        size_t y = rand() % (windowHeight - ENEMY_REACH);
+        size_t y = rand() % (windowHeight - ENEMY_REACH - 100);
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "basicEnemy")) {
             x = windowWidth + rand() % 500;
-            y = rand() % (windowHeight - ENEMY_REACH);
+            y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("basicEnemy")->getId();
         Sprite sprite("assets/basicEnemy.gif", x, y, 4);
@@ -42,11 +42,11 @@ namespace rtype
     {
     }
 
-    void BasicEnemy::move(Sprite &sprite, Movement &movement)
+    void BasicEnemy::move(Sprite &sprite, Movement &movement, Animation &animation, const size_t &windowWidth, const size_t &windowHeight)
     {
-        if (sprite.getY() > 900)
+        if (sprite.getY() > windowHeight - animation.getRectHeight() * sprite.getScale())
             movement.setDirection(-7, -9);
-        if (sprite.getY() < 50)
+        if (sprite.getY() < 0)
             movement.setDirection(2, 9);
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
@@ -69,7 +69,7 @@ namespace rtype
 
         if (destroy(sprite, animation, componentManager, entityManager))
             return true;
-        move(sprite, movement);
+        move(sprite, movement, animation, windowWidth, windowHeight);
         return false;
     }
 }
