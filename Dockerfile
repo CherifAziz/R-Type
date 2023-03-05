@@ -16,4 +16,4 @@ RUN chown -R ubuntu:ubuntu /home/ubuntu/r-type
 
 USER ubuntu
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]

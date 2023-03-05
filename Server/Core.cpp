@@ -9,7 +9,7 @@
 
 #include "Core.hpp"
 
-#include "GameScene/GameScene.hpp"
+#include "GameScene.hpp"
 
 #include "RTypeGameSystem.hpp"
 

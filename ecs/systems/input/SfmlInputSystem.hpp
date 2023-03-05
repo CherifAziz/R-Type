@@ -31,41 +31,27 @@
                  * @brief Construct a new Sfml Input System object with the "SFML" library name
                  * 
                  */
-                SfmlInputSystem() : AInputSystem("Sfml") {}
+                SfmlInputSystem();
 
                 /**
                  * @brief Destroy the Sfml Input System object
                  * 
                  */
-                ~SfmlInputSystem() = default;
+                ~SfmlInputSystem();
 
                 /**
                  * @brief init the Sfml Input System object
                  * 
                  * @details get the singleton storage
                  */
-                void init()
-                {
-                    _storage = Storage::getStorage();
-                }
+                void init();
 
                 /**
                  * @brief update the input sytem
                  * 
                  * @param scene the current game scene
                  */
-                void update(std::shared_ptr<IScene> &scene)
-                {
-                    std::shared_ptr<ComponentMap<Action>> actionMap = scene->getComponentManager().getComponents<Action>();
-                    std::vector<std::shared_ptr<Entity>> players = scene->getEntityManager().getEntitiesFromFamily("player");
-
-                    for (const auto &player : players) {
-                        if (checkEvent(actionMap, player->getId()) == true) {
-                            _storage->getRenderWindow().close();
-                            return;
-                        }
-                    }
-                }
+                void update(std::shared_ptr<IScene> &scene);
 
                 /**
                  * @brief Destroy the Sfml Input System properties
@@ -81,20 +67,14 @@
                  * 
                  * @return true if the game is still playing, false otherwise
                  */
-                bool isGameStillPlaying()
-                {
-                    return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
-                }
+                bool isGameStillPlaying();
 
                 /**
                  * @brief Get the Current Scene object
                  * 
                  * @return the current scene as a const size_t&
                  */
-                const size_t &getCurrentScene() const
-                {
-                    return _storage->getCurrentScene();
-                }
+                const size_t &getCurrentScene() const;
 
             private:
                 /**
@@ -105,22 +85,7 @@
                  * 
                  * @return true if the window has been closed, false otherwise
                  */
-                bool checkEvent(std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
-                {
-                    while (_storage->getRenderWindow().pollEvent(_event)) {
-                        if (_event.type == sf::Event::Closed) {
-                            _storage->getRenderWindow().close();
-                            return true;
-                        }
-                        else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
-                            handleKey(_event.type, _event.key.code, action->get(entity));
-                        else if (_event.type == sf::Event::MouseButtonPressed || _event.type == sf::Event::MouseButtonReleased)
-                            handleMouseKey(_event.type, _event.mouseButton.button, action->get(entity));
-                        else if (_event.type == sf::Event::MouseMoved)
-                            handleMouseMovement(_event.mouseMove, action->get(entity));
-                    }
-                    return false;
-                }
+                bool checkEvent(std::shared_ptr<ComponentMap<Action>> action, entity_t entity);
 
                 /**
                  * @brief handle the event by setting the key state in the Action component
@@ -140,16 +105,7 @@
                  * @param key the key type (keyboard key)
                  * @param action the player's Action component
                  */
-                void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action)
-                {
-                    if (_keyTranslator.count(key) == 0)
-                        return;
-
-                    if (event == sf::Event::KeyPressed)
-                        action.setState(_keyTranslator.at(key), Action::KeyState::PRESSED);
-                    else if (event == sf::Event::KeyReleased)
-                        action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
-                }
+                void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action);
 
                 /**
                  * @brief handle the event by setting the key state in the Action component

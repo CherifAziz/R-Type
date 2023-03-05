@@ -29,14 +29,29 @@
                  */
                 entity_t &getId() { return _id; }
 
+                /**
+                 * @brief Check if an enemy is on the spawning point
+                 * 
+                 * @return Return true if there is an enemy otherwise the methode return false
+                 */
                 bool isAlreadyAnEnemyHere(size_t x, size_t y, ComponentManager &componentManager, EntityManager &entityManager, const std::string &enemy);
 
+                /**
+                 * @brief Get the hp of the enemy
+                 * 
+                 * @return the component manager as a ComponentManager& 
+                 */
                 const size_t &getHp() const;
 
+                /**
+                 * @brief Set the hp of the enemy
+                 * 
+                 * @return the component manager as a ComponentManager& 
+                 */
                 void setHp(size_t hp);
 
             protected:
-               /**
+                /**
                  * @brief the hp point of the enemy
                  * 
                  */
