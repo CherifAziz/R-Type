@@ -83,7 +83,7 @@
                  */
                 bool isGameStillPlaying()
                 {
-                    return _storage->getRenderWindow().isOpen();
+                    return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
                 }
 
                 /**

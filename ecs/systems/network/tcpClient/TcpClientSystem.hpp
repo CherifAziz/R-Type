@@ -13,6 +13,7 @@
     #include <iostream>
     #include <string>
     #include <memory>
+    #include "Storage.hpp"
     #include <boost/thread/thread.hpp>
     #include <boost/asio.hpp>
     #include <boost/array.hpp>
@@ -28,6 +29,7 @@
             tcp::socket _socket;
             std::string _message;
             std::array<char, 1024> data_;
+            std::shared_ptr<Storage> _storage;
 
             void onReceive(const boost::system::error_code& err, std::size_t size) {
                 std::cout << "On Received" << std::endl;
@@ -60,7 +62,7 @@
             };
 
         public:
-            TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer) : _socket(ioc), ATcpClientSystem("ClientSystem") {
+            TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer) : _socket(ioc), ATcpClientSystem("ClientSystem"), _storage(Storage::getStorage()) {
                 std::cout << "Client started" << std::endl;
                 tcp::endpoint endpoint(boost::asio::ip::address::from_string(IpServer), portServer);
                 _socket.async_connect(endpoint, boost::bind(&TcpClientSystem::onConnect, this, boost::asio::placeholders::error));
@@ -70,7 +72,7 @@
 
 
             const std::string &getName() const { return (""); };
-            bool isGameStillPlaying() { return true; };
+            bool isGameStillPlaying() { return _storage->isStillPlaying(); };
             const size_t &getCurrentScene() const { return 0; };
 
             void start_receive() {
