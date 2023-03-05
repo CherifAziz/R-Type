@@ -21,7 +21,8 @@ namespace rtype {
             _player_hp -= 1;
             if (_player_hp == 0) {
                 std::cout << "THE END" << std::endl;
-                exit(0);
+                // exit(0);
+                _storage->endGame();
             }
         }
         if (bullet.getX() <= 0) {
