@@ -9,7 +9,7 @@
 
 namespace rtype {
 
-    Sprite::Sprite(const std::string &filename = "", const int &x = 0, const int &y = 0, const size_t &scale = 1) : _filename(filename), _x(x), _y(y), _scale(scale)
+    Sprite::Sprite(const std::string &filename, const int &x, const int &y, const size_t &scale) : _filename(filename), _x(x), _y(y), _scale(scale)
     {
     }
 

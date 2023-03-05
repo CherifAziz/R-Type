@@ -31,7 +31,7 @@
                  * @brief Destroy the Sprite object
                  * 
                  */
-                ~Sprite() = default;
+                ~Sprite();
 
                 /**
                  * @brief Get the Filename object

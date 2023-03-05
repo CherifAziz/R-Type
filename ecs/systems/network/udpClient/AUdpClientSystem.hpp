@@ -22,8 +22,7 @@
                  *
                  * @param libraryName the client library name
                  */
-                AUdpClientSystem(const std::string &libraryName) : _libraryName(libraryName) {}
-
+                AUdpClientSystem(const std::string &libraryName);
                 /**
                  * @brief Get the Library Name object
                  *

@@ -41,7 +41,7 @@
                  * @brief Destroy the Sfml Render System object
                  * 
                  */
-                ~SfmlRenderSystem() = default;
+                ~SfmlRenderSystem();
 
                 /**
                  * @brief init the SFML Render System object

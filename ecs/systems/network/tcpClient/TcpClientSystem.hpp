@@ -37,7 +37,7 @@
         public:
             TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer);
 
-            ~TcpClientSystem() {};
+            ~TcpClientSystem();
 
 
             const std::string &getName() const;

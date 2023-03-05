@@ -31,13 +31,13 @@
                  * @brief Construct a new Sfml Input System object with the "SFML" library name
                  * 
                  */
-                SfmlInputSystem() : AInputSystem("Sfml") {};
+                SfmlInputSystem();
 
                 /**
                  * @brief Destroy the Sfml Input System object
                  * 
                  */
-                ~SfmlInputSystem() = default;
+                ~SfmlInputSystem();
 
                 /**
                  * @brief init the Sfml Input System object

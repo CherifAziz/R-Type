@@ -9,7 +9,7 @@
 
 namespace rtype {
 
-    Movement::Movement(const int &xDirection = 0, const int &yDirection = 0) : _xDirection(xDirection), _yDirection(yDirection)
+    Movement::Movement(const int &xDirection, const int &yDirection) : _xDirection(xDirection), _yDirection(yDirection)
     {
     }
 

@@ -13,6 +13,10 @@ namespace rtype {
     {
     }
 
+    SfmlRenderSystem::~SfmlRenderSystem()
+    {
+    }
+
     void SfmlRenderSystem::init()
     {
         _storage = Storage::getStorage();

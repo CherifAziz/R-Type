@@ -26,17 +26,31 @@ add_library(${LIB_NAME} SHARED
     ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/udpClient/AUdpClientSystem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/udpClient/UdpClientSystem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/udpServer/AUdpServerSystem.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/udpServer/UdpServerSystem.cpp
     
 )
 
 target_include_directories(${LIB_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/components
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/container
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/content
     ${CMAKE_CURRENT_SOURCE_DIR}/systems
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/game
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/input
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/render
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/services
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/tcpClient
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/tcpServer
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/udpClient
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/udpServer
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems/network/serialize
     ${CMAKE_CURRENT_SOURCE_DIR}/core
     ${CMAKE_CURRENT_SOURCE_DIR}/entity
     ${CMAKE_CURRENT_SOURCE_DIR}/scene
     ${CMAKE_CURRENT_SOURCE_DIR}/storage
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Client/GameScene
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Client/GameScene/Enemy
 )
+
 
 target_link_libraries(${LIB_NAME} PUBLIC sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization)

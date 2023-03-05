@@ -27,7 +27,7 @@
                  * @brief Destroy the Movement object
                  * 
                  */
-                ~Movement() = default;
+                ~Movement();
 
                 /**
                  * @brief Get the X direction object

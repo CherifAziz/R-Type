@@ -9,8 +9,8 @@
 
 namespace rtype {
 
-    Animation::Animation(const size_t &rectWidth = 30, const size_t &rectHeight = 30, const size_t &x = 0, const size_t &y = 0, const size_t &horizontalPictureNb = 3,
-                const size_t &verticalPictureNb = 1, const size_t &horizontalSeparator = 0, const size_t &verticalSeparator = 0, const size_t &delay = 1) :
+    Animation::Animation(const size_t &rectWidth, const size_t &rectHeight, const size_t &x, const size_t &y, const size_t &horizontalPictureNb,
+                const size_t &verticalPictureNb, const size_t &horizontalSeparator, const size_t &verticalSeparator, const size_t &delay) :
                 _rectWidth(rectWidth), _rectHeight(rectHeight), _x(x), _y(y), _horizontalPictureNb(horizontalPictureNb), _verticalPictureNb(verticalPictureNb),
                 _horizontalSeparator(horizontalSeparator), _verticalSeparator(verticalSeparator), _delay(delay), _defaultX(x), _defaultY(y)
     {

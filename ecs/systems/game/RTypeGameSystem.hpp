@@ -12,6 +12,7 @@
 
     #include "AGameSystem.hpp"
     #include "IScene.hpp"
+    #include "Storage.hpp"
 
     #include "GameScene.hpp"
 
@@ -34,7 +35,7 @@
                  * @brief Destroy the Game System object
                  *
                  */
-                ~RTypeGameSystem() {};
+                ~RTypeGameSystem();
 
                 /**
                  * @brief init the RType Game System object

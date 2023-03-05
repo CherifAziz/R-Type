@@ -44,7 +44,7 @@
                 const size_t &getHp() const;
 
                 /**
-                 * @brief Get the id of the enemy
+                 * @brief Set the hp of the enemy
                  * 
                  * @return the component manager as a ComponentManager& 
                  */

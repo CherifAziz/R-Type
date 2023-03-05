@@ -49,7 +49,7 @@
             public:
                 TcpServerSystem(boost::asio::io_context& ioc, int port);
 
-                ~TcpServerSystem() {};
+                ~TcpServerSystem();
 
                 void start_accept();
 

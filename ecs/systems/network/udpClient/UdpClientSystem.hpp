@@ -49,7 +49,7 @@
 
                 std::pair<size_t, size_t> getWindowWSize() const;
 
-                ~UdpClientSystem() {};
+                ~UdpClientSystem();
 
             private:
                 void handler_quit(const boost::system::error_code & /*error*/, std::size_t /*bytes_transferred*/);

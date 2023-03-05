@@ -24,13 +24,13 @@
                  * @brief Construct a new Entity Manager object
                  * 
                  */
-                EntityManager() = default;
+                EntityManager();
 
                 /**
                  * @brief Destroy the Entity Manager object
                  * 
                  */
-                ~EntityManager() = default;
+                ~EntityManager();
 
                 /**
                  * @brief generate a new entity

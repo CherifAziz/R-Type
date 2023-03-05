@@ -37,7 +37,7 @@
                  * @brief Destroy the Animation object
                  * 
                  */
-                ~Animation() = default;
+                ~Animation();
 
                 /**
                  * @brief Set the Rect Width object

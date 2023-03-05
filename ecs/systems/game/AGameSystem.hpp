@@ -24,7 +24,7 @@
                  * @param name the input game name
                  *
                  */
-                AGameSystem(const std::string &name) : _name(name) {}
+                AGameSystem(const std::string &name);
 
                 /**
                  * @brief Get the Library name or the Game name of the object

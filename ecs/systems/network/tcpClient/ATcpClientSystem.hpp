@@ -22,7 +22,7 @@
                  *
                  * @param libraryName the client library name
                  */
-                ATcpClientSystem(const std::string &libraryName) {};
+                ATcpClientSystem(const std::string &libraryName);
 
                 /**
                  * @brief Get the Library Name object

@@ -26,13 +26,13 @@
              * @brief Construct a new Component Manager object
              * 
              */
-            ComponentManager() = default;
+            ComponentManager();
 
             /**
              * @brief Destroy the Component Manager object
              * 
              */
-            ~ComponentManager() = default;
+            ~ComponentManager();
 
             /**
              * @brief kill the entity given by the entity id and delete all of his components

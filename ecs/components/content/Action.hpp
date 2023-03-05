@@ -44,13 +44,13 @@
                  * @brief Construct a new Action object
                  * 
                  */
-                Action() = default;
+                Action();
 
                 /**
                  * @brief Destroy the Action object
                  * 
                  */
-                ~Action() = default;
+                ~Action();
 
                 /**
                  * @brief Set the State object
