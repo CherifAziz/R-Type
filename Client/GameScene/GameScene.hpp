@@ -112,6 +112,10 @@
                  */
                 void initNetwork();
 
+                /**
+                 * @brief Init the game's waves
+                 *
+                 */
                 void initWaves();
 
                 /**
@@ -141,6 +145,10 @@
                  */
                 void handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight);
 
+                /**
+                 * @brief make wave's action
+                 *
+                 */
                 void handleWaves(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
 
                 /**
@@ -150,9 +158,22 @@
                  */
                 void playAnimation(std::shared_ptr<ComponentMap<Animation>> animationMap);
 
-
+                /**
+                 * @brief Make the right animation for the enemy's bullet
+                 *
+                 */
                 void handleEnemyBulletSpriteSheet(Animation &bullet);
-                bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);                
+
+                /**
+                 * @brief make the enemy's bullet destroyable
+                 *
+                 */
+                bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);   
+
+                /**
+                 * @brief start the enemy's bullet engine
+                 *
+                 */             
                 void initEnemyBullet(entity_t entity);
                 void callEnemiesSendingBullets(Sprite &player_sprite);
                 void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
@@ -238,6 +259,13 @@
                  */
                 int handleElementCollision(entity_t id);
 
+                /**
+                 * @brief Get the index of an entity filtred by his family
+                 *
+                 * @param family family name of the entity
+                 *
+                 * @return return the index of the entity filtred by his family
+                 */
                 int GetFamilyIndex(const std::string &family);
 
                 typedef struct laps_s {
@@ -265,6 +293,11 @@
                 static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
+
+                /**
+                 * @brief The enemy's manager class of the GameScene
+                 *
+                 */
                 EnemyManager _enemyManager;
 
                 std::shared_ptr<Storage> _storage;
@@ -286,7 +319,16 @@
 
                 std::vector<std::vector<std::pair<std::string, int>>> waves;
                 
+                /**
+                 * @brief number of the actual waves
+                 *
+                 */
                 size_t _actual_wave = 1;
+
+                /**
+                 * @brief Score of the player
+                 *
+                 */
                 size_t _score = 0;
 
                 enum class BulletTimeState {
@@ -295,6 +337,10 @@
                     READY
                 } _bulletTime = BulletTimeState::NONE;
 
+                /**
+                 * @brief the player hp
+                 *
+                 */
                 size_t _player_hp = 1;
 
                 std::unordered_map<std::string, laps_t> _laps;

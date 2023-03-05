@@ -22,17 +22,15 @@
                  * 
                  * @param libraryName the rendering library name
                  */
-                ARenderSystem(const std::string &libraryName) : _libraryName(libraryName) {}
+                ARenderSystem(const std::string &libraryName);
 
                 /**
                  * @brief Get the Library name or the Game name of the object
                  * 
                  * @return the name as a const std::string& 
                  */
-                const std::string &getName() const
-                {
-                    return _libraryName;
-                }
+                const std::string &getName() const;
+                
             protected:
                 /**
                  * @brief the library name
