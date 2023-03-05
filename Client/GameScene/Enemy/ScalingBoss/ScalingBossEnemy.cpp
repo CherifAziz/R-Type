@@ -17,18 +17,18 @@ namespace rtype
 {
     ScalingBossEnemy::ScalingBossEnemy(ComponentManager &componentManager, EntityManager &entityManager)
     {
-        this->_hp = ENEMY_LIFE.at("scalingbossEnemy");
+        this->_hp = ENEMY_LIFE.at("scalingBossEnemy");
         this->_lastHp = this->_hp;
 
         size_t x = 1800;
         size_t y = 450;
 
-        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "scalingbossEnemy"))
+        while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "scalingBossEnemy"))
         {
             x = 1920 + rand() % 500;
             y = rand() % (900 - ENEMY_REACH);
         }
-        this->_id = entityManager.spawnEntity("scalingbossEnemy")->getId();
+        this->_id = entityManager.spawnEntity("scalingBossEnemy")->getId();
         Sprite sprite("assets/scalingboss.gif", x, y, 10);
         Animation animation(31, 31, 0, 0, 3, 1, 3, 0, 2000);
         Movement movement(-3, 0);
@@ -52,7 +52,6 @@ namespace rtype
         } else {
             static const int defaultSpeed = movement.getXDirection();
             double Speed = defaultSpeed > 0 ? defaultSpeed + (sprite.getScale() * 0.1) : defaultSpeed - (sprite.getScale() * 0.1);
-            std::cout << "Speed " << Speed << std::endl << "Default Speed " << defaultSpeed << std::endl;
             int x_direction = player_sprite.getX() + (16 * player_sprite.getScale()) < sprite.getX() + (16 * sprite.getScale()) ? 1 : -1;
             int y_direction = player_sprite.getY() + (7 * player_sprite.getScale()) < sprite.getY() + (14 * sprite.getScale()) ? 1 : -1;
             if (this->_lastHp > this->_hp) {

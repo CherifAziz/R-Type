@@ -19,7 +19,8 @@
             "vesselEnemy",
             "flyEnemy",
             "bossEnemy",
-            "scalingbossEnemy"
+            "scalingBossEnemy",
+            "childBossEnemy",
         };
 
         const std::unordered_map<std::string, size_t> ENEMY_LIMITER = {
@@ -28,7 +29,8 @@
             {"vesselEnemy", 3},
             {"flyEnemy", 2},
             {"bossEnemy", 1},
-            {"scalingbossEnemy", 1}
+            {"scalingBossEnemy", 1},
+            {"childBossEnemy", 1}
         };
 
         const std::unordered_map<std::string, size_t> ENEMY_SCORE = {
@@ -37,7 +39,8 @@
             {"vesselEnemy", 25},
             {"flyEnemy", 20},
             {"bossEnemy", 50},
-            {"scalingbossEnemy", 50}
+            {"scalingBossEnemy", 50},
+            {"childBossEnemy", 50}
         };
 
         const std::unordered_map<std::string, size_t> ENEMY_LIFE = {
@@ -46,7 +49,8 @@
             {"vesselEnemy", 15},
             {"flyEnemy", 10},
             {"bossEnemy", 100},
-            {"scalingbossEnemy", 100}
+            {"scalingBossEnemy", 100},
+            {"childBossEnemy", 30}
         };
     }
 
