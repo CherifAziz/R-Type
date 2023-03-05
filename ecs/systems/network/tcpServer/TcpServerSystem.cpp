@@ -29,7 +29,7 @@ namespace rtype {
         Serialize::Data info = Serialize::createData<Serialize::Data>(0, "");
         std::string data = Serialize::serialize<Serialize::Data>(info);
         boost::asio::async_write(this->_socket, boost::asio::buffer(data), boost::bind(&ClientServer::onWrite, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-        sleep(2);
+        // sleep(2);
         boost::asio::async_write(this->_socket, boost::asio::buffer(data), boost::bind(&ClientServer::onWrite, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
         this->start_read();
     }

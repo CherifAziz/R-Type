@@ -14,8 +14,6 @@
     #include "IScene.hpp"
     #include "Storage.hpp"
 
-    #include "GameScene.hpp"
-
     namespace rtype {
         /**
          * @brief The Game System for RType video game

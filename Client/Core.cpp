@@ -11,7 +11,7 @@
 
 #include "Core.hpp"
 
-#include "GameScene/GameScene.hpp"
+#include "GameScene.hpp"
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"
@@ -20,6 +20,7 @@
 
 Core::Core(boost::asio::io_context &ioc, std::string ip, std::string port) : _timer(ioc)
 {
+    _scenes.push_back(std::make_shared<GameScene>());
     _systems.push_back(std::make_shared<SfmlInputSystem>());
     _systems.push_back(std::make_shared<SfmlRenderSystem>());
     _systems.push_back(std::make_shared<RTypeGameSystem>(this->_scenes));

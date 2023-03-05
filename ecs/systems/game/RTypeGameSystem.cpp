@@ -12,7 +12,6 @@ namespace rtype {
 
     RTypeGameSystem::RTypeGameSystem(std::vector<std::shared_ptr<IScene>> &scenes) : AGameSystem("RType")
     {
-        scenes.push_back(std::make_shared<GameScene>());
     }
 
     RTypeGameSystem::~RTypeGameSystem()

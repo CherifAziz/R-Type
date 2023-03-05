@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(rtype LANGUAGES CXX)
+project(mylib LANGUAGES CXX)
 
 set(LIB_NAME Ecslib)
 
@@ -54,3 +54,5 @@ target_include_directories(${LIB_NAME} PUBLIC
 
 
 target_link_libraries(${LIB_NAME} PUBLIC sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization)
+
+# install(TARGETS ${LIB_NAME} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../build/Release/)

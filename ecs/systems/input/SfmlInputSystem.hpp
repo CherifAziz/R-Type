@@ -57,7 +57,10 @@
                  * @brief Destroy the Sfml Input System properties
                  * 
                  */
-                void destroy();
+                void destroy()
+                {
+
+                }
 
                 /**
                  * @brief check if the game is still playing
