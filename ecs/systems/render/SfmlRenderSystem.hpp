@@ -60,7 +60,7 @@
                             delete text.second;
                     _textCache.clear();
                     if (!_storage->getRenderWindow().isOpen())
-                        _storage->getRenderWindow().create({1920, 1080}, "R-Type");
+                        _storage->getRenderWindow().create({1920, 1080}, "R-Type", sf::Style::Fullscreen);
                     _storage->getRenderWindow().setFramerateLimit(60);
                 }
 

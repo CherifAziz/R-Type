@@ -62,7 +62,6 @@
                 {
                     auto current = std::chrono::steady_clock::now();
                     int64_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current - _startingTime).count();
-
                     if (_storage->getRenderWindow().isOpen() == false)
                         return;
                     scene->update(elapsed_time, _storage->getWindowWidth(), _storage->getWindowHeight());
