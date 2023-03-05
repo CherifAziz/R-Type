@@ -15,18 +15,18 @@
 
 namespace rtype
 {
-    ScalingBossEnemy::ScalingBossEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    ScalingBossEnemy::ScalingBossEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         this->_hp = ENEMY_LIFE.at("scalingBossEnemy");
         this->_lastHp = this->_hp;
 
-        size_t x = 1800;
-        size_t y = 450;
+        size_t x = windowWidth;
+        size_t y = windowHeight / 2;
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "scalingBossEnemy"))
         {
-            x = 1920 + rand() % 500;
-            y = rand() % (900 - ENEMY_REACH);
+            x = windowWidth + rand() % 500;
+            y = rand() % (windowHeight - ENEMY_REACH);
         }
         this->_id = entityManager.spawnEntity("scalingBossEnemy")->getId();
         Sprite sprite("assets/scalingboss.gif", x, y, 10);
@@ -73,7 +73,7 @@ namespace rtype
         return false;
     }
 
-    bool ScalingBossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool ScalingBossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         entity_t player_id = entityManager.getEntitiesFromFamily("player")[0]->getId();
         Sprite &player_sprite = componentManager.get<Sprite>(player_id);

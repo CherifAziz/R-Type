@@ -15,23 +15,23 @@
 
 namespace rtype
 {
-    ChildBossEnemy::ChildBossEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    ChildBossEnemy::ChildBossEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         this->_hp = ENEMY_LIFE.at("childBossEnemy");
 
-        size_t x = 1920 + rand() % 100;
-        size_t y = 450 + rand() % 100;
+        size_t x = windowWidth + rand() % 100;
+        size_t y = (windowHeight / 2) + rand() % 100;
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "childBossEnemy"))
         {
-            x = 1920 + rand() % 500;
-            y = rand() % (900 - ENEMY_REACH);
+            x = windowWidth + rand() % 500;
+            y = rand() % (windowHeight - ENEMY_REACH);
         }
 
         this->_id = entityManager.spawnEntity("childBossEnemy")->getId();
-        Sprite sprite("assets/childBoss.gif", x, y, 6);
+        Sprite sprite("assets/childBoss.gif", x, y, 7);
         Animation animation(26, 22, 5, 7, 1, 1, 5, 9, 500);
-        Movement movement(-3, 0);
+        Movement movement((rand() % 5) - 6, (rand() % 10) - 10);
         Collision collision({"player"});
 
         componentManager.put<Sprite>(sprite, this->_id);
@@ -44,10 +44,18 @@ namespace rtype
     {
     }
 
-    void ChildBossEnemy::move(Sprite &sprite, Movement &movement)
+    void ChildBossEnemy::move(Sprite &sprite, Movement &movement, Animation &animation, const size_t &windowWidth, const size_t &windowHeight)
     {
-        if (sprite.getX() <= 900)
-            movement.setDirection(0, 0);
+        int velocity = (ENEMY_LIFE.at("childBossEnemy") - (100 * _hp / ENEMY_LIFE.at("childBossEnemy"))) / 10;
+
+        if (sprite.getY() > windowHeight - (animation.getRectWidth() * sprite.getScale()))
+            movement.setDirection(movement.getXDirection(), (rand() % 5) - velocity);
+        if (sprite.getY() < ENEMY_REACH)
+            movement.setDirection(movement.getXDirection(), (rand() % 5) + velocity);
+        if (sprite.getX() < ENEMY_REACH)
+            movement.setDirection((rand() % 5) + velocity, movement.getYDirection());
+        if (sprite.getX() > windowWidth - (animation.getRectHeight() * sprite.getScale()))
+            movement.setDirection((rand() % 5) - velocity, movement.getYDirection());
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
 
@@ -61,7 +69,7 @@ namespace rtype
         return false;
     }
 
-    bool ChildBossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool ChildBossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         Movement &movement = componentManager.get<Movement>(this->_id);
         Sprite &sprite = componentManager.get<Sprite>(this->_id);
@@ -69,7 +77,7 @@ namespace rtype
 
         if (destroy(sprite, animation, componentManager, entityManager))
             return true;
-        move(sprite, movement);
+        move(sprite, movement, animation, windowWidth, windowHeight);
         return false;
     }
 }

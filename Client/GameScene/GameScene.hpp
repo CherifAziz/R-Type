@@ -141,7 +141,7 @@
                  */
                 void handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight);
 
-                void handleWaves(const int64_t &time);
+                void handleWaves(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
 
                 /**
                  * @brief play all scene components animation

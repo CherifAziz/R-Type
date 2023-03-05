@@ -29,7 +29,7 @@
                  * @brief Construct a new BossEnemy
                  *
                  */
-                ScalingBossEnemy(ComponentManager &componentManager, EntityManager &entityManager);
+                ScalingBossEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
                 
                 /**
                  * @brief Destroy the BossEnemy class
@@ -54,7 +54,7 @@
                  * @brief handle the enemy
                  *
                  */
-                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
 
             protected:
 

@@ -19,3 +19,9 @@ basicEnemy,30
 flyEnemy,10
 
 scalingBossEnemy,1
+
+vesselEnemy,5
+basicEnemy,20
+
+basicEnemy,20
+childBossEnemy,1

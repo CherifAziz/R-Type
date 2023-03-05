@@ -30,7 +30,7 @@ namespace rtype
     {
     }
 
-    std::shared_ptr<IEnemy> EnemyManager::createEnemy(std::string &enemy, ComponentManager &componentManager, EntityManager &entityManager)
+    std::shared_ptr<IEnemy> EnemyManager::createEnemy(std::string &enemy, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         std::shared_ptr<IEnemy> new_enemy;
         std::vector<std::shared_ptr<Entity>> enemies = entityManager.getEntitiesFromFamily(enemy);
@@ -38,31 +38,31 @@ namespace rtype
         if (enemies.size() == ENEMY_LIMITER.at(enemy))
             return nullptr;
         if (enemy == "basicEnemy")
-            new_enemy = std::make_shared<BasicEnemy>(componentManager, entityManager);
+            new_enemy = std::make_shared<BasicEnemy>(componentManager, entityManager, windowWidth, windowHeight);
         else if (enemy == "mediumEnemy")
-            new_enemy = std::make_shared<MediumEnemy>(componentManager, entityManager);
+            new_enemy = std::make_shared<MediumEnemy>(componentManager, entityManager, windowWidth, windowHeight);
         else if (enemy == "flyEnemy")
-            new_enemy = std::make_shared<FlyEnemy>(componentManager, entityManager);
+            new_enemy = std::make_shared<FlyEnemy>(componentManager, entityManager, windowWidth, windowHeight);
         else if (enemy == "vesselEnemy")
-            new_enemy = std::make_shared<VesselEnemy>(componentManager, entityManager);
+            new_enemy = std::make_shared<VesselEnemy>(componentManager, entityManager, windowWidth, windowHeight);
         else if (enemy == "bossEnemy")
-            new_enemy = std::make_shared<BossEnemy>(componentManager, entityManager);
+            new_enemy = std::make_shared<BossEnemy>(componentManager, entityManager, windowWidth, windowHeight);
         else if (enemy == "scalingBossEnemy")
-            new_enemy = std::make_shared<ScalingBossEnemy>(componentManager, entityManager);
+            new_enemy = std::make_shared<ScalingBossEnemy>(componentManager, entityManager, windowWidth, windowHeight);
         else if (enemy == "childBossEnemy")
-            new_enemy = std::make_shared<ChildBossEnemy>(componentManager, entityManager);
+            new_enemy = std::make_shared<ChildBossEnemy>(componentManager, entityManager, windowWidth, windowHeight);
         else
             throw std::invalid_argument("The given enemy does not exist: " + enemy);
         this->_enemies.push_back(new_enemy);
         return new_enemy;
     }
 
-    void EnemyManager::handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    void EnemyManager::handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         for (auto &enemy : this->_enemies) {
-            if (entityManager.getEntityStatus(enemy->getId()) != Entity::EntityStatus::ALIVE || enemy->handle(time, componentManager, entityManager)) {
+            if (entityManager.getEntityStatus(enemy->getId()) != Entity::EntityStatus::ALIVE || enemy->handle(time, componentManager, entityManager, windowWidth, windowHeight)) {
                 _enemies.erase(std::find(_enemies.begin(), _enemies.end(), enemy));
-                return handleEnemies(time, componentManager, entityManager);
+                return handleEnemies(time, componentManager, entityManager, windowWidth, windowHeight);
             }
         }
     }

@@ -37,13 +37,13 @@
                  * @brief create a new enemy and adding it to the list of enemy
                  *
                  */
-                std::shared_ptr<IEnemy> createEnemy(std::string &enemy, ComponentManager &componentManager, EntityManager &entityManager);
+                std::shared_ptr<IEnemy> createEnemy(std::string &enemy, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
 
                 /**
                  * @brief handle all enemies comportement
                  *
                  */
-                void handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+                void handleEnemies(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
 
                 const size_t &getEnemyHp(const entity_t &entity);
 

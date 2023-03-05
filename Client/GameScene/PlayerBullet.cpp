@@ -71,7 +71,7 @@ namespace rtype {
             int remaining_force = _bullet_remaining_force[entity] - enemy_hp;
 
             if (remaining_life <= 0) {
-                initObject("vesselEnemy", value);
+                initObject(family, value);
                 _componentManager.killEntity(value);
                 _entityManager.killEntity(value);
                 _score += ENEMY_SCORE.at(family);
@@ -83,7 +83,7 @@ namespace rtype {
                 return p.first == family;
             });
             if (it != wave.end()) {
-                if (it->second != 0 && remaining_life == 0)
+                if (it->second != 0 && remaining_life <= 0)
                     --it->second;
             }
 

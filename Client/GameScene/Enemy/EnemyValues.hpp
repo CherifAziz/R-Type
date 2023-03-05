@@ -50,7 +50,7 @@
             {"flyEnemy", 10},
             {"bossEnemy", 100},
             {"scalingBossEnemy", 100},
-            {"childBossEnemy", 30}
+            {"childBossEnemy", 200}
         };
     }
 

@@ -29,7 +29,7 @@
                  * @brief handle every enemy
                  *
                  */
-                virtual bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager) = 0;
+                virtual bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight) = 0;
 
                 virtual const size_t &getHp() const = 0;
 

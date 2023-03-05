@@ -15,16 +15,16 @@
 
 namespace rtype 
 {
-    BasicEnemy::BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    BasicEnemy::BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         this->_hp = ENEMY_LIFE.at("basicEnemy");
 
-        size_t x = 1920 + rand() % 100;
-        size_t y = rand() % (900 - ENEMY_REACH);
+        size_t x = windowWidth + rand() % 100;
+        size_t y = rand() % (windowHeight - ENEMY_REACH);
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "basicEnemy")) {
-            x = 1920 + rand() % 500;
-            y = rand() % (900 - ENEMY_REACH);
+            x = windowWidth + rand() % 500;
+            y = rand() % (windowHeight - ENEMY_REACH);
         }
         this->_id = entityManager.spawnEntity("basicEnemy")->getId();
         Sprite sprite("assets/basicEnemy.gif", x, y, 4);
@@ -61,7 +61,7 @@ namespace rtype
         return false;
     }
 
-    bool BasicEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool BasicEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         Movement &movement = componentManager.get<Movement>(this->_id);
         Sprite &sprite = componentManager.get<Sprite>(this->_id);

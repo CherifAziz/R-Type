@@ -102,7 +102,7 @@ namespace rtype
         }
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
-        handleWaves(time);
+        handleWaves(time, windowWidth, windowHeight);
         handleEnemyBullet(time);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
         handlePowerUp(time);
@@ -232,7 +232,7 @@ namespace rtype
         }
     }
 
-    void GameScene::handleWaves(const int64_t &time)
+    void GameScene::handleWaves(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
     {
         entity_t text_id = _entityManager.getEntitiesFromFamily("title")[0]->getId();
         entity_t score_id = _entityManager.getEntitiesFromFamily("score")[0]->getId();
@@ -257,9 +257,9 @@ namespace rtype
             }
             for (int j = 0; j < waves[0].size(); j++) {
                 if (waves[0][j].second > 0)
-                    _enemyManager.createEnemy(waves[0][j].first, _componentManager, _entityManager);
+                    _enemyManager.createEnemy(waves[0][j].first, _componentManager, _entityManager, windowWidth, windowHeight);
             }
-            _enemyManager.handleEnemies(time, _componentManager, _entityManager);
+            _enemyManager.handleEnemies(time, _componentManager, _entityManager, windowWidth, windowHeight);
         }
     }
 
