@@ -5,6 +5,7 @@
 ** HomeMenuScene.cpp
 */
 
+#include "config.hpp"
 #include "HomeMenuScene.hpp"
 
 namespace rtype {
@@ -35,12 +36,12 @@ namespace rtype {
 
     void HomeMenuScene::initSprite() {
         ComponentMap<Sprite> sprite;
-        Sprite background_sprite("assets/Menu-background.png", 0, 0);
-        Sprite play_button_background_sprite("assets/Button-bg.png", 300, 250);
-        Sprite online_button_background_sprite("assets/Button-bg.png", 300, 360);
-        Sprite exit_button_background_sprite("assets/Button-bg.png", 300, 470);
-        Sprite settings_button_background_sprite("assets/small-button-bg.png", 1345, 35);
-        Sprite settings_icon_sprite("assets/settings-icon.png", 1360, 50);
+        Sprite background_sprite(std::string(ASSETS_DIR)+"Menu-background.png", 0, 0);
+        Sprite play_button_background_sprite(std::string(ASSETS_DIR)+"Button-bg.png", 300, 250);
+        Sprite online_button_background_sprite(std::string(ASSETS_DIR)+"Button-bg.png", 300, 360);
+        Sprite exit_button_background_sprite(std::string(ASSETS_DIR)+"Button-bg.png", 300, 470);
+        Sprite settings_button_background_sprite(std::string(ASSETS_DIR)+"small-button-bg.png", 1345, 35);
+        Sprite settings_icon_sprite(std::string(ASSETS_DIR)+"settings-icon.png", 1360, 50);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(play_button_background_sprite, _entityManager.spawnEntity("text-button")->getId());
@@ -53,7 +54,7 @@ namespace rtype {
 
     void HomeMenuScene::initSound() {
         ComponentMap<Sound> sound;
-        Sound music("assets/music.ogg", true, Sound::SoundStatus::PLAY);
+        Sound music(std::string(ASSETS_DIR)+"music.ogg", true, Sound::SoundStatus::PLAY);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);
@@ -61,9 +62,9 @@ namespace rtype {
 
     void HomeMenuScene::initText() {
         ComponentMap<Text> text;
-        Text play_button_title("PLAY", "assets/font.ttf", 390, 257.5, 45, 1, Text::rgb_t(255, 255, 255));
-        Text online_button_title("ONLINE", "assets/font.ttf", 365, 367.5, 45, 1, Text::rgb_t(255, 255, 255));
-        Text exit_button_title("EXIT", "assets/font.ttf", 400, 477.5, 45, 1, Text::rgb_t(255, 255, 255));
+        Text play_button_title("PLAY", std::string(ASSETS_DIR)+"font.ttf", 390, 257.5, 45, 1, Text::rgb_t(255, 255, 255));
+        Text online_button_title("ONLINE", std::string(ASSETS_DIR)+"font.ttf", 365, 367.5, 45, 1, Text::rgb_t(255, 255, 255));
+        Text exit_button_title("EXIT", std::string(ASSETS_DIR)+"font.ttf", 400, 477.5, 45, 1, Text::rgb_t(255, 255, 255));
 
         text.put(play_button_title, _entityManager.getEntitiesFromFamily("text-button")[0]->getId());
         text.put(online_button_title, _entityManager.getEntitiesFromFamily("text-button")[1]->getId());

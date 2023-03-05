@@ -66,7 +66,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         CreateShortCut '$SMPROGRAMS\\\\$START_MENU\\\\r-type_client.lnk' '$INSTDIR\\\\r-type_client.exe'"
     )
 else ()
-    set(ASSETS_DIR "/usr/share/rtype/assets/")
+    set(ASSETS_DIR "assets/")
     set(SYSTEM_NAME "Linux")
     configure_file(
         $ENV{ROOT_DIR}/cfg/config.hpp.in

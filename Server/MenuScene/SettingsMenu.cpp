@@ -5,6 +5,7 @@
 ** SettingsMenu.cpp
 */
 
+#include "config.hpp"
 #include "SettingsMenu.hpp"
 
 namespace rtype {
@@ -93,13 +94,13 @@ namespace rtype {
 
     void SettingsMenu::initSprite() {
         ComponentMap<Sprite> sprite;
-        Sprite background_sprite("assets/Menu-background.png", 0, 0);
-        Sprite settings_background_sprite("assets/settings-bg.png", 80, 10, 1.5);
-        Sprite close_button_icon_sprite("assets/cross-icon.png", 1330, 75);
-        Sprite close_button_background_sprite("assets/small-button-bg.png", 1315, 60);
-        Sprite sound_icon_sprite("assets/sound-icon.png", 955, 270, 0.9);
-        Sprite menu_button_background_sprite("assets/Button-bg.png", 850, 400);
-        Sprite exit_button_background_sprite("assets/Button-bg.png", 850, 550);
+        Sprite background_sprite(std::string(ASSETS_DIR)+"Menu-background.png", 0, 0);
+        Sprite settings_background_sprite(std::string(ASSETS_DIR)+"settings-bg.png", 80, 10, 1.5);
+        Sprite close_button_icon_sprite(std::string(ASSETS_DIR)+"cross-icon.png", 1330, 75);
+        Sprite close_button_background_sprite(std::string(ASSETS_DIR)+"small-button-bg.png", 1315, 60);
+        Sprite sound_icon_sprite(std::string(ASSETS_DIR)+"sound-icon.png", 955, 270, 0.9);
+        Sprite menu_button_background_sprite(std::string(ASSETS_DIR)+"Button-bg.png", 850, 400);
+        Sprite exit_button_background_sprite(std::string(ASSETS_DIR)+"Button-bg.png", 850, 550);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(settings_background_sprite, _entityManager.spawnEntity("settings-background")->getId());
@@ -113,7 +114,7 @@ namespace rtype {
 
     void SettingsMenu::initSound() {
         ComponentMap<Sound> sound;
-        Sound music("assets/music.ogg", true, Sound::SoundStatus::PLAY);
+        Sound music(std::string(ASSETS_DIR)+"music.ogg", true, Sound::SoundStatus::PLAY);
 
         sound.put(music, _entityManager.spawnEntity("music")->getId());
         _componentManager.registerComponent<Sound>(sound);
@@ -121,10 +122,10 @@ namespace rtype {
 
     void SettingsMenu::initText() {
         ComponentMap<Text> text;
-        Text settings_title("SETTINGS", "assets/font.ttf", 625, 20, 40, 1, Text::rgb_t(255, 255, 255));
-        Text music_title("MUSIC", "assets/font.ttf", 930, 210, 37, 1, Text::rgb_t(255, 255, 255));
-        Text menu_title("MENU", "assets/font.ttf", 947.5, 410, 37, 1, Text::rgb_t(255, 255, 255));
-        Text exit_title("EXIT", "assets/font.ttf", 957.5, 560, 37, 1, Text::rgb_t(255, 255, 255));
+        Text settings_title("SETTINGS", std::string(ASSETS_DIR)+"font.ttf", 625, 20, 40, 1, Text::rgb_t(255, 255, 255));
+        Text music_title("MUSIC", std::string(ASSETS_DIR)+"font.ttf", 930, 210, 37, 1, Text::rgb_t(255, 255, 255));
+        Text menu_title("MENU", std::string(ASSETS_DIR)+"font.ttf", 947.5, 410, 37, 1, Text::rgb_t(255, 255, 255));
+        Text exit_title("EXIT", std::string(ASSETS_DIR)+"font.ttf", 957.5, 560, 37, 1, Text::rgb_t(255, 255, 255));
 
         text.put(settings_title, _entityManager.getEntitiesFromFamily("settings-background")[0]->getId());
         text.put(music_title, _entityManager.getEntitiesFromFamily("sound")[0]->getId());

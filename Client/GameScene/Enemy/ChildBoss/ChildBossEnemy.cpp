@@ -7,6 +7,7 @@
 
 #include "ChildBossEnemy.hpp"
 
+#include "config.hpp"
 #include "Collision.hpp"
 #include "Text.hpp"
 
@@ -29,7 +30,7 @@ namespace rtype
         }
 
         this->_id = entityManager.spawnEntity("childBossEnemy")->getId();
-        Sprite sprite("assets/childBoss.gif", x, y, 7);
+        Sprite sprite(std::string(ASSETS_DIR)+"childBoss.gif", x, y, 7);
         Animation animation(26, 22, 5, 7, 1, 1, 5, 9, 500);
         Movement movement((rand() % 5) - 6, (rand() % 10) - 10);
         Collision collision({"player"});

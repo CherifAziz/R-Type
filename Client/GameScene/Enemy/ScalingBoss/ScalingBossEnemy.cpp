@@ -5,6 +5,7 @@
 ** ScalingBossEnemy's methode
 */
 
+#include "config.hpp"
 #include "ScalingBossEnemy.hpp"
 
 #include "Collision.hpp"
@@ -29,7 +30,7 @@ namespace rtype
             y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("scalingBossEnemy")->getId();
-        Sprite sprite("assets/scalingboss.gif", x, y, 10);
+        Sprite sprite(std::string(ASSETS_DIR)+"scalingboss.gif", x, y, 10);
         Animation animation(31, 31, 0, 0, 3, 1, 3, 0, 2000);
         Movement movement(-3, 0);
         Collision collision({"player"});

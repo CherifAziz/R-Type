@@ -116,7 +116,7 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Hi player !", std::string(ASSETS_DIR)+"font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text title("Hi player !", std::string(ASSETS_DIR)+"font.ttf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         _componentManager.registerComponent<Text>(text);

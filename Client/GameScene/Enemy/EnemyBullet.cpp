@@ -55,7 +55,7 @@ namespace rtype {
             entity_t bullet_id = _entityManager.spawnEntity("enemy_shoot")->getId();
             Sprite &enemy_sprite = spriteMap->get(shootEnemy->getId());
             Animation &enemy_animation = animationMap->get(shootEnemy->getId());
-            Sprite sprite("assets/spaceship.gif", enemy_sprite.getX() - 200 + (enemy_animation.getRectWidth() - 200) * enemy_sprite.getScale(), enemy_sprite.getY() - 75 + ((enemy_animation.getRectHeight() - 75) * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+            Sprite sprite(std::string(ASSETS_DIR)+"spaceship.gif", enemy_sprite.getX() - 200 + (enemy_animation.getRectWidth() - 200) * enemy_sprite.getScale(), enemy_sprite.getY() - 75 + ((enemy_animation.getRectHeight() - 75) * enemy_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
             float dx = (player_sprite.getX() + 15) - enemy_sprite.getX();
             float dy = player_sprite.getY() - enemy_sprite.getY();
             float direction = std::atan2(dy, dx);

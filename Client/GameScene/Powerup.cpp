@@ -5,13 +5,14 @@
 ** Powerup
 */
 
+#include "config.hpp"
 #include "GameScene.hpp"
 
 namespace rtype {
     void GameScene::initPowerUp(const int &x, const int &y)
     {
         entity_t entity = _entityManager.spawnEntity("powerup_object")->getId();
-        Sprite sprite("assets/object.gif", x, y, 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"object.gif", x, y, 4);
         Movement movement(-5, 0);
         Animation animation(16, 16, 197, 216, 4, 1, 1, 0, 500);
 

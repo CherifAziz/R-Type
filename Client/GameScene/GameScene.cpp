@@ -148,8 +148,8 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Level "+ std::to_string(_actual_wave), std::string(ASSETS_DIR)+"font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
-        Text score("SCORE: " + std::to_string(_score), std::string(ASSETS_DIR)+"font.otf", 30, 900, 50, 1, Text::rgb_t(255, 199, 17));
+        Text title("Level "+ std::to_string(_actual_wave), std::string(ASSETS_DIR)+"font.ttf", 30, 30, 60, 1, Text::rgb_t(255, 255, 255));
+        Text score("SCORE: " + std::to_string(_score), std::string(ASSETS_DIR)+"font.ttf", 30, 900, 50, 1, Text::rgb_t(255, 255, 255));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         text.put(score, _entityManager.spawnEntity("score")->getId());
