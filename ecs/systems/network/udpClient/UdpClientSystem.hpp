@@ -89,7 +89,7 @@
                 };
 
                 void destroy() {
-                    
+                    _storage->connected();
                 };
 
                 std::pair<size_t, size_t> getWindowWSize() const {
