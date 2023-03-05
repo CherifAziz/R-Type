@@ -15,6 +15,7 @@
 
     #include "HomeMenuScene.hpp"
     #include "GameScene.hpp"
+    #include "Storage.hpp"
     #include "SettingsMenu.hpp"
 
     namespace rtype {
@@ -101,7 +102,7 @@
                  */
                 bool isGameStillPlaying()
                 {
-                    return _storage->getRenderWindow().isOpen();
+                    return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
                 }
 
                 /**

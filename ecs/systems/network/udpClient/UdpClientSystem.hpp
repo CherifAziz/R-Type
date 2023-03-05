@@ -21,6 +21,7 @@
     #include "IServices.hpp"
     #include "Serialize.hpp"
     #include "AUdpClientSystem.hpp"
+    #include "Storage.hpp"
 
     using namespace boost::asio;
     using namespace boost::placeholders;
@@ -29,7 +30,7 @@
     namespace rtype {
         class UdpClientSystem : public AUdpClientSystem {
             public:
-                UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::shared_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(services), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _nullscene(0), _nullstring("") {
+                UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::shared_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(services), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _nullscene(0), _nullstring(""), _storage(Storage::getStorage()) {
                     std::cout << "UDP CLIENT SYSTEM" << std::endl;
                 }
 
@@ -51,8 +52,8 @@
                 };
 
                 const std::string &getName() const { return this->_nullstring; };
-                bool isGameStillPlaying() { return true; };
                 const size_t &getCurrentScene() const { return this->_nullscene; };
+                bool isGameStillPlaying() { return _storage->isStillPlaying(); };
 
                 void init() {
                     this->_socket.open(udp::v4());
@@ -85,6 +86,8 @@
                 };
 
             private:
+                std::shared_ptr<Storage> _storage;
+
                 void handler_quit(const boost::system::error_code & /*error*/, std::size_t /*bytes_transferred*/) {
                     std::cout << "sent quit to server" << std::endl;
                     this->_socket.close();

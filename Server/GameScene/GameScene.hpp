@@ -16,6 +16,7 @@
     #include "Movement.hpp"
     #include "Sound.hpp"
     #include "Network.hpp"
+    #include "Storage.hpp"
 
     namespace rtype {
         /**
@@ -291,6 +292,8 @@
                 } _bulletTime = BulletTimeState::NONE;
 
                 size_t _player_hp = 1;
+
+                std::shared_ptr<Storage> _storage;
         };
     }
 

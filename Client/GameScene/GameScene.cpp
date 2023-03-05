@@ -13,12 +13,13 @@
 #include <fstream>
 #include <string>
 #include "Collision.hpp"
+#include "Storage.hpp"
 #include "Text.hpp"
 #include "GameValues.hpp"
 
 namespace rtype
 {
-    GameScene::GameScene()
+    GameScene::GameScene() : _storage(Storage::getStorage())
     {
         initSprite();
         initAnimation();
@@ -97,8 +98,8 @@ namespace rtype
         if (value != -1 && _playerShield == false)
             _player_hp -= 1;
         if (_player_hp == 0) {
+            _storage->endGame();
             std::cout << "THE END" << std::endl;
-            exit(0);
         }
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);

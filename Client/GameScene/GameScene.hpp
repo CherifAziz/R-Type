@@ -19,6 +19,7 @@
     #include "Movement.hpp"
     #include "Sound.hpp"
     #include "Network.hpp"
+    #include "Storage.hpp"
 
     namespace rtype {
         /**
@@ -263,6 +264,8 @@
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
                 EnemyManager _enemyManager;
+
+                std::shared_ptr<Storage> _storage;
 
                 enum class BulletSentState {
                     SENT,

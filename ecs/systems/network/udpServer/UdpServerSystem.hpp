@@ -11,6 +11,7 @@
     #include "AUdpServerSystem.hpp"
     #include "Serialize.hpp"
     #include "IServices.hpp"
+    #include "Storage.hpp"
     #include <optional>
     #include <iostream>
     #include <string>
@@ -140,7 +141,7 @@
 
         class UdpServerSystem : public AUdpServerSystem {
             public:
-                UdpServerSystem(boost::asio::io_service &io_service, int port, std::shared_ptr<Services::IService> services) : AUdpServerSystem("UdpServer"), _service(services), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port)), _nullscene(0), _nullstring("") {
+                UdpServerSystem(boost::asio::io_service &io_service, int port, std::shared_ptr<Services::IService> services) : AUdpServerSystem("UdpServer"), _service(services), _socker(io_service, udp::endpoint(boost::asio::ip::udp::v4(), port)), _nullscene(0), _nullstring(""), _storage(Storage::getStorage()) {
                     std::cout << "UdpServer Created" << std::endl;
                     this->start_receive();
                 };
@@ -162,7 +163,7 @@
                 void init() {};
 
                 const std::string &getName() const { return this->_nullstring; };
-                bool isGameStillPlaying() { return true; };
+                bool isGameStillPlaying() { return _storage->isStillPlaying(); };
                 const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void update(std::shared_ptr<IScene> &scene) {
@@ -217,7 +218,7 @@
                 void handler_send(const boost::system::error_code &/*error*/, std::size_t /*bytes_transferred*/) {
                     std::cout << "sent to client" << std::endl;
                 };
-
+                std::shared_ptr<Storage> _storage;
                 udp::socket _socker;
                 udp::endpoint _remote_endpoint;
                 std::array<char, 1024> _data;
