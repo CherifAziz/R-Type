@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakePresetLoader"><![CDATA[{
+  "useNewFormat": true
+}]]></component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c305ec5a-c912-4827-935d-97dc82c47b9a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Client/GameScene/Enemy/AEnemy.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Client/GameScene/Enemy/AEnemy.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/GameScene/Enemy/Basic/BasicEnemy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Client/GameScene/Enemy/Basic/BasicEnemy.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/GameScene/Enemy/IEnemy.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Client/GameScene/Enemy/IEnemy.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/GameScene/GameScene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Client/GameScene/GameScene.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/GameScene/BasicEnemy.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/GameScene/GameScene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Server/GameScene/GameScene.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/GameScene/GameScene.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Server/GameScene/GameScene.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/GameScene/PlayerBullet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Server/GameScene/PlayerBullet.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Services/Services.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/Services.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Services/Services.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/Services.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecs/systems/network/services/IServices.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/ecs/systems/network/services/IServices.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecs/systems/network/udpServer/UdpServerSystem.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/ecs/systems/network/udpServer/UdpServerSystem.hpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2022" />
+    <option name="minorVersion" value="3.2" />
+  </component>
+  <component name="ProjectId" id="2MYXX2SGKGZznPdfTZyoAFdXFTd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "/tmp/r-type",
+    "structure.view.defaults.are.configured": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c305ec5a-c912-4827-935d-97dc82c47b9a" name="Changes" comment="" />
+      <created>1677945525591</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677945525591</updated>
+      <workItem from="1677945526889" duration="228000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -13,6 +13,8 @@
     #include "AGameSystem.hpp"
     #include "IScene.hpp"
 
+    #include "Storage.hpp"
+
     #include "HomeMenuScene.hpp"
     #include "GameScene.hpp"
     #include "SettingsMenu.hpp"

@@ -26,6 +26,7 @@ include_directories(
     $ENV{ROOT_DIR}/ecs/systems/network/udpClient/
     $ENV{ROOT_DIR}/ecs/systems/network/serialize/
     $ENV{ROOT_DIR}/ecs/systems/network/services/
+    $ENV{ROOT_DIR}/Client/GameScene/Menu/
     $ENV{ROOT_DIR}/Client/GameScene/Enemy/
     $ENV{ROOT_DIR}/Client/GameScene/Enemy/Basic/
     $ENV{ROOT_DIR}/Client/GameScene/Enemy/Fly/

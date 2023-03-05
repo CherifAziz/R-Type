@@ -11,7 +11,9 @@
 
 #include "Core.hpp"
 
-#include "GameScene/GameScene.hpp"
+#include "GameScene.hpp"
+#include "HomeMenuScene.hpp"
+#include "SettingsMenu.hpp"
 
 #include "SfmlInputSystem.hpp"
 #include "SfmlRenderSystem.hpp"

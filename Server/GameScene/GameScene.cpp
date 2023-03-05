@@ -69,7 +69,7 @@ namespace rtype
         return -1;
     }
 
-    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight)
+    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &/*scene*/, size_t &/*previousScene*/, bool &/*soundState*/)
     {
         if (_entityManager.getEntitiesFromFamily("player").size() == 0)
             return;
@@ -99,7 +99,7 @@ namespace rtype
     {
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/spacebg.png", 0, 0);
-        Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
+        Sprite second_background_sprite("assets/spacebg.png", 1440, 0);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
@@ -125,8 +125,8 @@ namespace rtype
     void GameScene::initText()
     {
         ComponentMap<Text> text;
-        Text title("Wave "+ std::to_string(_actual_wave), "assets/font.otf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
-        Text score("SCORE: " + std::to_string(_score), "assets/font.otf", 30, 900, 50, 1, Text::rgb_t(255, 199, 17));
+        Text title("Wave "+ std::to_string(_actual_wave), "assets/font.ttf", 30, 30, 60, 1, Text::rgb_t(255, 160, 122));
+        Text score("SCORE: " + std::to_string(_score), "assets/font.ttf", 30, 900, 50, 1, Text::rgb_t(255, 199, 17));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         text.put(score, _entityManager.spawnEntity("score")->getId());

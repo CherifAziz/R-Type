@@ -74,6 +74,8 @@
                 };
 
                 void update(std::shared_ptr<IScene> &scene) {
+                    if (!this->_storage->isConnected())
+                        return;
                     try {
                         std::optional<Serialize::Data> data = scene->getComponentManager().get<Network>(scene->getEntityManager().getEntitiesFromFamily("player")[0]->getId()).getCommands();
                         if (data.has_value())
