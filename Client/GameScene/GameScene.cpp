@@ -93,7 +93,7 @@ namespace rtype
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
         int value = handleElementCollision(player_id);
 
-        if (value != -1)
+        if (value != -1 && _playerShield == false)
             _player_hp -= 1;
         if (_player_hp == 0) {
             std::cout << "THE END" << std::endl;
@@ -104,10 +104,10 @@ namespace rtype
         handleWaves(time);
         handleEnemyBullet(time);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
-        if (handleGameTime(100, time, "animationLaps")) {
-            handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
+        handlePowerUp(time);
+        handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
+        if (handleGameTime(100, time, "animationLaps"))
             playAnimation(_componentManager.getComponents<Animation>());
-        }
         else if (handleGameTime(400, time, "enemyBulletSpawn"))
             callEnemiesSendingBullets(_componentManager.getComponents<Sprite>()->get(player_id));
     }
@@ -117,7 +117,7 @@ namespace rtype
         ComponentMap<Sprite> sprite;
         Sprite background_sprite("assets/spacebg.png", 0, 0);
         Sprite second_background_sprite("assets/spacebg.png", 1920, 0);
-        Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
+        Sprite spaceship_sprite("assets/powerup.gif", 100, 100, 4);
 
         sprite.put(background_sprite, _entityManager.spawnEntity("background")->getId());
         sprite.put(second_background_sprite, _entityManager.spawnEntity("background")->getId());
@@ -128,7 +128,7 @@ namespace rtype
     void GameScene::initAnimation()
     {
         ComponentMap<Animation> animation;
-        Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
+        Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 2, 1, 1, 1, 2, 500);
 
         animation.put(spaceship_animation, _entityManager.getEntitiesFromFamily("player")[0]->getId());
         _componentManager.registerComponent<Animation>(animation);
@@ -323,6 +323,8 @@ namespace rtype
             if (player_sprite.getX() + (int)player_movement.getXDirection() >= 0 && player_sprite.getX() + (int)player_animation.getRectWidth() * (int)player_sprite.getScale() + (int)player_movement.getXDirection() <= (int)windowWidth
             && player_sprite.getY() + (int)player_movement.getYDirection() >= 0 && player_sprite.getY() + (int)player_animation.getRectHeight() * (int)player_sprite.getScale() + (int)player_movement.getYDirection() <= (int)windowHeight)
                 player_sprite.setPosition(player_sprite.getX() + player_movement.getXDirection(), player_sprite.getY() + player_movement.getYDirection());
+            if (state == Action::KeyState::PRESSED)
+                player_action.setState(keys[it], Action::KeyState::DOWN);
         }
     }
 

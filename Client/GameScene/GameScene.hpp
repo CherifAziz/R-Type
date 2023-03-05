@@ -8,6 +8,8 @@
 #ifndef _GameScene_
     #define _GameScene_
 
+    #define SHIELD_TIME 9000
+
     #include "AScene.hpp"
     #include "EnemyManager.hpp"
 
@@ -245,6 +247,18 @@
 
                 bool handleGameTime(const int64_t &wantedLaps, const int64_t &elapsedTime, const std::string &lapsName);
 
+                void initObject(const std::string &family, const entity_t &entity);
+
+                void changePlayerSprite(const bool &shieldStatus, const int64_t &time);
+
+                void initPowerUp(const int &x, const int &y);
+
+                void movePowerUp(Sprite &object, const Movement &object_velocity);
+
+                bool checkPlayerGettingPowerUp(const entity_t &entity, Sprite &object, Animation &object_animation, const int64_t &time);
+
+                void handlePowerUp(const int64_t &time);
+
                 static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
@@ -279,6 +293,8 @@
                 size_t _player_hp = 1;
 
                 std::unordered_map<std::string, laps_t> _laps;
+
+                bool _playerShield = false;
         };
     }
 

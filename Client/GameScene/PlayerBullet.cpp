@@ -48,6 +48,16 @@ namespace rtype {
         }
     }
 
+    void GameScene::initObject(const std::string &family, const entity_t &entity)
+    {
+        if (family == "vesselEnemy" && rand() % 3 == 0) {
+            Sprite sprite = _componentManager.get<Sprite>(entity);
+            Animation animation = _componentManager.get<Animation>(entity);
+
+            initPowerUp(sprite.getX() + (animation.getRectWidth() * sprite.getScale() / 2) / 2, sprite.getY() + (animation.getRectHeight() * sprite.getScale() / 2) / 2);
+        }
+    }
+
     bool GameScene::handleBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity)
     {
         const std::shared_ptr<Entity> _bullet = _entityManager.getEntity(entity);
@@ -61,6 +71,7 @@ namespace rtype {
             int remaining_force = _bullet_remaining_force[entity] - enemy_hp;
 
             if (remaining_life <= 0) {
+                initObject("vesselEnemy", value);
                 _componentManager.killEntity(value);
                 _entityManager.killEntity(value);
                 _score += ENEMY_SCORE.at(family);
@@ -101,7 +112,7 @@ namespace rtype {
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sound pow("assets/pow.ogg", false, Sound::SoundStatus::PLAY);
         Collision collision(ENEMIES);
-        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height * 2, 4);
         Movement movement(20, 0);
         Animation animation(bullet_frames.at(_bulletLoad).first.width, bullet_frames.at(_bulletLoad).first.height, bullet_frames.at(_bulletLoad).first.x, bullet_frames.at(_bulletLoad).first.y, 1, 1, 0, 0, 500);
 
@@ -122,7 +133,7 @@ namespace rtype {
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sprite &loading_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("loading")[0]->getId());
 
-        loading_sprite.setPosition(player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() / 2);
+        loading_sprite.setPosition(player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() * 2);
     }
 
     void GameScene::initBulletLoading()
@@ -131,7 +142,7 @@ namespace rtype {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation animation(31, 32, 2, 51, 8, 1, 1, 0, 500);
-        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() / 2, 4);
+        Sprite sprite("assets/spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() * 2, 4);
 
         _componentManager.put<Animation>(animation, entity);
         _componentManager.put<Sprite>(sprite, entity);
