@@ -31,15 +31,13 @@
                  * @param delay the delay between every animation (in milliseconds)
                  */
                 Animation(const size_t &rectWidth = 30, const size_t &rectHeight = 30, const size_t &x = 0, const size_t &y = 0, const size_t &horizontalPictureNb = 3,
-                const size_t &verticalPictureNb = 1, const size_t &horizontalSeparator = 0, const size_t &verticalSeparator = 0, const size_t &delay = 1) :
-                _rectWidth(rectWidth), _rectHeight(rectHeight), _x(x), _y(y), _horizontalPictureNb(horizontalPictureNb), _verticalPictureNb(verticalPictureNb),
-                _horizontalSeparator(horizontalSeparator), _verticalSeparator(verticalSeparator), _delay(delay) {}
+                const size_t &verticalPictureNb = 1, const size_t &horizontalSeparator = 0, const size_t &verticalSeparator = 0, const size_t &delay = 1);
 
                 /**
                  * @brief Destroy the Animation object
                  * 
                  */
-                ~Animation() = default;
+                ~Animation();
 
                 /**
                  * @brief Set the Rect Width object
@@ -172,23 +170,7 @@
                  * 
                  * @details change the x and y position according to the other's parameters to go to the next frame
                  */
-                void animate()
-                {
-                    static const size_t default_x = _x;
-                    static const size_t default_y = _y;
-
-                    if (_horizontalPictureNb == 1 && _verticalPictureNb == 1)
-                        return;
-                    _x += _rectWidth + _horizontalSeparator;
-                    if (_x > (_horizontalPictureNb - 1) * (_rectWidth + _horizontalSeparator)) {
-                        _x = default_x;
-                        _y += _rectHeight + _verticalSeparator;
-                        if (_y > (_verticalPictureNb - 1) * (_rectHeight + _verticalSeparator)) {
-                            _x = default_x;
-                            _y = default_y;
-                        }
-                    }
-                }
+                void animate();
 
                 /**
                  * @brief check if the animation components are the same
@@ -196,12 +178,15 @@
                  * @param other the animation component that will be compared
                  * @return true if the components are the same, false otherwise
                  */
-                bool operator==(const Animation &other) const
-                {
-                    return _rectWidth == other._rectWidth && _rectHeight == other._rectHeight && _x == other._x && _y == other._y
-                    && _horizontalPictureNb == other._horizontalPictureNb && _verticalPictureNb == other._verticalPictureNb
-                    && _horizontalSeparator == other._horizontalSeparator && _verticalSeparator == other._verticalSeparator && _delay == other._delay;
-                }
+                bool operator==(const Animation &other) const;
+
+                /**
+                 * @brief set an Animation as the one given in parameter
+                 * 
+                 * @param other the Animation to take information from
+                 * @return the returned animation as an Animation& 
+                 */
+                Animation &operator=(const Animation &other);
 
             protected:
 
@@ -258,6 +243,18 @@
                  * 
                  */
                 size_t _delay;
+
+                /**
+                 * @brief the default x value
+                 * 
+                 */
+                size_t _defaultX;
+
+                /**
+                 * @brief the default y value
+                 * 
+                 */
+                size_t _defaultY;
         };
     }
 

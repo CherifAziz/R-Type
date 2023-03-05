@@ -31,41 +31,27 @@
                  * @brief Construct a new Sfml Input System object with the "SFML" library name
                  * 
                  */
-                SfmlInputSystem() : AInputSystem("Sfml") {}
+                SfmlInputSystem();
 
                 /**
                  * @brief Destroy the Sfml Input System object
                  * 
                  */
-                ~SfmlInputSystem() = default;
+                ~SfmlInputSystem();
 
                 /**
                  * @brief init the Sfml Input System object
                  * 
                  * @details get the singleton storage
                  */
-                void init()
-                {
-                    _storage = Storage::getStorage();
-                }
+                void init();
 
                 /**
                  * @brief update the input sytem
                  * 
                  * @param scene the current game scene
                  */
-                void update(std::shared_ptr<IScene> &scene)
-                {
-                    std::shared_ptr<ComponentMap<Action>> actionMap = scene->getComponentManager().getComponents<Action>();
-                    std::vector<std::shared_ptr<Entity>> players = scene->getEntityManager().getEntitiesFromFamily("player");
-
-                    for (const auto &player : players) {
-                        if (checkEvent(actionMap, player->getId()) == true) {
-                            _storage->getRenderWindow().close();
-                            return;
-                        }
-                    }
-                }
+                void update(std::shared_ptr<IScene> &scene);
 
                 /**
                  * @brief Destroy the Sfml Input System properties
@@ -81,20 +67,14 @@
                  * 
                  * @return true if the game is still playing, false otherwise
                  */
-                bool isGameStillPlaying()
-                {
-                    return _storage->getRenderWindow().isOpen();
-                }
+                bool isGameStillPlaying();
 
                 /**
                  * @brief Get the Current Scene object
                  * 
                  * @return the current scene as a const size_t&
                  */
-                const size_t &getCurrentScene() const
-                {
-                    return _storage->getCurrentScene();
-                }
+                const size_t &getCurrentScene() const;
 
             private:
                 /**
@@ -105,17 +85,17 @@
                  * 
                  * @return true if the window has been closed, false otherwise
                  */
-                bool checkEvent(std::shared_ptr<ComponentMap<Action>> action, entity_t entity)
+                bool checkEvent(std::shared_ptr<ComponentMap<Action>> action, entity_t entity);
+
+                /**
+                 * @brief handle the event by setting the key state in the Action component
+                 * 
+                 * @param mouse the mouse properties
+                 * @param action the player's Action component
+                 */
+                void handleMouseMovement(sf::Event::MouseMoveEvent mouse, Action &action)
                 {
-                    while (_storage->getRenderWindow().pollEvent(_event)) {
-                        if (_event.type == sf::Event::Closed) {
-                            _storage->getRenderWindow().close();
-                            return true;
-                        }
-                        else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
-                            handleKey(_event.type, _event.key.code, action->get(entity));
-                    }
-                    return false;
+                    action.setMousePosition(mouse.x, mouse.y);
                 }
 
                 /**
@@ -125,15 +105,24 @@
                  * @param key the key type (keyboard key)
                  * @param action the player's Action component
                  */
-                void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action)
+                void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action);
+
+                /**
+                 * @brief handle the event by setting the key state in the Action component
+                 * 
+                 * @param event the key state (pressed or released)
+                 * @param key the key type (mouse key)
+                 * @param action the player's Action component
+                 */
+                void handleMouseKey(sf::Event::EventType event, sf::Mouse::Button mouseKey, Action &action)
                 {
-                    if (_keyTranslator.count(key) == 0)
+                    if (_mouseTranslator.count(mouseKey) == 0)
                         return;
 
-                    if (event == sf::Event::KeyPressed)
-                        action.setState(_keyTranslator.at(key), Action::KeyState::PRESSED);
-                    else if (event == sf::Event::KeyReleased)
-                        action.setState(_keyTranslator.at(key), Action::KeyState::RELEASED);
+                    if (event == sf::Event::MouseButtonPressed)
+                        action.setMouseState(_mouseTranslator.at(mouseKey), Action::KeyState::PRESSED);
+                    else if (event == sf::Event::MouseButtonReleased)
+                        action.setMouseState(_mouseTranslator.at(mouseKey), Action::KeyState::RELEASED);
                 }
 
                 /**
@@ -158,6 +147,14 @@
                     {sf::Keyboard::Q, Action::KeyType::Q},
                     {sf::Keyboard::D, Action::KeyType::D},
                     {sf::Keyboard::Space, Action::KeyType::SPACE}
+                };
+
+                /**
+                 * @brief the key translation between the SFML library and Action Component MouseType enum
+                 * 
+                 */
+                const std::unordered_map<sf::Mouse::Button, Action::MouseType> _mouseTranslator = {
+                    {sf::Mouse::Left, Action::MouseType::Left}
                 };
         };
     }

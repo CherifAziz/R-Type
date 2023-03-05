@@ -78,7 +78,7 @@
                  * @param color the color for the text
                  */
                 Text(const std::string &text = "", const std::string &font = "", const size_t &x = 0, const size_t &y = 0, const size_t &characterSize = 30,
-                const size_t &scale = 1, const rgb_t &color = rgb_s()) : _text(text), _font(font), _x(x), _y(y), _characterSize(characterSize),
+                const size_t &scale = 0.75, const rgb_t &color = rgb_s()) : _text(text), _font(font), _x(x), _y(y), _characterSize(characterSize),
                 _scale(scale), _color(color) {}
 
                 /**

@@ -1,27 +1,29 @@
 @echo off
 
-rem need msbuild with minimun vs 2017
-rem need winget
-rem need mingw64 in the path ?
+winget -v || (
+  echo "please get winget and retry"
+  exit 0
+)
 
 git --version || (winget install -e --id Git.Git)
 
 choco --version || (
+  powershell -Command "Set-ExecutionPolicy AllSigned"
   powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force"
   powershell -Command "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072"
   powershell -Command "((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
   powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
 )
 
-choco upgrade chocolatey -y
+call RefreshEnv.cmd
 
-mingw32-make --version || (choco install mingw -y --installargs 'ADD_CMAKE_TO_PATH=System')
+choco upgrade chocolatey -y
 
 call RefreshEnv.cmd
 
-cmake --version || (choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System')
+cmake --version || (choco install cmake -y)
 
-makensis /version || (choco install nsis -y --installargs 'ADD_CMAKE_TO_PATH=System')
+makensis /version || (choco install nsis -y)
 
 .\vcpkg\vcpkg.exe --version || if not exist ".\vcpkg" (
   git clone https://github.com/Microsoft/vcpkg.git
@@ -37,6 +39,7 @@ makensis /version || (choco install nsis -y --installargs 'ADD_CMAKE_TO_PATH=Sys
 )
 
 call RefreshEnv.cmd
+
 .\vcpkg\vcpkg.exe install boost-serialization:x64-windows
 .\vcpkg\vcpkg.exe install boost-system:x64-windows
 .\vcpkg\vcpkg.exe install boost-asio:x64-windows

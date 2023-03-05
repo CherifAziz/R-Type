@@ -12,14 +12,14 @@
 
     #include "GameScene.hpp"
 
-    #define PLAYER_X_DEFAULT_SPRITE 133
-    #define PLAYER_X_UP_SPRITE 167
-    #define PLAYER_X_UP_PRESSED_SPRITE 201
-    #define PLAYER_X_DOWN_SPRITE 99
-    #define PLAYER_X_DOWN_PRESSED_SPRITE 65
+    #define PLAYER_X_DEFAULT_SPRITE 68
+    #define PLAYER_X_UP_SPRITE 100
+    #define PLAYER_X_UP_PRESSED_SPRITE 133
+    #define PLAYER_X_DOWN_SPRITE 34
+    #define PLAYER_X_DOWN_PRESSED_SPRITE 1
 
-    #define PLAYER_SPRITE_WIDTH     33
-    #define PLAYER_SPRITE_HEIGHT    18
+    #define PLAYER_SPRITE_WIDTH     32
+    #define PLAYER_SPRITE_HEIGHT    15
 
     #define ENEMY_REACH 30
 

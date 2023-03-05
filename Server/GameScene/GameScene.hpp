@@ -16,6 +16,7 @@
     #include "Movement.hpp"
     #include "Sound.hpp"
     #include "Network.hpp"
+    #include "Storage.hpp"
 
     namespace rtype {
         /**
@@ -50,7 +51,7 @@
                  *
                  * @param time the current time that has been elapsed
                  */
-                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
+                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene, bool &soundState);
 
             protected:
                 /**
@@ -291,6 +292,8 @@
                 } _bulletTime = BulletTimeState::NONE;
 
                 size_t _player_hp = 1;
+
+                std::shared_ptr<Storage> _storage;
         };
     }
 
