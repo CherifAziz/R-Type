@@ -41,7 +41,11 @@
                  * @brief Destroy the Sfml Render System object
                  * 
                  */
-                ~SfmlRenderSystem() = default;
+                ~SfmlRenderSystem()
+                {
+                    if (_storage->getRenderWindow().isOpen())
+                        _storage->getRenderWindow().close();
+                }
 
                 /**
                  * @brief init the SFML Render System object
@@ -60,7 +64,7 @@
                             delete text.second;
                     _textCache.clear();
                     if (!_storage->getRenderWindow().isOpen())
-                        _storage->getRenderWindow().create({1920, 1080}, "R-Type");
+                        _storage->getRenderWindow().create({1440, 810}, "R-Type");
                     _storage->getRenderWindow().setFramerateLimit(60);
                 }
 
@@ -81,7 +85,10 @@
                         updateComponents(sprite, animation, text, sound);
                         drawSprite(sprite);
                         drawText(text);
-                        playMusic(sound);
+                        if (_storage->getSoundState() == true)
+                            playMusic(sound);
+                        else
+                            stopMusic(sound);
                     }
                     _storage->getRenderWindow().display();
                 }
@@ -112,8 +119,6 @@
                     _fontCache.clear();
                     _textCache.clear();
                     _musicCache.clear();
-                    if (_storage->getRenderWindow().isOpen())
-                        _storage->getRenderWindow().close();
                 }
 
                 /**
@@ -123,7 +128,7 @@
                  */
                 bool isGameStillPlaying()
                 {
-                    return _storage->getRenderWindow().isOpen();
+                    return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
                 }
 
                 /**
@@ -319,6 +324,23 @@
                         else if (music.second.first->getStatus() != sf::SoundSource::Playing && music.second.first->getLoop() == false) {
                             music.second.first->stop();
                             sound->get(music.first).setStatus(Sound::SoundStatus::STOP);
+                        }
+                    }
+                }
+
+                /**
+                 * @brief stop all the musics that must be played
+                 * 
+                 * @param sound the Sound ComponentMap
+                 */
+                void stopMusic(const std::shared_ptr<ComponentMap<Sound>> &sound)
+                {
+                    for (auto &music : _musicCache) {
+                        if (sound->contains(music.first) == false)
+                            continue;
+                        if (music.second.first->getStatus() == sf::SoundSource::Playing) {
+                            music.second.first->pause();
+                            sound->get(music.first).setStatus(Sound::SoundStatus::PLAY);
                         }
                     }
                 }

@@ -5,6 +5,7 @@
 ** Services
 */
 
+#include "config.hpp"
 #include <string>
 #include "Services.hpp"
 #include "Sprite.hpp"
@@ -42,7 +43,7 @@ void Services::Service::callService(Serialize::Data &data, rtype::UdpClientSyste
 void createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities, boost::uuids::uuid uid)
 {
     entity_t player = Entities.spawnEntity("player")->getId();
-    Sprite spaceship_sprite("assets/spaceship.gif", 100, 100, 4);
+    Sprite spaceship_sprite(std::string(ASSETS_DIR)+"spaceship.gif", 100, 100, 4);
     Animation spaceship_animation(PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, PLAYER_X_DEFAULT_SPRITE, 0, 1, 1, 1, 1, 500);
     Network spaceship_network(uid);
     Action spaceship_action;

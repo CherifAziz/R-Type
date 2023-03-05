@@ -12,6 +12,7 @@
     #include "Serialize.hpp"
     #include "Storage.hpp"
     #include "IServices.hpp"
+    #include "Storage.hpp"
     #include <optional>
     #include <iostream>
     #include <string>
@@ -27,6 +28,7 @@
 
     using namespace boost::asio;
     using namespace boost::asio::ip;
+    using namespace boost::placeholders;
 
     namespace rtype {
         class UdpClient {
@@ -158,16 +160,7 @@
                 void init() {};
 
                 const std::string &getName() const { return this->_nullstring; };
-                bool isGameStillPlaying() { return true; };
-                /**
-                 * @brief check the connection status
-                 * 
-                 * @return true if it's connected to the server, false otherwise
-                 */
-                bool isConnected()
-                {
-                    return _storage->isConnected();
-                }
+                bool isGameStillPlaying() { return _storage->isStillPlaying(); };
                 const size_t &getCurrentScene() const { return this->_nullscene; };
 
                 void update(std::shared_ptr<IScene> &scene) {
@@ -222,7 +215,7 @@
                         std::cerr << err.what() << std::endl;
                     }
                 };
-
+                std::shared_ptr<Storage> _storage;
                 udp::socket _socker;
                 udp::endpoint _remote_endpoint;
                 std::array<char, 1024> _data;

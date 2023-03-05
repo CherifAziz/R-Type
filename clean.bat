@@ -1,6 +1,14 @@
 @echo off
 
-if exist ".\build" (
-  rmdir /s /q .\build
-  echo "Suppression du dossier build"
+if exist ".\build\Release" (
+  rmdir /s /q .\build\Release
+  echo "Suppression du dossier Release"
+)
+if exist ".\build\_CPack_Packages" (
+  rmdir /s /q .\build\_CPack_Packages
+  echo "Suppression des dossiers Release et _CPack_Packages"
+)
+if exist ".\*.exe" (
+  del .\*.exe
+  echo "Suppression des fichiers .exe"
 )

@@ -72,7 +72,7 @@
 
         class TcpServerSystem : public ATcpServerSystem {
             public:
-                TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("TcpServer"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc), _storage(std::make_shared<Storage>()) {
+                TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("TcpServer"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc), _storage(Storage::getStorage()) {
                     std::cout << "ServerSystem created" << std::endl;
                     this->start_accept();
                 };
@@ -100,19 +100,8 @@
                 };
 
 
-                 const std::string &getName() const { return (""); };
-                bool isGameStillPlaying() {
-                    return _storage->getRenderWindow().isOpen();
-                };
-                /**
-                 * @brief check the connection status
-                 * 
-                 * @return true if it's connected to the server, false otherwise
-                 */
-                bool isConnected()
-                {
-                    return _storage->isConnected();
-                }
+                const std::string &getName() const { return (""); };
+                bool isGameStillPlaying() { return _storage->isStillPlaying(); };
                 const size_t &getCurrentScene() const { return 0; };
                 void init() {};
                 void update(std::shared_ptr<IScene> &/*scene*/) {};
@@ -123,6 +112,7 @@
                 }
 
             private:
+                std::shared_ptr<Storage> _storage;
                 tcp::acceptor _acceptor;
                 boost::asio::io_context &_io_context;
                 std::vector<std::shared_ptr<ClientServer> > _clients;

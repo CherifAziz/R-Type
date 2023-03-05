@@ -101,6 +101,34 @@
                 const size_t &getCurrentScene() const { return _currentScene; }
 
                 /**
+                 * @brief Set the Previous Scene object
+                 * 
+                 * @param previousScene the new previous scene
+                 */
+                void setPreviousScene(const size_t &previousScene) { _previousScene = previousScene; }
+
+                /**
+                 * @brief Get the Previous Scene object
+                 * 
+                 * @return the previous scene as a const size_t&
+                 */
+                const size_t &getPreviousScene() const { return _previousScene; }
+
+                /**
+                 * @brief Set the Sound State object
+                 * 
+                 * @param soundState the new sound state
+                 */
+                void setSoundState(const bool &soundState) { _soundState = soundState; }
+
+                /**
+                 * @brief Get the SOund State object
+                 * 
+                 * @return the sound state as a const bool&
+                 */
+                const bool &getSoundState() const { return _soundState; }
+
+                /**
                  * @brief End the game by setting the playing value to false
                  * 
                  */
@@ -137,10 +165,22 @@
                 bool _connected = false;
 
                 /**
+                 * @brief the game Sound state
+                 * 
+                 */
+                bool _soundState = true;
+
+                /**
                  * @brief the game current scene
                  * 
                  */
                 size_t _currentScene = 0;
+
+                /**
+                 * @brief the game previous scene
+                 * 
+                 */
+                size_t _previousScene = 0;
         };
     }
 

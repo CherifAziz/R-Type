@@ -25,7 +25,7 @@
                  * @param y the y position of the sprite in the window
                  * @param scale the scale of the sprite
                  */
-                Sprite(const std::string &filename = "", const int &x = 0, const int &y = 0, const size_t &scale = 1) : _filename(filename), _x(x), _y(y), _scale(scale) {};
+                Sprite(const std::string &filename = "", const int &x = 0, const int &y = 0, const float &scale = 0.75) : _filename(filename), _x(x), _y(y), _scale(scale) {};
 
                 /**
                  * @brief Destroy the Sprite object
@@ -78,14 +78,14 @@
                  * 
                  * @return the scale as a const size_t& 
                  */
-                const size_t &getScale() const { return _scale; }
+                const float &getScale() const { return _scale; }
 
                 /**
                  * @brief Set the Scale object
                  * 
                  * @param scale the scale that will be assigned
                  */
-                void setScale(const size_t &scale) { _scale = scale; }
+                void setScale(const float &scale) { _scale = scale; }
 
                 /**
                  * @brief check if the sprites are the same
@@ -121,7 +121,7 @@
                  * @brief the scale of the sprite
                  * 
                  */
-                size_t _scale;
+                float _scale;
         };
     }
 

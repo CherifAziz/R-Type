@@ -73,4 +73,7 @@ udpserver
 *.sln
 *.rpm
 *.nsi
+*.txt
+*.deb
 buildMacos.sh
+cfg/config.hpp
