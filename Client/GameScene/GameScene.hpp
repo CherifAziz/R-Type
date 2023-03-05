@@ -158,7 +158,7 @@
                 void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
                 void spawnBossBullet(std::vector<std::shared_ptr<Entity>> &enemies, Sprite &player_sprite);
                 void moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity);
-                void handleEnemyBullet(const int64_t &time);
+                bool handleEnemyBullet(const int64_t &time);
 
                 /**
                  * @brief move shown frame on spritesheet according to player action
@@ -259,6 +259,8 @@
                 bool checkPlayerGettingPowerUp(const entity_t &entity, Sprite &object, Animation &object_animation, const int64_t &time);
 
                 void handlePowerUp(const int64_t &time);
+
+                void restartGame(const int64_t &time, size_t &scene);
 
                 static const std::vector<std::string> BULLET_NAMES;
 

@@ -90,21 +90,22 @@ namespace rtype
         return false;
     }
 
-    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &/*scene*/, size_t &/*previousScene*/, bool &/*soundState*/)
+    void GameScene::update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &/*previousScene*/, bool &/*soundState*/)
     {
         entity_t player_id = _entityManager.getEntitiesFromFamily("player")[0]->getId();
         int value = handleElementCollision(player_id);
 
         if (value != -1 && _playerShield == false)
-            _player_hp -= 1;
+            return restartGame(time, scene);
         if (_player_hp == 0) {
             _storage->endGame();
-            std::cout << "THE END" << std::endl;
+            return;
         }
         handlePlayerAction(_componentManager.getComponents<Sprite>()->get(player_id), _componentManager.getComponents<Movement>()->get(player_id),
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
         handleWaves(time, windowWidth, windowHeight);
-        handleEnemyBullet(time);
+        if (handleEnemyBullet(time))
+            return restartGame(time, scene);
         handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
         handlePowerUp(time);
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
@@ -150,7 +151,7 @@ namespace rtype
     {
         ComponentMap<Text> text;
         Text title("Level "+ std::to_string(_actual_wave), std::string(ASSETS_DIR)+"font.ttf", 30, 30, 60, 1, Text::rgb_t(255, 255, 255));
-        Text score("SCORE: " + std::to_string(_score), std::string(ASSETS_DIR)+"font.ttf", 30, 900, 50, 1, Text::rgb_t(255, 255, 255));
+        Text score("SCORE: " + std::to_string(_score), std::string(ASSETS_DIR)+"font.ttf", 30, 700, 50, 1, Text::rgb_t(255, 255, 255));
 
         text.put(title, _entityManager.spawnEntity("title")->getId());
         text.put(score, _entityManager.spawnEntity("score")->getId());
@@ -222,15 +223,6 @@ namespace rtype
                 }
             }
             wave_file.close();
-        }
-
-        for (int i = 0; i < waves.size(); i++) {
-            for (int j = 0; j < waves[i].size(); j++) {
-                std::cout << waves[i][j].first << " ";
-                std::cout << waves[i][j].second << " ";
-                std::cout << std::endl;
-            }
-            std::cout << std::endl;
         }
     }
 
@@ -359,5 +351,17 @@ namespace rtype
     {
         ComponentMap<Network> network;
         _componentManager.registerComponent<Network>(network);
+    }
+
+    void GameScene::restartGame(const int64_t &time, size_t &scene)
+    {
+        Action &player_action = _componentManager.get<Action>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
+
+        player_action.setState(Action::KeyType::Z, Action::KeyState::UP);
+        player_action.setState(Action::KeyType::Q, Action::KeyState::UP);
+        player_action.setState(Action::KeyType::S, Action::KeyState::UP);
+        player_action.setState(Action::KeyType::D, Action::KeyState::UP);
+        scene = 0;
+        changePlayerSprite(true, time);
     }
 }

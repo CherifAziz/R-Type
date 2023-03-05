@@ -20,6 +20,9 @@
 
 Core::Core(boost::asio::io_context &ioc, std::string ip, std::string port) : _timer(ioc)
 {
+    _scenes.push_back(std::make_shared<HomeMenuScene>());
+    _scenes.push_back(std::make_shared<SettingsMenu>());
+    _scenes.push_back(std::make_shared<GameScene>());
     _systems.push_back(std::make_shared<SfmlInputSystem>());
     _systems.push_back(std::make_shared<SfmlRenderSystem>());
     _systems.push_back(std::make_shared<RTypeGameSystem>(this->_scenes));
@@ -36,8 +39,10 @@ Core::~Core()
 
 int Core::loopGame()
 {
-    size_t index = _systems[0]->getCurrentScene();
+    size_t index = 0;
 
+    if (_systems.size() >= 1)
+        index = _systems[0]->getCurrentScene();
     if (this->isGameRunning()) {
         this->_timer.expires_after(std::chrono::milliseconds(1000 / 60));
         this->_timer.async_wait(boost::bind(&Core::loopGame, this));
@@ -51,12 +56,15 @@ int Core::loopGame()
     } else {
         for (auto &system : this->_systems)
             system->destroy();
+        exit(0);
     }
     return 0;
 }
 
 bool Core::isGameRunning()
 {
+    if (_systems.size() == 0)
+        return false;
     for (auto &system : _systems)
         if (system->isGameStillPlaying() == false)
             return false;

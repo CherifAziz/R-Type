@@ -31,7 +31,6 @@
         class UdpClientSystem : public AUdpClientSystem {
             public:
                 UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::shared_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(services), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _nullscene(0), _nullstring(""), _storage(Storage::getStorage()) {
-                    std::cout << "UDP CLIENT SYSTEM" << std::endl;
                 }
 
                 void start_receive() {
@@ -53,7 +52,7 @@
 
                 const std::string &getName() const { return this->_nullstring; };
                 const size_t &getCurrentScene() const { return this->_nullscene; };
-                bool isGameStillPlaying() { return _storage->isStillPlaying(); };
+                bool isGameStillPlaying() { return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying(); };
 
                 void init() {
                     this->_socket.open(udp::v4());

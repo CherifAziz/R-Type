@@ -101,7 +101,7 @@
 
 
                 const std::string &getName() const { return (""); };
-                bool isGameStillPlaying() { return _storage->isStillPlaying(); };
+                bool isGameStillPlaying() { return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying(); };
                 const size_t &getCurrentScene() const { return 0; };
                 void init() {};
                 void update(std::shared_ptr<IScene> &/*scene*/) {};

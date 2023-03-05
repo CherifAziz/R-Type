@@ -21,9 +21,7 @@ namespace rtype {
         if (value != -1 && _playerShield == false) {
             _player_hp -= 1;
             if (_player_hp == 0) {
-                std::cout << "THE END" << std::endl;
-                // exit(0);
-                _storage->endGame();
+                return true;
             }
         }
         if (bullet.getX() <= 0) {
@@ -63,11 +61,6 @@ namespace rtype {
             float distance = std::sqrt(dx*dx + dy*dy);
             float magnitude = distance * 0.01;
             Movement movement(std::cos(direction) * magnitude, (std::sin(direction) ) * magnitude);
-            // std::cout << "y = " << (std::sin(direction) ) * magnitude << std::endl;
-            // std::cout << "x = " << std::cos(direction) * magnitude << std::endl;
-            // std::cout << "distance = " << distance << std::endl;
-            // std::cout << "magnitude = " << magnitude << std::endl;
-            // std::cout << "direction = " << direction << std::endl;
 
             _componentManager.put<Sprite>(sprite, bullet_id);
             _componentManager.put<Collision>(collision, bullet_id);
@@ -102,7 +95,7 @@ namespace rtype {
         bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY() + bullet_velocity.getYDirection());
     }
 
-    void GameScene::handleEnemyBullet(const int64_t &time)
+    bool GameScene::handleEnemyBullet(const int64_t &time)
     {
         std::vector<std::shared_ptr<Entity>> bullets = _entityManager.getEntitiesFromFamily("enemy_shoot");
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
@@ -111,11 +104,17 @@ namespace rtype {
 
         for (auto &bullet : bullets) {
             if (spriteMap->contains(bullet->getId())) {
-                if (handleEnemyBulletDestruction(spriteMap->get(bullet->getId()), bullet->getId()))
+                if (handleEnemyBulletDestruction(spriteMap->get(bullet->getId()), bullet->getId())) {
+                    if (_player_hp == 0) {
+                        _player_hp = 1;
+                        return true;
+                    }
                     return (handleEnemyBullet(time));
+                }
             }
             if (movementMap->contains(bullet->getId()))
                 moveEnemyBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
+        return false;
     }
 }

@@ -20,6 +20,7 @@
 
 Core::Core(boost::asio::io_context &ioc, std::string ip, std::string port) : _timer(ioc)
 {
+    _scenes.push_back(std::make_shared<GameScene>());
     _systems.push_back(std::make_shared<RTypeGameSystem>(this->_scenes));
     this->_scenes.erase(_scenes.begin());
     this->_scenes.erase(_scenes.begin());
@@ -52,7 +53,7 @@ int Core::loopGame()
 bool Core::isGameRunning()
 {
     for (auto &system : _systems)
-        if (system->isGameStillPlaying() == true)
-            return true;
-    return false;
+        if (system->isGameStillPlaying() == false)
+            return false;
+    return true;
 }
