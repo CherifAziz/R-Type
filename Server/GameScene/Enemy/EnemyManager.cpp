@@ -59,11 +59,8 @@ namespace rtype
                 break;
         }
         this->_enemies.push_back(new_enemy);
-        std::cout << "macron demission" << std::endl;
         for (auto &player: players) {
-            std::cout << "zemmour" << std::endl;
             componentManager.get<rtype::Network>(player->getId()).addToQueue(Serialize::createData<Serialize::Data>(Services::Command::NEW_ENEMY, {std::to_string(type), std::to_string(new_enemy->getPos().first), std::to_string(new_enemy->getPos().second)}));
-            std::cout << "zemmour president !!!" << std::endl;
         }
         return new_enemy;
     }

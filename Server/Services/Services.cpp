@@ -28,12 +28,12 @@ Services::Service::~Service()
 {
 }
 
-void Services::Service::callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene)
+entity_t Services::Service::callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene)
 {
     this->_commands[data.s_id](client, clients, data, scene);
 }
 
-void Services::Service::callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene)
+entity_t Services::Service::callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene)
 {
 }
 
@@ -71,7 +71,7 @@ std::pair<boost::uuids::uuid, entity_t> createPlayer(rtype::ComponentManager &Co
     return std::make_pair(spaceship_network.getUUID(), player);
 }
 
-void Services::Service::Connected(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+entity_t Services::Service::Connected(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::pair<boost::uuids::uuid, entity_t> player_pair = createPlayer(scene.getComponentManager(), scene.getEntityManager());
     std::vector<std::string> uid;
     std::vector<std::shared_ptr<rtype::Entity>> entities = scene.getEntityManager().getEntitiesFromFamily("player");
@@ -92,7 +92,7 @@ void Services::Service::Connected(udp::endpoint &client, rtype::ClientManager &c
         }
 }
 
-void Services::Service::Disconnect(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+entity_t Services::Service::Disconnect(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::shared_ptr<ComponentMap<Network>> mapN = scene.getComponentManager().getComponents<Network>();
     boost::uuids::uuid uuid = clients.getClient(client).value()->getUuid();
     scene.getEntityManager().killEntity(clients.getClient(client).value()->getEntity());
@@ -101,23 +101,23 @@ void Services::Service::Disconnect(udp::endpoint &client, rtype::ClientManager &
     clients.sendToEachClient(Serialize::createData<Serialize::Data>(Services::Command::PLAYER_DISCONNECTED, { boost::uuids::to_string(uuid) }));
 }
 
-void Services::Service::Move(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+entity_t Services::Service::Move(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     for (auto &clientTmp : clients.getClients())
         if (clientTmp.first != client)
             clientTmp.second->sendDataToClient(Serialize::createData<Serialize::Data>(Services::Command::EVENT_PLAYER, data._args));
 }
 
-void Services::Service::NewPlayer(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+entity_t Services::Service::NewPlayer(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "new player" << std::endl;
 }
 
-void Services::Service::NewEnemy(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
-    std::cout << "new enemy" << std::endl;
+entity_t Services::Service::NewEnemy(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+    // std::cout << "new enemy" << std::endl;
     clients.getClients().at(client)->sendDataToClient(data);
 }
 
-void Services::Service::Useless(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {}
+entity_t Services::Service::Useless(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {}
 
-void Services::Service::PlayerMove(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
+entity_t Services::Service::PlayerMove(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene) {
     std::cout << "player move" << std::endl;
 }

@@ -186,9 +186,7 @@
                         Network net = scene->getComponentManager().get<Network>(player->getId());
                         std::optional<Serialize::Data> data = net.getCommands();
                         if (data != std::nullopt) {
-                            std::cout << "Jolis bonnet gros" << std::endl;
                             this->_service->callService(this->_clients.getClient(net.getUUID()).value()->getEndpoint(), this->_clients, data.value(), *scene);
-                            std::cout << "j'ai mal au nez gros" << std::endl;
                         }
                     }
                     for (auto &client : this->_clients.getClients()) {

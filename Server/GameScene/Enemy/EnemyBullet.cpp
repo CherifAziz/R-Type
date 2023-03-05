@@ -18,7 +18,7 @@ namespace rtype {
         if (value != -1) {
             _player_hp -= 1;
             if (_player_hp == 0) {
-                std::cout << "THE END" << std::endl;
+                std::cout << "THE END 5" << std::endl;
                 exit(0);
             }
         }

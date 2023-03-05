@@ -78,8 +78,7 @@ namespace rtype
         if (value != -1)
             _player_hp -= 1;
         if (_player_hp == 0) {
-            std::cout << "THE END" << std::endl;
-            exit(0);
+            std::cout << "THE END 4" << std::endl;
         }
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
         for (auto &entity : this->_entityManager.getEntitiesFromFamily("player")) {
@@ -213,7 +212,6 @@ namespace rtype
         int wave_finish = 0;
 
         score.setText("Score: "+ std::to_string(_score));
-        std::cout << "Coucou johnny" << std::endl;
         if (waves.size() >= 1) {
             for (int j = 0; j < waves[0].size(); j++) {
                 if (waves[0][j].second != 0)
