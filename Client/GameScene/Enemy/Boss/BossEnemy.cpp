@@ -15,17 +15,17 @@
 
 namespace rtype
 {
-    BossEnemy::BossEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    BossEnemy::BossEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         this->_hp = ENEMY_LIFE.at("bossEnemy");
 
-        size_t x = 1920 + rand() % 100;
-        size_t y = 450 + rand() % 100;
+        size_t x = windowWidth + rand() % 100;
+        size_t y = (windowHeight / 2) + rand() % 100;
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "bossEnemy"))
         {
-            x = 1920 + rand() % 500;
-            y = rand() % (900 - ENEMY_REACH);
+            x = windowWidth + rand() % 500;
+            y = rand() % (windowHeight - ENEMY_REACH);
         }
 
         this->_id = entityManager.spawnEntity("bossEnemy")->getId();
@@ -61,7 +61,7 @@ namespace rtype
         return false;
     }
 
-    bool BossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool BossEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         Movement &movement = componentManager.get<Movement>(this->_id);
         Sprite &sprite = componentManager.get<Sprite>(this->_id);
