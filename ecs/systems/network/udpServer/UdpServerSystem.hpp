@@ -162,6 +162,15 @@
                 const std::string &getName() const { return this->_nullstring; };
                 bool isGameStillPlaying() { return _storage->isStillPlaying(); };
                 const size_t &getCurrentScene() const { return this->_nullscene; };
+                /**
+                 * @brief check the connection status
+                 * 
+                 * @return true if it's connected to the server, false otherwise
+                 */
+                bool isConnected()
+                {
+                    return _storage->isConnected();
+                }
 
                 void update(std::shared_ptr<IScene> &scene) {
                     for (auto &client : this->_clients.getClients()) {
@@ -223,7 +232,6 @@
                 ClientManager _clients;
                 const std::string _nullstring;
                 const size_t _nullscene;
-                std::shared_ptr<Storage> _storage;
 
         };
     }

@@ -29,7 +29,7 @@
                 void PlayerDisconnected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 void MovePlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 void ShootPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void NewEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                // void NewEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 std::vector<std::function<void(Serialize::Data&, rtype::UdpClientSystem &, rtype::IScene&)>> _commands;
         };
 

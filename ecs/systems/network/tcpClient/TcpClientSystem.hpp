@@ -74,15 +74,15 @@
             const std::string &getName() const { return (""); };
             bool isGameStillPlaying() { return _storage->isStillPlaying(); };
             const size_t &getCurrentScene() const { return 0; };
-                /**
-                 * @brief check the connection status
-                 * 
-                 * @return true if it's connected to the server, false otherwise
-                 */
-                bool isConnected()
-                {
-                    return _storage->isConnected();
-                }
+            /**
+             * @brief check the connection status
+             * 
+             * @return true if it's connected to the server, false otherwise
+             */
+            bool isConnected()
+            {
+                return _storage->isConnected();
+            }
 
             void start_receive() {
                 std::cout << "start receive" << std::endl;

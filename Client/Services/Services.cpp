@@ -23,7 +23,7 @@ Services::Service::Service()
     this->_commands.push_back(std::bind(&Services::Service::NewPlayer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     this->_commands.push_back(std::bind(&Services::Service::PlayerDisconnected, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     this->_commands.push_back(std::bind(&Services::Service::MovePlayer, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    this->_commands.push_back(std::bind(&Services::Service::NewEnemy, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    // this->_commands.push_back(std::bind(&Services::Service::NewEnemy, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
 }
 

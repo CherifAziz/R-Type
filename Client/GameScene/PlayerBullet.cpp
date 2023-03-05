@@ -107,7 +107,7 @@ namespace rtype {
         return false;
     }
 
-    void GameScene::initBullet(entity_t entity, entity_t player_id)
+    void GameScene::initBullet(entity_t entity)
     {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
@@ -157,7 +157,7 @@ namespace rtype {
         }
         if (space_state == Action::KeyState::RELEASED) {
             std::shared_ptr<Entity> bullet = _entityManager.spawnEntity(BULLET_NAMES[(int)_bulletLoad]);
-            initBullet(bullet->getId(), player);
+            initBullet(bullet->getId());
             _bullet_sent[bullet->getId()] = std::make_pair(BulletSentState::SENT, _bulletLoad);
             _bullet_remaining_force[bullet->getId()] = BULLET_POWER.at(BULLET_NAMES[(int)_bulletLoad]);
             _bulletLoad = BulletLoadState::LITTLE;

@@ -65,7 +65,6 @@
                     return _storage->isConnected();
                 }
                 const size_t &getCurrentScene() const { return this->_nullscene; };
-                bool isGameStillPlaying() { return _storage->isStillPlaying(); };
 
                 void init() {
                     this->_storage = Storage::getStorage();
@@ -75,6 +74,8 @@
                 };
 
                 void update(std::shared_ptr<IScene> &scene) {
+                    if (!_storage->isConnected())
+                        return;
                     try {
                         std::optional<Serialize::Data> data = scene->getComponentManager().get<Network>(scene->getEntityManager().getEntitiesFromFamily("player")[0]->getId()).getCommands();
                         if (data.has_value())
@@ -96,7 +97,7 @@
                 };
 
                 ~UdpClientSystem() {
-                    Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Command::DISCONNECTED, "");
+                    Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Command::DISCONNECTED, {});
                     std::string data = Serialize::serialize<Serialize::Data>(info);
                     this->_socket.async_send_to(boost::asio::buffer(data), this->_receiver_endpoint,
                                                 boost::bind(&UdpClientSystem::handler_quit, this,
@@ -105,8 +106,6 @@
                 };
 
             private:
-                std::shared_ptr<Storage> _storage;
-
                 void handler_quit(const boost::system::error_code & /*error*/, std::size_t /*bytes_transferred*/) {
                     std::cout << "sent quit to server" << std::endl;
                     this->_socket.close();

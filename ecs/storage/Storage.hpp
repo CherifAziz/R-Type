@@ -138,7 +138,7 @@
                  * @brief Set the connect state to true
                  *
                  */
-                void connected() { _connected = true; }
+                void connected() { _connected = !_connected; }
 
             protected:
                 /**

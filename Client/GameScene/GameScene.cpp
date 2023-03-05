@@ -105,7 +105,7 @@ namespace rtype
         _componentManager.getComponents<Action>()->get(player_id), _componentManager.getComponents<Animation>()->get(player_id), windowWidth, windowHeight);
         handleWaves(time, windowWidth, windowHeight);
         handleEnemyBullet(time);
-        handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth);
+        handleBullet(time, _componentManager.getComponents<Action>()->get(player_id), windowWidth, player_id);
         handlePowerUp(time);
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
         if (handleGameTime(100, time, "animationLaps"))

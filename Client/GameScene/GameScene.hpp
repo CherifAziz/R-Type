@@ -192,7 +192,7 @@
                  * @brief Init bullet Sprite, Animation, Movement, Sound and Collision
                  *
                  */
-                void initBullet(entity_t entity, entity_t player_id);
+                void initBullet(entity_t entity);
 
                 /**
                  * @brief Create a bullet

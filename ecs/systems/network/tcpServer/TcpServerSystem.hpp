@@ -106,6 +106,15 @@
                 void init() {};
                 void update(std::shared_ptr<IScene> &/*scene*/) {};
                 void destroy() {};
+                /**
+                 * @brief check the connection status
+                 * 
+                 * @return true if it's connected to the server, false otherwise
+                 */
+                bool isConnected()
+                {
+                    return _storage->isConnected();
+                }
 
                 std::pair<size_t, size_t> getWindowWSize() const {
                     return std::make_pair(0, 0);
