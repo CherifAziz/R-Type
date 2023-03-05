@@ -11,6 +11,7 @@ else()
 endif ()
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
 find_package(Boost COMPONENTS system serialization REQUIRED)
+find_library(ECS_LIB Ecslib PATHS $ENV{ROOT_DIR}/ecs/build/)
 
 include_directories(Services/ GameScene/)
 
@@ -24,5 +25,5 @@ Core.cpp
 main.cpp
 )
 
-target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization)
+target_link_libraries(${BIN_NAME} PRIVATE sfml-system sfml-window sfml-graphics sfml-audio Boost::system Boost::serialization ${ECS_LIB})
 set_property(TARGET ${BIN_NAME} PROPERTY CXX_STANDARD 20)
