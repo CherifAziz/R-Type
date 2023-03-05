@@ -7,23 +7,25 @@
 
 #include "config.hpp"
 #include "MediumEnemy.hpp"
+
 #include "GameValues.hpp"
+#include "EnemyValues.hpp"
 
 #include "GameScene.hpp"
 
 #include "Collision.hpp"
 
 namespace rtype {
-    MediumEnemy::MediumEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    MediumEnemy::MediumEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
-        this->_hp = 15;
+        this->_hp = ENEMY_LIFE.at("mediumEnemy");
 
-        size_t x = 1920 + rand() % 100;
-        size_t y = rand() % (900 - ENEMY_REACH);
+        size_t x = windowWidth + rand() % 100;
+        size_t y = rand() % (windowHeight - ENEMY_REACH - 100);
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "mediumEnemy")) {
-            x = 1920 + rand() % 500;
-            y = rand() % (900 - ENEMY_REACH);
+            x = windowWidth + rand() % 500;
+            y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("mediumEnemy")->getId();
         Sprite sprite(std::string(ASSETS_DIR)+"mediumEnemy.gif", x, y, 4);
@@ -57,7 +59,7 @@ namespace rtype {
         return false;
     }
 
-    bool MediumEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool MediumEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         Movement &movement = componentManager.get<Movement>(this->_id);
         Sprite &sprite = componentManager.get<Sprite>(this->_id);

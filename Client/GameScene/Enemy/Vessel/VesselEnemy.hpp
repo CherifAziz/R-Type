@@ -17,7 +17,7 @@
     namespace rtype {
         class VesselEnemy : public AEnemy {
             public:
-                VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager);
+                VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
                 ~VesselEnemy();
 
                 /**
@@ -37,7 +37,7 @@
                  * @brief handle the enemy
                  *
                  */
-                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
         };
     }
 

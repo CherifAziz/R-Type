@@ -29,7 +29,7 @@
                  * @brief Construct a new flyenemy
                  *
                  */
-                FlyEnemy(ComponentManager &componentManager, EntityManager &entityManager);
+                FlyEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
                 
                 /**
                  * @brief Destroy the flyenemy class
@@ -41,7 +41,7 @@
                  * @brief Move the enemy
                  *
                  */
-                void move(Sprite &sprite, Movement &movement);
+                void move(Sprite &sprite, Movement &movement, Animation &animation, const size_t &windowWidth, const size_t &windowHeight);
 
                 /**
                  * @brief Destroy the enemy
@@ -54,7 +54,7 @@
                  * @brief handle the enemy
                  *
                  */
-                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
         };
     }
 

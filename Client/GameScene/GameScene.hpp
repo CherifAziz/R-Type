@@ -8,6 +8,8 @@
 #ifndef _GameScene_
     #define _GameScene_
 
+    #define SHIELD_TIME 9000
+
     #include "AScene.hpp"
     #include "EnemyManager.hpp"
 
@@ -51,7 +53,7 @@
                  *
                  * @param time the current time that has been elapsed
                  */
-                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
+                void update(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight, size_t &scene, size_t &previousScene, bool &soundState);
 
             protected:
                 /**
@@ -138,7 +140,7 @@
                  */
                 void handlePlayerAction(Sprite &player_sprite, Movement &player_movement, Action &player_action, Animation &player_animation, const size_t &windowWidth, const size_t &windowHeight);
 
-                void handleWaves(const int64_t &time);
+                void handleWaves(const int64_t &time, const size_t &windowWidth, const size_t &windowHeight);
 
                 /**
                  * @brief play all scene components animation
@@ -151,8 +153,9 @@
                 void handleEnemyBulletSpriteSheet(Animation &bullet);
                 bool handleEnemyBulletDestruction(Sprite &bullet, entity_t entity);                
                 void initEnemyBullet(entity_t entity);
-                void callEnemiesSendingBullets();
+                void callEnemiesSendingBullets(Sprite &player_sprite);
                 void spawnEnemyBullet(std::vector<std::shared_ptr<Entity>> &enemies);
+                void spawnBossBullet(std::vector<std::shared_ptr<Entity>> &enemies, Sprite &player_sprite);
                 void moveEnemyBullet(Sprite &bullet, const Movement &bullet_velocity);
                 void handleEnemyBullet(const int64_t &time);
 
@@ -194,7 +197,7 @@
                  * @brief Create a bullet
                  *
                  */
-                void spawnBullet(Action &player_action, const Action::KeyState &space_state);
+                void spawnBullet(Action &player_action, const Action::KeyState &space_state, const int64_t &time);
 
                 /**
                  * @brief Make bullets movement
@@ -236,7 +239,26 @@
 
                 int GetFamilyIndex(const std::string &family);
 
-                static const std::vector<std::string> ENEMIES;
+                typedef struct laps_s {
+                    int64_t lastTime = 0;
+                    size_t lapsPassed = 0;
+                    int64_t prevTime = 0;
+                } laps_t;
+
+                bool handleGameTime(const int64_t &wantedLaps, const int64_t &elapsedTime, const std::string &lapsName);
+
+                void initObject(const std::string &family, const entity_t &entity);
+
+                void changePlayerSprite(const bool &shieldStatus, const int64_t &time);
+
+                void initPowerUp(const int &x, const int &y);
+
+                void movePowerUp(Sprite &object, const Movement &object_velocity);
+
+                bool checkPlayerGettingPowerUp(const entity_t &entity, Sprite &object, Animation &object_animation, const int64_t &time);
+
+                void handlePowerUp(const int64_t &time);
+
                 static const std::vector<std::string> BULLET_NAMES;
 
                 BulletLoadState _bulletLoad = BulletLoadState::LITTLE;
@@ -255,6 +277,7 @@
                 } _loadState = LoadState::ON;
 
                 std::unordered_map<entity_t, std::pair<BulletSentState, BulletLoadState>> _bullet_sent;
+                std::unordered_map<entity_t, size_t> _bullet_remaining_force;
 
                 std::vector<std::vector<std::pair<std::string, int>>> waves;
                 
@@ -264,15 +287,14 @@
                 enum class BulletTimeState {
                     NONE,
                     STARTED,
-                    LOADING1,
-                    LOADING2,
-                    LOADING3,
-                    LOADING4,
-                    LOADING5,
                     READY
                 } _bulletTime = BulletTimeState::NONE;
 
                 size_t _player_hp = 1;
+
+                std::unordered_map<std::string, laps_t> _laps;
+
+                bool _playerShield = false;
         };
     }
 

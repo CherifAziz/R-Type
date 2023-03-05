@@ -8,22 +8,24 @@
 #include "config.hpp"
 #include "BasicEnemy.hpp"
 #include "GameScene.hpp"
+
 #include "GameValues.hpp"
+#include "EnemyValues.hpp"
 
 #include "Collision.hpp"
 
 namespace rtype 
 {
-    BasicEnemy::BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager)
+    BasicEnemy::BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
-        this->_hp = 1;
+        this->_hp = ENEMY_LIFE.at("basicEnemy");
 
-        size_t x = 1920 + rand() % 100;
-        size_t y = rand() % (900 - ENEMY_REACH);
+        size_t x = windowWidth + rand() % 100;
+        size_t y = rand() % (windowHeight - ENEMY_REACH - 100);
 
         while (isAlreadyAnEnemyHere(x, y, componentManager, entityManager, "basicEnemy")) {
-            x = 1920 + rand() % 500;
-            y = rand() % (900 - ENEMY_REACH);
+            x = windowWidth + rand() % 500;
+            y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("basicEnemy")->getId();
         Sprite sprite(std::string(ASSETS_DIR)+"basicEnemy.gif", x, y, 4);
@@ -41,11 +43,11 @@ namespace rtype
     {
     }
 
-    void BasicEnemy::move(Sprite &sprite, Movement &movement)
+    void BasicEnemy::move(Sprite &sprite, Movement &movement, Animation &animation, const size_t &windowWidth, const size_t &windowHeight)
     {
-        if (sprite.getY() > 900)
+        if (sprite.getY() > windowHeight - animation.getRectHeight() * sprite.getScale())
             movement.setDirection(-7, -9);
-        if (sprite.getY() < 50)
+        if (sprite.getY() < 0)
             movement.setDirection(2, 9);
         sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
     }
@@ -60,7 +62,7 @@ namespace rtype
         return false;
     }
 
-    bool BasicEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager)
+    bool BasicEnemy::handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight)
     {
         Movement &movement = componentManager.get<Movement>(this->_id);
         Sprite &sprite = componentManager.get<Sprite>(this->_id);
@@ -68,7 +70,7 @@ namespace rtype
 
         if (destroy(sprite, animation, componentManager, entityManager))
             return true;
-        move(sprite, movement);
+        move(sprite, movement, animation, windowWidth, windowHeight);
         return false;
     }
 }

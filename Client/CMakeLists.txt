@@ -12,9 +12,9 @@ endif ()
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
 find_package(Boost COMPONENTS system serialization REQUIRED)
 
-include_directories(Services/ GameScene/ GameScene/Enemy GameScene/Enemy/Basic GameScene/Enemy/Boss GameScene/Enemy/Fly GameScene/Enemy/Medium GameScene/Enemy/Vessel)
+include_directories(Services/ GameScene/ GameScene/Enemy GameScene/Enemy/Basic GameScene/Enemy/Boss GameScene/Enemy/ScalingBoss GameScene/Enemy/Fly GameScene/Enemy/Medium GameScene/Enemy/Vessel GameScene/Enemy/ChildBoss MenuScene)
 
-set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/Enemy/EnemyBullet.cpp GameScene/Enemy/EnemyManager.cpp GameScene/Enemy/Basic/BasicEnemy.cpp GameScene/Enemy/Fly/FlyEnemy.cpp GameScene/Enemy/Boss/BossEnemy.cpp GameScene/Enemy/Medium/MediumEnemy.cpp GameScene/Enemy/Vessel/VesselEnemy.cpp)
+set(GAMESCENE_FILES GameScene/GameScene.cpp GameScene/PlayerBullet.cpp GameScene/Enemy/EnemyBullet.cpp GameScene/Enemy/EnemyManager.cpp GameScene/Enemy/Basic/BasicEnemy.cpp GameScene/Enemy/Fly/FlyEnemy.cpp GameScene/Enemy/Boss/BossEnemy.cpp GameScene/Enemy/Medium/MediumEnemy.cpp GameScene/Enemy/Vessel/VesselEnemy.cpp GameScene/Enemy/ScalingBoss/ScalingBossEnemy.cpp GameScene/Enemy/AEnemy.cpp GameScene/Powerup.cpp GameScene/Enemy/ChildBoss/ChildBossEnemy.cpp MenuScene/HomeMenuScene.cpp MenuScene/SettingsMenu.cpp)
 set(SERVICES_FILES Services/Services.cpp)
 
 

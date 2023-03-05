@@ -12,14 +12,6 @@
 #include "Collision.hpp"
 
 namespace rtype {
-    const std::vector<std::string> GameScene::ENEMIES = {
-        "basicEnemy",
-        "mediumEnemy",
-        "vesselEnemy",
-        "flyEnemy",
-        "boss"
-    };
-
     const std::vector<std::string> GameScene::BULLET_NAMES = {
         "bullet",
         "chargedbullet",
@@ -27,6 +19,15 @@ namespace rtype {
         "superbullet",
         "megabullet",
         "beboubullet"
+    };
+
+    static const std::unordered_map<std::string, size_t> BULLET_POWER = {
+        {"bullet", 1},
+        {"chargedbullet", 4},
+        {"bigbullet", 7},
+        {"superbullet", 12},
+        {"megabullet", 15},
+        {"beboubullet", 20}
     };
 
     void GameScene::handleBulletSpriteSheet(Animation &bullet)
@@ -48,6 +49,16 @@ namespace rtype {
         }
     }
 
+    void GameScene::initObject(const std::string &family, const entity_t &entity)
+    {
+        if (family == "vesselEnemy" && rand() % 3 == 0) {
+            Sprite sprite = _componentManager.get<Sprite>(entity);
+            Animation animation = _componentManager.get<Animation>(entity);
+
+            initPowerUp(sprite.getX() + (animation.getRectWidth() * sprite.getScale() / 2) / 2, sprite.getY() + (animation.getRectHeight() * sprite.getScale() / 2) / 2);
+        }
+    }
+
     bool GameScene::handleBulletDestruction(Sprite &bullet, const size_t &windowWidth, entity_t entity)
     {
         const std::shared_ptr<Entity> _bullet = _entityManager.getEntity(entity);
@@ -56,36 +67,41 @@ namespace rtype {
 
         if (value != -1) {
             const std::string family = _entityManager.getEntity(value)->getFamily();
+            size_t enemy_hp = _enemyManager.getEnemyHp(value);
+            int remaining_life = enemy_hp - _bullet_remaining_force[entity];
+            int remaining_force = _bullet_remaining_force[entity] - enemy_hp;
 
-            _componentManager.killEntity(value);
-            _entityManager.killEntity(value);
+            if (remaining_life <= 0) {
+                initObject(family, value);
+                _componentManager.killEntity(value);
+                _entityManager.killEntity(value);
+                _score += ENEMY_SCORE.at(family);
+            } else
+                _enemyManager.setEnemyHp(value, remaining_life);
+
             auto& wave = waves[0];
             auto it = std::find_if(wave.begin(), wave.end(), [&](auto& p) {
                 return p.first == family;
             });
             if (it != wave.end()) {
-                if (it->second != 0)
+                if (it->second != 0 && remaining_life == 0)
                     --it->second;
             }
-            if (family == "basicEnemy")
-                _score += 10;
-            if (family == "mediumEnemy")
-                _score += 15;
-            if (family == "flyEnemy")
-                _score += 25;
-            if (family == "vesselEnemy")
-                _score += 20;
-            if (bullet_family != "beboubullet") {
+
+            if (remaining_force <= 0) {
                 _componentManager.killEntity(entity);
                 _entityManager.killEntity(entity);
+                _bullet_remaining_force.erase(entity);
                 _bullet_sent.erase(entity);
                 return true;
-            }
+            } else
+                _bullet_remaining_force[entity] = remaining_force;
         }
         if (bullet.getX() >= (int)windowWidth) {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _bullet_sent.erase(entity);
+            _bullet_remaining_force.erase(entity);
             return true;
         }
         return false;
@@ -97,7 +113,7 @@ namespace rtype {
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sound pow(std::string(ASSETS_DIR)+"pow.ogg", false, Sound::SoundStatus::PLAY);
         Collision collision(ENEMIES);
-        Sprite sprite(std::string(ASSETS_DIR)+"spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height, 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() + (player_animation.getRectHeight() * player_sprite.getScale()) / 2 - bullet_frames.at(_bulletLoad).first.height * 2, 4);
         Movement movement(20, 0);
         Animation animation(bullet_frames.at(_bulletLoad).first.width, bullet_frames.at(_bulletLoad).first.height, bullet_frames.at(_bulletLoad).first.x, bullet_frames.at(_bulletLoad).first.y, 1, 1, 0, 0, 500);
 
@@ -118,7 +134,7 @@ namespace rtype {
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Sprite &loading_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("loading")[0]->getId());
 
-        loading_sprite.setPosition(player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() / 2);
+        loading_sprite.setPosition(player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() * 2);
     }
 
     void GameScene::initBulletLoading()
@@ -127,13 +143,13 @@ namespace rtype {
         Sprite &player_sprite = _componentManager.get<Sprite>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation &player_animation = _componentManager.get<Animation>(_entityManager.getEntitiesFromFamily("player")[0]->getId());
         Animation animation(31, 32, 2, 51, 8, 1, 1, 0, 500);
-        Sprite sprite(std::string(ASSETS_DIR)+"spaceship.gif", player_sprite.getX() + PLAYER_SPRITE_WIDTH, player_sprite.getY() + (PLAYER_SPRITE_HEIGHT / 2), 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"spaceship.gif", player_sprite.getX() + player_animation.getRectWidth() * player_sprite.getScale(), player_sprite.getY() - player_animation.getRectHeight() * 2, 4);
 
         _componentManager.put<Animation>(animation, entity);
         _componentManager.put<Sprite>(sprite, entity);
     }
 
-    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state)
+    void GameScene::spawnBullet(Action &player_action, const Action::KeyState &space_state, const int64_t &time)
     {
         if (_loadState == LoadState::ON) {
             initBulletLoading();
@@ -143,6 +159,7 @@ namespace rtype {
             std::shared_ptr<Entity> bullet = _entityManager.spawnEntity(BULLET_NAMES[(int)_bulletLoad]);
             initBullet(bullet->getId());
             _bullet_sent[bullet->getId()] = std::make_pair(BulletSentState::SENT, _bulletLoad);
+            _bullet_remaining_force[bullet->getId()] = BULLET_POWER.at(BULLET_NAMES[(int)_bulletLoad]);
             _bulletLoad = BulletLoadState::LITTLE;
             _bulletTime = BulletTimeState::NONE;
             player_action.setState(Action::KeyType::SPACE, Action::KeyState::UP);
@@ -150,7 +167,7 @@ namespace rtype {
             _componentManager.killEntity(entity);
             _entityManager.killEntity(entity);
             _loadState = LoadState::ON;
-        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE) {
+        } else if (_bulletLoad != BulletLoadState::BEBOU_CHARGE && handleGameTime(250, time, "bulletLoad")) {
             _bulletTime = (BulletTimeState)((int)_bulletTime + 1);
             if (_bulletTime == BulletTimeState::READY) {
                 _bulletTime = BulletTimeState::NONE;
@@ -179,13 +196,15 @@ namespace rtype {
             }
         }
         for (auto &bullet : bullets) {
-            if (animationMap->contains(bullet->getId()))
+            if (animationMap->contains(bullet->getId()) && handleGameTime(1000, time, "bulletPower"))
                 handleBulletSpriteSheet(animationMap->get(bullet->getId()));
             if (movementMap->contains(bullet->getId()))
                 moveBullet(spriteMap->get(bullet->getId()), movementMap->get(bullet->getId()));
         }
-        if (space_state != Action::KeyState::UP && time % 10 == 0) {
-            spawnBullet(player_action, space_state);
+        if (space_state != Action::KeyState::UP) {
+            if (handleGameTime(100, time, "bulletSpawn")) {
+                spawnBullet(player_action, space_state, time);
+            }
             if (_loadState == LoadState::OFF)
                 updateBulletLoading();
         }
