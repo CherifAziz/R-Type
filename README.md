@@ -105,7 +105,7 @@ Space (Holding) | Charged Shoot
 
 ### **Game Engine's UML :**
 
-![UML](http://image.noelshack.com/fichiers/2023/07/1/1676296070-uml.png)
+![UML](https://image.noelshack.com/fichiers/2023/09/7/1678048815-capture-d-ecran-du-2023-03-05-21-28-13.png)
 
 ### **Server's Protocol :**
 [**Return at the table of contents**](#table-of-contents)
