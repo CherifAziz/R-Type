@@ -15,6 +15,11 @@
     namespace Services {
         class Service : public IService {
             public:
+
+                /**
+                 * @brief Constructor of the service class
+                 *
+                 */
                 Service();
                 void callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
                 void callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);

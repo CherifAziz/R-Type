@@ -26,24 +26,20 @@
              * @brief Construct a new Component Manager object
              * 
              */
-            ComponentManager() = default;
+            ComponentManager();
 
             /**
              * @brief Destroy the Component Manager object
              * 
              */
-            ~ComponentManager() = default;
+            ~ComponentManager();
 
             /**
              * @brief kill the entity given by the entity id and delete all of his components
              * 
              * @param entity the entity to kill all components from
              */
-            void killEntity(unsigned long entity)
-            {
-                for (auto &components : _components)
-                    (components.second)->deleteEntityComponents(entity);
-            }
+            void killEntity(unsigned long entity);
 
             /**
              * @brief add new ComponentMap in the components map

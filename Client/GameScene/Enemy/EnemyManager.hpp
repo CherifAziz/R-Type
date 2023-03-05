@@ -16,7 +16,7 @@
 
     namespace rtype {
         /**
-         * @brief The Enemy manager to handle life, damage and more else
+         * @brief EnemyEnum to handle the type of the enemy
          *
          */
         class EnemyManager {

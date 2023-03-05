@@ -9,7 +9,7 @@
 
 #include "Core.hpp"
 
-#include "GameScene/GameScene.hpp"
+#include "GameScene.hpp"
 
 #include "RTypeGameSystem.hpp"
 
@@ -51,7 +51,7 @@ int Core::loopGame()
 bool Core::isGameRunning()
 {
     for (auto &system : _systems)
-        if (system->isGameStillPlaying() == true)
-            return true;
-    return false;
+        if (system->isGameStillPlaying() == false)
+            return false;
+    return true;
 }

@@ -53,6 +53,7 @@
                 /**
                  * @brief handle the enemy
                  *
+                 * @return Return true if the enemy has been destroyed 
                  */
                 bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
         };
