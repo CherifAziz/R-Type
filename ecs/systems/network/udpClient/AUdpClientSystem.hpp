@@ -29,10 +29,7 @@
                  *
                  * @return the library name as a const std::string&
                  */
-                const std::string &getLibraryName() const
-                {
-                    return _libraryName;
-                }
+                const std::string &getLibraryName() const;
 
             protected:
                 /**

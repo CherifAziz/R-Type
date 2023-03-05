@@ -234,6 +234,13 @@
                  */
                 int handleElementCollision(entity_t id);
 
+                /**
+                 * @brief Get the index of an entity filtred by his family
+                 *
+                 * @param family family name of the entity
+                 *
+                 * @return return the index of the entity filtred by his family
+                 */
                 int GetFamilyIndex(const std::string &family);
 
                 static const std::vector<std::string> ENEMIES;

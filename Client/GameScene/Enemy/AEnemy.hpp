@@ -29,23 +29,29 @@
                  */
                 entity_t &getId() { return _id; }
 
-                bool isAlreadyAnEnemyHere(size_t x, size_t y, ComponentManager &componentManager, EntityManager &entityManager, const std::string &enemy)
-                {
-                    std::vector<std::shared_ptr<Entity>> enemies = entityManager.getEntitiesFromFamily(enemy);
+                /**
+                 * @brief Check if an enemy is on the spawning point
+                 * 
+                 * @return Return true if there is an enemy otherwise the methode return false
+                 */
+                bool isAlreadyAnEnemyHere(size_t x, size_t y, ComponentManager &componentManager, EntityManager &entityManager, const std::string &enemy);
 
-                    for (auto &theEnemy : enemies) {
-                        Sprite &sprite = componentManager.get<Sprite>(theEnemy->getId());
+                /**
+                 * @brief Get the hp of the enemy
+                 * 
+                 * @return the component manager as a ComponentManager& 
+                 */
+                const size_t &getHp() const;
 
-                        if ((int)x > sprite.getX() - ENEMY_REACH && (int)x < sprite.getX() + ENEMY_REACH)
-                            return true;
-                        else if ((int)y > sprite.getY() - ENEMY_REACH && (int)y < sprite.getY() + ENEMY_REACH)
-                            return true;
-                    }
-                    return false;
-                }
+                /**
+                 * @brief Get the id of the enemy
+                 * 
+                 * @return the component manager as a ComponentManager& 
+                 */
+                void setHp(size_t hp);
 
             protected:
-               /**
+                /**
                  * @brief the hp point of the enemy
                  * 
                  */

@@ -31,10 +31,7 @@
                  * 
                  * @return the name as a const std::string& 
                  */
-                const std::string &getName() const
-                {
-                    return _name;
-                }
+                const std::string &getName() const;
 
             protected:
                 /**

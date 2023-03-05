@@ -39,11 +39,7 @@
              * 
              * @param entity the entity to kill all components from
              */
-            void killEntity(unsigned long entity)
-            {
-                for (auto &components : _components)
-                    (components.second)->deleteEntityComponents(entity);
-            }
+            void killEntity(unsigned long entity);
 
             /**
              * @brief add new ComponentMap in the components map

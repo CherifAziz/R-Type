@@ -21,7 +21,7 @@
                  * @param xDirection the Movement x direction
                  * @param yDirection the Movement y direction
                  */
-                Movement(const int &xDirection = 0, const int &yDirection = 0) : _xDirection(xDirection), _yDirection(yDirection) {};
+                Movement(const int &xDirection = 0, const int &yDirection = 0);
 
                 /**
                  * @brief Destroy the Movement object
@@ -49,11 +49,7 @@
                  * @param xDirection the x direction that will be assigned
                  * @param yDirection the y direction that will be assigned
                  */
-                void setDirection(const int &xDirection, const int &yDirection)
-                {
-                    _xDirection = xDirection;
-                    _yDirection = yDirection;
-                }
+                void setDirection(const int &xDirection, const int &yDirection);
 
                 /**
                  * @brief check if the movements are the same
@@ -61,10 +57,7 @@
                  * @param other the movement that will be compared
                  * @return true if the movement are the same, false otherwise
                  */
-                bool operator==(const Movement &other) const
-                {
-                    return _xDirection == other._xDirection && _yDirection == other._yDirection;
-                }
+                bool operator==(const Movement &other) const;
 
             protected:
                 /**

@@ -58,10 +58,7 @@
                  * @param key the keyboard key that will be set in the key map as a key
                  * @param state the keyboard key state that will be set in the key map as the value
                  */
-                void setState(const KeyType &key, const KeyState &state)
-                {
-                    _keys[key] = state;
-                }
+                void setState(const KeyType &key, const KeyState &state);
 
                 /**
                  * @brief Get the Key State object
