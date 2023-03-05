@@ -103,12 +103,14 @@ namespace rtype
         // }
         // handleEnemyBullet(time);
         // handleWaves(time, windowWidth, windowHeight);
-        // handlePlayerMovement();
         handleBackgroundMovement(_componentManager.getComponents<Sprite>(), _componentManager.getComponents<Movement>());
+        int i = 0;
         for (auto &entity : _entityManager.getEntitiesFromFamily("player")) {
+            std::cout << i << std::endl;
             handlePlayerAction(_componentManager.getComponents<Sprite>()->get(entity->getId()), _componentManager.getComponents<Movement>()->get(entity->getId()),
             _componentManager.getComponents<Action>()->get(entity->getId()), _componentManager.getComponents<Animation>()->get(entity->getId()), windowWidth, windowHeight);
             handleBullet(time, _componentManager.getComponents<Action>()->get(entity->getId()), windowWidth, entity->getId());
+            i++;
         }
         // handlePowerUp(time);
         if (handleGameTime(100, time, "animationLaps"))
