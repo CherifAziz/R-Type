@@ -16,24 +16,24 @@
         class Service : public IService {
             public:
                 Service();
-                void callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
-                void callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t callService(udp::endpoint &client, rtype::ClientManager &clients, Serialize::Data &data, rtype::IScene &scene);
+                entity_t callService(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
                 ~Service();
 
             private:
-                void Connected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void Disconnect(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void Move(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void Shoot(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void NewPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void createEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void PlayerDisconnected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void MovePlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void ShootPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void NewEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
-                void createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities, boost::uuids::uuid uid);
-                void createEnemy(rtype::ComponentManager &Components, rtype::EntityManager &Entities, Serialize::Data &data);
-                std::vector<std::function<void(Serialize::Data&, rtype::UdpClientSystem &, rtype::IScene&)>> _commands;
+                entity_t Connected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t Disconnect(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t Move(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t Shoot(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t NewPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t createEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t PlayerDisconnected(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t MovePlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t ShootPlayer(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t NewEnemy(Serialize::Data &data, rtype::UdpClientSystem &client, rtype::IScene &scene);
+                entity_t createPlayer(rtype::ComponentManager &Components, rtype::EntityManager &Entities, boost::uuids::uuid uid);
+                entity_t createEnemy(rtype::ComponentManager &Components, rtype::EntityManager &Entities, Serialize::Data &data);
+                std::vector<std::function<entity_t(Serialize::Data&, rtype::UdpClientSystem &, rtype::IScene&)>> _commands;
         };
 
     };
