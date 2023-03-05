@@ -40,6 +40,8 @@ makensis /version || (choco install nsis -y)
 
 call RefreshEnv.cmd
 
+
+.\vcpkg\vcpkg.exe install boost-exception
 .\vcpkg\vcpkg.exe install boost-serialization:x64-windows
 .\vcpkg\vcpkg.exe install boost-system:x64-windows
 .\vcpkg\vcpkg.exe install boost-asio:x64-windows
