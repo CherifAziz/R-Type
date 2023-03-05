@@ -22,6 +22,9 @@
     #include "Serialize.hpp"
     #include "AUdpClientSystem.hpp"
     #include "Storage.hpp"
+    #include "IEnemy.hpp"
+    #include "Movement.hpp"
+    #include "Sprite.hpp"
 
     using namespace boost::asio;
     using namespace boost::placeholders;
@@ -74,14 +77,29 @@
                 };
 
                 void update(std::shared_ptr<IScene> &scene) {
+                    if (_enemies.size() > 0) {
+                        for (auto enemy: _enemies) {
+                            Sprite sprite = scene->getComponentManager().get<Sprite>(enemy);
+                            Movement movement = scene->getComponentManager().get<Movement>(enemy);
+
+                            sprite.setPosition(sprite.getX() + movement.getXDirection(), sprite.getY() + movement.getYDirection());
+                        }
+                    }
                     try {
                         std::optional<Serialize::Data> data = scene->getComponentManager().get<Network>(scene->getEntityManager().getEntitiesFromFamily("player")[0]->getId()).getCommands();
-                        if (data.has_value())
-                            this->_service->callService(data.value(), *this, *scene);
+                        if (data.has_value()) {
+                            entity_t entity = this->_service->callService(data.value(), *this, *scene);
+                            if (entity) {
+                                _enemies.push_back(entity);
+                            }
+                        }
                     } catch (std::invalid_argument &e) {}
 
                     if (!this->_queue.empty()) {
-                        this->_service->callService(this->_queue.front(), *this, *scene);
+                        entity_t entity = this->_service->callService(this->_queue.front(), *this, *scene);
+                        if (entity) {
+                            _enemies.push_back(entity);
+                        }
                         this->_queue.pop();
                     }
                 };
@@ -143,6 +161,7 @@
                 udp::socket _socket;
                 std::array<char, 1024> _buffer;
                 std::queue<Serialize::Data> _queue;
+                std::vector<entity_t> _enemies;
                 std::shared_ptr<Services::IService> _service;
                 const std::string _nullstring;
                 const size_t _nullscene;
