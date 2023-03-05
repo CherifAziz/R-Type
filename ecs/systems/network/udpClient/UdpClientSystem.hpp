@@ -21,6 +21,7 @@
     #include "IServices.hpp"
     #include "Serialize.hpp"
     #include "AUdpClientSystem.hpp"
+    #include "Storage.hpp"
 
     using namespace boost::asio;
     using namespace boost::placeholders;
@@ -53,6 +54,8 @@
 
             private:
                 void handler_quit(const boost::system::error_code & /*error*/, std::size_t /*bytes_transferred*/);
+
+                std::shared_ptr<Storage> _storage;
 
                 void handler_received(const boost::system::error_code &error, std::size_t size);
 

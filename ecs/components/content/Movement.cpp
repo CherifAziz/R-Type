@@ -9,7 +9,7 @@
 
 namespace rtype {
 
-    Movement::Movement(const int &xDirection, const int &yDirection) : _xDirection(xDirection), _yDirection(yDirection)
+    Movement::Movement(const float &xDirection, const float &yDirection) : _xDirection(xDirection), _yDirection(yDirection)
     {
     }
 
@@ -17,7 +17,7 @@ namespace rtype {
     {
     }
 
-    void Movement::setDirection(const int &xDirection, const int &yDirection)
+    void Movement::setDirection(const float &xDirection, const float &yDirection)
     {
         _xDirection = xDirection;
         _yDirection = yDirection;

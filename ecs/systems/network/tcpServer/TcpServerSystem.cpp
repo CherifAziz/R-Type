@@ -58,7 +58,7 @@ namespace rtype {
             std::cout << err.message() << std::endl;
     }
 
-    TcpServerSystem::TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("TcpServer"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc)
+    TcpServerSystem::TcpServerSystem(boost::asio::io_context& ioc, int port) : ATcpServerSystem("TcpServer"), _acceptor(ioc, tcp::endpoint(tcp::v4(), port)), _io_context(ioc), _storage(Storage::getStorage())
     {
         std::cout << "ServerSystem created" << std::endl;
         this->start_accept();
@@ -98,7 +98,7 @@ namespace rtype {
 
     bool TcpServerSystem::isGameStillPlaying()
     { 
-        return true;
+        return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
     }
                 
     const size_t &TcpServerSystem::getCurrentScene() const

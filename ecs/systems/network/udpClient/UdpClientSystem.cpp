@@ -9,13 +9,19 @@
 
 namespace rtype {
 
-    UdpClientSystem::UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::shared_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(services), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _nullscene(0), _nullstring("")
+    UdpClientSystem::UdpClientSystem(boost::asio::io_context &ioc, std::string ip, std::string port, std::shared_ptr<Services::IService> services) : AUdpClientSystem("UdpClient"), _service(services), _resolver(ioc), _query(udp::v4(), ip, port), _receiver_endpoint(*_resolver.resolve(_query)), _socket(ioc), _nullscene(0), _nullstring(""), _storage(Storage::getStorage())
     {
         std::cout << "UDP CLIENT SYSTEM" << std::endl;
     }
 
     UdpClientSystem::~UdpClientSystem()
     {
+        Serialize::Data info = Serialize::createData<Serialize::Data>(Services::Command::DISCONNECTED, "");
+                    std::string data = Serialize::serialize<Serialize::Data>(info);
+                    this->_socket.async_send_to(boost::asio::buffer(data), this->_receiver_endpoint,
+                                                boost::bind(&UdpClientSystem::handler_quit, this,
+                                                boost::asio::placeholders::error,
+                                                boost::asio::placeholders::bytes_transferred));
     }
 
     void UdpClientSystem::start_receive()
@@ -44,7 +50,7 @@ namespace rtype {
 
     bool UdpClientSystem::isGameStillPlaying()
     { 
-        return true; 
+        return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
     }
 
     const size_t &UdpClientSystem::getCurrentScene() const

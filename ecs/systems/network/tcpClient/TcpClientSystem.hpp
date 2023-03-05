@@ -13,6 +13,7 @@
     #include <iostream>
     #include <string>
     #include <memory>
+    #include "Storage.hpp"
     #include <boost/thread/thread.hpp>
     #include <boost/asio.hpp>
     #include <boost/array.hpp>
@@ -28,6 +29,7 @@
             tcp::socket _socket;
             std::string _message;
             std::array<char, 1024> data_;
+            std::shared_ptr<Storage> _storage;
 
             void onReceive(const boost::system::error_code& err, std::size_t size);
             void onSent(const boost::system::error_code& err);

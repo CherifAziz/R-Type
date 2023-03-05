@@ -77,7 +77,7 @@
                  * @brief The starting time of the game system clock
                  *
                  */
-                std::chrono::steady_clock::time_point _startingTime;
+                std::chrono::high_resolution_clock::time_point _startingTime;
 
                 /**
                  * @brief the singleton storage

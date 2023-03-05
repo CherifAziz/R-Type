@@ -29,7 +29,7 @@
                  * @brief Construct a new BasicEnemy
                  *
                  */
-                BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager);
+                BasicEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
                 
                 /**
                  * @brief Destroy the BasicEnemy class
@@ -41,7 +41,7 @@
                  * @brief Move the enemy
                  *
                  */
-                void move(Sprite &sprite, Movement &movement);
+                void move(Sprite &sprite, Movement &movement, Animation &animation, const size_t &windowWidth, const size_t &windowHeight);
 
                 /**
                  * @brief Destroy the enemy
@@ -55,7 +55,7 @@
                  *
                  * @return Return true if the enemy has been destroyed 
                  */
-                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
         };
     }
 

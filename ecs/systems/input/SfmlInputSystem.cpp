@@ -36,7 +36,7 @@ namespace rtype {
     }
     bool SfmlInputSystem::isGameStillPlaying()
     {
-        return _storage->getRenderWindow().isOpen();
+        return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
     }
 
     const size_t &SfmlInputSystem::getCurrentScene() const
@@ -53,6 +53,10 @@ namespace rtype {
             }
             else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
                 handleKey(_event.type, _event.key.code, action->get(entity));
+            else if (_event.type == sf::Event::MouseButtonPressed || _event.type == sf::Event::MouseButtonReleased)
+                handleMouseKey(_event.type, _event.mouseButton.button, action->get(entity));
+            else if (_event.type == sf::Event::MouseMoved)
+                handleMouseMovement(_event.mouseMove, action->get(entity));
         }
         return false;
     }

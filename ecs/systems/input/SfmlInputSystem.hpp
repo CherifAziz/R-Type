@@ -90,11 +90,40 @@
                 /**
                  * @brief handle the event by setting the key state in the Action component
                  * 
+                 * @param mouse the mouse properties
+                 * @param action the player's Action component
+                 */
+                void handleMouseMovement(sf::Event::MouseMoveEvent mouse, Action &action)
+                {
+                    action.setMousePosition(mouse.x, mouse.y);
+                }
+
+                /**
+                 * @brief handle the event by setting the key state in the Action component
+                 * 
                  * @param event the key state (pressed or released)
                  * @param key the key type (keyboard key)
                  * @param action the player's Action component
                  */
                 void handleKey(sf::Event::EventType event, sf::Keyboard::Key key, Action &action);
+
+                /**
+                 * @brief handle the event by setting the key state in the Action component
+                 * 
+                 * @param event the key state (pressed or released)
+                 * @param key the key type (mouse key)
+                 * @param action the player's Action component
+                 */
+                void handleMouseKey(sf::Event::EventType event, sf::Mouse::Button mouseKey, Action &action)
+                {
+                    if (_mouseTranslator.count(mouseKey) == 0)
+                        return;
+
+                    if (event == sf::Event::MouseButtonPressed)
+                        action.setMouseState(_mouseTranslator.at(mouseKey), Action::KeyState::PRESSED);
+                    else if (event == sf::Event::MouseButtonReleased)
+                        action.setMouseState(_mouseTranslator.at(mouseKey), Action::KeyState::RELEASED);
+                }
 
                 /**
                  * @brief the singleton storage
@@ -118,6 +147,14 @@
                     {sf::Keyboard::Q, Action::KeyType::Q},
                     {sf::Keyboard::D, Action::KeyType::D},
                     {sf::Keyboard::Space, Action::KeyType::SPACE}
+                };
+
+                /**
+                 * @brief the key translation between the SFML library and Action Component MouseType enum
+                 * 
+                 */
+                const std::unordered_map<sf::Mouse::Button, Action::MouseType> _mouseTranslator = {
+                    {sf::Mouse::Left, Action::MouseType::Left}
                 };
         };
     }

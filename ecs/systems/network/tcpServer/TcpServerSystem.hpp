@@ -10,6 +10,7 @@
 
     #include "ATcpServerSystem.hpp"
     #include "Serialize.hpp"
+    #include "Storage.hpp"
     #include <iostream>
     #include <string>
     #include <memory>
@@ -65,6 +66,7 @@
                 std::pair<size_t, size_t> getWindowWSize() const;
                 
             private:
+                std::shared_ptr<Storage> _storage;
                 tcp::acceptor _acceptor;
                 boost::asio::io_context &_io_context;
                 std::vector<std::shared_ptr<ClientServer> > _clients;

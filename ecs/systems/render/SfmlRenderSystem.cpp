@@ -15,6 +15,8 @@ namespace rtype {
 
     SfmlRenderSystem::~SfmlRenderSystem()
     {
+        if (_storage->getRenderWindow().isOpen())
+            _storage->getRenderWindow().close();
     }
 
     void SfmlRenderSystem::init()
@@ -29,7 +31,7 @@ namespace rtype {
                 delete text.second;
         _textCache.clear();
         if (!_storage->getRenderWindow().isOpen())
-            _storage->getRenderWindow().create({1920, 1080}, "R-Type", sf::Style::Fullscreen);
+            _storage->getRenderWindow().create({1440, 810}, "R-Type");
         _storage->getRenderWindow().setFramerateLimit(60);
     }
 
@@ -45,7 +47,10 @@ namespace rtype {
             updateComponents(sprite, animation, text, sound);
             drawSprite(sprite);
             drawText(text);
-            playMusic(sound);
+            if (_storage->getSoundState() == true)
+                playMusic(sound);
+            else
+                stopMusic(sound);
         }
         _storage->getRenderWindow().display();
     }
@@ -53,8 +58,8 @@ namespace rtype {
     void SfmlRenderSystem::destroy()
     {
         for (auto &texture : _textureCache)
-            if (texture.second != nullptr)
-                delete texture.second;
+        if (texture.second != nullptr)
+            delete texture.second;
         for (auto &sprite : _spriteCache)
             if (sprite.second != nullptr)
                 delete sprite.second;
@@ -72,13 +77,11 @@ namespace rtype {
         _fontCache.clear();
         _textCache.clear();
         _musicCache.clear();
-        if (_storage->getRenderWindow().isOpen())
-            _storage->getRenderWindow().close();
     }
 
     bool SfmlRenderSystem::isGameStillPlaying()
     {
-        return _storage->getRenderWindow().isOpen();
+        return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
     }
 
     const size_t &SfmlRenderSystem::getCurrentScene() const

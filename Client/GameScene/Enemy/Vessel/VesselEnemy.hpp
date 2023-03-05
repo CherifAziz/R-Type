@@ -26,7 +26,7 @@
                  * @brief Constructor of the Vessel Enemy
                  *
                  */
-                VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager);
+                VesselEnemy(ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
                 
                 /**
                  * @brief Destructor of the Vessel Enemy
@@ -52,7 +52,7 @@
                  *
                  * @return Return true if the enemy has been destroyed 
                  */
-                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager);
+                bool handle(const int64_t &time, ComponentManager &componentManager, EntityManager &entityManager, const size_t &windowWidth, const size_t &windowHeight);
         };
     }
 

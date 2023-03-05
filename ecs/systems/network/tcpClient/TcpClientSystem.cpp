@@ -9,7 +9,7 @@
 
 namespace rtype {
 
-    TcpClientSystem::TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer) : _socket(ioc), ATcpClientSystem("ClientSystem") 
+    TcpClientSystem::TcpClientSystem(boost::asio::io_context &ioc, std::string IpServer, int portServer) : _socket(ioc), ATcpClientSystem("ClientSystem"), _storage(Storage::getStorage())
     {
         std::cout << "Client started" << std::endl;
         tcp::endpoint endpoint(boost::asio::ip::address::from_string(IpServer), portServer);
@@ -22,12 +22,12 @@ namespace rtype {
 
     const std::string &TcpClientSystem::getName() const 
     { 
-        return (""); 
+        return "";
     }
 
     bool TcpClientSystem::isGameStillPlaying() 
     { 
-        return true; 
+        return _storage->getRenderWindow().isOpen() && _storage->isStillPlaying();
     }
 
     const size_t &TcpClientSystem::getCurrentScene() const 

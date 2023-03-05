@@ -136,6 +136,23 @@
                 void playMusic(const std::shared_ptr<ComponentMap<Sound>> &sound);
 
                 /**
+                 * @brief stop all the musics that must be played
+                 * 
+                 * @param sound the Sound ComponentMap
+                 */
+                void stopMusic(const std::shared_ptr<ComponentMap<Sound>> &sound)
+                {
+                    for (auto &music : _musicCache) {
+                        if (sound->contains(music.first) == false)
+                            continue;
+                        if (music.second.first->getStatus() == sf::SoundSource::Playing) {
+                            music.second.first->pause();
+                            sound->get(music.first).setStatus(Sound::SoundStatus::PLAY);
+                        }
+                    }
+                }
+
+                /**
                  * @brief the singleton storage
                  * 
                  */
