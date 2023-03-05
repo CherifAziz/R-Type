@@ -5,6 +5,7 @@
 ** MediumEnemy
 */
 
+#include "config.hpp"
 #include "MediumEnemy.hpp"
 
 #include "GameValues.hpp"
@@ -27,7 +28,7 @@ namespace rtype {
             y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("mediumEnemy")->getId();
-        Sprite sprite("assets/mediumEnemy.gif", x, y, 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"mediumEnemy.gif", x, y, 4);
         Animation animation(33, 32, 1, 1, 3, 1, 1, 0, 500);
         Movement movement(-3, 0);
         Collision collision({"player"});

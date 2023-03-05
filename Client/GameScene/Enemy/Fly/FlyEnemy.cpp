@@ -5,6 +5,7 @@
 ** flyenemy's methode
 */
 
+#include "config.hpp"
 #include "FlyEnemy.hpp"
 
 #include "Collision.hpp"
@@ -28,7 +29,7 @@ namespace rtype
             y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("flyEnemy")->getId();
-        Sprite sprite("assets/flyenemy.gif", x, y, 3);
+        Sprite sprite(std::string(ASSETS_DIR)+"flyenemy.gif", x, y, 3);
         Animation animation(61, 46, 4, 3, 6, 1, 6, 0, 2000);
         Movement movement(-2, 2);
         Collision collision({"player"});

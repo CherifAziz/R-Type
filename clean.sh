@@ -1,9 +1,11 @@
 #!/bin/sh
 
-if [ -d "$PWD/build" ]; then
-  rm -rf $PWD/build
+if [ -d "$PWD/build/Release" ]; then
+  rm -rf $PWD/build/Release
+  echo "Release folder deleted"
 fi
 
-if [ -e "$PWD/rtype-1.0-Linux.rpm" ]; then
-  rm -rf $PWD/rtype-1.0-Linux.rpm
+if [ -e "$PWD/cfg/config.hpp" ]; then
+  rm $PWD/cfg/config.hpp
+  echo "config.hpp deleted"
 fi

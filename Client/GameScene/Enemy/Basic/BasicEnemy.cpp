@@ -5,6 +5,7 @@
 ** BasicEnemy
 */
 
+#include "config.hpp"
 #include "BasicEnemy.hpp"
 #include "GameScene.hpp"
 
@@ -27,7 +28,7 @@ namespace rtype
             y = rand() % (windowHeight - ENEMY_REACH - 100);
         }
         this->_id = entityManager.spawnEntity("basicEnemy")->getId();
-        Sprite sprite("assets/basicEnemy.gif", x, y, 4);
+        Sprite sprite(std::string(ASSETS_DIR)+"basicEnemy.gif", x, y, 4);
         Animation animation(20, 30, 5, 7, 8, 1, 12, 0, 500);
         Movement movement(-5, 3);
         Collision collision({"player"});
