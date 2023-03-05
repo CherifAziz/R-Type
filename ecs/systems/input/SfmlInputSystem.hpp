@@ -128,8 +128,13 @@
                             _storage->getRenderWindow().close();
                             return true;
                         }
-                        else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased)
-                            handleKey(_event.type, _event.key.code, action->get(entity));
+                        else if (_event.type == sf::Event::KeyPressed || _event.type == sf::Event::KeyReleased){
+                            try {
+                                handleKey(_event.type, _event.key.code, action->get(entity), network->get(entity));
+                            } catch (...) {
+                                handleKey(_event.type, _event.key.code, action->get(entity));
+                            }
+                        }
                         else if (_event.type == sf::Event::MouseButtonPressed || _event.type == sf::Event::MouseButtonReleased)
                             handleMouseKey(_event.type, _event.mouseButton.button, action->get(entity));
                         else if (_event.type == sf::Event::MouseMoved)
