@@ -28,7 +28,7 @@ Spawn : 5 by 5\
 Score : 10\
 Sprite Sheet:\
 \
-![UML](https://cdn.discordapp.com/attachments/1062017262422327386/1081979263219155085/basicEnemy.gif)
+![GIF](https://cdn.discordapp.com/attachments/1062017262422327386/1081979263219155085/basicEnemy.gif)
 
 ### **Medium Enemy :**
 
@@ -40,7 +40,7 @@ Spawn : 3 by 3\
 Score : 15\
 Sprite Sheet:\
 \
-![UML](https://cdn.discordapp.com/attachments/1062017262422327386/1081979958060130384/r-typesheet11.gif)
+![GIF](https://cdn.discordapp.com/attachments/1062017262422327386/1081979958060130384/r-typesheet11.gif)
 
 ### **Fly Enemy :**
 
@@ -52,7 +52,7 @@ Spawn : 2 by 2\
 Score : 20\
 Sprite Sheet:\
 \
-![UML](https://cdn.discordapp.com/attachments/1062017262422327386/1081984015675957268/flyenemy.gif)
+![GIF](https://cdn.discordapp.com/attachments/1062017262422327386/1081984015675957268/flyenemy.gif)
 
 ### **Vessel Enemy :**
 
@@ -64,7 +64,7 @@ Spawn : 3 by 3\
 Score : 25\
 Sprite Sheet:\
 \
-![UML](https://cdn.discordapp.com/attachments/1062017262422327386/1081979958378893443/r-typesheet26.gif)
+![GIF](https://cdn.discordapp.com/attachments/1062017262422327386/1081979958378893443/r-typesheet26.gif)
 
 
 ###### [**Return at the table of contents**](#table-of-contents)
@@ -81,7 +81,7 @@ Spawn : 1 by 1\
 Score : 50\
 Sprite Sheet:\
 \
-![UML](https://cdn.discordapp.com/attachments/1062017262422327386/1081987195990200451/boss1.gif)
+![GIF](https://cdn.discordapp.com/attachments/1062017262422327386/1081987195990200451/boss1.gif)
 
 ### **Scaling Boss Enemy :**
 
@@ -93,7 +93,7 @@ Spawn : 1 by 1\
 Score : 500\
 Sprite Sheet:\
 \
-![UML](https://cdn.discordapp.com/attachments/1062017262422327386/1081979958701871124/scalingboss.gif)
+![GIF](https://cdn.discordapp.com/attachments/1062017262422327386/1081979958701871124/scalingboss.gif)
 
 ### **Child Boss Enemy :**
 
@@ -105,7 +105,7 @@ Spawn : 1 by 1\
 Score : 50\
 Sprite Sheet:\
 \
-![UML](https://cdn.discordapp.com/attachments/1062017262422327386/1081979957695238284/r-typesheet8.gif)
+![GIF](https://cdn.discordapp.com/attachments/1062017262422327386/1081979957695238284/r-typesheet8.gif)
 
 
 ###### [**Return at the table of contents**](#table-of-contents)
