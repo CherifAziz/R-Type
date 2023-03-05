@@ -181,7 +181,7 @@ namespace rtype {
         bullet.setPosition(bullet.getX() + bullet_velocity.getXDirection(), bullet.getY());
     }
 
-    void GameScene::handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth)
+    void GameScene::handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth, entity_t player_id)
     {
         std::vector<std::shared_ptr<Entity>> bullets = _entityManager.getEntitiesFromSubFamily("bullet");
         std::shared_ptr<ComponentMap<Sprite>> spriteMap = _componentManager.getComponents<Sprite>();
@@ -192,7 +192,7 @@ namespace rtype {
         for (auto &bullet : bullets) {
             if (spriteMap->contains(bullet->getId())) {
                 if (handleBulletDestruction(spriteMap->get(bullet->getId()), windowWidth, bullet->getId()))
-                    return (handleBullet(time, player_action, windowWidth));
+                    return (handleBullet(time, player_action, windowWidth, player_id));
             }
         }
         for (auto &bullet : bullets) {

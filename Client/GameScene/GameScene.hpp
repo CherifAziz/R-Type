@@ -233,7 +233,7 @@
                  * @brief handle bullet display, destruction, movement, animation and collision
                  *
                  */
-                void handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth);
+                void handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth, entity_t player_id);
 
                 /**
                  * @brief Check if the two element are colliding

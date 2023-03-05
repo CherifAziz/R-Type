@@ -62,6 +62,15 @@
                 void init() {};
                 void update(std::shared_ptr<IScene> &/*scene*/) {};
                 void destroy() {};
+                /**
+                 * @brief check the connection status
+                 * 
+                 * @return true if it's connected to the server, false otherwise
+                 */
+                bool isConnected()
+                {
+                    return _storage->isConnected();
+                }
 
                 std::pair<size_t, size_t> getWindowWSize() const;
                 
@@ -70,6 +79,7 @@
                 tcp::acceptor _acceptor;
                 boost::asio::io_context &_io_context;
                 std::vector<std::shared_ptr<ClientServer> > _clients;
+                std::shared_ptr<Storage> _storage;
         };
     }
 

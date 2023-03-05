@@ -61,6 +61,11 @@
 
                 void handler_send(const boost::system::error_code & /*error*/, std::size_t /*bytes_transferred*/);
 
+                /**
+                 * @brief the singleton storage
+                 *
+                 */
+                std::shared_ptr<Storage> _storage;
                 udp::resolver _resolver;
                 udp::resolver::query _query;
                 udp::endpoint _receiver_endpoint;

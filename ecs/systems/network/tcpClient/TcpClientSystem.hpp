@@ -48,6 +48,13 @@
 
             const size_t &getCurrentScene() const;
 
+            /**
+             * @brief check the connection status
+             * 
+             * @return true if it's connected to the server, false otherwise
+             */
+            bool isConnected();
+
             void start_receive();
 
             void sendDataToServer(std::string data);

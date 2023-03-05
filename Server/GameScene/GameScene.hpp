@@ -175,13 +175,13 @@
                  * @brief Init bullet Sprite, Animation, Movement, Sound and Collision
                  *
                  */
-                void initBullet(entity_t entity);
+                void initBullet(entity_t entity, entity_t &player_id);
 
                 /**
                  * @brief Create a bullet
                  *
                  */
-                void spawnBullet(Action &player_action, const Action::KeyState &space_state);
+                void spawnBullet(Action &player_action, const Action::KeyState &space_state, entity_t &player_id);
 
                 /**
                  * @brief Make bullets movement
@@ -195,7 +195,7 @@
                  * @brief handle bullet display, destruction, movement, animation and collision
                  *
                  */
-                void handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth);
+                void handleBullet(const int64_t &time, Action &player_action, const size_t &windowWidth, entity_t player_id);
 
                 /**
                  * @brief Check if there is an enemy at this position to prevent the two enemies to be at a same position

@@ -49,7 +49,7 @@ int Core::loopGame()
         this->_timer.expires_after(std::chrono::milliseconds(1000 / 60));
         this->_timer.async_wait(boost::bind(&Core::loopGame, this));
         for (auto &system : _systems) {
-            system->update(_scenes[system->getCurrentScene()]);
+            system->update(_scenes[index]);
         }
         if (index != _systems[0]->getCurrentScene()) {
             for (auto &system : this->_systems)
